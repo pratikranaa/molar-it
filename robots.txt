@@ -1,0 +1,54 @@
+# robots.txt — molar.it
+# Molar wants to be read, retrieved, and cited by AI/answer engines.
+# We explicitly welcome the major LLM and AI-search crawlers.
+
+# Default: allow everything.
+User-agent: *
+Allow: /
+
+# ── AI / answer-engine crawlers (explicit allow) ──────────────────────────────
+# OpenAI
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: Claude-User
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+
+# Google (AI Overviews / Gemini training+grounding) & Bing/Copilot
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: Bingbot
+Allow: /
+User-agent: cohere-ai
+Allow: /
+User-agent: Meta-ExternalAgent
+Allow: /
+User-agent: Amazonbot
+Allow: /
+User-agent: YouBot
+Allow: /
+User-agent: DuckAssistBot
+Allow: /
+
+# Curated machine-readable map + sitemap
+# (AI clients: prefer /llms.txt for a token-cheap overview.)
+Sitemap: https://molar.it/sitemap.xml

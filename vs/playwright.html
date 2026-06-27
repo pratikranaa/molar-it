@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molar vs Playwright — Autonomous QA vs Browser Test Automation</title>
+  <meta name="description" content="Compare Molar and Playwright. Molar autonomously writes and runs critical-path tests, guards production, and clones third parties. Playwright is a library you script and maintain." />
+  <meta property="og:title" content="Molar vs Playwright — Autonomous QA vs Browser Test Automation" />
+  <meta property="og:description" content="Molar authors tests from your URL and guards production with safe API clones. Playwright requires engineering time to write and maintain suites." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://molar.it/vs/playwright" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Molar vs Playwright" />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <link rel="canonical" href="https://molar.it/vs/playwright" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Molar", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Molar vs Playwright", "item": "https://molar.it/vs/playwright" }
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "name": "Molar vs Playwright",
+        "url": "https://molar.it/vs/playwright",
+        "description": "Comparison of Molar autonomous QA agent vs Microsoft Playwright test automation."
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../seo-pages.css" />
+</head>
+<body>
+  <div class="paper-grain"></div>
+  <div id="nav-root"></div>
+  <main class="doc-page">
+    <div class="frame">
+      <div class="doc-meta"><span class="num">Compare</span><span class="rule"></span><span>Molar vs Playwright</span></div>
+      <div class="doc-grid">
+        <aside class="doc-sidebar">
+          <div class="doc-side-block"><span class="doc-side-label">Topic</span><span class="doc-side-meta">Agent vs automation library</span></div>
+          <nav class="doc-toc" aria-label="Sections">
+            <a href="#summary"><span>01</span>Summary</a>
+            <a href="#compare"><span>02</span>Comparison table</a>
+            <a href="#when"><span>03</span>When to choose Molar</a>
+          </nav>
+        </aside>
+        <article class="doc-article">
+          <header>
+            <p class="doc-kicker">Molar — autonomous QA testing platform</p>
+            <h1 class="doc-title">Molar vs <em>Playwright</em></h1>
+            <p class="doc-lede">
+              <strong>Short answer:</strong> Playwright is a powerful open-source library for engineers who want to
+              code browser automation. Molar is an autonomous QA agent that discovers flows, writes tests in plain English,
+              runs production guards, and uses stateful clones — so teams spend less time maintaining selectors and fixtures.
+            </p>
+          </header>
+          <section class="doc-section" id="summary">
+            <h2><span class="doc-section-num">01 — Summary</span>Library vs <em>release guard</em></h2>
+            <p>Most teams adopt Playwright for PR-time E2E suites that decay within quarters. Molar complements or replaces that loop by owning discovery, authoring, production monitoring, and third-party sandboxing as one agent — including MCP access for other autonomous tools.</p>
+          </section>
+          <section class="doc-section" id="compare">
+            <h2><span class="doc-section-num">02 — Table</span>Side-by-side</h2>
+            <table class="compare-table">
+              <thead><tr><th></th><th>Molar</th><th>Playwright</th></tr></thead>
+              <tbody>
+                <tr><th>Who writes tests</th><td>Molar agent from live app</td><td>Your engineers</td></tr>
+                <tr><th>Coverage model</th><td>Critical paths + production schedule</td><td>Whatever you script</td></tr>
+                <tr><th>Cross-browser</th><td>Agent-driven (web targets)</td><td>Chromium, Firefox, WebKit</td></tr>
+                <tr><th>Stripe / email / S3</th><td>Built-in stateful clones</td><td>Custom mocks per service</td></tr>
+                <tr><th>PR gating</th><td>GitHub App required check</td><td>CI job you configure</td></tr>
+                <tr><th>Post-failure</th><td>Trace replay + fix PR (Mender)</td><td>Trace viewer in CI</td></tr>
+              </tbody>
+            </table>
+          </section>
+          <section class="doc-section" id="when">
+            <h2><span class="doc-section-num">03 — Fit</span>When teams pick <em>Molar</em></h2>
+            <p>Pick Molar when Playwright suites are stale, AI-shipped code outruns review, or billing/signup flows need realistic third-party behavior without production blast radius. Many teams keep Playwright for unit-adjacent UI tests and use Molar for continuous guarding.</p>
+            <div class="doc-cta">
+              <a href="../index.html#get-started" class="btn btn-primary">Try Molar →</a>
+              <a href="../integrations/github-actions.html" class="btn btn-ghost">GitHub Actions setup</a>
+            </div>
+          </section>
+          <a class="doc-back" href="../index.html"><span class="arrow">←</span> Back to landing</a>
+        </article>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="frame foot-inner">
+      <div>© 2026 Molar Labs</div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <a href="../vs/cypress.html" style="color:inherit;text-decoration:none;">vs Cypress</a>
+        <a href="../qa-agent.html" style="color:inherit;text-decoration:none;">QA Agent</a>
+        <a href="../docs.html" style="color:inherit;text-decoration:none;">Docs</a>
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="../nav.jsx"></script>
+  <script type="text/babel" src="../nav-boot.jsx"></script>
+</body>
+</html>

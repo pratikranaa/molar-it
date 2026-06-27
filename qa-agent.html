@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molar QA Agent — Autonomous End-to-End Testing Platform</title>
+  <meta name="description" content="Molar is the autonomous QA agent that writes end-to-end tests, guards production in real time, and clones third-party APIs — so dev teams never use real cards, emails, or users in tests." />
+  <meta property="og:title" content="Molar QA Agent — Autonomous End-to-End Testing Platform" />
+  <meta property="og:description" content="Point Molar at your app. It authors critical-path tests, runs continuous production checks, and opens fix PRs when regressions land." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://molar.it/qa-agent" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Molar QA Agent — Autonomous End-to-End Testing Platform" />
+  <meta name="twitter:description" content="Autonomous QA agent for dev teams. Writes tests, guards production, clones Stripe/email/S3 safely." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <link rel="canonical" href="https://molar.it/qa-agent" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Molar", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Molar QA Agent", "item": "https://molar.it/qa-agent" }
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://molar.it/qa-agent#webpage",
+        "name": "Molar QA Agent",
+        "url": "https://molar.it/qa-agent",
+        "description": "Molar QA Agent is an autonomous software testing agent that writes end-to-end tests and guards production for development teams.",
+        "isPartOf": { "@id": "https://molar.it/#website" },
+        "about": { "@id": "https://molar.it/qa-agent#app" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://molar.it/qa-agent#app",
+        "name": "Molar QA Agent",
+        "alternateName": ["Molar QA", "Molar autonomous QA agent"],
+        "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "Autonomous QA agent / Continuous testing",
+        "operatingSystem": "Web",
+        "url": "https://molar.it/qa-agent",
+        "description": "Autonomous QA agent that reads your application, writes critical-path end-to-end tests in plain English, guards production on a schedule, and uses stateful clones of third-party services so tests never touch real customers."
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-page { padding: 64px 0 96px; border-bottom: 1px solid var(--rule); }
+    .doc-meta {
+      display: flex; align-items: center; gap: 14px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 40px;
+    }
+    .doc-meta .num { color: var(--signal); font-weight: 500; }
+    .doc-meta .rule { flex: 1; height: 1px; background: var(--rule); }
+    .doc-grid {
+      display: grid; grid-template-columns: 240px minmax(0, 1fr);
+      gap: 80px; align-items: start;
+    }
+    .doc-sidebar {
+      position: sticky; top: 96px; display: flex; flex-direction: column; gap: 28px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-3);
+    }
+    .doc-side-block { display: flex; flex-direction: column; gap: 8px; }
+    .doc-side-label { color: var(--signal); font-weight: 500; }
+    .doc-side-meta { color: var(--ink-2); font-size: 10.5px; letter-spacing: 0.10em; line-height: 1.45; }
+    .doc-toc {
+      display: flex; flex-direction: column; gap: 10px;
+      border-top: 1px solid var(--rule); padding-top: 18px;
+    }
+    .doc-toc a {
+      color: var(--ink-3); text-decoration: none; font-size: 11px;
+      letter-spacing: 0.08em; transition: color 160ms ease; line-height: 1.45;
+    }
+    .doc-toc a:hover { color: var(--signal); }
+    .doc-toc a span { color: var(--ink-3); margin-right: 8px; opacity: 0.65; }
+    .doc-article { display: flex; flex-direction: column; gap: 56px; }
+    .doc-kicker {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--signal); margin-bottom: 16px;
+    }
+    .doc-title {
+      font-family: 'Instrument Serif', serif; font-size: clamp(48px, 6.4vw, 88px);
+      line-height: 0.98; letter-spacing: -0.025em; max-width: 14ch;
+    }
+    .doc-title em { font-style: italic; color: var(--signal); }
+    .doc-lede {
+      margin-top: 28px; max-width: 60ch; font-size: 19px; line-height: 1.55; color: var(--ink-2);
+    }
+    .doc-section { display: flex; flex-direction: column; gap: 20px; max-width: 64ch; }
+    .doc-section h2 {
+      font-family: 'Instrument Serif', serif; font-size: clamp(28px, 2.8vw, 36px);
+      line-height: 1.08; letter-spacing: -0.018em; font-weight: 400;
+    }
+    .doc-section h2 em { font-style: italic; color: var(--signal); }
+    .doc-section h2 .doc-section-num {
+      display: block; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      font-style: normal; color: var(--signal); letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 10px; font-weight: 500;
+    }
+    .doc-section p { font-size: 17.5px; line-height: 1.7; color: var(--ink-2); text-wrap: pretty; }
+    .doc-section p strong { color: var(--ink); font-weight: 500; }
+    .doc-section ul { margin: 0; padding-left: 1.2em; color: var(--ink-2); font-size: 17px; line-height: 1.65; }
+    .doc-section li { margin-bottom: 8px; }
+    .doc-cta {
+      display: inline-flex; align-items: center; gap: 12px; margin-top: 8px;
+    }
+    .doc-back {
+      margin-top: 80px; display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-3); text-decoration: none;
+    }
+    .doc-back:hover { color: var(--signal); }
+    .doc-back .arrow { transition: transform 200ms ease; display: inline-block; }
+    .doc-back:hover .arrow { transform: translateX(-3px); }
+    @media (max-width: 960px) {
+      .doc-grid { grid-template-columns: 1fr; gap: 40px; }
+      .doc-sidebar { position: static; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+      .doc-toc { border-top: 0; padding-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="paper-grain"></div>
+  <div id="nav-root"></div>
+
+  <main class="doc-page">
+    <div class="frame">
+      <div class="doc-meta">
+        <span class="num">QA Agent</span>
+        <span class="rule"></span>
+        <span>Molar / Product</span>
+      </div>
+
+      <div class="doc-grid">
+        <aside class="doc-sidebar">
+          <div class="doc-side-block">
+            <span class="doc-side-label">Category</span>
+            <span class="doc-side-meta">Autonomous QA agent · Continuous testing</span>
+          </div>
+          <div class="doc-side-block">
+            <span class="doc-side-label">Built for</span>
+            <span class="doc-side-meta">Engineering &amp; platform teams shipping web apps</span>
+          </div>
+          <div class="doc-side-block">
+            <span class="doc-side-label">Setup</span>
+            <span class="doc-side-meta">≈ 60 seconds · npx molar-agent init</span>
+          </div>
+
+          <nav class="doc-toc" aria-label="Sections">
+            <a href="#what"><span>01</span>What is the Molar QA agent?</a>
+            <a href="#capabilities"><span>02</span>What it does</a>
+            <a href="#different"><span>03</span>How it's different</a>
+            <a href="#start"><span>04</span>Get started</a>
+          </nav>
+        </aside>
+
+        <article class="doc-article">
+          <header>
+            <p class="doc-kicker">Molar — autonomous QA testing platform</p>
+            <h1 class="doc-title">
+              The Molar QA agent writes tests<br/>
+              and <em>guards production.</em>
+            </h1>
+            <p class="doc-lede">
+              <strong>Molar</strong> (molar.it) is an autonomous QA agent for software development teams —
+              not a dental or chemistry term. Point it at your app's URL: it maps critical paths,
+              authors end-to-end tests in plain English, and runs continuous production checks with
+              sandboxed emails, virtual cards, and cloned third-party APIs.
+            </p>
+          </header>
+
+          <section class="doc-section" id="what">
+            <h2>
+              <span class="doc-section-num">01 — Definition</span>
+              What is the <em>Molar QA agent?</em>
+            </h2>
+            <p>
+              The <strong>Molar QA agent</strong> is an AI-powered software testing agent that replaces
+              manual test authoring and brittle Playwright maintenance. Instead of hand-writing scripts,
+              you give Molar a URL. It crawls your application, understands how users move through it,
+              and maintains a living suite of critical-path end-to-end tests.
+            </p>
+            <p>
+              The same agent guards <strong>production</strong> on a schedule — catching regressions
+              before customers report them — and can open a fix pull request when a check fails with
+              a full replayable trace.
+            </p>
+          </section>
+
+          <section class="doc-section" id="capabilities">
+            <h2>
+              <span class="doc-section-num">02 — Capabilities</span>
+              What the QA agent <em>does</em>
+            </h2>
+            <ul>
+              <li><strong>Autonomous test authoring</strong> — crawls your app and writes critical-path E2E tests from a URL.</li>
+              <li><strong>Continuous production guard</strong> — scheduled checks against live URLs; required GitHub check on failure.</li>
+              <li><strong>Stateful third-party clones</strong> — Stripe, SendGrid, S3, Twilio, GitHub, Slack and ~28 more, with no real charges or emails.</li>
+              <li><strong>Trace capture &amp; replay</strong> — DOM, network, console, and clone activity for root-cause.</li>
+              <li><strong>Auto-fix (Mender)</strong> — opens a fix PR on confirmed regressions.</li>
+              <li><strong>MCP connector</strong> — other autonomous agents can run tests and read traces as tools.</li>
+            </ul>
+          </section>
+
+          <section class="doc-section" id="different">
+            <h2>
+              <span class="doc-section-num">03 — Comparison</span>
+              Not a test runner. <em>A release guard.</em>
+            </h2>
+            <p>
+              Traditional QA tools expect you to write and maintain scripts. Synthetic monitoring
+              pings one URL. Molar is an <strong>autonomous QA agent</strong> that owns the full loop:
+              discover flows, write tests, gate PRs, shadow deploys, and watch production — with
+              destruction-safe clones so checkout tests never charge a real card.
+            </p>
+            <p>
+              If you searched for <strong>"Molar QA agent"</strong>, <strong>"autonomous QA testing"</strong>,
+              or <strong>"AI agent that writes end-to-end tests"</strong>, this is the product at molar.it.
+            </p>
+          </section>
+
+          <section class="doc-section" id="start">
+            <h2>
+              <span class="doc-section-num">04 — Start</span>
+              Running the agent in <em>your repo</em>
+            </h2>
+            <p>
+              Install in under a minute. Paste your app URL, connect GitHub, and Molar starts
+              authoring and guarding critical paths. See the <a href="docs.html" style="color:var(--signal);">docs</a>
+              for quickstart steps, or return to the <a href="index.html" style="color:var(--signal);">main landing page</a>
+              for pricing and a live terminal demo.
+            </p>
+            <div class="doc-cta">
+              <a href="index.html#get-started" class="btn btn-primary">Start guarding →</a>
+              <a href="docs.html" class="btn btn-ghost">Read the docs</a>
+            </div>
+          </section>
+
+          <a class="doc-back" href="index.html"><span class="arrow">←</span> Back to landing</a>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="frame foot-inner">
+      <div>© 2026 Molar Labs · Bengaluru</div>
+      <div style="display:flex; gap:24px;">
+        <a href="qa-agent.html" style="color:inherit;text-decoration:none;">QA Agent</a>
+        <a href="docs.html" style="color:inherit;text-decoration:none;">Docs</a>
+        <a href="thesis.html" style="color:inherit;text-decoration:none;">Thesis</a>
+        <a href="mailto:founders@molar.it" style="color:inherit;text-decoration:none;">Email</a>
+        <a href="https://github.com/pratikranaa/molar-agent" style="color:inherit;text-decoration:none;">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="nav.jsx"></script>
+  <script type="text/babel" src="nav-boot.jsx"></script>
+</body>
+</html>

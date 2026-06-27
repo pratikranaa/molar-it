@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molar — Thesis</title>
+  <meta name="description" content="Why Molar exists. The release loop is the bottleneck for AI-native teams." />
+  <meta property="og:title" content="Molar — Thesis" />
+  <meta property="og:description" content="Why Molar exists. The release loop is the bottleneck for AI-native teams." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://molar.it/thesis" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Molar — Thesis" />
+  <meta name="twitter:description" content="Why Molar exists. The release loop is the bottleneck for AI-native teams." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <link rel="canonical" href="https://molar.it/thesis" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Molar", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Thesis", "item": "https://molar.it/thesis" }
+        ]
+      },
+      {
+        "@type": "Article",
+        "headline": "AI ships code 10× faster than humans verify it",
+        "description": "Why Molar exists. The release loop is the bottleneck for AI-native teams.",
+        "url": "https://molar.it/thesis",
+        "datePublished": "2026-05-01",
+        "dateModified": "2026-06-27",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://www.linkedin.com/in/ranapratik/" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "logo": { "@type": "ImageObject", "url": "https://molar.it/assets/molar-mark-apple.png" } }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-page {
+      padding: 64px 0 96px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .doc-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 40px;
+    }
+    .doc-meta .num { color: var(--signal); font-weight: 500; }
+    .doc-meta .rule { flex: 1; height: 1px; background: var(--rule); }
+
+    .doc-grid {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 80px;
+      align-items: start;
+    }
+    .doc-sidebar {
+      position: sticky;
+      top: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .doc-side-block { display: flex; flex-direction: column; gap: 8px; }
+    .doc-side-label { color: var(--signal); font-weight: 500; }
+    .doc-side-value { color: var(--ink); font-family: 'Instrument Serif', serif; font-style: italic; font-size: 16px; letter-spacing: 0; text-transform: none; line-height: 1.35; }
+    .doc-side-meta { color: var(--ink-2); font-size: 10.5px; letter-spacing: 0.10em; }
+
+    .doc-toc {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-top: 1px solid var(--rule);
+      padding-top: 18px;
+    }
+    .doc-toc a {
+      color: var(--ink-3);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      transition: color 160ms ease;
+      line-height: 1.45;
+    }
+    .doc-toc a:hover { color: var(--signal); }
+    .doc-toc a span { color: var(--ink-3); margin-right: 8px; opacity: 0.65; }
+
+    .doc-article { display: flex; flex-direction: column; gap: 56px; }
+    .doc-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(48px, 6.4vw, 88px);
+      line-height: 0.98;
+      letter-spacing: -0.025em;
+      max-width: 16ch;
+    }
+    .doc-title em { font-style: italic; color: var(--signal); }
+    .doc-lede {
+      margin-top: 28px;
+      max-width: 60ch;
+      font-size: 22px;
+      line-height: 1.5;
+      color: var(--ink);
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      letter-spacing: -0.005em;
+    }
+
+    .doc-section { display: flex; flex-direction: column; gap: 20px; max-width: 64ch; }
+    .doc-section h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(28px, 2.8vw, 36px);
+      line-height: 1.08;
+      letter-spacing: -0.018em;
+      font-weight: 400;
+    }
+    .doc-section h2 em { font-style: italic; color: var(--signal); }
+    .doc-section h2 .doc-section-num {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-style: normal;
+      color: var(--signal);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .doc-section p {
+      font-size: 17.5px;
+      line-height: 1.7;
+      color: var(--ink-2);
+      text-wrap: pretty;
+    }
+    .doc-section p strong { color: var(--ink); font-weight: 500; }
+
+    .doc-pull {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: clamp(26px, 2.6vw, 34px);
+      line-height: 1.22;
+      color: var(--ink);
+      max-width: 44ch;
+      padding: 18px 0 18px 24px;
+      border-left: 3px solid var(--signal);
+      margin: 12px 0;
+      text-wrap: balance;
+    }
+
+    .doc-back {
+      margin-top: 80px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      text-decoration: none;
+    }
+    .doc-back:hover { color: var(--signal); }
+    .doc-back .arrow { transition: transform 200ms ease; display: inline-block; }
+    .doc-back:hover .arrow { transform: translateX(-3px); }
+
+    @media (max-width: 960px) {
+      .doc-grid { grid-template-columns: 1fr; gap: 40px; }
+      .doc-sidebar { position: static; order: 0; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+      .doc-toc { border-top: 0; padding-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="paper-grain"></div>
+  <div id="nav-root"></div>
+
+  <main class="doc-page">
+    <div class="frame">
+      <div class="doc-meta">
+        <span class="num">Thesis</span>
+        <span class="rule"></span>
+        <span>Molar / Volume 01</span>
+      </div>
+
+      <div class="doc-grid">
+        <aside class="doc-sidebar">
+          <div class="doc-side-block">
+            <span class="doc-side-label">By</span>
+            <span class="doc-side-value">Pratik Rana</span>
+            <span class="doc-side-meta">Founder, Molar Labs</span>
+          </div>
+          <div class="doc-side-block">
+            <span class="doc-side-label">Filed</span>
+            <span class="doc-side-meta">May 2026 · Bengaluru</span>
+          </div>
+          <div class="doc-side-block">
+            <span class="doc-side-label">Read time</span>
+            <span class="doc-side-meta">≈ 4 minutes</span>
+          </div>
+
+          <nav class="doc-toc" aria-label="Sections">
+            <a href="#new-shape"><span>01</span>The new shape of code</a>
+            <a href="#bottleneck"><span>02</span>Verification is the bottleneck</a>
+            <a href="#guard"><span>03</span>Molar is a release guard</a>
+            <a href="#why-now"><span>04</span>Why now</a>
+          </nav>
+        </aside>
+
+        <article class="doc-article">
+          <header>
+            <h1 class="doc-title">
+              AI ships code 10× faster<br/>
+              than humans <em>verify it.</em>
+            </h1>
+            <p class="doc-lede">
+              Molar is a release-lifecycle QA agent for AI-native teams. We close the gap between
+              what AI ships and what production can handle.
+            </p>
+          </header>
+
+          <section class="doc-section" id="new-shape">
+            <h2>
+              <span class="doc-section-num">01 — The new shape of code</span>
+              The default path is broken.
+            </h2>
+            <p>
+              In 2026, almost half of the code in Copilot-using companies is AI-generated. Cursor
+              crossed $2B ARR in 36 months. Lovable, v0, and a long tail of agentic builders push
+              more diffs per day than most teams can read, let alone test.
+            </p>
+            <p>
+              The default shipping path looks like this: an agent writes code, a human reviewer
+              skims it, the suite runs the same five happy-path tests it ran last quarter, and the
+              diff lands in main. Days later, a paying customer files a ticket.
+            </p>
+            <p class="doc-pull">
+              The first bug report shouldn't come from a paying customer &mdash;
+              but in 2026, it almost always does.
+            </p>
+          </section>
+
+          <section class="doc-section" id="bottleneck">
+            <h2>
+              <span class="doc-section-num">02 — Verification is the bottleneck</span>
+              Tests aren't the problem. <em>Trust is.</em>
+            </h2>
+            <p>
+              The QA stack hasn't moved with the code. Playwright suites cover a fraction of flows
+              and rot in weeks. Sentry tells you something broke after it broke. Enterprise QA
+              platforms bill five figures and onboard in four months. Synthetic monitoring pings
+              one URL.
+            </p>
+            <p>
+              What's missing is a system that actually understands the product behavior, runs
+              critical flows safely against real-shaped APIs, and gates merges <strong>and</strong>
+              watches production with the same agent.
+            </p>
+          </section>
+
+          <section class="doc-section" id="guard">
+            <h2>
+              <span class="doc-section-num">03 — A release guard, not a test runner</span>
+              One agent. <em>Three moments.</em>
+            </h2>
+            <p>
+              Molar runs across the release lifecycle. <strong>Before merge</strong> it reads the
+              diff and blocks PRs that break critical paths. <strong>During deploy</strong> it
+              shadows the rollout against cloned third-parties. <strong>After ship</strong> it
+              keeps testing live production and ties every regression back to the diff and the
+              author who introduced it.
+            </p>
+            <p>
+              Underneath sits an agent that reads your codebase and traces, plus stateful clones of
+              the services your app depends on — Stripe, SendGrid, Twilio, Postgres, S3, Slack.
+              Same endpoints, same error shapes, zero real-customer side effects.
+            </p>
+          </section>
+
+          <section class="doc-section" id="why-now">
+            <h2>
+              <span class="doc-section-num">04 — Why now</span>
+              The verification loop wins this cycle.
+            </h2>
+            <p>
+              AI is no longer just writing code; it is shipping code. Trust is the bottleneck. The
+              teams that move fastest will be the ones with the strongest verification loop, not the
+              ones with the cleverest agents.
+            </p>
+            <p class="doc-pull">
+              AI writes the code. Molar is the verification loop
+              AI-native teams have been missing.
+            </p>
+          </section>
+
+          <a class="doc-back" href="index.html"><span class="arrow">←</span> Back to landing</a>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="frame foot-inner">
+      <div>© 2026 Molar Labs · Bengaluru</div>
+      <div style="display:flex; gap:24px;">
+        <a href="qa-agent.html" style="color:inherit;text-decoration:none;">QA Agent</a>
+        <a href="docs.html" style="color:inherit;text-decoration:none;">Docs</a>
+        <a href="thesis.html" style="color:inherit;text-decoration:none;">Thesis</a>
+        <a href="mailto:founders@molar.it" style="color:inherit;text-decoration:none;">Email</a>
+        <a href="https://github.com/pratikranaa/molar-agent" style="color:inherit;text-decoration:none;">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="nav.jsx"></script>
+  <script type="text/babel" src="nav-boot.jsx"></script>
+</body>
+</html>

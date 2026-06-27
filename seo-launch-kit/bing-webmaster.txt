@@ -1,0 +1,9 @@
+# Bing Webmaster Tools — Molar
+
+1. https://www.bing.com/webmasters
+2. Add site: `https://molar.it`
+3. Verify (import from Google Search Console if available)
+4. Submit sitemap: `https://molar.it/sitemap.xml`
+5. URL Submission → submit homepage + /qa-agent + comparison pages
+
+Powers Bing search + Microsoft Copilot citations.

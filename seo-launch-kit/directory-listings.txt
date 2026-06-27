@@ -1,0 +1,28 @@
+# Directory listings — Molar
+
+Use identical copy everywhere for entity consistency:
+
+**Name:** Molar  
+**Tagline:** Continuous QA testing platform & autonomous AI agent  
+**URL:** https://molar.it  
+**Category:** Developer Tools / QA / Testing  
+**Description (short):** Molar is an autonomous QA agent that writes end-to-end tests, guards production in real time, and clones third-party APIs (Stripe, email, S3) so your customers never see a test.
+
+## Submit to (in order)
+
+| Platform | URL | Notes |
+|----------|-----|-------|
+| Product Hunt | https://www.producthunt.com/posts/new | Launch day = spike; link molar.it |
+| Crunchbase | https://www.crunchbase.com/ | Organization: Molar Labs |
+| G2 | https://www.g2.com/products/new | Category: Software Testing |
+| StackShare | https://stackshare.io/ | Add Molar as tool |
+| AlternativeTo | https://alternativeto.net/ | vs Cypress, Playwright |
+| SaaSHub | https://www.saashub.com/submit | |
+| BetaList | https://betalist.com/submit | If still beta |
+| YC company page | If applicable | Link molar.it |
+
+## sameAs URLs to add to site schema once live:
+- Product Hunt: (fill after launch)
+- Crunchbase: (fill after listing)
+- G2: (fill after listing)
+- LinkedIn company: create Molar Labs page if not exists

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molar + GitHub Actions — CI/CD QA Integration</title>
+  <meta name="description" content="Run Molar in GitHub Actions to gate pull requests with autonomous end-to-end tests. Install the CLI, wire molar-agent ci install, and block merges when critical paths fail." />
+  <meta property="og:title" content="Molar + GitHub Actions — CI/CD QA Integration" />
+  <meta property="og:description" content="Gate PRs with Molar critical-path checks in GitHub Actions. Autonomous tests, traces, and required status checks." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://molar.it/integrations/github-actions" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Molar GitHub Actions Integration" />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <link rel="canonical" href="https://molar.it/integrations/github-actions" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Molar", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "GitHub Actions", "item": "https://molar.it/integrations/github-actions" }
+        ]
+      },
+      {
+        "@type": "HowTo",
+        "name": "How to integrate Molar with GitHub Actions",
+        "description": "Install Molar CLI and gate pull requests with autonomous end-to-end tests in GitHub Actions.",
+        "step": [
+          { "@type": "HowToStep", "name": "Install", "text": "Run npx molar-agent init in your repository." },
+          { "@type": "HowToStep", "name": "Scan", "text": "Point Molar at your staging or preview URL to author scenarios." },
+          { "@type": "HowToStep", "name": "CI wire-up", "text": "Run molar-agent ci install to add the GitHub Actions workflow and required check." }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../seo-pages.css" />
+</head>
+<body>
+  <div class="paper-grain"></div>
+  <div id="nav-root"></div>
+  <main class="doc-page">
+    <div class="frame">
+      <div class="doc-meta"><span class="num">Integration</span><span class="rule"></span><span>GitHub Actions</span></div>
+      <div class="doc-grid">
+        <aside class="doc-sidebar">
+          <div class="doc-side-block"><span class="doc-side-label">Requires</span><span class="doc-side-meta">Node 18+ · GitHub repo</span></div>
+          <nav class="doc-toc" aria-label="Sections">
+            <a href="#overview"><span>01</span>Overview</a>
+            <a href="#steps"><span>02</span>Setup steps</a>
+            <a href="#checks"><span>03</span>Required checks</a>
+          </nav>
+        </aside>
+        <article class="doc-article">
+          <header>
+            <p class="doc-kicker">Molar — autonomous QA testing platform</p>
+            <h1 class="doc-title">Molar in <em>GitHub Actions</em></h1>
+            <p class="doc-lede">
+              <strong>Short answer:</strong> Molar integrates with GitHub Actions via the CLI and GitHub App.
+              Run <code>npx molar-agent init</code>, author scenarios against your preview URL, then
+              <code>molar-agent ci install</code> to add a workflow that posts a required check — blocking merges
+              when a critical-path scenario fails, with a full trace attached.
+            </p>
+          </header>
+          <section class="doc-section" id="overview">
+            <h2><span class="doc-section-num">01 — Overview</span>PR gating with <em>autonomous tests</em></h2>
+            <p>Traditional CI runs the same brittle suite on every PR. Molar reads recent diffs, maps affected flows, and runs critical-path checks against stateful clones of Stripe, email, and storage — so checkout and signup tests never touch production services.</p>
+          </section>
+          <section class="doc-section" id="steps">
+            <h2><span class="doc-section-num">02 — Steps</span>Wire-up in <em>minutes</em></h2>
+            <ol>
+              <li><strong>Install:</strong> <code>npx molar-agent init</code> in your repo root.</li>
+              <li><strong>Scan:</strong> <code>molar-agent scan https://staging.your-app.com</code> — scenarios land as plain-English markdown in your repo.</li>
+              <li><strong>Run locally:</strong> <code>molar-agent run scenarios/checkout.molar.md</code></li>
+              <li><strong>CI:</strong> <code>molar-agent ci install</code> — adds the GitHub Actions workflow and App check.</li>
+            </ol>
+            <p>See the <a href="../docs.html" style="color:var(--signal);">full quickstart</a> for environment variables and monorepo notes.</p>
+          </section>
+          <section class="doc-section" id="checks">
+            <h2><span class="doc-section-num">03 — Checks</span>What developers <em>see on PRs</em></h2>
+            <p>Failed runs surface the exact scenario, git diff correlation, and a replayable trace (DOM, network, console, clone activity). Confirmed regressions can open a fix PR via Mender. Passing runs unblock merge like any required GitHub check.</p>
+            <div class="doc-cta">
+              <a href="../index.html#get-started" class="btn btn-primary">Get started →</a>
+              <a href="../vs/playwright.html" class="btn btn-ghost">Molar vs Playwright</a>
+            </div>
+          </section>
+          <a class="doc-back" href="../index.html"><span class="arrow">←</span> Back to landing</a>
+        </article>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="frame foot-inner">
+      <div>© 2026 Molar Labs</div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <a href="../vs/cypress.html" style="color:inherit;text-decoration:none;">vs Cypress</a>
+        <a href="../docs.html" style="color:inherit;text-decoration:none;">Docs</a>
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="../nav.jsx"></script>
+  <script type="text/babel" src="../nav-boot.jsx"></script>
+</body>
+</html>

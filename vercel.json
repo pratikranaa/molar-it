@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/docs", "destination": "/docs.html" },
+    { "source": "/thesis", "destination": "/thesis.html" },
+    { "source": "/qa-agent", "destination": "/qa-agent.html" },
+    { "source": "/vs/cypress", "destination": "/vs/cypress.html" },
+    { "source": "/vs/playwright", "destination": "/vs/playwright.html" },
+    { "source": "/integrations/github-actions", "destination": "/integrations/github-actions.html" },
+    { "source": "/blog/test-stripe-without-real-cards", "destination": "/blog/test-stripe-without-real-cards.html" }
+  ]
+}

@@ -1,18 +1,17 @@
-# Molar
+# molar-agent
 
-**Continuous QA testing platform & autonomous AI agent** — [molar.it](https://molar.it)
+Public home for **[Molar](https://molar.it)** — continuous QA testing platform & autonomous AI agent.
 
-Molar reads your app, writes critical-path end-to-end tests, and guards production in real time — using stateful clones of Stripe, email, S3, and ~28 more services so your real customers never see a test.
+This repo contains the marketing site source (`molar.it`). Product code lives in a private monorepo.
 
-## Links
+## Live site
 
 | | |
 |---|---|
 | **Website** | https://molar.it |
 | **QA Agent** | https://molar.it/qa-agent |
 | **Docs** | https://molar.it/docs |
-| **Dashboard** | https://app.molar.it |
-| **Thesis** | https://molar.it/thesis |
+| **App** | https://app.molar.it |
 
 ## Quickstart
 
@@ -20,19 +19,20 @@ Molar reads your app, writes critical-path end-to-end tests, and guards producti
 npx molar-agent init
 ```
 
-## Compare
+## Develop locally
 
-- [Molar vs Cypress](https://molar.it/vs/cypress)
-- [Molar vs Playwright](https://molar.it/vs/playwright)
-- [GitHub Actions integration](https://molar.it/integrations/github-actions)
+```bash
+python3 -m http.server 8080
+# open http://localhost:8080
+```
+
+## SEO / launch
+
+See [`seo-launch-kit/00-START-HERE.txt`](seo-launch-kit/00-START-HERE.txt) for Search Console, directory listings, and launch post templates.
 
 ## Contact
 
-- Email: founders@molar.it
-- LinkedIn: [Pratik Rana](https://www.linkedin.com/in/ranapratik/)
-
----
+- founders@molar.it
+- [LinkedIn](https://www.linkedin.com/in/ranapratik/)
 
 © 2026 Molar Labs · Bengaluru
-
-> This repository is the public home for Molar on GitHub. Product source is maintained separately.

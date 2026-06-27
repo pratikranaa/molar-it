@@ -1,0 +1,167 @@
+/* Crawler / no-JS fallback — full product summary in initial HTML */
+
+html.no-js #root {
+  display: none;
+}
+
+html.js #static-landing {
+  display: none;
+}
+
+#static-landing {
+  padding-bottom: 80px;
+}
+
+#static-landing .static-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule-soft);
+  margin-bottom: 48px;
+}
+
+#static-landing .static-brand {
+  font-family: 'Instrument Serif', serif;
+  font-size: 26px;
+  font-style: italic;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+#static-landing .static-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 14px;
+}
+
+#static-landing .static-links a {
+  color: var(--ink-2);
+  text-decoration: none;
+}
+
+#static-landing .static-kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--signal);
+  margin-bottom: 16px;
+}
+
+#static-landing .static-h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  max-width: 14ch;
+  margin-bottom: 20px;
+}
+
+#static-landing .static-lede {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 62ch;
+  margin-bottom: 28px;
+}
+
+#static-landing .static-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 56px;
+}
+
+#static-landing .static-section {
+  padding: 48px 0;
+  border-top: 1px solid var(--rule);
+}
+
+#static-landing .static-section h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3vw, 40px);
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+#static-landing .static-section > p {
+  color: var(--ink-2);
+  line-height: 1.65;
+  max-width: 68ch;
+  margin-bottom: 14px;
+}
+
+#static-landing .static-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+#static-landing .static-card {
+  border: 1px solid var(--rule);
+  padding: 20px;
+  background: var(--bone);
+}
+
+#static-landing .static-card h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+#static-landing .static-card p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+#static-landing .faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--rule);
+  margin-top: 20px;
+}
+
+#static-landing .faq-item {
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--rule);
+}
+
+#static-landing .faq-item:last-child {
+  border-bottom: 0;
+}
+
+#static-landing .faq-item h3 {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+#static-landing .faq-item p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+#static-landing .static-foot {
+  padding-top: 40px;
+  font-size: 13px;
+  color: var(--ink-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+#static-landing .static-foot a {
+  color: inherit;
+  text-decoration: none;
+}

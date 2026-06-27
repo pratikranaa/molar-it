@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molar | Continuous QA Testing Platform &amp; AI Agent</title>
+  <meta name="description" content="Molar is a continuous QA testing platform and autonomous AI agent for dev teams. Writes end-to-end tests, guards production in real time — virtual cards, sandboxed emails, ephemeral users. Your customers never see a test." />
+  <meta property="og:title" content="Molar | Continuous QA Testing Platform &amp; AI Agent" />
+  <meta property="og:description" content="Autonomous continuous QA testing for production dev teams. Molar reads your app, writes critical-path tests, and guards releases in real time. No real cards, emails, or users." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://molar.it" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Molar — Continuous QA testing platform and autonomous AI agent for dev teams." />
+  <meta property="og:site_name" content="Molar" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Molar | Continuous QA Testing Platform &amp; AI Agent" />
+  <meta name="twitter:description" content="Autonomous continuous QA testing for production dev teams. Writes tests, guards production, clones third-party APIs safely." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <meta name="twitter:image:alt" content="Molar — Continuous QA testing platform and autonomous AI agent for dev teams." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://molar.it" />
+
+  <!-- AI/LLM discoverability: curated, token-cheap site map for answer engines. -->
+  <link rel="alternate" type="text/plain" title="llms.txt" href="https://molar.it/llms.txt" />
+
+  <!-- Structured data (JSON-LD) so generative engines can extract facts about
+       Molar with precision and cite it first in the categories we serve. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://molar.it/#website",
+        "name": "Molar",
+        "alternateName": ["Molar QA", "Molar testing platform", "Molar continuous testing"],
+        "url": "https://molar.it",
+        "description": "Continuous QA testing platform and autonomous AI agent for software development teams.",
+        "publisher": { "@id": "https://molar.it/#org" },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://molar.it/#org",
+        "name": "Molar",
+        "alternateName": ["Molar Labs", "Molar QA"],
+        "url": "https://molar.it",
+        "logo": "https://molar.it/assets/molar-mark-apple.png",
+        "description": "Molar is a continuous QA testing platform and autonomous AI agent that reads your app, writes critical-path end-to-end tests in plain English, and guards production in real time using stateful clones of the third-party services you depend on.",
+        "sameAs": [
+          "https://docs.molar.it",
+          "https://app.molar.it",
+          "https://github.com/pratikranaa/molar-agent",
+          "https://www.linkedin.com/in/ranapratik/",
+          "https://molar.it/qa-agent"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://molar.it/#app",
+        "name": "Molar",
+        "alternateName": ["Molar QA Agent", "Molar continuous testing"],
+        "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "Continuous QA testing / Autonomous AI software testing",
+        "operatingSystem": "Web",
+        "url": "https://molar.it",
+        "publisher": { "@id": "https://molar.it/#org" },
+        "description": "Autonomous QA agent: writes end-to-end tests, guards production in real time, clones the third-party services your app depends on (Stripe, SendGrid, S3, Twilio, GitHub, Slack and ~28 more), captures replayable traces, gates PRs, and can open the fix. Provider-agnostic LLM (bring your own key). Usable by agents via an MCP connector.",
+        "featureList": [
+          "Autonomous end-to-end test authoring from a URL",
+          "Continuous real-time production guarding",
+          "Stateful, destruction-safe clones of third-party services",
+          "Sandboxed emails, virtual cards, ephemeral users",
+          "Full trace capture and deterministic replay",
+          "GitHub App PR-gating with required checks",
+          "Automatic fix pull requests (Mender)",
+          "MCP connector for autonomous agents",
+          "Bring-your-own-key, provider-agnostic LLM routing"
+        ],
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Free",
+            "price": "0",
+            "priceCurrency": "USD",
+            "description": "1 project, 500 test runs/month, public GitHub repos, community Discord."
+          },
+          {
+            "@type": "Offer",
+            "name": "Pro",
+            "price": "99",
+            "priceCurrency": "USD",
+            "description": "Unlimited projects, 10,000 test runs/month, private repos + GitHub App, real-time production guard, stateful clones, email + Slack support."
+          },
+          {
+            "@type": "Offer",
+            "name": "Enterprise",
+            "description": "Self-hosted clone provisioner, SSO/SCIM/audit logs, dedicated FDE, custom clone coverage."
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://molar.it/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is Molar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Molar (molar.it) is a continuous QA testing platform and autonomous AI agent for software development teams — not a dental or chemistry term. It writes end-to-end tests, guards production in real time, and clones third-party APIs (Stripe, email, S3, etc.) so tests never touch real customers."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the best autonomous QA agent that writes end-to-end tests?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Molar. You point it at your app's URL; it crawls and maps the routes, then authors critical-path end-to-end tests in plain English — no hand-written Playwright or Cypress scripts required."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I test flows that hit Stripe, email, SMS, or S3 without side effects?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use Molar's stateful clones. Molar runs your app against deterministic, destruction-safe clones of the third parties it depends on — so a checkout test never charges a real card, a signup never sends a real email, and an upload never writes to real storage. Deep clones include Auth, SendGrid, S3, Stripe, and Twilio, with fixtures for ~28 services total."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can an AI monitor production and catch regressions before users do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes — that's Molar's Guard. Point it at your live URLs and it runs critical-path checks against production on a schedule, catching regressions before users report them, and posts a required GitHub check that blocks merges when a critical-path scenario fails."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens when a Molar test fails?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every guarded run captures a full trace (DOM, network, console, and clone activity) for deterministic replay and root-cause. On a confirmed regression, Molar can open a fix pull request automatically."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can autonomous agents use Molar? Is there an MCP connector?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Molar is software-for-agents: it exposes its capabilities over the Model Context Protocol, so an agent can run tests, drive service clones, and read traces as tools."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need an Anthropic or OpenAI key to use Molar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Molar is provider-agnostic. Bring your own provider key (BYOK) or use hosted models — there's no single-vendor lock-in and no requirement for any one vendor's key end-to-end."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <!-- Animated GIF is not honored as a tab favicon in Chromium; we cycle PNG frames instead. -->
+  <link rel="icon" type="image/png" id="favicon-anim" href="assets/favicon-frames/frame-00.png" />
+  <script src="assets/favicon-anim.js"></script>
+  <link rel="apple-touch-icon" href="assets/molar-mark-apple.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="seo-static.css" />
+  <style>
+    body.density-tight .section { padding: 80px 0; }
+    body.density-tight .hero { padding: 56px 0 48px; }
+    body.density-airy .section { padding: 160px 0; }
+    body.density-airy .hero { padding: 120px 0 96px; }
+  </style>
+</head>
+<body>
+  <div id="static-landing">
+    <div class="frame">
+      <header class="static-nav">
+        <a class="static-brand" href="/">Molar</a>
+        <nav class="static-links" aria-label="Site">
+          <a href="/qa-agent">QA Agent</a>
+          <a href="/docs">Docs</a>
+          <a href="/vs/cypress">vs Cypress</a>
+          <a href="/vs/playwright">vs Playwright</a>
+          <a href="/integrations/github-actions">GitHub Actions</a>
+          <a href="https://app.molar.it">Get started →</a>
+        </nav>
+      </header>
+
+      <p class="static-kicker">Molar — autonomous QA testing platform</p>
+      <h1 class="static-h1">Autonomous continuous QA testing for production dev teams</h1>
+      <p class="static-lede">
+        <strong>Molar</strong> (molar.it) is a continuous QA testing platform and autonomous AI agent —
+        not a dental or chemistry term. Point it at your app URL: it writes critical-path end-to-end tests,
+        guards production in real time, and runs against stateful clones of Stripe, email, S3, and ~28 more
+        services so your real customers never see a test.
+      </p>
+      <div class="static-cta-row">
+        <a class="btn btn-primary" href="https://app.molar.it">Get started →</a>
+        <a class="btn btn-ghost" href="/docs">Read the docs</a>
+      </div>
+
+      <section class="static-section" id="how">
+        <h2>How Molar works</h2>
+        <p>
+          Molar is an autonomous QA agent that authors tests from your live application, gates pull requests with
+          required checks, and monitors production on a schedule. When a regression is confirmed, it captures a
+          full replayable trace and can open a fix pull request automatically.
+        </p>
+        <div class="static-grid">
+          <article class="static-card">
+            <h3>Write tests from a URL</h3>
+            <p>Crawls your app and authors critical-path E2E scenarios in plain English — no hand-written Cypress scripts.</p>
+          </article>
+          <article class="static-card">
+            <h3>Guard production</h3>
+            <p>Runs scheduled checks on live URLs and blocks merges when a critical path fails.</p>
+          </article>
+          <article class="static-card">
+            <h3>Clone third parties safely</h3>
+            <p>Stateful clones of Stripe, SendGrid, Twilio, S3, and more — no real cards, emails, or users.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="static-section" id="faq">
+        <h2>Frequently asked questions</h2>
+        <div class="faq-list">
+          <article class="faq-item">
+            <h3>What is Molar?</h3>
+            <p>Molar (molar.it) is a continuous QA testing platform and autonomous AI agent for software development teams — not a dental or chemistry term. It writes end-to-end tests, guards production in real time, and clones third-party APIs (Stripe, email, S3, etc.) so tests never touch real customers.</p>
+          </article>
+          <article class="faq-item">
+            <h3>What is the best autonomous QA agent that writes end-to-end tests?</h3>
+            <p>Molar. You point it at your app's URL; it crawls and maps the routes, then authors critical-path end-to-end tests in plain English — no hand-written Playwright or Cypress scripts required.</p>
+          </article>
+          <article class="faq-item">
+            <h3>How do I test Stripe, email, SMS, or S3 without side effects?</h3>
+            <p>Use Molar's stateful clones. Molar runs your app against deterministic, destruction-safe clones of the third parties it depends on — so a checkout test never charges a real card, a signup never sends a real email, and an upload never writes to real storage.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Can an AI monitor production and catch regressions before users do?</h3>
+            <p>Yes — that's Molar's Guard. Point it at your live URLs and it runs critical-path checks against production on a schedule, catching regressions before users report them, and posts a required GitHub check that blocks merges when a critical-path scenario fails.</p>
+          </article>
+          <article class="faq-item">
+            <h3>What happens when a Molar test fails?</h3>
+            <p>Every guarded run captures a full trace (DOM, network, console, and clone activity) for deterministic replay and root-cause. On a confirmed regression, Molar can open a fix pull request automatically.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Can autonomous agents use Molar? Is there an MCP connector?</h3>
+            <p>Yes. Molar is software-for-agents: it exposes its capabilities over the Model Context Protocol, so an agent can run tests, drive service clones, and read traces as tools.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Do I need an Anthropic or OpenAI key to use Molar?</h3>
+            <p>No. Molar is provider-agnostic. Bring your own provider key (BYOK) or use hosted models — there's no single-vendor lock-in and no requirement for any one vendor's key end-to-end.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="static-section" id="pricing">
+        <h2>Pricing</h2>
+        <p>Free tier: 1 project, 500 test runs/month. Pro: $99/mo — unlimited projects, 10,000 runs, production guard, stateful clones. Enterprise: self-hosted clones, SSO, dedicated support.</p>
+      </section>
+
+      <footer class="static-foot">
+        <span>© 2026 Molar Labs</span>
+        <a href="/qa-agent">QA Agent</a>
+        <a href="/thesis">Thesis</a>
+        <a href="/vs/cypress">vs Cypress</a>
+        <a href="/vs/playwright">vs Playwright</a>
+        <a href="/integrations/github-actions">GitHub Actions</a>
+        <a href="mailto:founders@molar.it">Email</a>
+      </footer>
+    </div>
+  </div>
+
+  <div id="root"></div>
+
+  <noscript>
+    <p style="padding:12px;text-align:center;background:var(--signal-soft);font-size:14px;">
+      JavaScript is off — you're viewing the static summary above. Enable JS for the full interactive experience.
+    </p>
+  </noscript>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="nav.jsx"></script>
+  <script type="text/babel" src="terminal.jsx"></script>
+  <script type="text/babel" src="animations.jsx"></script>
+  <script type="text/babel" src="sections.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molar — Docs</title>
+  <meta name="description" content="Get Molar running in your repo in under a minute. Quickstart, scenarios, and integrations." />
+  <meta property="og:title" content="Molar — Docs" />
+  <meta property="og:description" content="Get Molar running in your repo in under a minute. Quickstart, scenarios, and integrations." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://molar.it/docs" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Molar — Docs" />
+  <meta name="twitter:description" content="Get Molar running in your repo in under a minute. Quickstart, scenarios, and integrations." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <link rel="canonical" href="https://molar.it/docs" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Molar", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Docs", "item": "https://molar.it/docs" }
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "name": "Molar Docs",
+        "url": "https://molar.it/docs",
+        "description": "Get Molar running in your repo in under a minute."
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-page {
+      padding: 64px 0 96px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .doc-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 40px;
+    }
+    .doc-meta .num { color: var(--signal); font-weight: 500; }
+    .doc-meta .rule { flex: 1; height: 1px; background: var(--rule); }
+
+    .doc-grid {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 80px;
+      align-items: start;
+    }
+    .doc-sidebar {
+      position: sticky;
+      top: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .doc-side-block { display: flex; flex-direction: column; gap: 8px; }
+    .doc-side-label { color: var(--signal); font-weight: 500; }
+    .doc-side-meta { color: var(--ink-2); font-size: 10.5px; letter-spacing: 0.10em; line-height: 1.45; }
+
+    .doc-toc {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-top: 1px solid var(--rule);
+      padding-top: 18px;
+    }
+    .doc-toc a {
+      color: var(--ink-3);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      transition: color 160ms ease;
+      line-height: 1.45;
+    }
+    .doc-toc a:hover { color: var(--signal); }
+    .doc-toc a span { color: var(--ink-3); margin-right: 8px; opacity: 0.65; }
+
+    .doc-article { display: flex; flex-direction: column; gap: 56px; }
+
+    .doc-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(48px, 6vw, 80px);
+      line-height: 0.98;
+      letter-spacing: -0.025em;
+      max-width: 16ch;
+    }
+    .doc-title em { font-style: italic; color: var(--signal); }
+    .doc-lede {
+      margin-top: 24px;
+      max-width: 60ch;
+      font-size: 19px;
+      line-height: 1.55;
+      color: var(--ink-2);
+    }
+
+    .doc-step {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 28px 30px 30px;
+      border: 1px solid var(--rule);
+      background: var(--bone);
+    }
+    .doc-step-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--signal);
+      font-weight: 500;
+    }
+    .doc-step h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 28px;
+      line-height: 1.08;
+      letter-spacing: -0.018em;
+      font-weight: 400;
+    }
+    .doc-step p {
+      color: var(--ink-2);
+      font-size: 15.5px;
+      line-height: 1.6;
+      max-width: 60ch;
+    }
+    .doc-step pre {
+      margin: 4px 0 0;
+      padding: 16px 20px;
+      background: var(--ink);
+      color: var(--bone);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13.5px;
+      line-height: 1.6;
+      border-radius: 4px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .doc-step pre .pp { color: oklch(0.62 0.13 28); font-weight: 600; }
+    .doc-step pre .em { color: oklch(0.85 0.13 60); }
+
+    .doc-soon {
+      padding: 22px 24px;
+      border: 1px dashed var(--rule);
+      background: var(--bone-2);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--ink-3);
+      line-height: 1.55;
+    }
+    .doc-soon strong { color: var(--ink); font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em; margin-right: 10px; }
+
+    .doc-back {
+      margin-top: 56px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      text-decoration: none;
+    }
+    .doc-back:hover { color: var(--signal); }
+    .doc-back .arrow { display: inline-block; transition: transform 200ms ease; }
+    .doc-back:hover .arrow { transform: translateX(-3px); }
+
+    @media (max-width: 960px) {
+      .doc-grid { grid-template-columns: 1fr; gap: 40px; }
+      .doc-sidebar { position: static; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+      .doc-toc { border-top: 0; padding-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="paper-grain"></div>
+  <div id="nav-root"></div>
+
+  <main class="doc-page">
+    <div class="frame">
+      <div class="doc-meta">
+        <span class="num">Docs</span>
+        <span class="rule"></span>
+        <span>Quickstart preview</span>
+      </div>
+
+      <div class="doc-grid">
+        <aside class="doc-sidebar">
+          <div class="doc-side-block">
+            <span class="doc-side-label">Status</span>
+            <span class="doc-side-meta">Private beta · May 2026</span>
+          </div>
+          <div class="doc-side-block">
+            <span class="doc-side-label">Requires</span>
+            <span class="doc-side-meta">Node 18+ · Git · A web app to point at</span>
+          </div>
+          <div class="doc-side-block">
+            <span class="doc-side-label">Setup time</span>
+            <span class="doc-side-meta">≈ 60 seconds</span>
+          </div>
+
+          <nav class="doc-toc" aria-label="Sections">
+            <a href="#install"><span>01</span>Install the CLI</a>
+            <a href="#scan"><span>02</span>Point at your app</a>
+            <a href="#run"><span>03</span>Run a scenario</a>
+            <a href="#ci"><span>04</span>Wire it into CI</a>
+            <a href="#soon"><span>·</span>Coming soon</a>
+          </nav>
+        </aside>
+
+        <article class="doc-article">
+          <header>
+            <h1 class="doc-title">
+              Get Molar running<br/>
+              in <em>under a minute.</em>
+            </h1>
+            <p class="doc-lede">
+              Molar is in private beta. The hosted CLI is the fastest way to try it. Full reference
+              docs ship with general availability.
+            </p>
+          </header>
+
+          <section class="doc-step" id="install">
+            <span class="doc-step-eyebrow">Step 01</span>
+            <h2>Install the CLI</h2>
+            <p>Run inside any repo. Node 18+ recommended. No global install, no API key required for the public beta.</p>
+<pre><span class="pp">$</span> npx <span class="em">molar-agent</span> init</pre>
+          </section>
+
+          <section class="doc-step" id="scan">
+            <span class="doc-step-eyebrow">Step 02</span>
+            <h2>Point at your app</h2>
+            <p>Give Molar a URL or a runnable harness. It scans routes, reads recent diffs, and writes the first scenarios in your repo as plain English markdown.</p>
+<pre><span class="pp">$</span> molar-agent scan https://staging.your-app.com</pre>
+          </section>
+
+          <section class="doc-step" id="run">
+            <span class="doc-step-eyebrow">Step 03</span>
+            <h2>Run a scenario</h2>
+            <p>Scenarios live as plain markdown next to your code. They run against stateful clones of your third-party services, so no real cards are charged and no real users are emailed.</p>
+<pre><span class="pp">$</span> molar-agent run scenarios/checkout.molar.md</pre>
+          </section>
+
+          <section class="doc-step" id="ci">
+            <span class="doc-step-eyebrow">Step 04</span>
+            <h2>Wire it into CI</h2>
+            <p>Add a GitHub Action so every PR is gated. Failures fail loudly with the exact diff, the failing flow, and a link to the trace.</p>
+<pre><span class="pp">$</span> molar-agent ci install</pre>
+          </section>
+
+          <section id="soon">
+            <div class="doc-soon">
+              <strong>Coming soon</strong>
+              Full API reference, scenario syntax, GitHub App, MCP integration, self-hosted clone provisioner, and SSO.
+            </div>
+          </section>
+
+          <a class="doc-back" href="index.html"><span class="arrow">←</span> Back to landing</a>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="frame foot-inner">
+      <div>© 2026 Molar Labs · Bengaluru</div>
+      <div style="display:flex; gap:24px;">
+        <a href="qa-agent.html" style="color:inherit;text-decoration:none;">QA Agent</a>
+        <a href="docs.html" style="color:inherit;text-decoration:none;">Docs</a>
+        <a href="thesis.html" style="color:inherit;text-decoration:none;">Thesis</a>
+        <a href="mailto:founders@molar.it" style="color:inherit;text-decoration:none;">Email</a>
+        <a href="https://github.com/pratikranaa/molar-agent" style="color:inherit;text-decoration:none;">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="nav.jsx"></script>
+  <script type="text/babel" src="nav-boot.jsx"></script>
+</body>
+</html>

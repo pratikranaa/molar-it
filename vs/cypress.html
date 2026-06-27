@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molar vs Cypress — Autonomous QA vs Hand-Written E2E Tests</title>
+  <meta name="description" content="Compare Molar and Cypress. Molar authors and maintains critical-path tests autonomously, guards production, and clones third-party APIs. Cypress is a framework you write and maintain yourself." />
+  <meta property="og:title" content="Molar vs Cypress — Autonomous QA vs Hand-Written E2E Tests" />
+  <meta property="og:description" content="Molar writes tests from your URL, guards production, and clones Stripe/email safely. Cypress requires hand-written scripts and fixtures." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://molar.it/vs/cypress" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Molar vs Cypress" />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <link rel="canonical" href="https://molar.it/vs/cypress" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Molar", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Molar vs Cypress", "item": "https://molar.it/vs/cypress" }
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "name": "Molar vs Cypress",
+        "url": "https://molar.it/vs/cypress",
+        "description": "Comparison of Molar autonomous QA agent vs Cypress end-to-end testing framework."
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../seo-pages.css" />
+</head>
+<body>
+  <div class="paper-grain"></div>
+  <div id="nav-root"></div>
+  <main class="doc-page">
+    <div class="frame">
+      <div class="doc-meta"><span class="num">Compare</span><span class="rule"></span><span>Molar vs Cypress</span></div>
+      <div class="doc-grid">
+        <aside class="doc-sidebar">
+          <div class="doc-side-block"><span class="doc-side-label">Topic</span><span class="doc-side-meta">Autonomous QA vs test framework</span></div>
+          <nav class="doc-toc" aria-label="Sections">
+            <a href="#summary"><span>01</span>Summary</a>
+            <a href="#compare"><span>02</span>Comparison table</a>
+            <a href="#when"><span>03</span>When to choose Molar</a>
+          </nav>
+        </aside>
+        <article class="doc-article">
+          <header>
+            <p class="doc-kicker">Molar — autonomous QA testing platform</p>
+            <h1 class="doc-title">Molar vs <em>Cypress</em></h1>
+            <p class="doc-lede">
+              <strong>Short answer:</strong> Cypress is a developer framework for writing browser tests yourself.
+              Molar is an autonomous QA agent that reads your app, authors critical-path tests, guards production,
+              and clones third-party APIs — so you maintain less script surface area and never hit real Stripe or email in tests.
+            </p>
+          </header>
+          <section class="doc-section" id="summary">
+            <h2><span class="doc-section-num">01 — Summary</span>Framework vs <em>agent</em></h2>
+            <p>Cypress excels when engineers want full control over selectors, fixtures, and CI wiring. Molar targets teams whose Playwright/Cypress suites rot, cover only happy paths, and cannot safely test checkout, signup, or billing flows against real third parties.</p>
+          </section>
+          <section class="doc-section" id="compare">
+            <h2><span class="doc-section-num">02 — Table</span>Side-by-side</h2>
+            <table class="compare-table">
+              <thead><tr><th></th><th>Molar</th><th>Cypress</th></tr></thead>
+              <tbody>
+                <tr><th>Test authoring</th><td>Autonomous from URL + app map</td><td>Hand-written by engineers</td></tr>
+                <tr><th>Maintenance</th><td>Agent updates scenarios as app changes</td><td>Selectors break on refactors</td></tr>
+                <tr><th>Production guard</th><td>Scheduled live URL checks + GitHub gate</td><td>Not built-in</td></tr>
+                <tr><th>Third-party APIs</th><td>Stateful clones (Stripe, email, S3…)</td><td>Mocks/stubs you maintain</td></tr>
+                <tr><th>Failure response</th><td>Full trace + optional fix PR</td><td>CI log + screenshot</td></tr>
+                <tr><th>Setup</th><td>npx molar-agent init (~60s)</td><td>Project install + test writing</td></tr>
+              </tbody>
+            </table>
+          </section>
+          <section class="doc-section" id="when">
+            <h2><span class="doc-section-num">03 — Fit</span>When teams pick <em>Molar</em></h2>
+            <p>Choose Molar when AI-generated code outpaces your test suite, production regressions reach customers first, or cross-system flows (payments, email, auth) are too risky to run against real services. Keep Cypress for narrow, hand-tuned component tests if you want both.</p>
+            <div class="doc-cta">
+              <a href="../index.html#get-started" class="btn btn-primary">Try Molar →</a>
+              <a href="../qa-agent.html" class="btn btn-ghost">Molar QA agent</a>
+            </div>
+          </section>
+          <a class="doc-back" href="../index.html"><span class="arrow">←</span> Back to landing</a>
+        </article>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="frame foot-inner">
+      <div>© 2026 Molar Labs</div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <a href="../vs/playwright.html" style="color:inherit;text-decoration:none;">vs Playwright</a>
+        <a href="../integrations/github-actions.html" style="color:inherit;text-decoration:none;">GitHub Actions</a>
+        <a href="../docs.html" style="color:inherit;text-decoration:none;">Docs</a>
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="../nav.jsx"></script>
+  <script type="text/babel" src="../nav-boot.jsx"></script>
+</body>
+</html>

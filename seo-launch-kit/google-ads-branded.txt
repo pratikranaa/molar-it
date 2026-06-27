@@ -1,0 +1,42 @@
+# Google Ads — Branded campaign for "molar"
+
+## Campaign
+- Name: Molar — Branded
+- Type: Search
+- Bid strategy: Maximize clicks (start) → Target CPA later
+- Geo: US, UK, IN (adjust to ICP)
+
+## Keywords (phrase match)
+"molar"
+"molar qa"
+"molar testing"
+"molar agent"
+"molar.it"
+
+## Negative keywords (BROAD or PHRASE — add all)
+-tooth
+-teeth
+-dentist
+-dentistry
+-dental
+-molarity
+-chemistry
+-mass
+-calculator
+-anatomy
+-pregnancy
+-wisdom
+-extraction
+-root canal
+-physics
+-concentration
+-mol
+
+## Ad copy (example)
+Headline 1: Molar — QA Testing Platform
+Headline 2: Autonomous AI Agent for Dev Teams
+Description: Writes E2E tests, guards production, clones Stripe & email safely. molar.it — start free.
+Final URL: https://molar.it/?utm_source=google&utm_medium=cpc&utm_campaign=branded
+
+## Budget
+Start $10–20/day. Branded CPC should be low if negatives are tight.

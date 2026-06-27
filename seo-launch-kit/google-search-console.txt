@@ -1,0 +1,33 @@
+# Google Search Console — Molar (molar.it)
+
+## 1. Verify domain
+1. Go to https://search.google.com/search-console
+2. Add property: **URL prefix** `https://molar.it` (or Domain `molar.it` via DNS TXT)
+3. Verify via DNS (recommended) or HTML file upload
+
+## 2. Submit sitemap
+- URL: `https://molar.it/sitemap.xml`
+- Search Console → Sitemaps → paste URL → Submit
+
+## 3. Request indexing (after deploy)
+Inspect each URL → Request indexing:
+- https://molar.it/
+- https://molar.it/qa-agent
+- https://molar.it/docs
+- https://molar.it/thesis
+- https://molar.it/vs/cypress
+- https://molar.it/vs/playwright
+- https://molar.it/integrations/github-actions
+
+## 4. Monitor queries (weekly)
+Track these in Performance → Search results:
+- molar.it
+- molar qa
+- molar qa agent
+- molar testing
+- autonomous qa agent
+
+Do NOT obsess over bare `molar` (dental/chemistry noise).
+
+## 5. Fix issues tab
+Resolve any: Page not indexed, Crawled not indexed, Redirect errors, Canonical conflicts.

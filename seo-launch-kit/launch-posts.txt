@@ -1,0 +1,42 @@
+# Launch posts — copy templates
+
+## Hacker News (Show HN)
+
+Title: Show HN: Molar – autonomous QA agent that writes tests and guards production
+
+Body:
+We built Molar because AI ships code faster than teams can verify it.
+
+Point Molar at your app URL — it authors critical-path E2E tests, runs them against stateful clones of Stripe/email/S3 (no real charges or users), and guards production on a schedule. Failed checks capture a full trace and can open a fix PR.
+
+Try it: https://molar.it
+Docs: https://molar.it/docs
+
+Would love feedback on what flows are hardest to test in your stack.
+
+---
+
+## Dev.to article (title ideas)
+
+1. "Your Playwright suite is rotting — here's what we do instead"
+2. "How to test Stripe checkout without charging a real card"
+3. "Autonomous QA agents vs hand-written Cypress: a practical comparison"
+
+Link to: https://molar.it/vs/cypress and https://molar.it/integrations/github-actions
+
+---
+
+## Reddit (r/softwaretesting, r/devops, r/SaaS)
+
+Title: We built an autonomous QA agent that clones Stripe/SendGrid for safe prod tests
+
+Keep factual, answer comments, link molar.it once in body not title.
+
+---
+
+## Post-launch checklist
+- [ ] Submit Show HN (Tue–Thu 9am PT)
+- [ ] Cross-post Dev.to within 48h
+- [ ] Share in Discord (testing communities)
+- [ ] Email design partners for backlinks
+- [ ] Ask 3 friendly eng blogs for mentions
