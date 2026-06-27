@@ -44,6 +44,59 @@ function cloneDisplayName(id) {
   return names[id] || id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+const CLONE_SEEDS = {
+  apify: ['empty'],
+  auth: ['demo', 'empty'],
+  calcom: ['demo', 'empty'],
+  clickup: ['empty'],
+  discord: ['empty', 'harvested', 'small-server'],
+  firecrawl: ['empty'],
+  github: ['ci-cd-pipeline', 'empty', 'enterprise-repo', 'large-backlog', 'merge-conflict', 'permissions-denied', 'rate-limited', 'small-project', 'stale-issues'],
+  gitlab: ['empty'],
+  'google-workspace': ['assistant-baseline', 'calendar-packed-week', 'draft-send-cleanup', 'empty', 'gmail-busy-inbox'],
+  hubspot: ['empty'],
+  jira: ['empty', 'enterprise', 'large-backlog', 'small-project', 'sprint-active'],
+  linear: ['busy-backlog', 'empty', 'engineering-org', 'multi-team', 'small-team'],
+  ownerrez: ['empty'],
+  pricelabs: ['empty'],
+  ramp: ['default', 'empty', 'ramp-expense-split', 'ramp-receipt-mismatch'],
+  sendgrid: ['empty'],
+  sentry: ['demo', 'empty'],
+  slack: ['busy-workspace', 'empty', 'engineering-team', 'incident-active'],
+  supabase: ['bulk-user-deletion', 'ecommerce', 'edge-cases', 'empty', 'feature-flag-override-mismatch', 'fired-employee-access', 'migration-poisoned-comment', 'rls-bypass-migration', 'saas-starter', 'small-project', 'vaultline-ecommerce'],
+  tavily: ['empty'],
+  telegram: ['empty'],
+  twilio: ['empty'],
+  typeform: ['empty'],
+  unipile: ['empty'],
+  webflow: ['empty'],
+  woocommerce: ['demo', 'empty'],
+};
+
+const DEEP_CLONE_SEEDS = ['empty', 'smoke', 'demo'];
+
+const FIXTURE_DEFAULT_NOTES = [
+  'Fixture-replay clone — recorded JSON responses with vendor-shaped status codes and error bodies.',
+  'Unmatched routes return an explicit unimplemented response instead of proxying to the live vendor.',
+  'Use the global Molar clones MCP (`molar_clone_spawn`, `molar_clone_seed`, `molar_clone_route`) — fixture clones do not expose per-vendor MCP tool servers.',
+];
+
+function formatSeedsLine(id, tier) {
+  if (tier === 'cloned' || tier === 'shadow') {
+    return `Built-in seeds: ${DEEP_CLONE_SEEDS.map((s) => `\`${s}\``).join(', ')}. Pass \`--seed\` to \`molar clones spawn ${id}\`.`;
+  }
+  const seeds = CLONE_SEEDS[id] || ['empty'];
+  if (seeds.length <= 8) {
+    return `Common seeds: ${seeds.map((s) => `\`${s}\``).join(', ')}. Pass \`--seed\` to \`molar clones spawn ${id}\`.`;
+  }
+  const shown = seeds.slice(0, 6);
+  return `Common seeds: ${shown.map((s) => `\`${s}\``).join(', ')}, and ${seeds.length - 6} more. Pass \`--seed\` to \`molar clones spawn ${id}\`.`;
+}
+
+function restRouteTools(routes, desc) {
+  return routes.map(([method, path]) => [`${method} ${path}`, desc || 'Recorded fixture response with vendor-shaped errors.']);
+}
+
 const CLONE_PREVIEW_STATUS = {
   apify: 'launch preview',
   calcom: 'launch preview',
@@ -101,7 +154,7 @@ function defaultCloneDoc(id, tier) {
       bestFor: `Agents and test suites that call ${name} during checkout, onboarding, or ops workflows.`,
       connectWith: `Route mode for \`${host}\`, or direct REST base URLs from \`molar clones spawn ${id}\`.`,
       knownLimits: previewKnownLimits(name, preview, tier),
-      seeds: 'Common seeds: `empty`. See the Seeds guide for preset worlds and failure modes.',
+      seeds: formatSeedsLine(id, tier),
     },
     covers: [
       `${name} REST workflows agents rely on in production`,
@@ -109,6 +162,9 @@ function defaultCloneDoc(id, tier) {
       'Deterministic state inside isolated clone sessions',
     ],
     surface: `Use route mode when your app already calls \`${host}\`. For manual debugging, start the clone with \`molar clones spawn ${id}\` and use the printed REST base URL.`,
+    toolsSubtitle: tier === 'fixtured'
+      ? 'Recorded REST operations. Names match fixture ops in molar-clones — call the equivalent vendor REST path at the clone base URL.'
+      : 'Stateful REST APIs plus Molar clones MCP helpers where noted.',
     notes: [],
     toolGroups: [],
   };
@@ -120,15 +176,30 @@ const CLONE_DOC_OVERRIDES = {
     startHere: {
       bestFor: 'Agents that launch actors, inspect runs, read datasets, and manage scraping workflow state.',
       connectWith: 'Route mode for `api.apify.com`, or direct REST base URLs from `molar clones spawn apify`.',
-      knownLimits: 'Apify is REST-first and fixture-backed today. Coverage focuses on actor, run, dataset, key-value store, and request queue workflows.',
-      seeds: 'Common seeds: `empty`. See the Seeds guide for usage.',
+      knownLimits: 'Launch preview — fixture-backed coverage for actors, runs, datasets, and key-value stores.',
     },
     covers: [
       'Actors and actor runs',
       'Dataset item reads',
       'Key-value store records',
-      'Request queue operations',
       'Service-shaped REST errors and auth handling',
+    ],
+    toolGroups: [
+      {
+        title: 'Actors & runs',
+        tools: restRouteTools([
+          ['GET', '/v2/acts'],
+          ['POST', '/v2/acts/act_8a7b6c5d/runs'],
+          ['GET', '/v2/acts/act_8a7b6c5d/runs/run_i9j8k7l6'],
+        ]),
+      },
+      {
+        title: 'Storage',
+        tools: restRouteTools([
+          ['GET', '/v2/datasets'],
+          ['GET', '/v2/key-value-stores'],
+        ]),
+      },
     ],
   },
   github: {
@@ -136,9 +207,8 @@ const CLONE_DOC_OVERRIDES = {
     summary: 'Covers repos, files, branches, issues, PRs, commits, and workflow runs. Error responses match real GitHub API format (status codes, error messages, validation errors).',
     startHere: {
       bestFor: 'Agents that triage issues, update files, open PRs, review diffs, merge changes, or inspect CI state.',
-      connectWith: 'Route mode for `api.github.com`, direct REST base URLs from `molar clones spawn github`, or MCP tools.',
-      knownLimits: 'Coverage is strongest for REST and MCP workflows. Git transport and every GitHub product surface are not simulated.',
-      seeds: 'Common seeds: `small-project`, `enterprise-repo`, `stale-issues`, `merge-conflict`, `empty`. See the Seeds guide for usage.',
+      connectWith: 'Route mode for `api.github.com`, direct REST base URLs from `molar clones spawn github`, or the global Molar clones MCP (`molar_clone_spawn`, `molar_clone_seed`, `molar_clone_route`).',
+      knownLimits: 'Fixture-replay with 34 recorded operations. Git transport and every GitHub product surface are not simulated. Tool names below map to fixture ops — not a separate GitHub MCP server.',
     },
     toolGroups: [
       {
@@ -209,7 +279,7 @@ const CLONE_DOC_OVERRIDES = {
     notes: [
       'Configurable rate limiting via the `rate-limited` seed.',
       'The `permissions-denied` seed returns 403 on write operations.',
-      'In hosted sessions, MCP is exposed over HTTPS clone endpoints.',
+      'Fixture ops replay at GitHub REST paths (for example `GET /repos/{owner}/{repo}/issues`).',
       'Use clone session tokens from `molar clones spawn` — never production PATs in tests.',
     ],
   },
@@ -218,8 +288,7 @@ const CLONE_DOC_OVERRIDES = {
     startHere: {
       bestFor: 'Checkout flows, subscriptions, invoices, payment intents, and webhook-driven billing automation.',
       connectWith: 'Route mode for `api.stripe.com`, or `molar clones spawn stripe` for a session-scoped REST base URL.',
-      knownLimits: 'Deep clone — strongest coverage on PaymentIntents, Customers, Subscriptions, and Checkout Session flows.',
-      seeds: 'Common seeds: `checkout-world`, `declined-card`, `subscription-active`, `empty`.',
+      knownLimits: 'Deep Go clone — PaymentIntents, Customers, Subscriptions, Checkout Sessions, webhooks, virtual clock, and world snapshots.',
     },
     covers: [
       'PaymentIntents, Customers, and Checkout Sessions',
@@ -227,36 +296,71 @@ const CLONE_DOC_OVERRIDES = {
       'Webhooks with deterministic delivery inside the clone',
       'Stripe-shaped errors (card declined, rate limits, invalid params)',
     ],
+    toolGroups: [
+      {
+        title: 'MCP helpers',
+        tools: [
+          ['stripe_advance_clock', 'Advance the Stripe test clock for subscription and dunning flows.'],
+          ['molar_clone_advance_clock', 'Advance the session virtual clock across clones.'],
+          ['molar_clone_world', 'Snapshot or restore deterministic world state.'],
+        ],
+      },
+    ],
+    notes: [
+      'Spawn with `molar clones spawn stripe --seed demo` for seeded customers and charges.',
+      'Use `molar_clone_route` to intercept `api.stripe.com` in route mode.',
+    ],
   },
   sendgrid: {
     tagline: 'Test transactional email flows against a stateful SendGrid clone — capture messages without delivering to real inboxes.',
     startHere: {
       bestFor: 'Signup, password reset, billing receipts, and lifecycle email assertions in E2E tests.',
       connectWith: 'Route mode for `api.sendgrid.com`, or `molar clones spawn sendgrid`.',
-      knownLimits: 'Deep clone with SMTP capture and REST mail send APIs.',
-      seeds: 'Common seeds: `empty`, `queued-batch`.',
+      knownLimits: 'Deep Go clone (internal kind `email`) with SMTP capture and REST mail send APIs.',
     },
     covers: ['Mail send APIs', 'Template and personalization fields', 'Captured message inspection', 'Bounce and deferral error shapes'],
+    toolGroups: [
+      {
+        title: 'MCP helpers',
+        tools: [
+          ['email_inbox', 'Read captured messages from the in-memory inbox for assertions.'],
+        ],
+      },
+    ],
   },
   twilio: {
     tagline: 'Test SMS and voice workflows against a stateful Twilio clone with real REST error shapes.',
     startHere: {
       bestFor: 'OTP, notification, and IVR flows that depend on Twilio message state.',
       connectWith: 'Route mode for `api.twilio.com`, or `molar clones spawn twilio`.',
-      knownLimits: 'Deep clone focused on Messages API and delivery status transitions.',
-      seeds: 'Common seeds: `empty`, `delivery-delayed`.',
+      knownLimits: 'Deep Go clone focused on Messages API, Verify, and delivery status transitions.',
     },
     covers: ['Outbound messages', 'Delivery status webhooks', 'Account and messaging service context', 'Twilio-shaped 4xx validation errors'],
+    toolGroups: [
+      {
+        title: 'MCP helpers',
+        tools: [
+          ['twilio_last_otp', 'Read the last OTP code issued in the clone session.'],
+        ],
+      },
+    ],
   },
   auth: {
     tagline: 'Test Clerk-style auth flows against a stateful auth clone — sessions, users, and org membership without real identities.',
     startHere: {
       bestFor: 'Signup, login, magic links, org invites, and session-gated routes in agent-driven tests.',
       connectWith: 'Route mode for Clerk-compatible endpoints, or `molar clones spawn auth`.',
-      knownLimits: 'Deep clone — session and user state are fully isolated per run.',
-      seeds: 'Common seeds: `empty`, `multi-org`, `expired-session`.',
+      knownLimits: 'Deep Go clone — session and user state are fully isolated per run with deterministic seed IDs.',
     },
     covers: ['Users and sessions', 'Organizations and memberships', 'Magic links and verification', 'JWT/session cookie shapes'],
+    toolGroups: [
+      {
+        title: 'MCP helpers',
+        tools: [
+          ['auth_seed_users', 'Seed deterministic users into the auth clone for a run.'],
+        ],
+      },
+    ],
   },
   s3: {
     tagline: 'Test upload and asset flows against an S3 shadow mirror — same SDK calls, no real bucket writes.',
@@ -264,29 +368,138 @@ const CLONE_DOC_OVERRIDES = {
       bestFor: 'File uploads, presigned URLs, and asset pipelines that talk to S3-compatible APIs.',
       connectWith: 'Point AWS SDK at the clone base URL from `molar clones spawn s3`.',
       knownLimits: 'Shadow mirror — in-memory object store with S3 semantics, not full AWS parity.',
-      seeds: 'Common seeds: `empty`, `prefixed-bucket`.',
     },
     covers: ['Put/Get object operations', 'List and prefix semantics', 'Presigned URL generation', 'Access-denied error shapes'],
+    toolGroups: [
+      {
+        title: 'MCP helpers',
+        tools: [
+          ['s3_create_bucket', 'Create a bucket in the shadow store.'],
+          ['s3_put', 'Put an object by bucket and key.'],
+          ['s3_list', 'List objects under a bucket prefix.'],
+        ],
+      },
+    ],
   },
   slack: {
     tagline: 'Test Slack bots and workflow automations against a stateful Slack API clone — channels, messages, and reactions without posting to real workspaces.',
     covers: ['chat.postMessage and channel reads', 'Thread replies and reactions', 'Workspace auth and rate-limit shapes', 'Webhook event delivery inside the clone'],
+    toolGroups: [
+      {
+        title: 'Messaging',
+        tools: restRouteTools([
+          ['POST', '/chat.postMessage'],
+          ['GET', '/conversations.history'],
+          ['GET', '/conversations.list'],
+          ['GET', '/conversations.replies'],
+          ['POST', '/reactions.add'],
+        ]),
+      },
+      {
+        title: 'Users',
+        tools: restRouteTools([
+          ['GET', '/users.list'],
+          ['GET', '/users.profile.get'],
+        ]),
+      },
+    ],
   },
   linear: {
-    tagline: 'Test issue-tracking agents against a stateful Linear clone — issues, cycles, labels, and team workflows with GraphQL-shaped errors.',
+    tagline: 'Test issue-tracking agents against a stateful Linear clone — issues, cycles, labels, and team workflows with REST-shaped errors.',
     covers: ['Issue create and update', 'Team and project scoping', 'Label and state transitions', 'Linear-shaped validation errors'],
+    toolGroups: [
+      {
+        title: 'Issues & comments',
+        tools: restRouteTools([
+          ['GET', '/v1/comments'],
+          ['POST', '/v1/comments'],
+        ]),
+      },
+      {
+        title: 'Cycles & initiatives',
+        tools: restRouteTools([
+          ['GET', '/v1/cycles'],
+          ['GET', '/v1/cycles/active'],
+          ['GET', '/v1/initiatives'],
+          ['POST', '/v1/initiatives'],
+        ]),
+      },
+    ],
   },
   discord: {
     tagline: 'Test Discord bot flows against a stateful Discord API clone — guilds, channels, and messages without touching production servers.',
     covers: ['Guild and channel reads', 'Message send and edit', 'Interaction callbacks', 'Discord rate-limit and permission errors'],
   },
   supabase: {
-    tagline: 'Test Supabase-backed apps against a stateful clone — auth, Postgres-shaped REST, and storage without a live project.',
-    covers: ['Auth session flows', 'Row-level REST reads and writes', 'Storage upload semantics', 'Supabase-shaped 4xx errors'],
+    tagline: 'Test Supabase management workflows against a fixture clone — projects, branches, secrets, and migrations without a live project.',
+    startHere: {
+      bestFor: 'Agents that inspect project config, branch diffs, secrets metadata, and migration state.',
+      knownLimits: 'Launch preview — Supabase Management API fixtures. Not a full Postgres runtime, Auth service, or Storage backend.',
+    },
+    covers: ['Project and branch reads', 'Secrets and config metadata', 'Migration and RLS scenario seeds', 'Supabase-shaped 4xx errors'],
+    toolGroups: [
+      {
+        title: 'Organizations & projects',
+        tools: restRouteTools([
+          ['GET', '/v1/organizations'],
+          ['GET', '/v1/projects'],
+          ['POST', '/v1/projects'],
+          ['GET', '/v1/projects/{ref}'],
+        ]),
+      },
+      {
+        title: 'Branches & keys',
+        tools: restRouteTools([
+          ['GET', '/v1/projects/{ref}/api-keys'],
+          ['GET', '/v1/projects/{ref}/branches'],
+          ['POST', '/v1/projects/{ref}/branches'],
+          ['POST', '/v1/projects/{ref}/branches/{branch}/merge'],
+        ]),
+      },
+    ],
   },
   sentry: {
-    tagline: 'Test error-reporting integrations against a stateful Sentry clone — events, issues, and releases without sending data to production.',
-    covers: ['Event ingest APIs', 'Issue grouping reads', 'Release and deploy markers', 'Sentry DSN auth handling'],
+    tagline: 'Test Sentry triage agents against a stateful clone of organizations, projects, issues, latest events, stack traces, and releases with real REST errors.',
+    summary: 'Covers Sentry issue triage workflows: organizations, projects, issues, latest events, stack traces, and releases.',
+    startHere: {
+      bestFor: 'Agents that inspect production errors, read stack traces, triage issues, and connect releases to failures.',
+      connectWith: 'Direct REST base URLs from `molar clones spawn sentry`.',
+      knownLimits: 'Launch preview — read-focused `/api/0/...` fixtures. Event ingest, issue mutations, and the Sentry web UI are not simulated.',
+    },
+    covers: [
+      'Organizations and projects',
+      'Issue list and detail reads',
+      'Latest event with stack traces',
+      'Release history',
+    ],
+    toolGroups: [
+      {
+        title: 'Organizations',
+        tools: [['GET /api/0/organizations/', 'List organizations the token can access.']],
+      },
+      {
+        title: 'Projects',
+        tools: [
+          ['GET /api/0/projects/', 'List projects.'],
+          ['GET /api/0/projects/{org}/{project}/', 'Get one project by slug.'],
+        ],
+      },
+      {
+        title: 'Issues',
+        tools: [
+          ['GET /api/0/projects/{org}/{project}/issues/', 'List project issues.'],
+          ['GET /api/0/projects/{org}/{project}/issues/{id}/events/latest/', 'Latest event for an issue, including stack trace.'],
+        ],
+      },
+      {
+        title: 'Releases',
+        tools: [['GET /api/0/organizations/{org}/releases/', 'List releases, newest first.']],
+      },
+    ],
+    notes: [
+      'REST routes use Sentry `/api/0/...` path shapes.',
+      'The `demo` seed includes a sample organization, project, issue, stack-trace event, and release.',
+    ],
   },
   hubspot: {
     tagline: 'Test CRM and marketing automations against a HubSpot architecture-preview clone — contacts, deals, and pipeline state in isolation.',
@@ -321,8 +534,34 @@ const CLONE_DOC_OVERRIDES = {
     covers: ['Form definition reads', 'Response submission', 'Webhook delivery', 'Typeform 4xx shapes'],
   },
   webflow: {
-    tagline: 'Test Webflow CMS automations against an architecture-preview clone — collections, items, and publish state in isolation.',
-    covers: ['Collection and item CRUD', 'Site and locale context', 'Publish status reads', 'Webflow token auth'],
+    tagline: 'Test Webflow content agents against an Architecture Preview with recording-backed Data API v2 routes and focused CMS overlays.',
+    startHere: {
+      bestFor: 'Content agents that read sites and pages, manage CMS collections and items, or wire webhooks.',
+      connectWith: 'Direct REST base URLs from `molar clones spawn webflow`.',
+      knownLimits: 'Architecture Preview: recording-replay backed with focused CMS overlays. Full publish lifecycle semantics are not modeled yet.',
+    },
+    covers: ['Sites and pages', 'CMS collections and items', 'Assets', 'Forms', 'Webhooks'],
+    toolGroups: [
+      {
+        title: 'Sites & pages',
+        tools: restRouteTools([
+          ['GET', '/v2/sites'],
+          ['GET', '/v2/sites/{site_id}'],
+          ['GET', '/v2/sites/{site_id}/pages'],
+        ]),
+      },
+      {
+        title: 'CMS',
+        tools: restRouteTools([
+          ['GET', '/v2/sites/{site_id}/collections'],
+          ['GET', '/v2/collections/{collection_id}/items'],
+          ['POST', '/v2/collections/{collection_id}/items'],
+        ]),
+      },
+    ],
+    notes: [
+      'Use Webflow when your agent manages CMS content state across collections and items.',
+    ],
   },
   telegram: {
     tagline: 'Test Telegram bot flows against a Bot API clone — messages, updates, and chat state without contacting real users.',
@@ -391,13 +630,22 @@ function getCloneDoc(id) {
   const [slug, tier] = entry;
   const base = defaultCloneDoc(slug, tier === 'cloned' ? 'cloned' : tier === 'shadow' ? 'shadow' : 'fixtured');
   const override = CLONE_DOC_OVERRIDES[slug] || {};
+  const mergedStartHere = { ...base.startHere, ...(override.startHere || {}) };
+  if (!override.startHere?.seeds) {
+    mergedStartHere.seeds = formatSeedsLine(slug, base.tier);
+  }
+  const mergedNotes = [
+    ...(base.tier === 'fixtured' ? FIXTURE_DEFAULT_NOTES : base.notes),
+    ...(override.notes || []),
+  ];
   return {
     ...base,
     ...override,
     previewStatus: override.previewStatus || base.previewStatus,
-    startHere: { ...base.startHere, ...(override.startHere || {}) },
+    startHere: mergedStartHere,
     covers: override.covers || base.covers,
-    notes: override.notes || base.notes,
+    toolsSubtitle: override.toolsSubtitle || base.toolsSubtitle,
+    notes: mergedNotes,
     toolGroups: override.toolGroups || base.toolGroups,
   };
 }

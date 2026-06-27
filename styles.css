@@ -36,6 +36,15 @@ body {
   overflow-x: hidden;
 }
 
+html.pricing-off #pricing,
+html.pricing-off section#pricing,
+html.pricing-off .static-section[aria-labelledby="static-pricing-heading"],
+html.pricing-off nav a[href="#pricing"],
+html.pricing-off nav a[href="/#pricing"],
+html.pricing-off .site-footer-nav a[href="/#pricing"] {
+  display: none !important;
+}
+
 .serif {
   font-family: 'Instrument Serif', 'Times New Roman', serif;
   font-weight: 400;

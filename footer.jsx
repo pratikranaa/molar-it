@@ -54,7 +54,7 @@ function SiteFooter() {
             <nav className="site-footer-links" aria-label="Platform">
               <a href="/">Home</a>
               <a href="/#how">How it works</a>
-              <a href="/#pricing">Pricing</a>
+              {window.MOLAR_SITE?.showPricing ? <a href="/#pricing">Pricing</a> : null}
               <a href="/#faq">FAQ</a>
             </nav>
           </div>

@@ -1,6 +1,7 @@
 // Shared site nav — loaded on the homepage and static subpages.
 
 const CALENDLY_URL = 'https://calendly.com/pratikrana/30min';
+const SHOW_PRICING = Boolean(window.MOLAR_SITE?.showPricing);
 
 function handleCalendlyClick(e) {
   if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
@@ -30,7 +31,7 @@ function useCalendlyAssets() {
 
 const PRIMARY_NAV = [
   { href: '/#how', label: 'How it works' },
-  { href: '/#pricing', label: 'Pricing' },
+  ...(SHOW_PRICING ? [{ href: '/#pricing', label: 'Pricing' }] : []),
   { href: '/blog', label: 'Blog' },
 ];
 
@@ -255,7 +256,7 @@ function Nav() {
           <div className="nav-links nav-links--desktop">
             <a href="/#how" onClick={(e) => onNavClick(e, '/#how')}>How it works</a>
             <NavDropdown label="Products" items={PRODUCTS_NAV} rich />
-            <a href="/#pricing" onClick={(e) => onNavClick(e, '/#pricing')}>Pricing</a>
+            {SHOW_PRICING ? <a href="/#pricing" onClick={(e) => onNavClick(e, '/#pricing')}>Pricing</a> : null}
             <a href="/blog" onClick={(e) => onNavClick(e, '/blog')}>Blog</a>
             <NavDropdown label="More" items={MORE_NAV} />
           </div>
@@ -316,7 +317,7 @@ function Nav() {
                   <span>{item.label}</span>
                 </a>
               ))}
-              <a href="/#pricing" onClick={(e) => onNavClick(e, '/#pricing')}>Pricing</a>
+              {SHOW_PRICING ? <a href="/#pricing" onClick={(e) => onNavClick(e, '/#pricing')}>Pricing</a> : null}
               <a href="/blog" onClick={(e) => onNavClick(e, '/blog')}>Blog</a>
               <span className="nav-mobile-group-label">More</span>
               {MORE_NAV.map((item) => (

@@ -108,7 +108,8 @@ function CloneDocPage() {
             {doc.toolGroups.length > 0 ? (
               <section className="doc-step" id="tools">
                 <span className="doc-step-eyebrow">Available tools</span>
-                <h2>MCP &amp; REST tools</h2>
+                <h2>{doc.toolsTitle || 'Available tools'}</h2>
+                {doc.toolsSubtitle ? <p className="doc-tools-lede">{doc.toolsSubtitle}</p> : null}
                 {doc.toolGroups.map((group) => (
                   <div className="clone-doc-tool-group" key={group.title}>
                     <h3>{group.title}</h3>

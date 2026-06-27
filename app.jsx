@@ -102,7 +102,7 @@ function App() {
       <ReleaseLoop />
       <StatefulClones />
       <CrossAppJourney />
-      <Pricing />
+      {window.MOLAR_SITE?.showPricing ? <Pricing /> : null}
       <FAQ />
       <CTA />
 
