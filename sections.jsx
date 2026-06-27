@@ -745,7 +745,7 @@ function CTA() {
             <a href="/docs" style={{color:'inherit', textDecoration:'none'}}>Docs</a>
             <a href="/thesis" style={{color:'inherit', textDecoration:'none'}}>Thesis</a>
             <a href="mailto:founders@molar.it" style={{color:'inherit', textDecoration:'none'}}>Email</a>
-            <a href="https://github.com/pratikranaa/molar-agent" style={{color:'inherit', textDecoration:'none'}}>GitHub</a>
+            <a href="https://github.com/pratikranaa/molar-it" style={{color:'inherit', textDecoration:'none'}}>GitHub</a>
           </div>
         </div>
       </footer>

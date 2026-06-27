@@ -1,8 +1,8 @@
-# molar-agent
+# molar-it
 
 Public home for **[Molar](https://molar.it)** — continuous QA testing platform & autonomous AI agent.
 
-This repo contains the marketing site source (`molar.it`). Product code lives in a private monorepo.
+This repo contains the marketing site source (`molar.it`). Product code lives in the private Molar monorepo under `../` (sibling checkout: `Molar/molar.it/`).
 
 ## Live site
 
@@ -22,9 +22,12 @@ npx molar-agent init
 ## Develop locally
 
 ```bash
+cd molar.it   # from monorepo root, or clone this repo standalone
 python3 -m http.server 8080
 # open http://localhost:8080
 ```
+
+Deploy: `vercel --prod` (Vercel project `molar` → molar.it).
 
 ## SEO / launch
 
