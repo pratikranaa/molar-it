@@ -40,6 +40,11 @@ direct, production fit.
 ## Links
 
 - [Home](https://molar.it)
+- [Cartographer](https://cartographer.molar.it) — autonomous app mapping & Playwright export
+- [Clones](https://clones.molar.it) — stateful API clones (Stripe, Twilio, email, auth, S3)
+- [Guard](https://guard.molar.it) — PR gating & production monitoring
+- [Trace](https://trace.molar.it) — test failure replay & forensic debugging
+- [Waitlist](https://molar.it/waitlist) — early access for surface products
 - [Blog](https://molar.it/blog)
 - [Molar QA Agent](https://molar.it/qa-agent)
 - [Molar vs Cypress](https://molar.it/vs/cypress)

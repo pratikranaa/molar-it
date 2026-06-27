@@ -9,7 +9,36 @@
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function json(res, status, body) {
+const ALLOWED_ORIGINS = new Set([
+  'https://molar.it',
+  'https://www.molar.it',
+  'https://cartographer.molar.it',
+  'https://clones.molar.it',
+  'https://guard.molar.it',
+  'https://trace.molar.it',
+  'http://localhost:8080',
+  'http://127.0.0.1:8080',
+  'http://localhost:3000',
+]);
+
+function allowedOrigin(req) {
+  const origin = req.headers.origin;
+  return origin && ALLOWED_ORIGINS.has(origin) ? origin : null;
+}
+
+function setCors(req, res) {
+  const origin = allowedOrigin(req);
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Max-Age', '86400');
+}
+
+function json(req, res, status, body) {
+  setCors(req, res);
   res.statusCode = status;
   res.setHeader('Content-Type', 'application/json');
   res.end(JSON.stringify(body));
@@ -60,8 +89,14 @@ async function forwardWebhook(body) {
 }
 
 module.exports = async function handler(req, res) {
+  if (req.method === 'OPTIONS') {
+    setCors(req, res);
+    res.statusCode = 204;
+    return res.end();
+  }
+
   if (req.method !== 'POST') {
-    return json(res, 405, { error: 'Method not allowed' });
+    return json(req, res, 405, { error: 'Method not allowed' });
   }
 
   let body = req.body;
@@ -69,20 +104,20 @@ module.exports = async function handler(req, res) {
     try {
       body = JSON.parse(body);
     } catch {
-      return json(res, 400, { error: 'Invalid JSON' });
+      return json(req, res, 400, { error: 'Invalid JSON' });
     }
   }
   if (!body || typeof body !== 'object') {
-    return json(res, 400, { error: 'Invalid body' });
+    return json(req, res, 400, { error: 'Invalid body' });
   }
 
   if (body.website) {
-    return json(res, 200, { ok: true });
+    return json(req, res, 200, { ok: true });
   }
 
   const email = String(body.email || '').trim().toLowerCase();
   if (!EMAIL_RE.test(email)) {
-    return json(res, 400, { error: 'Enter a valid work email.' });
+    return json(req, res, 400, { error: 'Enter a valid work email.' });
   }
 
   const record = {
@@ -99,12 +134,12 @@ module.exports = async function handler(req, res) {
   if (!result.ok) {
     const configured = process.env.WAITLIST_WEBHOOK_URL || process.env.LOOPS_API_KEY;
     if (!configured) {
-      return json(res, 503, {
+      return json(req, res, 503, {
         error: 'Waitlist storage is not configured yet. Email pratik@molar.it and we will add you manually.',
       });
     }
-    return json(res, 502, { error: 'Could not save signup. Try again or email pratik@molar.it.' });
+    return json(req, res, 502, { error: 'Could not save signup. Try again or email pratik@molar.it.' });
   }
 
-  return json(res, 200, { ok: true });
+  return json(req, res, 200, { ok: true });
 };
