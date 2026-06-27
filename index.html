@@ -51,7 +51,7 @@
         "logo": "https://molar.it/assets/molar-mark-apple.png",
         "description": "Molar is a continuous QA testing platform and autonomous AI agent that reads your app, writes critical-path end-to-end tests in plain English, and guards production in real time using stateful clones of the third-party services you depend on.",
         "sameAs": [
-          "https://docs.molar.it",
+          "https://molar.it/docs",
           "https://app.molar.it",
           "https://github.com/pratikranaa/molar-it",
           "https://www.linkedin.com/in/ranapratik/",
@@ -179,6 +179,7 @@
 
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="seo-static.css" />
+  <link rel="stylesheet" href="waitlist-modal.css" />
   <style>
     body.density-tight .section { padding: 80px 0; }
     body.density-tight .hero { padding: 72px 0 48px; }
@@ -186,7 +187,7 @@
     body.density-airy .hero { padding: 120px 0 96px; }
   </style>
 </head>
-<body>
+<body data-waitlist-surface="home">
   <div id="static-landing">
     <div class="frame">
       <header class="static-nav">
@@ -307,5 +308,6 @@
   <script type="text/babel" src="footer.jsx"></script>
   <script type="text/babel" src="sections.jsx"></script>
   <script type="text/babel" src="app.jsx"></script>
+  <script src="waitlist-modal.js"></script>
 </body>
 </html>

@@ -27,6 +27,11 @@
       headline: 'Trace <em>early access.</em>',
       lede: 'Trace dashboards and MCP are rolling out in waves. Join the waitlist and we will reach out when your spot opens.',
     },
+    home: {
+      kicker: 'Molar',
+      headline: 'Molar <em>early access.</em>',
+      lede: 'The autonomous QA platform is rolling out in waves. Join the waitlist and we will reach out when your workspace is ready.',
+    },
   };
 
   let root;
@@ -203,22 +208,34 @@
     }
   }
 
+  function hookLink(a, surface) {
+    if (a.dataset.molarWlHooked) return;
+    a.dataset.molarWlHooked = '1';
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      openWaitlist(refFromLink(a, surface));
+    });
+    a.setAttribute('role', 'button');
+    a.setAttribute('aria-haspopup', 'dialog');
+  }
+
   function hookLinks(surface) {
     document.querySelectorAll('a[href^="https://app.molar.it"]').forEach((a) => {
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-        openWaitlist(refFromLink(a, surface));
-      });
-      a.setAttribute('role', 'button');
-      a.setAttribute('aria-haspopup', 'dialog');
+      hookLink(a, surface);
     });
+  }
+
+  function watchLinks(surface) {
+    hookLinks(surface);
+    const obs = new MutationObserver(() => hookLinks(surface));
+    obs.observe(document.body, { childList: true, subtree: true });
   }
 
   function init() {
     const surface = document.body && document.body.dataset.waitlistSurface;
     if (!surface) return;
     ensureModal();
-    hookLinks(surface);
+    watchLinks(surface);
     window.molarOpenWaitlist = openWaitlist;
   }
 
