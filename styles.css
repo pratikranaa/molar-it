@@ -294,6 +294,9 @@ body {
   gap: 64px;
   align-items: center;
 }
+.hero-grid > * {
+  min-width: 0;
+}
 .hero-kicker {
   margin-bottom: 16px;
   font-family: 'JetBrains Mono', monospace;
@@ -393,7 +396,9 @@ body {
 .term-body {
   padding: 18px 20px;
   min-height: 360px;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .term-prompt { color: oklch(0.7 0.06 165); }
 .term-cmd { color: oklch(0.92 0.01 80); }
@@ -521,6 +526,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  height: 100%;
   background: var(--bone);
   transition: background 160ms ease;
 }
@@ -560,6 +566,7 @@ body {
   line-height: 1.55;
   color: var(--ink-2);
   text-wrap: pretty;
+  flex: 1;
 }
 
 /* PROBLEM — supporting evidence strip */
@@ -576,6 +583,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  height: 100%;
 }
 .stat-mini:first-child { padding-left: 0; }
 .stat-mini:not(:first-child) { padding-left: 22px; }
@@ -623,6 +631,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  height: 100%;
   transition: background 160ms ease;
 }
 .power-card:hover { background: var(--bone-2); }
@@ -647,6 +656,7 @@ body {
   font-size: 14.5px;
   line-height: 1.55;
   text-wrap: pretty;
+  flex: 1;
 }
 
 /* MODES — adopt à la carte / on-prem */
@@ -861,6 +871,7 @@ body {
   border-right: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
   background: var(--bone);
+  height: 100%;
   transition: background 160ms ease;
 }
 .release-moment:hover { background: var(--bone-2); }
@@ -1004,6 +1015,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  height: 100%;
 }
 .tier.featured {
   background: var(--ink);
@@ -1300,6 +1312,26 @@ footer {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-3);
+}
+
+/* Card grids: animation wrappers must fill grid cells for even heights */
+.failure-grid > *,
+.superpowers > *,
+.pricing > *,
+.release-loop > *,
+.stats-strip > * {
+  display: flex;
+  min-width: 0;
+  min-height: 100%;
+}
+
+.failure-grid > * > *,
+.superpowers > * > *,
+.pricing > * > *,
+.release-loop > * > *,
+.stats-strip > * > * {
+  flex: 1;
+  width: 100%;
 }
 
 /* FAQ */
