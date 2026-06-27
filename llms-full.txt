@@ -92,6 +92,7 @@ status checks; MCP connector for software testing and QA.
 - Molar vs Cypress: https://molar.it/vs/cypress
 - Molar vs Playwright: https://molar.it/vs/playwright
 - GitHub Actions integration: https://molar.it/integrations/github-actions
+- Source code (GitHub): https://github.com/pratikranaa/molar-it
 - Docs: https://molar.it/docs
 - Dashboard / sign up: https://app.molar.it
 - Curated short map: https://molar.it/llms.txt
