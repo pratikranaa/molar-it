@@ -55,34 +55,11 @@ function handleHashNavClick(e, href, onAfter) {
 }
 
 function NavDropdown({ label, items, onNavigate }) {
-  const [open, setOpen] = React.useState(false);
-  const ref = React.useRef(null);
-
-  React.useEffect(() => {
-    if (!open) return;
-    const onPointer = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    };
-    const onKey = (e) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
-    document.addEventListener('mousedown', onPointer);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('mousedown', onPointer);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [open]);
-
-  const close = () => setOpen(false);
-
   return (
-    <div className={'nav-dropdown' + (open ? ' nav-dropdown--open' : '')} ref={ref}>
+    <div className="nav-dropdown">
       <button
         type="button"
         className="nav-dropdown-trigger"
-        onClick={() => setOpen((o) => !o)}
-        aria-expanded={open}
         aria-haspopup="true"
       >
         {label}
@@ -95,7 +72,7 @@ function NavDropdown({ label, items, onNavigate }) {
             role="menuitem"
             href={item.href}
             onClick={(e) => {
-              handleHashNavClick(e, item.href, () => { close(); onNavigate?.(); });
+              handleHashNavClick(e, item.href, () => { onNavigate?.(); });
             }}
           >
             {item.label}

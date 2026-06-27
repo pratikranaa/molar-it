@@ -140,7 +140,7 @@ body {
 }
 .nav-links a:hover { color: var(--ink); }
 
-/* More dropdown */
+/* More dropdown — opens on hover (desktop) and focus-within (keyboard) */
 .nav-dropdown {
   position: relative;
 }
@@ -154,11 +154,11 @@ body {
   font: inherit;
   font-size: 14px;
   color: var(--ink-2);
-  cursor: pointer;
+  cursor: default;
   transition: color 0.15s;
 }
-.nav-dropdown-trigger:hover,
-.nav-dropdown--open .nav-dropdown-trigger {
+.nav-dropdown:hover .nav-dropdown-trigger,
+.nav-dropdown:focus-within .nav-dropdown-trigger {
   color: var(--ink);
 }
 .nav-dropdown-caret {
@@ -167,27 +167,49 @@ body {
   opacity: 0.7;
   transition: transform 0.15s ease;
 }
-.nav-dropdown--open .nav-dropdown-caret {
+.nav-dropdown:hover .nav-dropdown-caret,
+.nav-dropdown:focus-within .nav-dropdown-caret {
   transform: rotate(180deg);
 }
 .nav-dropdown-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 10px);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   min-width: 220px;
-  padding: 6px 0;
+  padding: 12px 0 6px;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  z-index: 20;
+}
+.nav-dropdown-menu::before {
+  content: '';
+  display: block;
+  height: 10px;
+}
+.nav-dropdown-menu::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: var(--bone);
   border: 1px solid var(--rule);
   border-radius: 4px;
   box-shadow: 0 12px 32px -12px rgba(20, 15, 10, 0.22);
-  z-index: 20;
+  z-index: -1;
 }
-.nav-dropdown--open .nav-dropdown-menu {
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
   display: block;
 }
 .nav-dropdown-menu a {
+  position: relative;
   display: block;
   padding: 10px 16px;
   font-size: 14px;
