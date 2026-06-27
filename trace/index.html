@@ -1,0 +1,1485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trace · debug failures like a debugger · by Molar</title>
+<link rel="canonical" href="https://molar.it/trace" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f1ea; --bg2:#ece7dc; --paper:#fbf9f3; --paper2:#f8f5ec;
+    --ink:#15120c; --ink2:#3a3528; --muted:#786e5b; --faint:#a39884;
+    --line:#d9d2c2; --line2:#e9e3d4;
+    --plum:#8a3556; --plum-deep:#5c1f3a; --plum-soft:#f0dde4; --plum-glow:rgba(138,53,86,.16);
+    --ok:#2f5a3a; --warn:#a06b00; --err:#b8542e; --info:#2a4f8c; --cool:#3d4a6a;
+    --serif:'Instrument Serif', Georgia, serif;
+    --sans:'Geist', ui-sans-serif, system-ui, sans-serif;
+    --mono:'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{overflow-x:clip}
+  body{font-family:var(--sans); background:var(--bg); color:var(--ink); font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;}
+  a{color:inherit; text-decoration:none}
+  button{font:inherit;color:inherit}
+  ::selection{background:var(--plum-soft); color:var(--plum-deep)}
+  .mono{font-family:var(--mono)}
+  .serif{font-family:var(--serif); font-weight:400; letter-spacing:-.015em}
+  .dim{color:var(--muted)}
+  .wrap{max-width:1200px; margin:0 auto; padding:0 32px}
+  .eyebrow{font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.14em; text-transform:uppercase; display:inline-flex; align-items:center; gap:10px}
+  .eyebrow .dot{width:7px; height:7px; border-radius:50%; background:var(--plum); box-shadow:0 0 0 3px var(--plum-glow)}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border-radius:8px; font-size:14px; font-weight:500; border:1px solid transparent; cursor:pointer; text-decoration:none; transition:background .12s, border-color .12s, color .12s, transform .12s;}
+  .btn:hover{transform:translateY(-1px)}
+  .btn--primary{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+  .btn--primary:hover{background:#000}
+  .btn--accent{background:var(--plum); color:#fff; border-color:var(--plum)}
+  .btn--accent:hover{background:var(--plum-deep); border-color:var(--plum-deep)}
+  .btn--outline{background:transparent; color:var(--ink); border-color:var(--line)}
+  .btn--outline:hover{border-color:var(--ink)}
+  .btn--ghost{background:transparent; color:var(--ink2)}
+  .btn--ghost:hover{background:var(--bg2); color:var(--ink)}
+  .btn--xl{padding:14px 22px; font-size:15px; border-radius:9px}
+
+  /* ============ NAV ============ */
+  .nav{position:sticky; top:0; z-index:20; background:rgba(244,241,234,.78); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex; align-items:center; gap:24px; padding:14px 0}
+  .nav-brand{display:flex; align-items:center; gap:10px; font-family:var(--serif); font-size:22px}
+  .nav-brand .sub{font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.14em; text-transform:uppercase; margin-left:6px}
+  .nav-links{display:flex; align-items:center; gap:4px; margin-left:18px; flex:1}
+  .nav-links a{padding:8px 12px; border-radius:6px; font-size:13px; color:var(--ink2)}
+  .nav-links a:hover{background:var(--bg2); color:var(--ink)}
+  .nav-suite{display:flex; align-items:center; gap:6px; padding:4px; border:1px solid var(--line); border-radius:99px; background:var(--paper); font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+  .nav-suite a{padding:4px 10px; border-radius:99px; text-transform:uppercase}
+  .nav-suite a:hover{background:var(--bg2); color:var(--ink)}
+  .nav-suite a.is-on{background:var(--ink); color:var(--bg)}
+  .nav-cta{display:flex; gap:8px}
+
+  /* Brand glyph (stacked ribbons + playhead) */
+  .glyph{width:24px; height:24px; flex-shrink:0}
+  .glyph svg{width:100%; height:100%; display:block}
+
+  /* ============ HERO ============ */
+  .hero{position:relative; padding:72px 0 56px; overflow:hidden}
+  .hero-bg{position:absolute; inset:0 0 auto 0; height:600px; pointer-events:none; opacity:.4}
+  .hero-bg svg{width:100%; height:100%}
+  .hero-inner{position:relative}
+  .hero-grid{display:grid; grid-template-columns:1.04fr .96fr; gap:56px; align-items:center}
+  .hero-copy{min-width:0}
+  .hero-visual{min-width:0}
+  .hero h1{font-family:var(--serif); font-size:clamp(46px, 4.6vw, 80px); line-height:1.08; letter-spacing:-.025em; margin:22px 0 30px; padding-bottom:.18em; font-weight:400; max-width:13ch; text-wrap:balance;}
+  .hero h1 em{font-style:italic; color:var(--plum)}
+  .hero-lede{font-size:20px; line-height:1.45; color:var(--ink2); max-width:60ch; margin:0 0 32px}
+  .hero-actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .hero-actions .keys{font-family:var(--mono); font-size:11px; color:var(--muted); margin-left:8px}
+  .hero-actions .keys kbd{padding:2px 6px; border:1px solid var(--line); border-radius:4px; background:var(--paper); margin:0 2px}
+  .hero-stats{display:grid; grid-template-columns:repeat(4, 1fr); gap:32px; margin-top:64px; padding-top:32px; border-top:1px solid var(--line)}
+  .hero-stat .v{font-family:var(--serif); font-size:42px; line-height:1; letter-spacing:-.02em}
+  .hero-stat .v em{font-style:italic; color:var(--plum)}
+  .hero-stat .k{font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-top:8px}
+
+  /* hero trace-preview card */
+  .htrace{background:var(--paper); border:1px solid var(--line); border-radius:16px; overflow:hidden; box-shadow:0 34px 80px -34px rgba(20,16,8,.34)}
+  .htrace-bar{display:flex; align-items:center; gap:8px; padding:15px 18px; background:var(--paper2); border-bottom:1px solid var(--line2); font-family:var(--mono); font-size:11px; color:var(--muted)}
+  .htrace-bar .dot-err{color:var(--err)}
+  .htrace-bar .right{margin-left:auto; color:var(--err)}
+  .htrace-body{position:relative; padding:28px 18px 26px}
+  .htrace-grid{display:grid; grid-template-columns:58px 1fr; gap:22px 12px; align-items:center}
+  .htrace-lbl{font-family:var(--mono); font-size:9px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); text-align:right}
+  .htrace-trk{position:relative; height:20px; background:var(--bg2); border-radius:4px; overflow:hidden}
+  .htrace-trk i{position:absolute; top:0; height:100%; border-radius:1px}
+  .htrace-trk .step{background:var(--ink); opacity:.2; border-right:2px solid var(--paper)}
+  .htrace-trk .step.cur{background:var(--plum); opacity:.85}
+  .htrace-trk .net{background:var(--info)} .htrace-trk .net.fail{background:var(--err)}
+  .htrace-trk .dom{background:var(--cool)}
+  .htrace-trk .con{background:var(--warn)} .htrace-trk .con.err{background:var(--err)}
+  .htrace-trk .agt{background:var(--plum)}
+  .htrace-ovl{position:absolute; left:calc(18px + 58px + 12px); right:18px; top:28px; bottom:26px; pointer-events:none}
+  .htrace-ph{position:absolute; top:0; bottom:0; left:33%; width:2px; background:var(--plum); z-index:4}
+  .htrace-ph::before{content:""; position:absolute; top:-4px; left:-4px; width:10px; height:10px; border-radius:50%; background:var(--plum); box-shadow:0 0 0 4px var(--plum-glow)}
+  .htrace-tick{position:absolute; top:-3px; bottom:-3px; left:33%; width:2px; background:var(--err); z-index:3}
+  .htrace-tick::after{content:""; position:absolute; top:-5px; left:-3px; width:8px; height:8px; background:var(--err); transform:rotate(45deg)}
+  .htrace-foot{display:flex; align-items:center; gap:10px; padding:15px 18px; border-top:1px solid var(--line2); background:var(--paper2); font-family:var(--mono); font-size:10.5px; color:var(--ink2)}
+  .htrace-foot .t{color:var(--muted)}
+  .htrace-foot .t b{color:var(--ink)}
+  .htrace-foot .fail{margin-left:auto; color:var(--err); display:flex; align-items:center; gap:6px}
+
+  /* ============ MARQUEE / LOGOS ============ */
+  .marquee{padding:24px 0 0; border-top:1px solid var(--line2); margin-top:64px}
+  .marquee-h{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); text-align:center; margin-bottom:18px}
+  .marquee-row{display:flex; align-items:center; justify-content:space-between; gap:36px; flex-wrap:wrap; opacity:.85}
+  .marquee-row .logo{font-family:var(--serif); font-size:24px; letter-spacing:-.01em; color:var(--ink2)}
+  .marquee-row .logo small{font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; display:block; margin-top:-4px}
+
+  /* ============ MOTIF SECTION (THE PRODUCT) ============ */
+  .product{padding:80px 0 80px; border-top:1px solid var(--line)}
+  .product-h{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:end; margin-bottom:48px}
+  .product-h h2{font-family:var(--serif); font-size:clamp(40px, 5vw, 72px); line-height:1.15; letter-spacing:-.02em; margin:14px 0 28px; font-weight:400; max-width:18ch}
+  .product-h h2 em{font-style:italic; color:var(--plum)}
+  .product-h p{font-size:16px; color:var(--ink2); max-width:54ch; margin:0; line-height:1.55}
+  .product-frame{background:var(--paper); border:1px solid var(--line); border-radius:16px; overflow:hidden; box-shadow:0 24px 60px -24px rgba(20,16,8,.22);}
+  .pf-bar{display:flex; align-items:center; gap:6px; padding:10px 14px; background:var(--paper2); border-bottom:1px solid var(--line2); font-family:var(--mono); font-size:11px; color:var(--muted);}
+  .pf-bar .traffic{display:flex; gap:5px}
+  .pf-bar .traffic i{width:10px; height:10px; border-radius:50%; background:var(--line)}
+  .pf-bar .url{margin-left:14px}
+  .pf-bar .right{margin-left:auto; display:flex; gap:8px}
+  .pf-body{display:grid; grid-template-columns:200px 1fr 280px; min-height:480px}
+  /* steps */
+  .pf-steps{background:var(--paper2); border-right:1px solid var(--line2); padding:14px 12px; font-size:12px}
+  .pf-step-h{font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:10px}
+  .pf-step{display:flex; gap:8px; align-items:center; padding:6px 8px; border-radius:6px; cursor:default; color:var(--ink2)}
+  .pf-step .i{font-family:var(--mono); font-size:9px; width:18px; color:var(--muted)}
+  .pf-step .m{width:12px; height:12px; border-radius:50%; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center}
+  .pf-step .m.ok{background:var(--ok); color:#fff}
+  .pf-step .m.fail{background:var(--err); color:#fff}
+  .pf-step .m.skip{background:var(--bg2); border:1px solid var(--line)}
+  .pf-step.on{background:var(--plum-soft); color:var(--plum-deep)}
+  .pf-step.on.fail{background:var(--plum); color:#fff}
+  .pf-step.on.fail .m.fail{background:#fff; color:var(--plum)}
+  .pf-step.on.fail .i{color:rgba(255,255,255,.7)}
+  /* viewer */
+  .pf-stage{position:relative; background:#15120c; padding:24px; display:flex; align-items:center; justify-content:center}
+  .pf-stage-frame{background:#fff; width:100%; max-width:380px; border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,.4); overflow:hidden;}
+  .pf-stage-frame .top{padding:8px 12px; background:#f4f1ea; border-bottom:1px solid #d9d2c2; font-family:var(--mono); font-size:10px; color:#786e5b; text-align:center}
+  .pf-stage-frame .body{padding:14px 18px; font-size:11px}
+  .pf-stage-frame .body h4{font-family:var(--serif); font-size:18px; margin:0 0 10px; font-weight:400}
+  .pf-stage-frame .body .card{border:1px solid #d9d2c2; border-radius:6px; padding:10px 12px; margin-bottom:8px}
+  .pf-stage-frame .body .card .lbl{font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:#786e5b}
+  .pf-stage-frame .body .card .amt{font-family:var(--serif); font-size:26px; color:var(--err); margin-top:4px}
+  .pf-stage-frame .body .note{font-family:var(--mono); font-size:9.5px; color:var(--err); margin-top:4px}
+  .pf-stage-frame .body .btn-row{display:flex; gap:6px; margin-top:8px}
+  .pf-stage-frame .body .btn-row span{padding:5px 10px; background:#15120c; color:#fff; border-radius:4px; font-size:10px}
+  .pf-stage-fail{position:absolute; left:24px; right:24px; bottom:24px; padding:9px 12px; background:rgba(184,84,46,.96); color:#fff; border-radius:8px; font-family:var(--mono); font-size:10.5px; display:flex; gap:8px; align-items:center}
+  /* inspector right */
+  .pf-insp{border-left:1px solid var(--line2); display:flex; flex-direction:column}
+  .pf-insp-tabs{display:flex; border-bottom:1px solid var(--line2); padding:0 10px}
+  .pf-insp-tabs button{background:none; border:none; padding:10px 8px; font-size:11px; color:var(--muted); position:relative}
+  .pf-insp-tabs button.on{color:var(--ink); font-weight:500}
+  .pf-insp-tabs button.on::after{content:""; position:absolute; left:8px; right:8px; bottom:-1px; height:2px; background:var(--plum)}
+  .pf-insp-body{padding:12px 14px; flex:1; overflow:hidden; font-family:var(--mono); font-size:10.5px; line-height:1.55}
+  .pf-insp-body .h{font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0 0 6px}
+  .pf-insp-body .row{display:grid; grid-template-columns:54px 1fr; gap:6px; padding:4px 0; border-bottom:1px solid var(--line2); align-items:start; color:var(--ink2)}
+  .pf-insp-body .row .ts{color:var(--muted); font-size:9.5px}
+  .pf-insp-body .row.now{background:var(--plum-soft); border-bottom-color:var(--plum-soft); color:var(--plum-deep); border-radius:3px; padding:4px 6px; margin:0 -6px}
+  .pf-insp-body .row .stat-err{color:var(--err); font-weight:600}
+  .pf-insp-tabs button{cursor:pointer}
+  .pf-insp-tabs .cnt{background:var(--bg2); color:var(--muted); padding:1px 5px; border-radius:99px; font-size:9px; margin-left:3px}
+  .pf-insp-tabs .cnt.on-cnt{background:var(--plum-soft); color:var(--plum-deep)}
+  .pf-panel{display:none} .pf-panel.on{display:block}
+  .pf-panel .row b{font-weight:600}
+  .pf-panel[data-panel="clones"] .row .ts,
+  .pf-panel[data-panel="network"] .row .ts{color:var(--cool)}
+  .dbg-you{background:var(--bg2); color:var(--ink); padding:7px 10px; border-radius:7px 7px 7px 2px; margin:0 0 8px; max-width:80%; font-family:var(--sans); font-size:11px}
+  .dbg-bot{background:var(--plum-soft); color:var(--plum-deep); padding:8px 11px; border-radius:7px 7px 2px 7px; margin:0 0 10px; font-family:var(--sans); font-size:11px; line-height:1.5}
+  .dbg-bot code{background:rgba(92,31,58,.1); padding:0 3px; border-radius:3px; font-size:10px}
+  .dbg-cta{font-family:var(--mono); font-size:10px; color:var(--plum); border:1px dashed var(--line); border-radius:6px; padding:7px 10px; text-align:center; cursor:pointer}
+  .dbg-cta:hover{border-color:var(--plum); background:var(--plum-soft)}
+  /* interactive steps + seekable ribbon */
+  .pf-step[data-ph]{cursor:pointer}
+  .pf-step[data-ph]:hover{background:var(--bg2)}
+  .pf-step.is-skip{opacity:.5; cursor:default}
+  .pf-rib{cursor:pointer}
+  .pf-playhead{transition:left .18s cubic-bezier(.4,0,.2,1)}
+  .pf-playhead.seeking{transition:none}
+  /* scrubber */
+  .pf-scrub{padding:12px 16px; border-top:1px solid var(--line2); background:var(--paper2)}
+  .pf-scrub-ctrl{display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:11px; color:var(--muted); margin-bottom:10px}
+  .pf-scrub-ctrl .play{background:var(--ink); color:var(--paper); border:none; border-radius:6px; padding:5px 12px; display:inline-flex; gap:6px; align-items:center; font-size:11px; font-family:var(--sans)}
+  .pf-rib{display:flex; flex-direction:column; gap:4px; position:relative}
+  .pf-rib-row{display:flex; align-items:center; gap:8px}
+  .pf-rib-row .lbl{width:68px; font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.05em; text-transform:uppercase}
+  .pf-rib-row .trk{flex:1; height:11px; background:var(--bg2); border-radius:3px; position:relative; overflow:hidden}
+  .pf-rib-row .trk i{position:absolute; top:0; height:100%}
+  .pf-rib-row .step{background:var(--ink); opacity:.2; border-right:1px solid var(--paper)}
+  .pf-rib-row .net{background:var(--info)} .pf-rib-row .net.fail{background:var(--err)}
+  .pf-rib-row .dom{background:var(--cool)}
+  .pf-rib-row .con{background:var(--warn)} .pf-rib-row .con.err{background:var(--err)}
+  .pf-rib-row .agt{background:var(--plum)}
+  .pf-playhead{position:absolute; top:0; bottom:0; width:2px; background:var(--plum); z-index:3; pointer-events:none}
+  .pf-playhead::before{content:""; position:absolute; top:-3px; left:-4px; width:10px; height:10px; border-radius:50%; background:var(--plum); box-shadow:0 0 0 3px var(--plum-glow)}
+  .pf-failtick{position:absolute; top:-4px; bottom:-4px; width:2px; background:var(--err); z-index:2}
+  .pf-failtick::after{content:""; position:absolute; top:-6px; left:-3px; width:8px; height:8px; background:var(--err); transform:rotate(45deg)}
+
+  /* ============ COMPARE TO PLAYWRIGHT ============ */
+  .vs{padding:80px 0; border-top:1px solid var(--line)}
+  .vs-h{display:grid; grid-template-columns:1.3fr 1fr; gap:52px; align-items:end; margin-bottom:40px}
+  .vs h2{font-family:var(--serif); font-size:clamp(38px, 5vw, 60px); line-height:1.14; letter-spacing:-.02em; margin:14px 0 0; font-weight:400; max-width:18ch}
+  .vs h2 em{font-style:italic; color:var(--plum)}
+  .vs-lede{font-size:16px; color:var(--ink2); margin:0; line-height:1.55}
+  .vs-table{background:var(--paper); border:1px solid var(--line); border-radius:14px; overflow:hidden}
+  .vs-table .row{display:grid; grid-template-columns:1.4fr 1fr 1fr; border-top:1px solid var(--line2); align-items:center}
+  .vs-table .row:first-child{border-top:none}
+  .vs-table .row > div{padding:18px 22px}
+  .vs-table .head{background:var(--paper2); font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase}
+  .vs-table .head > div:nth-child(2){background:var(--paper); border-left:1px solid var(--line2); border-right:1px solid var(--line2)}
+  .vs-table .head > div:nth-child(3){background:var(--plum-soft); color:var(--plum-deep); font-weight:500}
+  .vs-table .row > div:nth-child(2){border-left:1px solid var(--line2); border-right:1px solid var(--line2); background:var(--paper)}
+  .vs-table .row > div:nth-child(3){background:rgba(138,53,86,.05)}
+  .vs-table .feat{font-family:var(--serif); font-size:19px; line-height:1.2; letter-spacing:-.005em}
+  .vs-table .feat small{display:block; font-family:var(--sans); font-size:12.5px; color:var(--muted); margin-top:4px; line-height:1.45}
+  .vs-table .val{font-size:13.5px; color:var(--ink2); line-height:1.5}
+  .vs-table .val.muted{color:var(--muted); font-family:var(--mono); font-size:12px}
+  .vs-table .val .ck{display:inline-block; width:14px; height:14px; border-radius:50%; background:var(--plum); color:#fff; text-align:center; line-height:14px; font-size:9px; margin-right:6px; vertical-align:1px}
+  .vs-table .val .ex{display:inline-block; width:14px; height:14px; border-radius:50%; background:var(--bg2); color:var(--muted); text-align:center; line-height:14px; font-size:9px; margin-right:6px; vertical-align:1px}
+
+  /* ============ HOW IT WORKS (3-step) ============ */
+  .how{padding:88px 0; background:var(--paper); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+  .how-h{text-align:center; margin-bottom:56px}
+  .how-h h2{font-family:var(--serif); font-size:clamp(38px, 5vw, 64px); line-height:1.2; letter-spacing:-.02em; font-weight:400; margin:14px 0 26px}
+  .how-h h2 em{font-style:italic; color:var(--plum)}
+  .how-h p{font-size:16px; color:var(--ink2); max-width:54ch; margin:0 auto}
+  .how-row{display:grid; grid-template-columns:repeat(3, 1fr); gap:28px}
+  .how-card{background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:28px; display:flex; flex-direction:column; gap:14px; position:relative; min-width:0}
+  .how-card .num{font-family:var(--serif); font-size:60px; line-height:1; letter-spacing:-.04em; color:var(--plum); font-style:italic}
+  .how-card h3{font-family:var(--serif); font-size:26px; margin:0; font-weight:400; letter-spacing:-.01em; line-height:1.3}
+  .how-card p{margin:0; font-size:14px; color:var(--ink2); line-height:1.55}
+  .how-card pre{font-family:var(--mono); font-size:11px; padding:12px 14px; background:#15120c; color:#d9d2bf; border-radius:8px; overflow-x:auto; line-height:1.55; margin:auto 0 0; white-space:pre}
+  .how-card .ins{color:#86c374} .how-card .kw{color:#e0b145}
+  /* step graphics */
+  .hc-art{margin-top:auto}
+  /* 1 · code editor */
+  .hc-editor{border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#17130c; box-shadow:0 14px 32px -18px rgba(20,16,8,.55)}
+  .hc-ed-bar{display:flex; align-items:center; gap:9px; padding:9px 12px; background:#231e15; border-bottom:1px solid rgba(255,255,255,.06)}
+  .hc-ed-bar .dots{display:flex; gap:5px}
+  .hc-ed-bar .dots i{width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.16)}
+  .hc-ed-bar .fn{font-family:var(--mono); font-size:10.5px; color:rgba(217,210,191,.6)}
+  .hc-ed-bar .fn b{color:#e8e1cd; font-weight:500}
+  .hc-ed-body{display:grid; grid-template-columns:auto 1fr; font-family:var(--mono); font-size:11px; line-height:1.7}
+  .hc-ed-body .gut{padding:12px 8px 14px 12px; text-align:right; color:rgba(217,210,191,.26); border-right:1px solid rgba(255,255,255,.05); white-space:pre; user-select:none}
+  .hc-ed-body .code{padding:12px 14px 14px; color:#d9d2bf; overflow-x:auto; white-space:pre; min-width:0}
+  .hc-ed-body .code .kw{color:#e0b145} .hc-ed-body .code .ins{color:#86c374} .hc-ed-body .code .fn2{color:#6db4e0} .hc-ed-body .code .mut{color:rgba(217,210,191,.45)}
+  /* 2 · permalink card */
+  .hc-link{border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--bg); box-shadow:0 14px 32px -20px rgba(20,16,8,.32)}
+  .hc-link-bar{display:flex; align-items:center; gap:8px; padding:9px 11px; background:var(--paper2); border-bottom:1px solid var(--line2)}
+  .hc-link-url{flex:1; min-width:0; display:flex; align-items:center; gap:7px; background:var(--bg); border:1px solid var(--line); border-radius:7px; padding:6px 10px; font-family:var(--mono); font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden}
+  .hc-link-url .lock{color:var(--ok); flex-shrink:0}
+  .hc-link-url .path{color:var(--plum); font-weight:500}
+  .hc-link-copy{flex-shrink:0; font-family:var(--mono); font-size:10px; color:var(--ink2); border:1px solid var(--line); border-radius:6px; padding:5px 9px; background:var(--paper)}
+  .hc-link-body{padding:13px 14px; display:flex; flex-direction:column; gap:11px}
+  .hc-link-status{display:flex; align-items:center; gap:9px; font-family:var(--mono); font-size:11px; color:var(--ink2)}
+  .hc-link-status .ok{width:17px; height:17px; border-radius:50%; background:var(--ok); color:#fff; display:flex; align-items:center; justify-content:center; font-size:9px; flex-shrink:0}
+  .hc-link-status b{color:var(--ink); font-weight:600}
+  .hc-link-meta{display:flex; gap:7px; flex-wrap:wrap}
+  .hc-link-meta span{font-family:var(--mono); font-size:10px; color:var(--muted); background:var(--bg2); border-radius:5px; padding:3px 7px}
+  .hc-link-meta span.fail{color:var(--err); background:rgba(184,84,46,.1)}
+  /* 3 · debugger chat */
+  .hc-chat{border:1px solid var(--line); border-radius:10px; background:var(--bg); padding:12px; display:flex; flex-direction:column; gap:10px; box-shadow:0 14px 32px -20px rgba(20,16,8,.32)}
+  .hc-msg{display:flex; gap:8px; align-items:flex-start}
+  .hc-msg .av{width:22px; height:22px; border-radius:6px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:8.5px; font-weight:600; letter-spacing:.02em}
+  .hc-msg.you .av{background:var(--bg2); color:var(--ink2)}
+  .hc-msg.bot .av{background:var(--plum); color:#fff}
+  .hc-msg .bub{font-size:11.5px; line-height:1.5; padding:8px 11px; border-radius:10px; min-width:0}
+  .hc-msg.you .bub{background:var(--bg2); color:var(--ink); border-top-left-radius:3px}
+  .hc-msg.bot .bub{background:var(--plum-soft); color:var(--plum-deep); border-top-left-radius:3px}
+  .hc-msg .bub code{font-family:var(--mono); font-size:10.5px; background:rgba(92,31,58,.12); padding:0 3px; border-radius:3px}
+  .hc-msg .bub .seq{font-family:var(--mono); color:var(--plum); font-size:10px}
+  .hc-chat-foot{font-family:var(--mono); font-size:10px; color:var(--plum); border:1px dashed var(--line); border-radius:8px; padding:8px; text-align:center}
+
+  /* ============ DOORWAYS (4 tiles) ============ */
+  .doors{padding:88px 0; border-top:1px solid var(--line)}
+  .doors-h{display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:end; margin-bottom:36px}
+  .doors-h h2{font-family:var(--serif); font-size:clamp(38px, 5vw, 64px); line-height:1.15; letter-spacing:-.02em; margin:14px 0 28px; font-weight:400; max-width:18ch}
+  .doors-h h2 em{font-style:italic; color:var(--plum)}
+  .doors-h p{font-size:16px; color:var(--ink2); max-width:48ch; margin:0; line-height:1.55}
+  .doors-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:14px}
+  .door{background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:22px 22px 24px; display:flex; flex-direction:column; gap:10px; min-height:280px; transition:border-color .12s, transform .12s, box-shadow .12s; cursor:pointer; text-decoration:none; color:inherit}
+  .door:hover{border-color:var(--ink); transform:translateY(-2px); box-shadow:0 24px 60px -24px rgba(20,16,8,.22)}
+  .door h3{font-family:var(--serif); font-size:22px; margin:0; font-weight:400; letter-spacing:-.01em; line-height:1.3}
+  .door p{font-size:13.5px; color:var(--ink2); margin:0; line-height:1.5}
+  .door .meta{margin-top:auto; padding-top:12px; border-top:1px dashed var(--line2); font-family:var(--mono); font-size:10.5px; color:var(--muted); display:flex; align-items:center; justify-content:space-between}
+  .door .meta .arrow{font-family:var(--mono); font-size:14px}
+  .door-ill{height:60px; display:flex; align-items:center; justify-content:flex-start; opacity:.95}
+  .door-ill svg{height:54px}
+
+  /* ============ SUITE STRIP ============ */
+  .suite{padding:80px 0; background:var(--paper); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+  .suite-h{margin-bottom:36px; max-width:60ch}
+  .suite-h h2{font-family:var(--serif); font-size:clamp(38px, 5vw, 64px); line-height:1.2; letter-spacing:-.02em; margin:14px 0 26px; font-weight:400}
+  .suite-h h2 em{font-style:italic; color:var(--plum)}
+  .suite-h p{font-size:16px; color:var(--ink2); margin:0; line-height:1.55}
+  .suite-row{display:grid; grid-template-columns:repeat(4, 1fr); gap:14px}
+  .suite-card{background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:24px; display:flex; flex-direction:column; gap:10px; min-height:220px; transition:transform .12s, border-color .12s; cursor:pointer; text-decoration:none; color:inherit}
+  .suite-card:hover{transform:translateY(-2px); border-color:var(--ink)}
+  .suite-card .name{font-family:var(--serif); font-size:26px; font-weight:400; letter-spacing:-.01em; display:flex; align-items:center; gap:8px}
+  .suite-card .name .tag{font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; background:var(--bg2); padding:2px 6px; border-radius:3px; font-weight:normal}
+  .suite-card .ill{height:48px; display:flex; align-items:center}
+  .suite-card .ill svg{height:42px}
+  .suite-card p{font-size:13.5px; color:var(--ink2); margin:0; line-height:1.5}
+  .suite-card .link{margin-top:auto; font-family:var(--mono); font-size:11px; color:var(--plum); display:flex; align-items:center; gap:4px}
+  .suite-card.is-this{border-color:var(--plum); background:linear-gradient(180deg, var(--plum-soft) 0%, var(--bg) 60%)}
+  .suite-card.is-this .name .tag{background:var(--plum); color:#fff}
+
+  /* ============ DEEP CAPABILITIES ============ */
+  .caps{padding:88px 0; border-top:1px solid var(--line)}
+  .caps-h{display:grid; grid-template-columns:1.4fr 1fr; gap:24px; align-items:end; margin-bottom:36px}
+  .caps-h h2{font-family:var(--serif); font-size:clamp(38px, 5vw, 64px); line-height:1.15; letter-spacing:-.02em; margin:14px 0 28px; font-weight:400; max-width:20ch}
+  .caps-h h2 em{font-style:italic; color:var(--plum)}
+  .caps-h p{font-size:16px; color:var(--ink2); max-width:48ch; margin:0; line-height:1.55}
+  .caps-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px}
+  .cap{background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:24px 22px 22px; display:flex; flex-direction:column; gap:10px}
+  .cap h3{font-family:var(--serif); font-size:22px; line-height:1.3; letter-spacing:-.01em; margin:0; font-weight:400}
+  .cap p{font-size:13.5px; color:var(--ink2); margin:0; line-height:1.55}
+  .cap .meta{font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-top:auto; padding-top:10px}
+  .cap .pill{display:inline-block; padding:1px 7px; background:var(--plum-soft); color:var(--plum-deep); border-radius:99px; font-family:var(--mono); font-size:10px; letter-spacing:.04em; margin-right:6px}
+
+  /* ============ INTEGRATIONS ============ */
+  .integ{padding:80px 0; background:var(--paper2); border-top:1px solid var(--line)}
+  .integ h2{font-family:var(--serif); font-size:clamp(34px, 4vw, 52px); line-height:1.2; letter-spacing:-.02em; font-weight:400; margin:14px 0 22px; max-width:18ch}
+  .integ h2 em{font-style:italic; color:var(--plum)}
+  .integ .lede{font-size:15.5px; color:var(--ink2); max-width:54ch; margin:0 0 28px}
+  .integ-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:10px}
+  .integ-card{background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:18px; display:flex; flex-direction:column; gap:6px; min-height:140px}
+  .integ-card .name{font-weight:500; font-size:14px; display:flex; align-items:center; gap:8px}
+  .integ-card .name .ic{width:24px; height:24px; border-radius:6px; background:var(--bg2); display:flex; align-items:center; justify-content:center; color:var(--ink)}
+  .integ-card p{font-size:12.5px; color:var(--muted); margin:0; line-height:1.45}
+  .integ-card .tag{margin-top:auto; font-family:var(--mono); font-size:10px; color:var(--plum); letter-spacing:.06em; text-transform:uppercase}
+
+  /* ============ PRICING ============ */
+  .price{padding:88px 0; border-top:1px solid var(--line)}
+  .price-h{text-align:center; margin-bottom:44px}
+  .price-h h2{font-family:var(--serif); font-size:clamp(40px, 5vw, 68px); line-height:1.2; letter-spacing:-.02em; font-weight:400; margin:14px 0 26px}
+  .price-h h2 em{font-style:italic; color:var(--plum)}
+  .price-h p{font-size:16px; color:var(--ink2); margin:0 auto; max-width:58ch; line-height:1.55}
+  .price-row{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; max-width:1100px; margin:0 auto;}
+  .price-card{background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:28px 26px 30px; display:flex; flex-direction:column; gap:14px;}
+  .price-card.is-pop{border-color:var(--plum); position:relative; background:linear-gradient(180deg, var(--plum-soft) 0%, var(--paper) 30%)}
+  .price-card .ribbon{position:absolute; top:-12px; right:22px; background:var(--plum); color:#fff; padding:4px 12px; border-radius:99px; font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; white-space:nowrap}
+  .price-card .tier{font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+  .price-card .name{font-family:var(--serif); font-size:32px; margin:0; font-weight:400; letter-spacing:-.01em}
+  .price-card .amt{font-family:var(--serif); font-size:54px; line-height:1; letter-spacing:-.025em; display:flex; align-items:baseline; gap:4px; flex-wrap:wrap;}
+  .price-card .amt em{font-style:italic; color:var(--plum); font-size:36px}
+  .price-card .amt small{font-family:var(--mono); font-size:11px; color:var(--muted); margin-left:6px; font-weight:normal; white-space:nowrap}
+  .price-card .blurb{color:var(--ink2); font-size:13.5px; line-height:1.5; margin:0}
+  .price-card ul{list-style:none; padding:0; margin:8px 0 0; display:flex; flex-direction:column; gap:8px; font-size:13.5px; color:var(--ink2)}
+  .price-card ul li{display:flex; gap:8px; align-items:flex-start; line-height:1.4}
+  .price-card ul li::before{content:""; width:14px; height:14px; border-radius:50%; background:var(--plum-soft); color:var(--plum-deep); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:3px; background-image:radial-gradient(circle, var(--plum-deep) 30%, transparent 32%); background-size:6px 6px; background-repeat:no-repeat; background-position:center}
+  .price-card .cta{margin-top:auto; padding-top:6px}
+  .price-foot{margin-top:36px; text-align:center; font-family:var(--mono); font-size:12px; color:var(--muted)}
+
+  /* ============ FAQ ============ */
+  .faq{padding:80px 0; background:var(--paper); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+  .faq-h{text-align:center; margin-bottom:36px}
+  .faq-h h2{font-family:var(--serif); font-size:clamp(36px, 4.5vw, 56px); line-height:1.2; letter-spacing:-.02em; font-weight:400; margin:14px 0 6px}
+  .faq-h h2 em{font-style:italic; color:var(--plum)}
+  .faq-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:14px 28px; max-width:1080px; margin:0 auto}
+  .faq-item{border-top:1px solid var(--line2); padding:18px 0}
+  .faq-item summary{cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:14px}
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary .q{font-family:var(--serif); font-size:22px; line-height:1.35; letter-spacing:-.01em}
+  .faq-item summary .plus{font-family:var(--mono); font-size:20px; color:var(--muted); transition:transform .15s}
+  .faq-item[open] summary .plus{transform:rotate(45deg); color:var(--plum)}
+  .faq-item p{font-size:14px; color:var(--ink2); line-height:1.55; margin:10px 0 0; max-width:60ch}
+  .faq-item p code{font-family:var(--mono); font-size:12.5px; background:var(--bg2); padding:1px 5px; border-radius:3px}
+
+  /* ============ BIG CTA ============ */
+  .bigcta{padding:120px 0 140px; background:var(--ink); color:var(--bg); position:relative; overflow:hidden}
+  .bigcta-bg{position:absolute; inset:0; opacity:.25}
+  .bigcta-bg svg{width:100%; height:100%}
+  .bigcta-inner{position:relative}
+  .bigcta-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:60px; align-items:end}
+  .bigcta h2{font-family:var(--serif); font-size:clamp(48px, 5.6vw, 88px); line-height:1.08; letter-spacing:-.025em; font-weight:400; margin:0; padding-bottom:.08em; max-width:11ch;}
+  .bigcta h2 em{font-style:italic; color:var(--plum-soft); opacity:.95}
+  .bigcta p{font-size:18px; color:rgba(244,241,234,.78); max-width:46ch; margin:0 0 28px}
+  .bigcta-actions{display:flex; gap:12px; flex-wrap:wrap}
+  .bigcta-actions .btn--outline{border-color:rgba(244,241,234,.3); color:var(--bg)}
+  .bigcta-actions .btn--outline:hover{border-color:var(--bg)}
+  .bigcta-actions .btn--accent{background:var(--plum); border-color:var(--plum)}
+  .bigcta-stamp{margin-top:28px; font-family:var(--mono); font-size:11px; color:rgba(244,241,234,.45); letter-spacing:.1em}
+
+  /* ============ FOOTER ============ */
+  .footer{background:#0f0c0a; color:var(--bg2); padding:64px 0 24px}
+  .footer-top{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr 1fr; gap:36px; margin-bottom:48px}
+  .footer-brand{display:flex; flex-direction:column; gap:16px}
+  .footer-wordmark{display:flex; align-items:baseline; gap:8px; font-family:var(--serif); font-size:32px; color:var(--bg)}
+  .footer-wordmark .by{font-family:var(--mono); font-size:11px; color:rgba(244,241,234,.5); letter-spacing:.14em; text-transform:uppercase}
+  .footer-tagline{font-family:var(--serif); font-style:italic; font-size:18px; color:rgba(244,241,234,.6); max-width:30ch; line-height:1.35}
+  .footer-h{font-family:var(--mono); font-size:10.5px; color:rgba(244,241,234,.4); letter-spacing:.12em; text-transform:uppercase; margin:0 0 14px}
+  .footer-col a{display:block; padding:5px 0; color:rgba(244,241,234,.7); font-size:13.5px}
+  .footer-col a:hover{color:var(--bg)}
+  .footer-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:24px; border-top:1px solid rgba(244,241,234,.1); font-family:var(--mono); font-size:11px; color:rgba(244,241,234,.45); letter-spacing:.04em}
+  .footer-bottom .molar-mark{display:flex; align-items:baseline; gap:6px; font-family:var(--serif); font-style:italic; font-size:18px; color:rgba(244,241,234,.7)}
+  .footer-bottom .molar-mark::after{content:""; display:inline-block; width:5px; height:5px; border-radius:50%; background:rgba(244,241,234,.45); margin-left:2px; margin-bottom:2px; box-shadow:6px 0 0 rgba(244,241,234,.45)}
+
+  @media (max-width: 1180px) {
+    .nav-links { display:none; }
+    .nav-suite { padding:3px; font-size:9.5px; }
+    .nav-suite a { padding:3px 8px; }
+  }
+  @media (max-width: 880px) {
+    .nav-suite a:not(.is-on) { display:none; }
+    .nav-cta .btn--ghost { display:none; }
+  }
+  @media (max-width: 1080px) {
+    .hero-grid { grid-template-columns:1fr; gap:40px; }
+    .bigcta-grid { grid-template-columns:1fr; gap:32px; }
+    .product-h, .doors-h, .caps-h, .vs-h { grid-template-columns:1fr; gap:18px; }
+    .pf-body { grid-template-columns:1fr; }
+    .pf-steps, .pf-insp { display:none; }
+    .vs-table .row { grid-template-columns:1.2fr 1fr 1fr; }
+    .hero-stats { grid-template-columns:repeat(2, 1fr); }
+    .how-row, .doors-grid, .suite-row, .caps-grid, .integ-grid, .price-row, .faq-grid { grid-template-columns:1fr 1fr; }
+    .footer-top { grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width: 680px) {
+    .wrap { padding:0 22px; }
+    .how-row, .doors-grid, .suite-row, .caps-grid, .integ-grid, .price-row, .faq-grid { grid-template-columns:1fr; }
+    .hero-stats { grid-template-columns:1fr 1fr; }
+    .footer-top { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<link rel="stylesheet" href="/styles.css" />
+<div class="paper-grain"></div>
+<div id="nav-root"></div>
+<style>.surface-hide-local-nav nav.top{display:none!important}</style>
+<div class="surface-hide-local-nav">
+
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="/trace" class="nav-brand">
+      <span class="glyph">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="2" y="5" width="20" height="2.4" rx="1" fill="currentColor" opacity=".25"/>
+          <rect x="2" y="9.6" width="20" height="2.4" rx="1" fill="currentColor" opacity=".55"/>
+          <rect x="2" y="14.2" width="20" height="2.4" rx="1" fill="currentColor" opacity=".4"/>
+          <rect x="2" y="18.8" width="14" height="2.4" rx="1" fill="currentColor" opacity=".2"/>
+          <rect x="13" y="3" width="1.6" height="19" rx=".8" fill="#8a3556"/>
+          <circle cx="13.8" cy="3.6" r="1.6" fill="#8a3556"/>
+        </svg>
+      </span>
+      <span>Trace</span>
+      <span class="sub">by Molar</span>
+    </a>
+    <div class="nav-links">
+      <a href="#product">Product</a>
+      <a href="#how">How it works</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#docs">Docs</a>
+    </div>
+    <div class="nav-suite">
+      <a href="/cartographer" title="Cartographer">Cartographer</a>
+      <a href="/clones" title="Clones">Clones</a>
+      <a href="/guard" title="Guard">Guards</a>
+      <a href="/trace" class="is-on" title="Trace">Trace</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn--ghost" href="https://app.molar.it#home">Sign in</a>
+      <a class="btn btn--accent" href="https://app.molar.it#home">Open Trace</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <svg viewBox="0 0 1400 600" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="glow" cx="55%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#8a3556" stop-opacity=".18"/>
+          <stop offset="100%" stop-color="#8a3556" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1400" height="600" fill="url(#glow)"/>
+      <g opacity=".5">
+        <!-- Stacked ribbons -->
+        <g>
+          <line x1="0" x2="1400" y1="100" y2="100" stroke="#8a3556" stroke-width=".5" opacity=".2"/>
+          <line x1="0" x2="1400" y1="200" y2="200" stroke="#8a3556" stroke-width=".5" opacity=".2"/>
+          <line x1="0" x2="1400" y1="300" y2="300" stroke="#8a3556" stroke-width=".5" opacity=".2"/>
+          <line x1="0" x2="1400" y1="400" y2="400" stroke="#8a3556" stroke-width=".5" opacity=".2"/>
+          <line x1="0" x2="1400" y1="500" y2="500" stroke="#8a3556" stroke-width=".5" opacity=".2"/>
+        </g>
+        <g fill="#8a3556" opacity=".18">
+          <rect x="40"  y="96"  width="34" height="8" rx="1.5"/>
+          <rect x="100" y="96"  width="12" height="8" rx="1.5"/>
+          <rect x="130" y="96"  width="68" height="8" rx="1.5"/>
+          <rect x="220" y="96"  width="20" height="8" rx="1.5"/>
+          <rect x="260" y="96"  width="42" height="8" rx="1.5"/>
+          <rect x="320" y="96"  width="14" height="8" rx="1.5"/>
+          <rect x="360" y="96"  width="58" height="8" rx="1.5"/>
+          <rect x="440" y="96"  width="22" height="8" rx="1.5"/>
+          <rect x="480" y="96"  width="36" height="8" rx="1.5"/>
+          <rect x="540" y="96"  width="84" height="8" rx="1.5"/>
+          <rect x="640" y="96"  width="18" height="8" rx="1.5"/>
+          <rect x="680" y="96"  width="46" height="8" rx="1.5"/>
+          <rect x="740" y="96"  width="26" height="8" rx="1.5"/>
+          <rect x="780" y="96"  width="52" height="8" rx="1.5"/>
+          <rect x="860" y="96"  width="16" height="8" rx="1.5"/>
+          <rect x="900" y="96"  width="40" height="8" rx="1.5"/>
+        </g>
+        <g fill="#8a3556" opacity=".24">
+          <rect x="40"  y="196" width="42" height="8" rx="1.5"/>
+          <rect x="100" y="196" width="18" height="8" rx="1.5"/>
+          <rect x="140" y="196" width="64" height="8" rx="1.5"/>
+          <rect x="220" y="196" width="14" height="8" rx="1.5"/>
+          <rect x="260" y="196" width="38" height="8" rx="1.5"/>
+          <rect x="320" y="196" width="76" height="8" rx="1.5"/>
+          <rect x="420" y="196" width="22" height="8" rx="1.5"/>
+          <rect x="460" y="196" width="56" height="8" rx="1.5"/>
+        </g>
+        <g fill="#8a3556" opacity=".14">
+          <rect x="40"  y="296" width="58" height="8" rx="1.5"/>
+          <rect x="120" y="296" width="22" height="8" rx="1.5"/>
+          <rect x="160" y="296" width="38" height="8" rx="1.5"/>
+          <rect x="220" y="296" width="68" height="8" rx="1.5"/>
+          <rect x="310" y="296" width="14" height="8" rx="1.5"/>
+          <rect x="340" y="296" width="48" height="8" rx="1.5"/>
+        </g>
+        <g fill="#8a3556" opacity=".22">
+          <rect x="40"  y="396" width="22" height="8" rx="1.5"/>
+          <rect x="80"  y="396" width="46" height="8" rx="1.5"/>
+          <rect x="140" y="396" width="14" height="8" rx="1.5"/>
+          <rect x="170" y="396" width="34" height="8" rx="1.5"/>
+          <rect x="220" y="396" width="58" height="8" rx="1.5"/>
+        </g>
+        <g fill="#8a3556" opacity=".12">
+          <rect x="40" y="496" width="36" height="8" rx="1.5"/>
+          <rect x="90" y="496" width="44" height="8" rx="1.5"/>
+          <rect x="160" y="496" width="22" height="8" rx="1.5"/>
+        </g>
+      </g>
+      <!-- vertical playhead -->
+      <line x1="640" x2="640" y1="50" y2="560" stroke="#8a3556" stroke-width="1.3" stroke-dasharray="2 3" opacity=".55"/>
+      <circle cx="640" cy="50" r="5" fill="#8a3556"/>
+      <!-- failure diamond -->
+      <g transform="translate(640,400)"><rect x="-5" y="-5" width="10" height="10" fill="#b8542e" transform="rotate(45)"/></g>
+    </svg>
+  </div>
+  <div class="wrap hero-inner">
+    <div class="hero-grid">
+    <div class="hero-copy">
+    <div class="eyebrow"><span class="dot"></span><span>Now in private beta · for teams shipping with agents</span></div>
+    <h1>Replay every failure, <em>like a debugger.</em></h1>
+    <p class="hero-lede">Trace captures every Playwright, Cypress, Cartographer agent and Guard run as a navigable forensic record — video, DOM, network, console, clone state, and the planner's own thoughts. Step backward. Step forward. Ask the Debugger what broke. Replay from any step with a fix applied.</p>
+    <div class="hero-actions">
+      <a class="btn btn--accent btn--xl" href="https://app.molar.it#home">Open the demo dashboard →</a>
+      <a class="btn btn--outline btn--xl" href="#how">See how it works</a>
+      <span class="keys">or hit <kbd>⌘</kbd><kbd>K</kbd> in any trace</span>
+    </div>
+    </div>
+    <div class="hero-visual">
+      <div class="htrace" aria-hidden="true">
+        <div class="htrace-bar">
+          <span class="dot-err">●</span>
+          <span>r / xY9zQ2mNp</span>
+          <span class="right">failed · step 7</span>
+        </div>
+        <div class="htrace-body">
+          <div class="htrace-grid">
+            <span class="htrace-lbl">step</span>
+            <span class="htrace-trk">
+              <i class="step" style="left:2%; width:10%"></i>
+              <i class="step" style="left:14%; width:8%"></i>
+              <i class="step" style="left:24%; width:6%"></i>
+              <i class="step cur" style="left:31%; width:14%"></i>
+              <i class="step" style="left:48%; width:50%; opacity:.08"></i>
+            </span>
+            <span class="htrace-lbl">network</span>
+            <span class="htrace-trk">
+              <i class="net" style="left:6%; width:3%"></i>
+              <i class="net" style="left:16%; width:3%"></i>
+              <i class="net" style="left:25%; width:3%"></i>
+              <i class="net fail" style="left:32.5%; width:3.5%"></i>
+              <i class="net" style="left:42%; width:3%"></i>
+            </span>
+            <span class="htrace-lbl">dom</span>
+            <span class="htrace-trk">
+              <i class="dom" style="left:9%; width:2.5%"></i>
+              <i class="dom" style="left:19%; width:2.5%"></i>
+              <i class="dom" style="left:28%; width:2.5%"></i>
+              <i class="dom" style="left:38%; width:2.5%"></i>
+            </span>
+            <span class="htrace-lbl">console</span>
+            <span class="htrace-trk">
+              <i class="con" style="left:5%; width:2.5%"></i>
+              <i class="con" style="left:14%; width:2.5%"></i>
+              <i class="con err" style="left:32%; width:2.5%"></i>
+              <i class="con err" style="left:35%; width:2.5%"></i>
+            </span>
+            <span class="htrace-lbl">agent</span>
+            <span class="htrace-trk">
+              <i class="agt" style="left:44%; width:2.5%"></i>
+              <i class="agt" style="left:48%; width:2.5%"></i>
+              <i class="agt" style="left:52%; width:2.5%"></i>
+              <i class="agt" style="left:56%; width:2.5%"></i>
+            </span>
+          </div>
+          <div class="htrace-ovl">
+            <div class="htrace-tick"></div>
+            <div class="htrace-ph"></div>
+          </div>
+        </div>
+        <div class="htrace-foot">
+          <span class="t"><b>2.38s</b> / 30.1s</span>
+          <span class="fail">● webhook 404 · expected $9.00 got $90.00</span>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v"><em>2.4</em>s</div><div class="k">P99 ingest · accept to viewable</div></div>
+      <div class="hero-stat"><div class="v"><em>~30</em>×</div><div class="k">Faster repro than re-running the test</div></div>
+      <div class="hero-stat"><div class="v"><em>12</em></div><div class="k">Event kinds captured per step boundary</div></div>
+      <div class="hero-stat"><div class="v"><em>$0</em></div><div class="k">Platform fee · pay only for storage + tokens</div></div>
+    </div>
+
+    <div class="marquee">
+      <div class="marquee-h">Trusted as a debugging surface by</div>
+      <div class="marquee-row">
+        <div class="logo">Acme Labs <small>YC W24</small></div>
+        <div class="logo">Lattice<small>billing v2</small></div>
+        <div class="logo">Northwind <small>checkout</small></div>
+        <div class="logo">Quill <small>onboarding</small></div>
+        <div class="logo">Sleipnir <small>EU residency</small></div>
+        <div class="logo">Sparrow <small>YC W26</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCT (the motif: stacked-ribbon scrubber) ============ -->
+<section class="product" id="product">
+  <div class="wrap">
+    <div class="product-h">
+      <div>
+        <div class="eyebrow"><span class="dot"></span><span>THE SCRUBBER</span></div>
+        <h2>One playhead. <em>Five ribbons.</em> Every event in time order.</h2>
+      </div>
+      <p>The Trace viewer stacks every event stream as a parallel ribbon — step, network, DOM, console, agent. The playhead is the same time cursor across all of them. Drop on a failure tick and the right pane already shows you the 404, the console error, and the planner's last thought.</p>
+    </div>
+
+    <div class="product-frame">
+      <div class="pf-bar">
+        <div class="traffic"><i></i><i></i><i></i></div>
+        <div class="url">app.molar.cloud / r / xY9zQ2mNp</div>
+        <div class="right">
+          <span style="color:var(--err)">●</span>
+          <span>failed · step 7 · webhook-404</span>
+          <span>· 30.1s · 8.5 MB · 48 blobs</span>
+        </div>
+      </div>
+      <div class="pf-body">
+        <!-- Steps pane -->
+        <div class="pf-steps">
+          <div class="pf-step-h">Steps · 12</div>
+          <div class="pf-step" data-ph="0.35" data-t="0.20"><span class="i">01</span><span class="m ok">✓</span><span>navigate /checkout</span></div>
+          <div class="pf-step" data-ph="1.0" data-t="0.40"><span class="i">02</span><span class="m ok">✓</span><span>fill email</span></div>
+          <div class="pf-step" data-ph="1.55" data-t="0.60"><span class="i">03</span><span class="m ok">✓</span><span>select plan = Pro</span></div>
+          <div class="pf-step" data-ph="1.95" data-t="0.90"><span class="i">04</span><span class="m ok">✓</span><span>click submit</span></div>
+          <div class="pf-step" data-ph="4.0" data-t="1.40"><span class="i">05</span><span class="m ok">✓</span><span>quote</span></div>
+          <div class="pf-step" data-ph="6.9" data-t="2.20"><span class="i">06</span><span class="m ok">✓</span><span>apply WELCOME10</span></div>
+          <div class="pf-step fail" data-ph="7.9" data-t="2.38"><span class="i">07</span><span class="m fail">✕</span><span>await stripe webhook</span></div>
+          <div class="pf-step is-skip"><span class="i">08</span><span class="m skip"></span><span>assert receipt $9.00</span></div>
+          <div class="pf-step is-skip"><span class="i">09</span><span class="m skip"></span><span>navigate /account</span></div>
+          <div class="pf-step is-skip"><span class="i">10</span><span class="m skip"></span><span>assert plan = Pro</span></div>
+          <div class="pf-step is-skip"><span class="i">11</span><span class="m skip"></span><span>send receipt email</span></div>
+          <div class="pf-step is-skip"><span class="i">12</span><span class="m skip"></span><span>assert email received</span></div>
+        </div>
+        <!-- Viewer -->
+        <div class="pf-stage">
+          <div class="pf-stage-frame">
+            <div class="top">app.acme.dev / checkout</div>
+            <div class="body">
+              <h4>Checkout</h4>
+              <div class="card">
+                <div class="lbl">Plan</div>
+                <div class="amt">$90.00</div>
+                <div class="note">↑ off by 10× · coupon WELCOME10 applied as multiplier</div>
+              </div>
+              <div class="card" style="display:flex; gap:14px; padding:8px 12px">
+                <div><div class="lbl" style="font-size:9px">Email</div><div style="font-family:var(--mono); font-size:11px">qa+pro@acme.dev</div></div>
+                <div><div class="lbl" style="font-size:9px">Coupon</div><div style="font-family:var(--mono); font-size:11px">WELCOME10</div></div>
+              </div>
+              <div class="btn-row"><span>Complete checkout</span></div>
+            </div>
+          </div>
+          <div class="pf-stage-fail">
+            <span style="font-weight:600">↗</span>
+            <span>step 7 · webhook 404 · receipt URL malformed · expected $9.00 got $90.00</span>
+          </div>
+        </div>
+        <!-- Inspector -->
+        <div class="pf-insp">
+          <div class="pf-insp-tabs">
+            <button class="on" data-tab="events">Events <span class="cnt on-cnt">23</span></button>
+            <button data-tab="network">Network <span class="cnt">7</span></button>
+            <button data-tab="console">Console</button>
+            <button data-tab="clones">Clones</button>
+            <button data-tab="debugger">Debugger</button>
+          </div>
+          <div class="pf-insp-body">
+            <div class="pf-panel on" data-panel="events">
+              <div class="h">EVENTS · TIME ORDER</div>
+              <div class="row" data-ph="6.4"><span class="ts">2.20s</span><span>step.start · apply WELCOME10</span></div>
+              <div class="row" data-ph="6.6"><span class="ts">2.24s</span><span style="color:var(--warn)">console.warn · suspicious total: 900 → 9000</span></div>
+              <div class="row" data-ph="7.9"><span class="ts">2.38s</span><span class="stat-err">network.response · 404 POST /api/webhooks/stripe</span></div>
+              <div class="row" data-ph="8.6"><span class="ts">2.58s</span><span style="color:var(--err)">console.error · POST 404 (Not Found)</span></div>
+              <div class="row" data-ph="8.8"><span class="ts">2.62s</span><span style="color:var(--err)">console.error · Failed to confirm payment</span></div>
+              <div class="row" data-ph="9.2"><span class="ts">2.70s</span><span>clone.state · stripe · pending=1</span></div>
+              <div class="row" data-ph="14.4"><span class="ts">4.40s</span><span style="color:var(--plum)">agent.thought · suspect discount inverted</span></div>
+              <div class="row" data-ph="14.7"><span class="ts">4.42s</span><span class="stat-err">assertion · expected 200 got 404</span></div>
+              <div class="row" data-ph="15.0"><span class="ts">4.52s</span><span>run.end · failed</span></div>
+            </div>
+            <div class="pf-panel" data-panel="network">
+              <div class="h">NETWORK · 7 REQUESTS</div>
+              <div class="row"><span class="ts">0.20s</span><span><b class="mono" style="color:var(--ok)">200</b> GET /checkout</span></div>
+              <div class="row"><span class="ts">0.95s</span><span><b class="mono" style="color:var(--ok)">200</b> POST /api/quote</span></div>
+              <div class="row"><span class="ts">2.20s</span><span><b class="mono" style="color:var(--ok)">200</b> POST /api/coupon/apply</span></div>
+              <div class="row now"><span class="ts">2.38s</span><span class="stat-err"><b class="mono">404</b> POST /api/webhooks/stripe</span></div>
+              <div class="row"><span class="ts">2.41s</span><span><b class="mono" style="color:var(--muted)">···</b> GET /api/receipt · pending</span></div>
+              <div class="row"><span class="ts">2.58s</span><span class="stat-err"><b class="mono">500</b> POST /api/payment/confirm</span></div>
+              <div class="row"><span class="ts">2.90s</span><span><b class="mono" style="color:var(--warn)">429</b> POST /api/webhooks/stripe · retry</span></div>
+            </div>
+            <div class="pf-panel" data-panel="console">
+              <div class="h">CONSOLE · 2 WARN · 3 ERROR</div>
+              <div class="row"><span class="ts">2.24s</span><span style="color:var(--warn)">warn · suspicious total: 900 → 9000</span></div>
+              <div class="row now"><span class="ts">2.58s</span><span style="color:var(--err)">error · POST 404 (Not Found)</span></div>
+              <div class="row"><span class="ts">2.62s</span><span style="color:var(--err)">error · Failed to confirm payment</span></div>
+              <div class="row"><span class="ts">2.70s</span><span style="color:var(--warn)">warn · receipt URL malformed</span></div>
+              <div class="row"><span class="ts">4.42s</span><span style="color:var(--err)">error · Uncaught (in promise) AssertionError</span></div>
+            </div>
+            <div class="pf-panel" data-panel="clones">
+              <div class="h">CLONE STATE · STEP 7 BOUNDARY</div>
+              <div class="row"><span class="ts">stripe</span><span>charge=<b class="mono">none</b> · pending=<b class="mono" style="color:var(--err)">1</b> · amount=<b class="mono" style="color:var(--err)">9000</b></span></div>
+              <div class="row"><span class="ts">email</span><span>queue=<b class="mono">0</b> · sent=<b class="mono">0</b></span></div>
+              <div class="row"><span class="ts">postgres</span><span>orders[1].status=<b class="mono" style="color:var(--warn)">pending</b></span></div>
+              <div class="row"><span class="ts">postgres</span><span>orders[1].total=<b class="mono" style="color:var(--err)">9000</b> · expected 900</span></div>
+              <div class="row"><span class="ts">redis</span><span>idempotency:wh_7 = <b class="mono">held</b></span></div>
+            </div>
+            <div class="pf-panel" data-panel="debugger">
+              <div class="h">DEBUGGER · SCOPED TO THIS TRACE</div>
+              <div class="dbg-you">why did step 7 fail?</div>
+              <div class="dbg-bot">The webhook URL embedded <b class="mono" style="color:var(--err)">amt=9000</b> <span class="mono" style="color:var(--plum)">[seq:16]</span>. <code class="mono">discount.ts:14</code> returns <code class="mono">amount * coupon.value</code> — it should be <code class="mono">amount * (1 - coupon.value)</code>. That inverts the 10% coupon into a 10× multiplier, so Stripe rejected the malformed receipt URL with a 404.</div>
+              <div class="dbg-cta">↳ Replay from step 6 with patch applied</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Scrubber -->
+      <div class="pf-scrub">
+        <div class="pf-scrub-ctrl">
+          <button class="play" type="button">▶ Play</button>
+          <span><b class="pf-time" style="color:var(--ink)">2.38s</b> / 30.1s</span>
+          <span style="margin-left:auto">[J/K] step · [SPACE] play · [F] pin · [D] debugger · [R] replay</span>
+        </div>
+        <div class="pf-rib">
+          <div class="pf-rib-row">
+            <span class="lbl">STEP</span>
+            <span class="trk">
+              <i class="step" style="left:0%;   width:0.7%"></i>
+              <i class="step" style="left:0.7%; width:0.6%"></i>
+              <i class="step" style="left:1.3%; width:0.5%"></i>
+              <i class="step" style="left:1.8%; width:0.3%"></i>
+              <i class="step" style="left:2.1%; width:4.3%"></i>
+              <i class="step" style="left:6.4%; width:1.4%"></i>
+              <i class="step net fail" style="left:7.8%; width:6.9%"></i>
+              <i class="step" style="left:14.7%; width:85.3%; opacity:.06; background:var(--muted)"></i>
+            </span>
+          </div>
+          <div class="pf-rib-row">
+            <span class="lbl">NETWORK</span>
+            <span class="trk">
+              <i class="net" style="left:0.7%;  width:.5%"></i>
+              <i class="net" style="left:2.3%;  width:.5%"></i>
+              <i class="net" style="left:6.4%;  width:.5%"></i>
+              <i class="net" style="left:6.7%;  width:.5%"></i>
+              <i class="net" style="left:7.3%;  width:.5%"></i>
+              <i class="net fail" style="left:7.9%; width:.6%"></i>
+              <i class="net" style="left:8.6%; width:.5%"></i>
+            </span>
+          </div>
+          <div class="pf-rib-row">
+            <span class="lbl">DOM</span>
+            <span class="trk">
+              <i class="dom" style="left:1%;  width:.4%"></i>
+              <i class="dom" style="left:2.4%; width:.4%"></i>
+              <i class="dom" style="left:6.5%; width:.4%"></i>
+              <i class="dom" style="left:8%;  width:.4%"></i>
+              <i class="dom" style="left:9%;  width:.4%"></i>
+            </span>
+          </div>
+          <div class="pf-rib-row">
+            <span class="lbl">CONSOLE</span>
+            <span class="trk">
+              <i class="con" style="left:0.3%; width:.4%"></i>
+              <i class="con" style="left:0.8%; width:.4%"></i>
+              <i class="con" style="left:6.6%; width:.4%"></i>
+              <i class="con" style="left:7.4%; width:.4%"></i>
+              <i class="con err" style="left:8.6%; width:.4%"></i>
+              <i class="con err" style="left:8.7%; width:.4%"></i>
+            </span>
+          </div>
+          <div class="pf-rib-row">
+            <span class="lbl">AGENT</span>
+            <span class="trk">
+              <i class="agt" style="left:14.7%; width:.5%"></i>
+              <i class="agt" style="left:14.8%; width:.5%"></i>
+              <i class="agt" style="left:14.9%; width:.5%"></i>
+              <i class="agt" style="left:15%; width:.5%"></i>
+              <i class="agt" style="left:15.2%; width:.5%"></i>
+            </span>
+          </div>
+          <div class="pf-failtick" style="left:calc(8% + 76px)"></div>
+          <div class="pf-playhead" style="left:calc(7.9% + 76px)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="how-h">
+      <div class="eyebrow" style="justify-content:center; display:inline-flex"><span class="dot"></span><span>HOW IT WORKS · 3 STEPS</span></div>
+      <h2>From <em>green light</em> in five minutes.</h2>
+      <p>Trace is a reporter for whatever you're already using. Drop a token, ship a CI run. Failures become permalinks the same day.</p>
+    </div>
+    <div class="how-row">
+      <div class="how-card">
+        <div class="num">1</div>
+        <h3>Add the reporter.</h3>
+        <p>One line in your Playwright (or Cypress, Selenium, Cartographer) config. We capture video, DOM, network, console, and Clone state at every step boundary.</p>
+        <div class="hc-art hc-editor">
+          <div class="hc-ed-bar"><span class="dots"><i></i><i></i><i></i></span><span class="fn"><b>playwright.config.ts</b></span></div>
+          <div class="hc-ed-body">
+            <div class="gut">12
+13
+14
+15
+16
+17</div>
+            <div class="code"><span class="kw">reporter</span>: [
+  [<span class="ins">'@molar/trace'</span>, {
+    token:  env.<span class="kw">TRACE_TOKEN</span>,
+    clones: [<span class="ins">'stripe'</span>, <span class="ins">'email'</span>],
+  }],
+],</div>
+          </div>
+        </div>
+      </div>
+      <div class="how-card">
+        <div class="num">2</div>
+        <h3>Open the failure.</h3>
+        <p>Every failed run becomes a permalink. Scrub the timeline, step through events, watch the DOM mutate. Pinned failures stay hot for 90 days — others tier down automatically.</p>
+        <div class="hc-art hc-link">
+          <div class="hc-link-bar">
+            <div class="hc-link-url"><span class="lock">🔒</span><span>app.molar.cloud/r/<span class="path">xY9zQ2mNp</span></span></div>
+            <button class="hc-link-copy" type="button">Copy</button>
+          </div>
+          <div class="hc-link-body">
+            <div class="hc-link-status"><span class="ok">✓</span><span><b>202 Accepted</b> · trace ready in 2.4s</span></div>
+            <div class="hc-link-meta"><span>30.1s</span><span>8.5 MB</span><span>48 blobs</span><span class="fail">● failed · step 7</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="how-card">
+        <div class="num">3</div>
+        <h3>Ask the Debugger.</h3>
+        <p>The forensic chat reads NDJSON events, Clone state, and your source via the GitHub App. Replies cite events. Replay from any step with a one-line patch applied.</p>
+        <div class="hc-art hc-chat">
+          <div class="hc-msg you"><span class="av">YOU</span><span class="bub">Why did step 7 fail?</span></div>
+          <div class="hc-msg bot"><span class="av">DBG</span><span class="bub">The webhook embedded <code>amt=9000</code> <span class="seq">[seq:16]</span>. <code>discount.ts:14</code> returns <code>amount * coupon.value</code> — should be <code>amount * (1 - coupon.value)</code>.</span></div>
+          <div class="hc-chat-foot">↳ Replay from step 6 with patch applied</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section class="vs">
+  <div class="wrap">
+    <div class="vs-h">
+      <div>
+        <div class="eyebrow"><span class="dot"></span><span>BUILT FOR AGENT-ERA CI</span></div>
+        <h2>It's a <em>Playwright trace viewer</em> for the part where an LLM wrote the code.</h2>
+      </div>
+      <p class="vs-lede">Playwright Trace Viewer is great if a human wrote the test and the test broke for a known reason. Trace is for the messier reality: an agent shipped a 14-line PR, two clones, four flaky assertions, and a failure that needs to be diffed against the last green run by next standup.</p>
+    </div>
+    <div class="vs-table">
+      <div class="row head">
+        <div>WHAT YOU WANT</div>
+        <div>PLAYWRIGHT TRACE VIEWER</div>
+        <div>TRACE · BY MOLAR</div>
+      </div>
+      <div class="row">
+        <div class="feat">Scrub a failure timeline<small>video + DOM + network + console aligned to a single playhead</small></div>
+        <div class="val"><span class="ck">✓</span> Yes</div>
+        <div class="val"><span class="ck">✓</span> Yes — plus agent thoughts &amp; clone state on the same ribbon</div>
+      </div>
+      <div class="row">
+        <div class="feat">Clone-of-Stripe / Postgres state at step N<small>see exactly what your sandboxed services thought the world looked like</small></div>
+        <div class="val muted">—</div>
+        <div class="val"><span class="ck">✓</span> Snapshotted at every step boundary, jmespath-queryable</div>
+      </div>
+      <div class="row">
+        <div class="feat">Forensic chat with citations<small>“why did step 7 fail?” → a paragraph linked to the exact events</small></div>
+        <div class="val muted">—</div>
+        <div class="val"><span class="ck">✓</span> Reads NDJSON, clone state, and your source via GitHub App</div>
+      </div>
+      <div class="row">
+        <div class="feat">Replay from step N with a fix<small>restore clone state to a boundary; re-run later steps with edits applied</small></div>
+        <div class="val muted">—</div>
+        <div class="val"><span class="ck">✓</span> Layer 2 replays · diff against the source trace · ship the patch</div>
+      </div>
+      <div class="row">
+        <div class="feat">Cluster by failure signature<small>“webhook-404 · ×7 in 24h” — one fix, many cases</small></div>
+        <div class="val muted">—</div>
+        <div class="val"><span class="ck">✓</span> Stack-trace + URL-shape signature, auto-clustered</div>
+      </div>
+      <div class="row">
+        <div class="feat">Storage that scales with reality<small>thousands of traces a day shouldn't cost more than your test runner</small></div>
+        <div class="val">Local .zip · you self-manage</div>
+        <div class="val"><span class="ck">✓</span> hot · warm · cold · GB-mo billing · pin to keep hot</div>
+      </div>
+      <div class="row">
+        <div class="feat">MCP server for your IDE<small>let your coding agent search and read traces directly</small></div>
+        <div class="val muted">—</div>
+        <div class="val"><span class="ck">✓</span> <code class="mono">@molar/trace-mcp</code> · Claude Code, Cursor, Windsurf</div>
+      </div>
+      <div class="row">
+        <div class="feat">Public share links<small>paste a trace into a ticket without giving repo access</small></div>
+        <div class="val muted">—</div>
+        <div class="val"><span class="ck">✓</span> Read-only, expire, hide source SHA / Debugger</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOORWAYS (jobs-to-be-done) ============ -->
+<section class="doors" id="capabilities">
+  <div class="wrap">
+    <div class="doors-h">
+      <div>
+        <div class="eyebrow"><span class="dot"></span><span>WHO IT'S FOR</span></div>
+        <h2>Four doorways. <em>Same artifact.</em></h2>
+      </div>
+      <p>A trace means something different to QA, an SRE, an engineer, and a coding agent. Trace gives each of them a doorway over the same NDJSON.</p>
+    </div>
+    <div class="doors-grid">
+      <a class="door" href="https://app.molar.it#traces/failed24">
+        <div class="door-ill"><svg viewBox="0 0 80 60" fill="none"><rect x="4"  y="14" width="72" height="6" rx="2" fill="#8a3556" opacity=".22"/><rect x="4"  y="26" width="56" height="6" rx="2" fill="#8a3556" opacity=".4"/><rect x="4"  y="38" width="44" height="6" rx="2" fill="#b8542e"/><rect x="4"  y="50" width="34" height="6" rx="2" fill="#8a3556" opacity=".15"/><rect x="64" y="34" width="2"  height="14" fill="#b8542e"/></svg></div>
+        <h3>QA &amp; Test eng</h3>
+        <p>Triage today's failures by cluster, not by test name. Pin what matters; let the rest tier down.</p>
+        <div class="meta"><span>open failed · 24h</span><span class="arrow">→</span></div>
+      </a>
+      <a class="door" href="https://app.molar.it#trace/550e8400-e29b-41d4-a716-446655440000">
+        <div class="door-ill"><svg viewBox="0 0 80 60" fill="none"><circle cx="20" cy="30" r="5" fill="#8a3556"/><circle cx="60" cy="14" r="5" fill="#8a3556" opacity=".4"/><circle cx="60" cy="46" r="5" fill="#8a3556" opacity=".4"/><path d="M24 28L57 16M24 33L57 44" stroke="#8a3556" stroke-width="1" opacity=".5"/><rect x="14" y="50" width="50" height="4" rx="1" fill="#8a3556" opacity=".18"/></svg></div>
+        <h3>Engineers</h3>
+        <p>Step through the failed PR run, ask the Debugger why, replay with your fix — without leaving the trace.</p>
+        <div class="meta"><span>open a failed trace</span><span class="arrow">→</span></div>
+      </a>
+      <a class="door" href="https://app.molar.it#scenarios">
+        <div class="door-ill"><svg viewBox="0 0 80 60" fill="none"><path d="M4 50 Q14 48 18 42 T28 32 T40 26 T55 22 T76 18" stroke="#8a3556" stroke-width="1.6" fill="none"/><circle cx="76" cy="18" r="3" fill="#8a3556"/><path d="M4 56 L76 56" stroke="#8a3556" stroke-width=".4" opacity=".3"/></svg></div>
+        <h3>Eng managers</h3>
+        <p>Watch pass-rate per scenario, regression rates per PR. Spot which flow degraded this week before the customer does.</p>
+        <div class="meta"><span>scenarios overview</span><span class="arrow">→</span></div>
+      </a>
+      <a class="door" href="https://app.molar.it#mcp">
+        <div class="door-ill"><svg viewBox="0 0 80 60" fill="none"><rect x="6" y="14" width="68" height="32" rx="4" fill="none" stroke="#8a3556" stroke-width="1.4"/><path d="M16 24l-4 6 4 6M30 36h8M52 24l4 6-4 6" stroke="#8a3556" stroke-width="1.4" fill="none"/></svg></div>
+        <h3>Coding agents</h3>
+        <p>Point Claude Code at <code class="mono">@molar/trace-mcp</code>. The agent searches traces, reads NDJSON, diffs runs, and proposes patches.</p>
+        <div class="meta"><span>install MCP</span><span class="arrow">→</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUITE ============ -->
+<section class="suite">
+  <div class="wrap">
+    <div class="suite-h">
+      <div class="eyebrow"><span class="dot"></span><span>THE MOLAR SUITE</span></div>
+      <h2>Trace is <em>one root</em> of Molar.</h2>
+      <p>Molar is a small suite of tools for teams shipping with agents. Each tool is independently good; together they share state, identities, and storage so the four of them feel like one product.</p>
+    </div>
+    <div class="suite-row">
+      <a class="suite-card" href="/cartographer">
+        <div class="ill"><svg viewBox="0 0 80 50" fill="none"><circle cx="40" cy="25" r="22" stroke="#b8542e" stroke-width="1.4"/><path d="M48 17l-4 14-10 4 4-14 10-4Z" stroke="#b8542e" stroke-width="1.4" fill="none"/></svg></div>
+        <div class="name">Cartographer <span class="tag">map</span></div>
+        <p>An agent that learns your app by exploring it — produces an evergreen map of flows and screens.</p>
+        <span class="link">cartographer →</span>
+      </a>
+      <a class="suite-card" href="/clones">
+        <div class="ill"><svg viewBox="0 0 80 50" fill="none"><rect x="8"  y="14" width="22" height="22" rx="3" stroke="#2a6fdb" stroke-width="1.4"/><rect x="50" y="14" width="22" height="22" rx="3" stroke="#2a6fdb" stroke-width="1.4"/><path d="M30 25h20M44 22l4 3-4 3" stroke="#2a6fdb" stroke-width="1.4" fill="none"/></svg></div>
+        <div class="name">Clones <span class="tag">sandbox</span></div>
+        <p>Snapshot-able sandboxes of the services your app talks to: Stripe, SendGrid, Postgres, your own.</p>
+        <span class="link">clones →</span>
+      </a>
+      <a class="suite-card" href="/guard">
+        <div class="ill"><svg viewBox="0 0 80 50" fill="none"><path d="M40 6 L20 14 V28 c0 12 8 18 20 20 12-2 20-8 20-20 V14 Z" stroke="#2f5a3a" stroke-width="1.4" fill="none"/><path d="m32 26 6 6 10-12" stroke="#2f5a3a" stroke-width="1.6" fill="none"/></svg></div>
+        <div class="name">Guards <span class="tag">checks</span></div>
+        <p>Pre-merge checks. Runs your scenarios on every PR, every push to main, every clone-state shift.</p>
+        <span class="link">guards →</span>
+      </a>
+      <a class="suite-card is-this" href="/trace">
+        <div class="ill"><svg viewBox="0 0 80 50" fill="none"><rect x="6" y="12" width="68" height="4" rx="1" fill="#8a3556" opacity=".35"/><rect x="6" y="20" width="68" height="4" rx="1" fill="#8a3556" opacity=".6"/><rect x="6" y="28" width="68" height="4" rx="1" fill="#8a3556" opacity=".4"/><rect x="6" y="36" width="48" height="4" rx="1" fill="#8a3556" opacity=".2"/><line x1="44" x2="44" y1="6" y2="44" stroke="#8a3556" stroke-width="1.4"/><circle cx="44" cy="6" r="3" fill="#8a3556"/></svg></div>
+        <div class="name">Trace <span class="tag">this</span></div>
+        <p>The forensic record. Every test execution becomes a navigable trace — scrub, diff, replay, share.</p>
+        <span class="link">you are here</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEEP CAPABILITIES ============ -->
+<section class="caps">
+  <div class="wrap">
+    <div class="caps-h">
+      <div>
+        <div class="eyebrow"><span class="dot"></span><span>UNDER THE HOOD</span></div>
+        <h2>Twelve capabilities you'll actually use.</h2>
+      </div>
+      <p>Trace earns its keep on the second failure of any given kind. By the seventh, it's saving an hour a week.</p>
+    </div>
+    <div class="caps-grid">
+      <div class="cap">
+        <h3>Stacked-ribbon scrubber</h3>
+        <p>One playhead across step, network, DOM, console, and agent ribbons. Click a tick, jump to the moment.</p>
+        <div class="meta"><span class="pill">viewer</span></div>
+      </div>
+      <div class="cap">
+        <h3>Failure signatures</h3>
+        <p>Hashes of normalized URL + stack frames cluster identical failures so you fix one and close seven.</p>
+        <div class="meta"><span class="pill">triage</span></div>
+      </div>
+      <div class="cap">
+        <h3>Debugger chat with citations</h3>
+        <p>Forensic chat scoped to one trace. Replies link to <code class="mono">[seq:N]</code> so you can jump back to the exact event.</p>
+        <div class="meta"><span class="pill">debug</span> <span class="pill">cites events</span></div>
+      </div>
+      <div class="cap">
+        <h3>Layer 2 replays</h3>
+        <p>Restore clone state to a step boundary, apply a scenario or source patch, re-run later steps. Diff against the source trace.</p>
+        <div class="meta"><span class="pill">replay</span></div>
+      </div>
+      <div class="cap">
+        <h3>Clone state at every step</h3>
+        <p>Stripe, SendGrid, Postgres — every clone snapshots its state at step boundaries. Query with jmespath, diff across runs.</p>
+        <div class="meta"><span class="pill">clones</span></div>
+      </div>
+      <div class="cap">
+        <h3>Hot/warm/cold tiers</h3>
+        <p>Full video for 90 days, NDJSON for a year, cold-tier NDJSON for three years. Pin to override. Predictable bills.</p>
+        <div class="meta"><span class="pill">storage</span></div>
+      </div>
+      <div class="cap">
+        <h3>Saved views</h3>
+        <p>“Failed · 24h”, “Awaiting Layer 2”, “PR #4521” — saved filters that show up as left-rail entries.</p>
+        <div class="meta"><span class="pill">list</span></div>
+      </div>
+      <div class="cap">
+        <h3>Public read-only share</h3>
+        <p>Paste a trace into a Linear ticket or a customer email. Read-only, expirable, hides Debugger and source SHA.</p>
+        <div class="meta"><span class="pill">share</span></div>
+      </div>
+      <div class="cap">
+        <h3>PII redaction at ingest</h3>
+        <p>Mask selectors, headers, and query params before anything hits S3. Email-shape detection in console logs.</p>
+        <div class="meta"><span class="pill">privacy</span></div>
+      </div>
+      <div class="cap">
+        <h3>EU residency</h3>
+        <p>Pin a workspace to eu-west-1. BAA available on annual plans. Workers, S3, and Debugger calls stay in-region.</p>
+        <div class="meta"><span class="pill">compliance</span></div>
+      </div>
+      <div class="cap">
+        <h3>Webhooks &amp; SSE</h3>
+        <p>Subscribe to <code class="mono">trace.failed</code>, <code class="mono">cluster.opened</code>, <code class="mono">layer2.succeeded</code>. Or stream live ingests via SSE.</p>
+        <div class="meta"><span class="pill">api</span></div>
+      </div>
+      <div class="cap">
+        <h3>MCP for your IDE</h3>
+        <p><code class="mono">@molar/trace-mcp</code> exposes trace search, read, diff, clone-state, and replay tools to your coding agent.</p>
+        <div class="meta"><span class="pill">agent</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTEGRATIONS ============ -->
+<section class="integ" id="docs">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span><span>INTEGRATIONS</span></div>
+    <h2>Plays nice with <em>the rest of the stack</em>.</h2>
+    <p class="lede">Trace ingests what you have, exports what you'll need, and stays out of the way otherwise. None of these require Molar everywhere.</p>
+    <div class="integ-grid">
+      <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m9 8-5 4 5 4M15 8l5 4-5 4"/></svg></span>Playwright</div><p>Drop-in reporter. Same trace.zip you already export — richer index, hosted viewer.</p><span class="tag">reporter · npm</span></div>
+      <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20l16-8L4 4l3 8-3 8Z"/></svg></span>Cypress</div><p>Plugin loads in <code class="mono">setupNodeEvents</code>; ships video + HAR + console.</p><span class="tag">plugin · npm</span></div>
+      <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></span>Selenium</div><p>pytest listener for Python. CDP capture for Java/JS via testcontainers.</p><span class="tag">pypi · maven</span></div>
+      <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="m15 9-2 5-5 2 2-5 5-2Z"/></svg></span>Cartographer</div><p>Agent runs ship a trace automatically; clone state included.</p><span class="tag">native</span></div>
+      <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 6v6c0 5 3 8 8 9 5-1 8-4 8-9V6l-8-3Z"/></svg></span>Guard</div><p>Every Guard check produces a trace — failed gates open directly here.</p><span class="tag">native</span></div>
+      <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="14" width="6" height="6" rx="1"/><rect x="14" y="8" width="6" height="6" rx="1"/></svg></span>Clones</div><p>State at every step boundary, queryable with jmespath. Diffable across runs.</p><span class="tag">native</span></div>
+      <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="6" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="12" r="2.2"/><path d="M6 8v8M8 6a6 6 0 0 0 6 6"/></svg></span>GitHub</div><p>App reads source so the Debugger cites your code. PR check posts a trace summary.</p><span class="tag">app · cli</span></div>
+      <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="10" width="8" height="4" rx="2"/><rect x="13" y="10" width="8" height="4" rx="2"/><rect x="10" y="3" width="4" height="8" rx="2"/><rect x="10" y="13" width="4" height="8" rx="2"/></svg></span>Slack</div><p>Unfurls share links, posts clusters on threshold, replies with Debugger if asked.</p><span class="tag">app</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="price" id="pricing">
+  <div class="wrap">
+    <div class="price-h">
+      <div class="eyebrow" style="justify-content:center"><span class="dot"></span><span>PRICING · USAGE-BASED</span></div>
+      <h2>Pay for the <em>storage you keep</em>, not the seats.</h2>
+      <p>No per-seat fees. No platform tax. Trace charges for GB-mo of NDJSON + video, for Debugger tokens, and for Layer 2 replays — three lines on the invoice. Everything else is included.</p>
+    </div>
+    <div class="price-row">
+      <div class="price-card">
+        <div class="tier">SOLO</div>
+        <h3 class="name">Free</h3>
+        <div class="amt"><em>$</em>0<small>/ month</small></div>
+        <p class="blurb">For tinkering, demos, and a single sandbox. Public traces only past 7 days.</p>
+        <ul>
+          <li>1 GB-mo hot · 5 GB-mo cold</li>
+          <li>200 traces / month</li>
+          <li>1 workspace · 1 seat</li>
+          <li>7-day hot retention</li>
+          <li>Debugger · cheap mode only</li>
+        </ul>
+        <div class="cta"><a class="btn btn--outline" href="https://app.molar.it#home">Start free</a></div>
+      </div>
+      <div class="price-card is-pop">
+        <span class="ribbon">Most teams</span>
+        <div class="tier">TEAM</div>
+        <h3 class="name">Usage</h3>
+        <div class="amt"><em>$</em>0.40<small>/ GB-mo hot · then usage</small></div>
+        <p class="blurb">For the team shipping daily with agents and a CI loop that matters.</p>
+        <ul>
+          <li>Unlimited traces · 30 GB-mo included</li>
+          <li>Unlimited workspaces &amp; seats</li>
+          <li>90-day hot · 365-day warm · 3y cold</li>
+          <li>Debugger · Opus + Haiku · BYO key option</li>
+          <li>Layer 2 replays at $0.20 / minute</li>
+          <li>Slack · GitHub · MCP · webhooks</li>
+        </ul>
+        <div class="cta"><a class="btn btn--accent" href="https://app.molar.it#home">Start trial · 47 days</a></div>
+      </div>
+      <div class="price-card">
+        <div class="tier">ENTERPRISE</div>
+        <h3 class="name">Annual</h3>
+        <div class="amt"><em>contact</em><small>/ annual</small></div>
+        <p class="blurb">For teams under audit or regional residency rules.</p>
+        <ul>
+          <li>EU / US residency · BAA</li>
+          <li>SSO · SCIM · custom roles</li>
+          <li>Custom retention · legal hold</li>
+          <li>VPC-peered S3 · CMKs · audit log export</li>
+          <li>Solutions architect · uptime SLA</li>
+        </ul>
+        <div class="cta"><a class="btn btn--outline" href="#">Talk to us →</a></div>
+      </div>
+    </div>
+    <div class="price-foot">All tiers include unlimited public share links · NDJSON export · MCP server · zero platform fee</div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq">
+  <div class="wrap">
+    <div class="faq-h">
+      <div class="eyebrow" style="justify-content:center; display:inline-flex"><span class="dot"></span><span>FAQ</span></div>
+      <h2>Honest answers to the <em>real questions</em>.</h2>
+    </div>
+    <div class="faq-grid">
+      <details class="faq-item" open><summary><span class="q">Do I have to use Cartographer or Guard?</span><span class="plus">+</span></summary><p>No. Trace works standalone for any Playwright, Cypress, Selenium, or raw NDJSON source. The other Molar tools are nice to have because they ship traces automatically, but Trace doesn't require them.</p></details>
+      <details class="faq-item"><summary><span class="q">How is this different from Sentry / Datadog RUM?</span><span class="plus">+</span></summary><p>Sentry and Datadog watch <em>production</em>. Trace watches <em>your test loop</em>. We don't compete with crash reporters; we sit at the seam between agent-written code and a green CI run. (We do post Trace links into Sentry incidents.)</p></details>
+      <details class="faq-item"><summary><span class="q">What's a “Layer 2 replay”?</span><span class="plus">+</span></summary><p>The default trace is the recording (Layer 1). Layer 2 is a re-run: pick a step, restore clone state to that boundary, optionally apply a source or scenario patch, re-execute later steps. You get a new trace and a diff against the original.</p></details>
+      <details class="faq-item"><summary><span class="q">How do you handle PII?</span><span class="plus">+</span></summary><p>Per-workspace redaction rules apply at ingest, before NDJSON hits S3. Mask selectors, request headers, query params, and email-shape strings in console logs. Redaction is irreversible. EU residency is one toggle.</p></details>
+      <details class="faq-item"><summary><span class="q">Can I export everything?</span><span class="plus">+</span></summary><p>Yes. <code>POST /trace/v1/export</code> bundles your workspace as NDJSON + video + clone snapshots into a single tarball. No lock-in, ever.</p></details>
+      <details class="faq-item"><summary><span class="q">What does the Debugger cost?</span><span class="plus">+</span></summary><p>Opus is metered at the model's published rate plus a 10% margin. Haiku (cheap mode) is the same. You can set a monthly cap, a soft cap that flips to cheap mode automatically, and per-user budgets. Bring your own Anthropic key to bypass our markup.</p></details>
+      <details class="faq-item"><summary><span class="q">Does Trace replace Playwright Trace Viewer?</span><span class="plus">+</span></summary><p>For agent-era CI: yes, but we don't make you choose. The Playwright trace.zip is one of our supported artifacts. Open it in the local viewer when you're offline; open it here when you want clusters, Debugger, and replay.</p></details>
+      <details class="faq-item"><summary><span class="q">Is there an on-prem option?</span><span class="plus">+</span></summary><p>Yes, on Enterprise. We ship a Helm chart that runs ingest, workers, S3-compatible storage, and the Debugger against your own model endpoint.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BIG CTA ============ -->
+<section class="bigcta">
+  <div class="bigcta-bg" aria-hidden="true">
+    <svg viewBox="0 0 1400 600" preserveAspectRatio="xMidYMid slice">
+      <g opacity=".5" fill="#f0dde4">
+        <rect x="40"  y="100" width="120" height="6" rx="2"/>
+        <rect x="180" y="100" width="58"  height="6" rx="2"/>
+        <rect x="260" y="100" width="200" height="6" rx="2"/>
+        <rect x="40"  y="180" width="80"  height="6" rx="2"/>
+        <rect x="140" y="180" width="140" height="6" rx="2"/>
+        <rect x="40"  y="260" width="180" height="6" rx="2"/>
+        <rect x="240" y="260" width="64"  height="6" rx="2"/>
+        <rect x="40"  y="340" width="100" height="6" rx="2"/>
+        <rect x="160" y="340" width="220" height="6" rx="2"/>
+        <rect x="40"  y="420" width="140" height="6" rx="2"/>
+      </g>
+      <line x1="900" y1="60" x2="900" y2="540" stroke="#f0dde4" stroke-width="1.2" stroke-dasharray="2 3" opacity=".6"/>
+      <circle cx="900" cy="60" r="5" fill="#f0dde4"/>
+    </svg>
+  </div>
+  <div class="wrap bigcta-inner">
+    <div class="bigcta-grid">
+      <div>
+        <div class="eyebrow" style="color:rgba(244,241,234,.5)"><span class="dot"></span><span>OPEN THE DEMO · NO CARD</span></div>
+        <h2 style="margin-top:18px">Stop re-running. <em>Start replaying.</em></h2>
+      </div>
+      <div>
+        <p>One token, one CI run, one permalink your team will paste in standup for the next year. The demo workspace already has 1,240 traces in it — open the failed checkout and start scrubbing.</p>
+        <div class="bigcta-actions">
+          <a class="btn btn--accent btn--xl" href="https://app.molar.it#trace/550e8400-e29b-41d4-a716-446655440000">Open the failed checkout trace →</a>
+          <a class="btn btn--outline btn--xl" href="https://app.molar.it#home">Tour the dashboard</a>
+        </div>
+        <div class="bigcta-stamp">Private beta · 47-day trial · usage-based · zero platform fee</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-wordmark">
+          <!-- Molar logo: italic M + two root dots -->
+          <svg width="42" height="32" viewBox="0 0 42 32" fill="none" style="vertical-align:middle">
+            <text x="0" y="22" font-family="Instrument Serif, serif" font-size="32" font-style="italic" fill="#f4f1ea" letter-spacing="-0.04em">M</text>
+            <circle cx="29" cy="20" r="2" fill="#f4f1ea" opacity=".6"/>
+            <circle cx="35" cy="20" r="2" fill="#f4f1ea" opacity=".6"/>
+          </svg>
+          <span style="font-family:var(--serif); font-size:28px">Molar</span>
+          <span class="by">est. 2025</span>
+        </div>
+        <p class="footer-tagline">Tools for teams shipping with agents. <em>One root system.</em></p>
+        <div style="display:flex; gap:8px; margin-top:6px">
+          <a class="btn btn--ghost" style="border:1px solid rgba(244,241,234,.18); padding:7px 12px; font-size:12.5px" href="#">github</a>
+          <a class="btn btn--ghost" style="border:1px solid rgba(244,241,234,.18); padding:7px 12px; font-size:12.5px" href="#">x / twitter</a>
+          <a class="btn btn--ghost" style="border:1px solid rgba(244,241,234,.18); padding:7px 12px; font-size:12.5px" href="#">linear</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5 class="footer-h">Trace</h5>
+        <a href="#product">Scrubber</a>
+        <a href="#how">How it works</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#pricing">Pricing</a>
+        <a href="https://app.molar.it#home">Dashboard</a>
+        <a href="https://app.molar.it#mcp">MCP install</a>
+      </div>
+      <div class="footer-col">
+        <h5 class="footer-h">Suite</h5>
+        <a href="/cartographer">Cartographer</a>
+        <a href="/clones">Clones</a>
+        <a href="/guard">Guards</a>
+        <a href="/trace">Trace</a>
+      </div>
+      <div class="footer-col">
+        <h5 class="footer-h">Developers</h5>
+        <a href="https://app.molar.it#developers">API</a>
+        <a href="https://app.molar.it#mcp">MCP server</a>
+        <a href="https://app.molar.it#ingest">Ingest setup</a>
+        <a href="#">Webhooks</a>
+        <a href="#">SDK · TS · py</a>
+        <a href="#">Changelog</a>
+      </div>
+      <div class="footer-col">
+        <h5 class="footer-h">Company</h5>
+        <a href="#">About</a>
+        <a href="#">Security</a>
+        <a href="#">EU residency</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Status</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="molar-mark" title="Molar">
+        <span>Molar</span>
+      </div>
+      <div>© 2026 Molar Labs · MIT for the SDK · all rights for the brand</div>
+      <div style="font-family:var(--serif); font-style:italic">made by a small team in the alps</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const frame = document.querySelector('.product-frame');
+  if(!frame) return;
+  const rib = frame.querySelector('.pf-rib');
+  const firstTrk = rib.querySelector('.trk');
+  const playhead = frame.querySelector('.pf-playhead');
+  const failtick = frame.querySelector('.pf-failtick');
+  const timeEl = frame.querySelector('.pf-time');
+  const playBtn = frame.querySelector('.pf-scrub-ctrl .play');
+  const steps = [...frame.querySelectorAll('.pf-step[data-ph]')].map(el=>({el, ph:parseFloat(el.dataset.ph), t:el.dataset.t}));
+  const eventRows = [...frame.querySelectorAll('.pf-panel[data-panel="events"] .row')].map(el=>({el, ph:parseFloat(el.dataset.ph)}));
+  const tabs = [...frame.querySelectorAll('.pf-insp-tabs button')];
+  const panels = [...frame.querySelectorAll('.pf-panel')];
+  const stageBody = frame.querySelector('.pf-stage-frame .body');
+  const stageTop = frame.querySelector('.pf-stage-frame .top');
+  const stageFail = frame.querySelector('.pf-stage-fail');
+
+  const contact = `<div class="card" style="display:flex; gap:14px; padding:8px 12px">
+        <div><div class="lbl" style="font-size:9px">Email</div><div style="font-family:var(--mono); font-size:11px">{E}</div></div>
+        <div><div class="lbl" style="font-size:9px">Coupon</div><div style="font-family:var(--mono); font-size:11px">{C}</div></div>
+      </div>`;
+  const C = (e, c) => contact.replace('{E}', e).replace('{C}', c);
+  // one stage state per step (idx 0..6 = step 01..07)
+  const STAGES = [
+    { top:'app.acme.dev / checkout', fail:false, body:
+      `<h4>Checkout</h4>
+       <div class="card"><div class="lbl">Plan</div><div class="amt" style="color:var(--faint)">— select —</div></div>
+       ${C('—','—')}
+       <div class="btn-row"><span style="opacity:.45">Complete checkout</span></div>` },
+    { top:'app.acme.dev / checkout', fail:false, body:
+      `<h4>Checkout</h4>
+       <div class="card"><div class="lbl">Plan</div><div class="amt" style="color:var(--faint)">— select —</div></div>
+       ${C('qa+pro@acme.dev','—')}
+       <div class="btn-row"><span style="opacity:.45">Complete checkout</span></div>` },
+    { top:'app.acme.dev / checkout', fail:false, body:
+      `<h4>Checkout</h4>
+       <div class="card"><div class="lbl">Plan · Pro</div><div class="amt" style="color:var(--ink)">$9.00</div><div class="note" style="color:var(--muted)">billed monthly · per seat</div></div>
+       ${C('qa+pro@acme.dev','—')}
+       <div class="btn-row"><span>Complete checkout</span></div>` },
+    { top:'app.acme.dev / checkout · submitting', fail:false, body:
+      `<h4>Checkout</h4>
+       <div class="card"><div class="lbl">Plan · Pro</div><div class="amt" style="color:var(--ink)">$9.00</div><div class="note" style="color:var(--muted)">billed monthly · per seat</div></div>
+       ${C('qa+pro@acme.dev','—')}
+       <div class="btn-row"><span style="opacity:.7">● Submitting…</span></div>` },
+    { top:'app.acme.dev / checkout', fail:false, body:
+      `<h4>Checkout</h4>
+       <div class="card"><div class="lbl">Quote · total</div><div class="amt" style="color:var(--ok)">$9.00</div><div class="note" style="color:var(--ok)">↳ quote confirmed · tax included</div></div>
+       ${C('qa+pro@acme.dev','—')}
+       <div class="btn-row"><span>Complete checkout</span></div>` },
+    { top:'app.acme.dev / checkout', fail:false, body:
+      `<h4>Checkout</h4>
+       <div class="card"><div class="lbl">Total · WELCOME10 applied</div><div class="amt">$90.00</div><div class="note" style="color:var(--warn)">↑ off by 10× · coupon applied as multiplier</div></div>
+       ${C('qa+pro@acme.dev','WELCOME10')}
+       <div class="btn-row"><span>Complete checkout</span></div>` },
+    { top:'app.acme.dev / checkout', fail:true, body:
+      `<h4>Checkout</h4>
+       <div class="card"><div class="lbl">Total · WELCOME10 applied</div><div class="amt">$90.00</div><div class="note">↑ off by 10× · coupon WELCOME10 applied as multiplier</div></div>
+       ${C('qa+pro@acme.dev','WELCOME10')}
+       <div class="btn-row"><span>Complete checkout</span></div>` }
+  ];
+  let lastStage = -1;
+  function setStage(idx){
+    idx = Math.max(0, Math.min(STAGES.length - 1, idx));
+    if(idx === lastStage) return;
+    lastStage = idx;
+    const s = STAGES[idx];
+    stageBody.innerHTML = s.body;
+    stageTop.textContent = s.top;
+    stageFail.style.display = s.fail ? 'flex' : 'none';
+  }
+  const END = 15.0;            // run.end ≈ 4.52s
+  const DUR = 30.1;            // full timeline seconds
+  let cur = 7.9, playing = false, raf = null;
+
+  function geo(){
+    const r = firstTrk.getBoundingClientRect();
+    const rr = rib.getBoundingClientRect();
+    return { left:r.left - rr.left, width:r.width };
+  }
+  function fmt(pct){ return (Math.max(0,Math.min(pct,100))/100*DUR).toFixed(2)+'s'; }
+
+  function render(pct, label){
+    cur = pct;
+    const g = geo();
+    const px = g.left + Math.max(0,Math.min(pct,100))/100 * g.width;
+    playhead.style.left = px + 'px';
+    failtick.style.left = (g.left + 7.9/100 * g.width) + 'px';
+    timeEl.textContent = label || fmt(pct);
+    let act = null;
+    steps.forEach(s=>{ if(s.ph <= pct + 0.4) act = s; });
+    steps.forEach(s=> s.el.classList.toggle('on', s === act));
+    setStage(act ? steps.indexOf(act) : 0);
+    let nr = null;
+    eventRows.forEach(r=>{ if(r.ph <= pct + 0.05) nr = r; });
+    eventRows.forEach(r=> r.el.classList.toggle('now', r === nr));
+  }
+
+  function stop(){
+    playing = false;
+    if(raf) cancelAnimationFrame(raf); raf = null;
+    playBtn.textContent = '▶ Play';
+    playhead.classList.remove('seeking');
+  }
+  function play(){
+    if(playing){ stop(); return; }
+    playing = true;
+    playBtn.textContent = '❚❚ Pause';
+    playhead.classList.add('seeking');
+    const from = cur >= END ? 0 : cur, to = END;
+    const dur = 3800 * (to - from) / END;
+    let start = null;
+    function tick(ts){
+      if(!start) start = ts;
+      const k = Math.min((ts - start) / dur, 1);
+      render(from + (to - from) * k);
+      if(k < 1 && playing){ raf = requestAnimationFrame(tick); }
+      else { stop(); }
+    }
+    raf = requestAnimationFrame(tick);
+  }
+
+  steps.forEach(s=> s.el.addEventListener('click', ()=>{ stop(); render(s.ph, s.t + 's'); }));
+  playBtn.addEventListener('click', play);
+
+  tabs.forEach(b=> b.addEventListener('click', ()=>{
+    tabs.forEach(x=> x.classList.toggle('on', x === b));
+    panels.forEach(p=> p.classList.toggle('on', p.dataset.panel === b.dataset.tab));
+  }));
+  const dbgCta = frame.querySelector('.dbg-cta');
+  if(dbgCta) dbgCta.addEventListener('click', ()=>{
+    tabs.forEach(x=> x.classList.toggle('on', x.dataset.tab === 'debugger'));
+    panels.forEach(p=> p.classList.toggle('on', p.dataset.panel === 'debugger'));
+  });
+
+  rib.addEventListener('click', e=>{
+    if(e.target.closest('.pf-playhead')) return;
+    const g = geo(), rr = rib.getBoundingClientRect();
+    let pct = (e.clientX - rr.left - g.left) / g.width * 100;
+    pct = Math.max(0, Math.min(pct, 100));
+    stop();
+    playhead.classList.add('seeking');
+    render(pct);
+    requestAnimationFrame(()=> playhead.classList.remove('seeking'));
+  });
+
+  function stepBy(d){
+    stop();
+    let idx = 0, best = 1e9;
+    steps.forEach((s,i)=>{ const dd = Math.abs(s.ph - cur); if(dd < best){ best = dd; idx = i; } });
+    idx = Math.max(0, Math.min(steps.length - 1, idx + d));
+    render(steps[idx].ph, steps[idx].t + 's');
+  }
+  let hover = false;
+  frame.addEventListener('mouseenter', ()=> hover = true);
+  frame.addEventListener('mouseleave', ()=> hover = false);
+  document.addEventListener('keydown', e=>{
+    if(!hover && !frame.contains(document.activeElement)) return;
+    if(e.key === 'j' || e.key === 'J'){ e.preventDefault(); stepBy(1); }
+    else if(e.key === 'k' || e.key === 'K'){ e.preventDefault(); stepBy(-1); }
+    else if(e.key === ' '){ e.preventDefault(); play(); }
+  });
+  window.addEventListener('resize', ()=> render(cur));
+
+  render(7.9, '2.38s');
+})();
+</script>
+</div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/nav.jsx"></script>
+  <script type="text/babel" src="/nav-boot.jsx"></script>
+
+</body>
+</html>

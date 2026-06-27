@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clones — by Molar</title>
+<link rel="canonical" href="https://molar.it/clones" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f1ea;
+    --bg-2:#ece7dc;
+    --ink:#15120c;
+    --ink-2:#3a3528;
+    --muted:#6b6253;
+    --line:#d9d2c2;
+    --cobalt:#2a4f8c;
+    --cobalt-deep:#1c3866;
+    --cobalt-soft:#dde4f0;
+    --terra:#b8542e;
+    --forest:#2f5a3a;
+    --amber:#a36c00;
+    --paper:#fbf9f3;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Geist',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  .serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:-0.01em}
+  .mono{font-family:'Geist Mono',ui-monospace,Menlo,monospace}
+  .container{max-width:1240px;margin:0 auto;padding:0 32px}
+  .container-narrow{max-width:960px;margin:0 auto;padding:0 32px}
+
+  /* clones glyph — two offset rounded squares (twin metaphor) */
+  .clones-mark{position:relative;width:22px;height:22px;flex-shrink:0}
+  .clones-mark i{position:absolute;width:14px;height:14px;border:1.5px solid var(--ink);border-radius:3px;background:transparent;display:block}
+  .clones-mark i:nth-child(1){left:0;top:0}
+  .clones-mark i:nth-child(2){left:7px;top:7px;background:var(--ink)}
+  .clones-mark.lg{width:42px;height:42px}
+  .clones-mark.lg i{width:28px;height:28px;border-radius:5px;border-width:2px}
+  .clones-mark.lg i:nth-child(2){left:13px;top:13px}
+
+  /* nav */
+  nav.top{position:sticky;top:0;z-index:50;background:rgba(244,241,234,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  nav.top .inner{display:flex;align-items:center;gap:32px;height:60px}
+  nav.top .brand{display:flex;align-items:center;gap:10px;font-weight:500}
+  nav.top .sub{color:var(--muted);font-size:13px;border-left:1px solid var(--line);padding-left:16px;margin-left:4px}
+  nav.top .links{display:flex;gap:28px;flex:1;justify-content:center;font-size:14px;color:var(--ink-2)}
+  nav.top .links a:hover{color:var(--ink)}
+  nav.top .cta{display:flex;align-items:center;gap:10px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;font-size:14px;font-weight:500;border:1px solid transparent;cursor:pointer;transition:all .15s;font-family:inherit}
+  .btn-ghost{color:var(--ink);border-color:transparent}
+  .btn-ghost:hover{background:rgba(0,0,0,.05)}
+  .btn-outline{border-color:var(--ink);color:var(--ink);background:transparent}
+  .btn-outline:hover{background:var(--ink);color:var(--paper)}
+  .btn-primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .btn-primary:hover{background:#000}
+  .btn-cobalt{background:var(--cobalt);color:#fff;border-color:var(--cobalt)}
+  .btn-cobalt:hover{background:var(--cobalt-deep);border-color:var(--cobalt-deep)}
+
+  /* announce */
+  .announce{border-bottom:1px solid var(--line);background:var(--bg-2)}
+  .announce .inner{display:flex;align-items:center;justify-content:center;gap:10px;height:38px;font-size:13px;color:var(--ink-2)}
+  .announce .pill{font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:2px 8px;border-radius:999px;background:var(--cobalt);color:#fff;font-weight:600;font-family:'Geist Mono',monospace}
+
+  /* hero */
+  .hero{padding:80px 0 60px;position:relative;overflow:hidden}
+  .hero .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px}
+  .hero .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--cobalt);box-shadow:0 0 0 3px rgba(42,79,140,.18)}
+  .hero h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(48px,8vw,112px);line-height:.96;letter-spacing:-0.02em;margin:0 0 28px;color:var(--ink)}
+  .hero h1 em{font-style:italic;color:var(--cobalt)}
+  .hero p.lede{font-size:19px;line-height:1.55;color:var(--ink-2);max-width:680px;margin:0 0 36px}
+  .hero .cta-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .hero .reassure{display:flex;gap:22px;margin-top:36px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+  .hero .reassure span{display:inline-flex;align-items:center;gap:8px}
+  .hero .reassure span::before{content:"✓";color:var(--forest);font-weight:700}
+
+  /* clones grid backdrop */
+  .grid-bg{position:absolute;right:-40px;top:60px;width:700px;height:560px;opacity:.95;pointer-events:none}
+
+  /* twin glyph as recurring motif */
+  .twin{display:inline-block;position:relative;width:18px;height:18px;vertical-align:-3px;margin:0 6px}
+  .twin i{position:absolute;width:12px;height:12px;border:1.4px solid currentColor;border-radius:2px;display:block}
+  .twin i:nth-child(1){left:0;top:0}
+  .twin i:nth-child(2){left:6px;top:6px;background:currentColor}
+  .twin-divider{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--cobalt);font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin:40px 0}
+  .twin-divider::before,.twin-divider::after{content:"";flex:1;height:1px;background:var(--line);max-width:120px}
+
+  /* terminal demo */
+  .terminal-wrap{margin-top:64px}
+  .terminal{background:#15120c;border-radius:14px;overflow:hidden;border:1px solid #2a2418;box-shadow:0 30px 80px -20px rgba(20,16,8,.25),0 0 0 1px rgba(255,255,255,.04) inset}
+  .terminal .bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid #2a2418;background:#1c1810}
+  .terminal .bar .dots{display:flex;gap:6px}
+  .terminal .bar .dots i{width:11px;height:11px;border-radius:50%;background:#3a3325;display:block}
+  .terminal .bar .title{flex:1;text-align:center;color:#9a8e76;font-family:'Geist Mono',monospace;font-size:12px}
+  .terminal .bar .tag{font-family:'Geist Mono',monospace;font-size:11px;color:#6b5f48;padding:2px 8px;border:1px solid #2a2418;border-radius:4px}
+  .terminal .body{padding:24px 28px;font-family:'Geist Mono',monospace;font-size:13px;line-height:1.7;color:#d9d2bf;min-height:420px}
+  .terminal .body .prompt{color:#7a6f56}
+  .terminal .body .you{color:#f4f1ea}
+  .terminal .body .ok{color:#86c374}
+  .terminal .body .warn{color:#e0b145}
+  .terminal .body .err{color:#e07a5f}
+  .terminal .body .blue{color:#8aa8e0}
+  .terminal .body .dim{color:#6e6650}
+  .terminal .body .line{display:block;white-space:pre;overflow:hidden}
+  .terminal .body hr{border:none;border-top:1px dashed #2e281b;margin:14px 0}
+  .blink{display:inline-block;width:8px;height:14px;background:#d9d2bf;vertical-align:-2px;animation:blink 1.05s steps(2,end) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* section */
+  section{padding:88px 0;border-top:1px solid var(--line)}
+  .sec-eyebrow{font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+  .sec-title{font-family:'Instrument Serif',serif;font-size:clamp(40px,5.5vw,68px);line-height:1;letter-spacing:-0.02em;margin:0 0 24px;max-width:18ch}
+  .sec-lede{font-size:17px;line-height:1.55;color:var(--ink-2);max-width:680px;margin:0 0 56px}
+
+  /* surfaces */
+  .surfaces{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:48px}
+  .surface{background:var(--paper);padding:28px;display:flex;flex-direction:column;gap:14px;text-decoration:none;color:inherit}
+  .surface.active{background:var(--ink);color:var(--paper);position:relative}
+  .surface.active::after{content:"YOU ARE HERE";position:absolute;top:14px;right:14px;font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--cobalt-soft);background:rgba(42,79,140,.35);padding:3px 7px;border-radius:4px}
+  .surface .num{font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em}
+  .surface.active .num{color:#9a8e76}
+  .surface h4{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;margin:0;letter-spacing:-0.01em}
+  .surface p{font-size:13px;color:var(--ink-2);margin:0;line-height:1.5}
+  .surface.active p{color:#bdb39e}
+
+  /* features */
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .feat{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:28px;position:relative;overflow:hidden}
+  .feat .num{font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.15em;margin-bottom:24px}
+  .feat h3{font-family:'Instrument Serif',serif;font-size:30px;font-weight:400;margin:0 0 12px;letter-spacing:-0.01em;line-height:1.05}
+  .feat p{font-size:14px;color:var(--ink-2);margin:0;line-height:1.55}
+  .feat .viz{margin-top:24px;padding-top:24px;border-top:1px dashed var(--line);font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);min-height:90px}
+  .feat .viz .row{display:flex;justify-content:space-between;padding:4px 0}
+  .feat .viz .row .v{color:var(--ink)}
+  .feat .viz .row .ok{color:var(--forest)}
+  .feat .viz .row .warn{color:var(--amber)}
+  .feat .viz .row .err{color:var(--terra)}
+  .feat .viz .row .blue{color:var(--cobalt)}
+
+  /* how */
+  .how-step{display:grid;grid-template-columns:120px 1fr 1fr;gap:48px;padding:48px 0;border-top:1px solid var(--line);align-items:start}
+  .how-step:first-of-type{border-top:none}
+  .how-step .step-num{font-family:'Geist Mono',monospace;color:var(--muted);font-size:13px;letter-spacing:.1em}
+  .how-step h3{font-family:'Instrument Serif',serif;font-size:42px;font-weight:400;margin:0 0 16px;letter-spacing:-0.01em;line-height:1.02}
+  .how-step p{font-size:15px;color:var(--ink-2);margin:0;line-height:1.6}
+  .how-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px;font-family:'Geist Mono',monospace;font-size:12px;color:var(--ink-2)}
+  .how-card .h{color:var(--muted);font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px}
+  .how-card .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--line);gap:8px}
+  .how-card .row:last-child{border-bottom:none}
+  .how-card .row b{font-weight:500;color:var(--ink);text-align:right}
+  .how-card .badge-ok{color:var(--forest)}
+  .how-card .badge-warn{color:var(--amber)}
+  .how-card .badge-err{color:var(--terra)}
+  .how-card .badge-blue{color:var(--cobalt)}
+
+  /* vendor matrix */
+  .vendors{margin-top:48px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+  .vendor{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:14px;min-height:260px}
+  .vendor .vname{font-family:'Instrument Serif',serif;font-size:26px;letter-spacing:-0.01em;line-height:1}
+  .vendor .vlabel{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase}
+  .vendor .vbadge{font-family:'Geist Mono',monospace;font-size:10px;padding:3px 7px;border-radius:4px;background:var(--cobalt-soft);color:var(--cobalt-deep);align-self:flex-start}
+  .vendor ul{list-style:none;padding:0;margin:0;font-family:'Geist Mono',monospace;font-size:11px;display:flex;flex-direction:column;gap:5px;color:var(--ink-2);flex:1}
+  .vendor ul li::before{content:"·  ";color:var(--muted)}
+  .vendor .vfoot{display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:10px;color:var(--muted);padding-top:10px;border-top:1px dashed var(--line)}
+  .vendor .vfoot b{color:var(--forest);font-weight:500}
+
+  /* world snapshot */
+  .world-row{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;margin-top:48px}
+  .world-viz{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:36px;font-family:'Geist Mono',monospace;font-size:11px;position:relative;min-height:380px}
+  .world-viz .clock{position:absolute;top:20px;right:24px;background:var(--ink);color:var(--paper);font-size:10px;padding:4px 10px;border-radius:4px;letter-spacing:.08em}
+  .world-viz .stripe-row{display:grid;grid-template-columns:90px 1fr 80px;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line);align-items:center}
+  .world-viz .stripe-row:last-child{border-bottom:none}
+  .world-viz .vk{color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:10px}
+  .world-viz .vbar{height:6px;border-radius:99px;background:var(--bg-2);overflow:hidden}
+  .world-viz .vbar i{display:block;height:100%;background:var(--cobalt)}
+  .world-viz .vval{color:var(--ink);text-align:right}
+  .world-viz .vtag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:3px;margin-right:6px}
+  .world-viz .vtag.snap{background:var(--cobalt-soft);color:var(--cobalt-deep)}
+  .world-viz .vtag.paused{background:#f3e2c1;color:var(--amber)}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:48px}
+  .stat .num{font-family:'Instrument Serif',serif;font-size:72px;line-height:1;letter-spacing:-0.02em}
+  .stat .num em{font-style:italic;color:var(--cobalt)}
+  .stat .lab{font-size:13px;color:var(--muted);margin-top:8px;max-width:22ch;line-height:1.4}
+
+  /* dashboard preview */
+  .preview{margin-top:48px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:0;overflow:hidden;box-shadow:0 24px 60px -20px rgba(20,16,8,.18)}
+  .preview .pv-bar{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--bg-2)}
+  .preview .pv-bar .dots{display:flex;gap:6px}
+  .preview .pv-bar .dots i{width:10px;height:10px;border-radius:50%;background:#cabea6;display:block}
+  .preview .pv-bar .url{flex:1;font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted);text-align:center}
+  .preview .pv-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--line)}
+  .preview .pv-grid > div{background:var(--paper);padding:18px;font-size:11px;font-family:'Geist Mono',monospace}
+  .preview .pv-grid .col-3{grid-column:span 3}
+  .preview .pv-grid .col-6{grid-column:span 6}
+  .preview .pv-grid .col-9{grid-column:span 9}
+  .preview .pv-grid .col-12{grid-column:span 12}
+  .preview .pv-h{color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+  .preview .pv-stat{font-family:'Instrument Serif',serif;font-size:32px;line-height:1;color:var(--ink)}
+  .preview .pv-stat small{font-size:13px;font-family:'Geist Mono',monospace;color:var(--muted);margin-left:6px}
+  .preview .log-line{display:grid;grid-template-columns:64px 50px 1fr 64px;gap:10px;padding:5px 0;border-bottom:1px dashed var(--line);font-size:11px}
+  .preview .log-line:last-child{border-bottom:none}
+  .preview .log-line .t{color:var(--muted)}
+  .preview .log-line .m{font-weight:500}
+  .preview .log-line .m.GET{color:var(--cobalt)}
+  .preview .log-line .m.POST{color:var(--forest)}
+  .preview .log-line .m.DELETE{color:var(--terra)}
+  .preview .log-line .s{text-align:right;color:var(--forest)}
+  .preview .log-line.warn .s{color:var(--amber)}
+  .preview .log-line.err .s{color:var(--terra)}
+
+  /* pricing */
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+  .price{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:32px}
+  .price.feat-card{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .price .tag{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .price.feat-card .tag{color:#9a8e76}
+  .price h4{font-family:'Instrument Serif',serif;font-size:36px;font-weight:400;margin:8px 0 0;letter-spacing:-0.01em}
+  .price .amt{font-family:'Instrument Serif',serif;font-size:56px;line-height:1;margin:22px 0 6px}
+  .price .amt small{font-size:14px;font-family:'Geist',sans-serif;color:var(--muted);margin-left:4px}
+  .price.feat-card .amt small{color:#9a8e76}
+  .price ul{list-style:none;padding:0;margin:24px 0 28px;font-size:14px;display:flex;flex-direction:column;gap:10px}
+  .price ul li{display:flex;gap:10px;align-items:flex-start}
+  .price ul li::before{content:"✓";color:var(--forest);font-weight:700;margin-top:1px}
+  .price.feat-card ul li::before{color:#86c374}
+  .price .btn{width:100%;justify-content:center}
+
+  /* faq */
+  .faq{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px}
+  .faq details{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  .faq details[open]{background:var(--bg-2)}
+  .faq summary{font-family:'Instrument Serif',serif;font-size:21px;letter-spacing:-0.01em;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;line-height:1.2}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:'Geist Mono',monospace;font-size:18px;color:var(--cobalt);transition:transform .2s}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq p{margin:14px 0 0;font-size:14px;color:var(--ink-2);line-height:1.6}
+
+  /* footer */
+  footer{background:var(--ink);color:#bdb39e;padding:60px 0 32px;font-size:13px}
+  footer .grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+  footer h5{font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:#9a8e76;margin:0 0 16px}
+  footer a{display:block;padding:5px 0;color:#bdb39e}
+  footer a:hover{color:var(--paper)}
+  footer .bottom{display:flex;justify-content:space-between;padding-top:24px;border-top:1px solid #2a2418;font-size:12px;color:#6e6650}
+  footer .footer-mark{font-family:'Instrument Serif',serif;font-size:42px;color:var(--paper);margin-bottom:12px;line-height:1}
+  footer .footer-mark em{color:var(--cobalt-soft);font-style:italic}
+  footer .footer-mark em{color:#7ea0d1}
+
+  /* big cta */
+  .big-cta{padding:120px 0;text-align:center;background:var(--bg-2);border-top:1px solid var(--line)}
+  .big-cta h2{font-family:'Instrument Serif',serif;font-size:clamp(48px,7vw,96px);line-height:.98;letter-spacing:-0.02em;margin:0 0 28px}
+  .big-cta h2 em{font-style:italic;color:var(--cobalt)}
+
+  /* logos */
+  .logos{padding:32px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2)}
+  .logos .row{display:flex;gap:36px;align-items:center;justify-content:center;flex-wrap:wrap;color:var(--muted);font-family:'Geist Mono',monospace;font-size:12px}
+  .logos .row .label{letter-spacing:.12em;text-transform:uppercase;font-size:10px;color:var(--muted)}
+  .logos .row b{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;color:var(--ink-2);letter-spacing:-0.01em}
+
+  /* differentiator */
+  .diff-table{margin-top:48px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--paper)}
+  .diff-table table{width:100%;border-collapse:collapse;font-size:13px}
+  .diff-table th,.diff-table td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  .diff-table th{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--bg-2);font-weight:500}
+  .diff-table td.cap{font-family:'Instrument Serif',serif;font-size:18px;letter-spacing:-0.01em;width:30%}
+  .diff-table tr:last-child td{border-bottom:none}
+  .diff-table .y{color:var(--forest);font-weight:500}
+  .diff-table .n{color:var(--terra)}
+  .diff-table .p{color:var(--amber)}
+  .diff-table .we{background:var(--cobalt-soft)}
+
+  /* responsive */
+  @media (max-width:1100px){
+    .vendors{grid-template-columns:repeat(2,1fr)}
+    .world-row{grid-template-columns:1fr}
+  }
+  @media (max-width:980px){
+    .surfaces{grid-template-columns:repeat(2,1fr)}
+    .feat-grid{grid-template-columns:1fr 1fr}
+    .stats{grid-template-columns:1fr 1fr}
+    .pricing-grid{grid-template-columns:1fr}
+    .how-step{grid-template-columns:1fr;gap:20px}
+    .faq{grid-template-columns:1fr}
+    footer .grid{grid-template-columns:1fr 1fr}
+    nav.top .links{display:none}
+    .grid-bg{display:none}
+    .diff-table{overflow-x:auto}
+  }
+</style>
+</head>
+<body>
+<link rel="stylesheet" href="/styles.css" />
+<div class="paper-grain"></div>
+<div id="nav-root"></div>
+<style>.surface-hide-local-nav nav.top{display:none!important}</style>
+<div class="surface-hide-local-nav">
+
+
+<!-- announce -->
+<div class="announce">
+  <div class="container inner">
+    <span class="pill">New</span>
+    <span>Clones v0.4 — stateful vendor mirrors, public beta, on-prem ready</span>
+    <span style="margin-left:6px">→</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="grid-bg" aria-hidden="true">
+    <svg viewBox="0 0 700 560" fill="none">
+      <defs>
+        <radialGradient id="haze" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="#fbf9f3" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#fbf9f3" stop-opacity=".85"/>
+        </radialGradient>
+      </defs>
+      <!-- Snapshot ribbon: concentric nested tenants, each one slightly time-offset -->
+      <g stroke="#2a4f8c" stroke-width="0.7" opacity="0.45" fill="none">
+        <ellipse cx="360" cy="280" rx="260" ry="180"/>
+        <ellipse cx="360" cy="280" rx="220" ry="152" transform="rotate(-4 360 280)"/>
+        <ellipse cx="360" cy="280" rx="180" ry="126" transform="rotate(-8 360 280)"/>
+        <ellipse cx="360" cy="280" rx="140" ry="100" transform="rotate(-12 360 280)"/>
+        <ellipse cx="360" cy="280" rx="100" ry="72" transform="rotate(-16 360 280)"/>
+        <ellipse cx="360" cy="280" rx="60" ry="42" transform="rotate(-20 360 280)"/>
+      </g>
+      <!-- snapshot nodes around the outer ring -->
+      <g fill="#2a4f8c" opacity="0.75">
+        <circle cx="620" cy="280" r="3"/>
+        <circle cx="100" cy="280" r="3"/>
+        <circle cx="360" cy="100" r="3"/>
+        <circle cx="360" cy="460" r="3"/>
+      </g>
+      <!-- center mark: the 'now' tenant -->
+      <g>
+        <rect x="346" y="266" width="14" height="14" fill="#15120c" rx="2"/>
+        <rect x="353" y="273" width="14" height="14" fill="#2a4f8c" rx="2"/>
+      </g>
+      <g font-family="Geist Mono, monospace" font-size="9" fill="#6b6253" opacity="0.7">
+        <text x="626" y="284">snap_a3f · now</text>
+        <text x="40" y="284">snap_8f3 · t−5m</text>
+        <text x="322" y="94">snap_2k9 · t+30d</text>
+        <text x="326" y="478">snap_0bc · t−30d</text>
+      </g>
+      <rect width="700" height="560" fill="url(#haze)"/>
+    </svg>
+  </div>
+  <div class="container" style="position:relative">
+    <div class="eyebrow">
+      <span class="dot"></span>
+      SERVICE VIRTUALIZATION · FOR THE AI-CODING ERA
+    </div>
+    <h1>Real APIs.<br/>No real <em>side effects.</em></h1>
+    <p class="lede">A whole world of vendors, on your laptop. Stripe, Twilio, Resend, Clerk, S3 — stateful, time-travellable, signed at the wire. Charge a card. Issue a refund. Expire a token. None of it ever leaves the room.</p>
+    <div class="cta-row">
+      <a href="https://app.molar.it" class="btn btn-cobalt" style="padding:14px 20px;font-size:15px">Spawn a clone →</a>
+      <a href="#tour" class="btn btn-outline" style="padding:14px 20px;font-size:15px">See a 90-second tour</a>
+      <a href="#how" class="btn btn-ghost" style="padding:14px 20px;font-size:15px;color:var(--muted)">Read the docs ↗</a>
+    </div>
+    <div class="reassure">
+      <span>5-minute setup</span>
+      <span>Vendor-faithful APIs</span>
+      <span>Cloud · BYOC · air-gapped Helm</span>
+      <span>MCP-native</span>
+    </div>
+  </div>
+
+  <!-- terminal demo -->
+  <div class="container terminal-wrap">
+    <div class="terminal">
+      <div class="bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="title">clones — session — run_8f3a91 — checkout-world</div>
+        <div class="tag">live</div>
+      </div>
+      <div class="body">
+<span class="line"><span class="prompt">~/acme-app ❯</span> <span class="you">molar clones spawn stripe twilio email --seed checkout-world</span></span>
+<span class="line"><span class="ok">✓</span> stripe-clone     ready       <span class="dim">→ http://localhost:8001/t/run_8f3a91</span></span>
+<span class="line"><span class="ok">✓</span> twilio-clone     ready       <span class="dim">→ http://localhost:8002/t/run_8f3a91</span></span>
+<span class="line"><span class="ok">✓</span> email-clone      ready       <span class="dim">→ http://localhost:8003/t/run_8f3a91</span></span>
+<span class="line"><span class="ok">✓</span> tenant isolated  /t/run_8f3a91   <span class="dim">seeded · 12 customers · 1 subscription</span></span>
+<span class="line"><span class="dim">─────────────────────────────────────────────────────────────────────</span></span>
+<span class="line"><span class="prompt">~/acme-app ❯</span> <span class="you">pnpm test e2e/checkout.spec.ts</span></span>
+<span class="line"><span class="blue">POST</span>  /v1/customers                       <span class="ok">201  ·  18ms  ·  cus_3f29a1</span></span>
+<span class="line"><span class="blue">POST</span>  /v1/payment_intents                 <span class="ok">201  ·  22ms  ·  pi_9k8z4f  ·  $9.00</span></span>
+<span class="line"><span class="blue">POST</span>  /v1/payment_intents/.../confirm     <span class="ok">200  ·  31ms  ·  succeeded</span></span>
+<span class="line"><span class="blue">POST</span>  /Messages.json   (twilio)            <span class="ok">201  ·  14ms  ·  SM-test</span></span>
+<span class="line"><span class="blue">POST</span>  /emails  (resend)                    <span class="ok">200  ·  9ms  ·  receipt @ acme.dev</span></span>
+<span class="line"><span class="warn">!</span> webhook <span class="blue">stripe.payment_intent.succeeded</span>   <span class="dim">→ signed · whsec_clone · 1 attempt · 200 OK</span></span>
+<span class="line"><span class="ok">✓</span> 47 tests · 47 passed  ·  <span class="dim">3.2s  ·  zero outbound network</span></span>
+<span class="line"><span class="dim">─────────────────────────────────────────────────────────────────────</span></span>
+<span class="line"><span class="prompt">~/acme-app ❯</span> <span class="you">molar clones snapshot save --label "after-checkout"</span></span>
+<span class="line"><span class="ok">✓</span> world snapshot saved  <span class="dim">→ snap_a3f2  ·  4 clones  ·  12kb  ·  reproducible</span><span class="blink"></span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- logos / social proof -->
+<div class="logos">
+  <div class="container">
+    <div class="row">
+      <span class="label">Vendor-faithful clones for</span>
+      <b>Stripe</b>
+      <b>Twilio</b>
+      <b>Resend</b>
+      <b>SendGrid</b>
+      <b>Clerk</b>
+      <b>S3</b>
+      <b>SMTP</b>
+      <b>+ more coming</b>
+    </div>
+
+  </div>
+</div>
+
+<!-- SURFACES -->
+<section id="surfaces">
+  <div class="container">
+    <div class="sec-eyebrow">01 — Within Molar</div>
+    <h2 class="sec-title">One surface of four. The one your tests run against.</h2>
+    <p class="sec-lede">Molar is a release guard with four surfaces. Clones are stateful mirrors of every third party your app touches — so Cartographer's agent, Guard's checks, and Trace's replays never charge a real card or email a real customer.</p>
+    <div class="surfaces">
+      <a href="/cartographer" class="surface">
+        <span class="num">01 / AGENT</span>
+        <h4>Cartographer</h4>
+        <p>Maps your app, plans goals, drives a real browser, writes Playwright tests you own.</p>
+      </a>
+      <div class="surface active">
+        <span class="num">02 / SANDBOX</span>
+        <h4>Clones</h4>
+        <p>Stateful, time-travellable clones of Stripe, Twilio, Email, Auth, S3. World snapshots across vendors.</p>
+      </div>
+      <div class="surface">
+        <span class="num">03 / RUNTIME</span>
+        <h4>Guard</h4>
+        <p>Runs Cartographer's flows against live production on a schedule. Catches bugs before users do.</p>
+      </div>
+      <div class="surface">
+        <span class="num">04 / DEBUGGER</span>
+        <h4>Trace</h4>
+        <p>Replay any failed run like a debugger. Diff against last green to see exactly what changed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IT DOES -->
+<section id="features">
+  <div class="container">
+    <div class="sec-eyebrow">02 — What it does</div>
+    <h2 class="sec-title">Six things vendor sandboxes can't do.</h2>
+
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="num">01 / STATEFUL</div>
+        <h3>Real resources, isolated</h3>
+        <p>Every clone holds the real vendor's object graph — customers, charges, subscriptions, messages, sessions, buckets — in a per-run tenant. No shared state across CI workers, no test pollution.</p>
+        <div class="viz">
+          <div class="row"><span>tenant scope</span><span class="v">/t/{runId}/...</span></div>
+          <div class="row"><span>persistence</span><span class="v">memory · badger · pg</span></div>
+          <div class="row"><span>deterministic IDs</span><span class="v ok">HKDF + ChaCha20</span></div>
+          <div class="row"><span>parallel CI workers</span><span class="v ok">infinite</span></div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="num">02 / TIME-TRAVEL</div>
+        <h3>Virtual clock</h3>
+        <p>Advance the clone clock by 30 days to trigger trial expiry, dunning emails, JWT rotation, S3 lifecycle. No more <code class="mono">sleep(86400)</code>. Subscriptions renew on command.</p>
+        <div class="viz">
+          <div class="row"><span>advance</span><span class="v">30d / 2h / 5m</span></div>
+          <div class="row"><span>set absolute</span><span class="v">ISO-8601</span></div>
+          <div class="row"><span>pause / resume</span><span class="v ok">supported</span></div>
+          <div class="row"><span>cross-clone sync</span><span class="v blue">world clock</span></div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="num">03 / WEBHOOKS</div>
+        <h3>Signed, instant, loopback</h3>
+        <p>Clone webhooks fire at <em>your</em> URL — including localhost — signed with HMAC keys you control. Force redelivery, simulate retry storms, validate signature code paths sandboxes can't reach.</p>
+        <div class="viz">
+          <div class="row"><span>stripe-signature</span><span class="v ok">whsec_clone · HMAC256</span></div>
+          <div class="row"><span>twilio X-Sig</span><span class="v ok">RFC 3986</span></div>
+          <div class="row"><span>force redeliver</span><span class="v">UI / SDK / MCP</span></div>
+          <div class="row"><span>delivery delay</span><span class="v warn">programmable</span></div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="num">04 / SNAPSHOTS</div>
+        <h3>World-level state</h3>
+        <p>Snapshot every clone at the same logical instant. Restore the whole world — Stripe, Twilio, Email, Auth, S3 — to test step 7 again without rerunning steps 1–6.</p>
+        <div class="viz">
+          <div class="row"><span>per-clone snap</span><span class="v">gzip JSON</span></div>
+          <div class="row"><span>world snap</span><span class="v ok">cross-vendor manifest</span></div>
+          <div class="row"><span>restore</span><span class="v">atomic · 503-during</span></div>
+          <div class="row"><span>branch from snap</span><span class="v blue">supported</span></div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="num">05 / CHAOS</div>
+        <h3>Programmable failure</h3>
+        <p>Inject 429s, 422s with the exact payload shape, latency spikes, idempotency conflicts, dunning failures. Drag-and-drop scenarios; persisted into snapshots.</p>
+        <div class="viz">
+          <div class="row"><span>inject error</span><span class="v err">429 · 5xx · custom JSON</span></div>
+          <div class="row"><span>inject latency</span><span class="v warn">ms / jitter</span></div>
+          <div class="row"><span>presets</span><span class="v">card_declined · otp_max</span></div>
+          <div class="row"><span>scenario chains</span><span class="v blue">N-step failure</span></div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="num">06 / SAFETY</div>
+        <h3>Destructive-call refusal</h3>
+        <p>If your env still points at <code class="mono">api.stripe.com</code> with a live-mode key, the SDK refuses to make the call. Never charge a real card from a CI runner again. Provable safety KPI on the home page.</p>
+        <div class="viz">
+          <div class="row"><span>live-host detect</span><span class="v ok">enforced</span></div>
+          <div class="row"><span>live-key match</span><span class="v ok">sk_live_*  · ACxxx</span></div>
+          <div class="row"><span>refusal counter</span><span class="v">14 blocked today</span></div>
+          <div class="row"><span>strict mode</span><span class="v blue">X-Molar-Clone header</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NOW / RATE LIMITS -->
+<section>
+  <div class="container">
+    <div class="sec-eyebrow">03 — By the numbers</div>
+    <h2 class="sec-title">A hundred CI workers. <em>One world, each.</em></h2>
+    <p class="sec-lede">Test mode was built for a developer poking at the API once a week. Clones was built for the thousand calls a minute your agents and CI actually make. The numbers tell the story.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num">25<em>/s</em></div>
+        <div class="lab">Stripe test-mode hard cap — vs. 100/s in production. Run CI twice in a morning and you hit it.</div>
+      </div>
+      <div class="stat">
+        <div class="num">5<em>/10m</em></div>
+        <div class="lab">Twilio Verify attempts per phone number. Cannot be lifted for testing. CI flakes every morning.</div>
+      </div>
+      <div class="stat">
+        <div class="num">25-56<em>%</em></div>
+        <div class="lab">of CI failures at major engineering orgs are flaky — usually shared state in vendor sandboxes.</div>
+      </div>
+      <div class="stat">
+        <div class="num">0</div>
+        <div class="lab">real cards charged. Real refunds issued. Real customers messaged. By design.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="sec-eyebrow">04 — How it works</div>
+    <h2 class="sec-title">Four moves. One env file change.</h2>
+    <p class="sec-lede">Clones replace your <code class="mono">STRIPE_API_BASE</code>, <code class="mono">TWILIO_ACCOUNT_SID</code>, and friends. Your app code doesn't change. Your tests do everything they couldn't before.</p>
+
+    <div class="how-step">
+      <div class="step-num">STEP / 01</div>
+      <div>
+        <h3>Spawn a tenant.</h3>
+        <p>One API call (or one MCP tool, or one CLI command) gives you a tenant-scoped URL per clone kind. Tenants are isolated cryptographically — Run A's Stripe customers are invisible to Run B's, even on the same clone instance.</p>
+      </div>
+      <div class="how-card">
+        <div class="h">POST /api/clones/spawn</div>
+        <div class="row"><span>kinds</span><b>stripe, twilio, email</b></div>
+        <div class="row"><span>seed</span><b>checkout-world</b></div>
+        <div class="row"><span>ttl</span><b>30m idle</b></div>
+        <div class="row"><span>runId</span><b>run_8f3a91</b></div>
+        <div class="row"><span>jwt</span><b class="badge-ok">1h, admin scope</b></div>
+        <div class="row"><span>persistence</span><b>badger</b></div>
+      </div>
+    </div>
+
+    <div class="how-step">
+      <div class="step-num">STEP / 02</div>
+      <div>
+        <h3>Point your app at it.</h3>
+        <p>Export <code class="mono">MOLAR_CLONE_STRIPE_URL</code> et al, or use the SDK to auto-detect. Your existing Stripe client, Twilio client, Resend client speak to the clone — same SDKs, same wire format, same error shapes.</p>
+      </div>
+      <div style="background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-family:'Geist Mono',monospace;font-size:11px">
+        <div style="padding:10px 14px;background:var(--bg-2);border-bottom:1px solid var(--line);color:var(--muted);font-size:10px;letter-spacing:.15em;text-transform:uppercase">.env  ·  4 lines change</div>
+        <div style="padding:14px 16px;line-height:1.7">
+          <div style="color:var(--terra)">- STRIPE_API_BASE=https://api.stripe.com</div>
+          <div style="color:var(--forest)">+ STRIPE_API_BASE=http://localhost:8001/t/run_8f3a91</div>
+          <div style="height:8px"></div>
+          <div style="color:var(--terra)">- STRIPE_API_KEY=sk_live_51M...</div>
+          <div style="color:var(--forest)">+ STRIPE_API_KEY=sk_test_clone</div>
+          <div style="height:8px"></div>
+          <div style="color:var(--terra)">- TWILIO_BASE=https://api.twilio.com</div>
+          <div style="color:var(--forest)">+ TWILIO_BASE=http://localhost:8002/t/run_8f3a91</div>
+          <div style="height:8px"></div>
+          <div style="color:var(--terra)">- RESEND_BASE=https://api.resend.com</div>
+          <div style="color:var(--forest)">+ RESEND_BASE=http://localhost:8003/t/run_8f3a91</div>
+          <div style="height:14px;border-top:1px dashed var(--line);margin-top:8px"></div>
+          <div style="color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase">app code unchanged</div>
+          <div style="margin-top:8px;color:var(--ink-2)">stripe.customers.create({...})  →  hits clone</div>
+          <div style="color:var(--ink-2)">twilio.messages.create({...})    →  hits clone</div>
+          <div style="color:var(--ink-2)">resend.emails.send({...})        →  hits clone</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="how-step">
+      <div class="step-num">STEP / 03</div>
+      <div>
+        <h3>Test the unhappy path.</h3>
+        <p>Inject the 422 with the exact payload shape your debugger showed last week. Hold a webhook for 90 seconds. Decline a card on the third charge. Expire an OTP. Snapshot the world before, so the next test starts clean.</p>
+      </div>
+      <div class="how-card">
+        <div class="h">POST /_clone/inject</div>
+        <div class="row"><span>target</span><b>POST /v1/charges</b></div>
+        <div class="row"><span>status</span><b class="badge-err">422</b></div>
+        <div class="row"><span>body</span><b>{"err":"missing_field"}</b></div>
+        <div class="row"><span>after</span><b>2 successes</b></div>
+        <div class="row"><span>ttl</span><b>this run only</b></div>
+        <div class="row"><span>persist in snapshot</span><b class="badge-ok">yes</b></div>
+      </div>
+    </div>
+
+    <div class="how-step">
+      <div class="step-num">STEP / 04</div>
+      <div>
+        <h3>Teardown — or hand off.</h3>
+        <p>One call drops the tenant. Or hand the world snapshot to Guard for shadow-prod runs, to Cartographer's agent for autonomous QA, or to Trace's debugger for layer-2 replay. Clone state travels with the run.</p>
+      </div>
+      <div class="how-card">
+        <div class="h">handoff · molar suite</div>
+        <div class="row"><span>guard</span><b class="badge-ok">shadow-prod baseline</b></div>
+        <div class="row"><span>cartographer</span><b class="badge-ok">agent-driven flows</b></div>
+        <div class="row"><span>trace</span><b class="badge-ok">layer-2 replay</b></div>
+        <div class="row"><span>mcp</span><b>molar_clone_snapshot</b></div>
+        <div class="row"><span>teardown</span><b>DELETE /api/clones/...</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section id="tour">
+  <div class="container">
+    <div class="sec-eyebrow">05 — The dashboard</div>
+    <h2 class="sec-title">Built for the hour when the webhook didn't fire.</h2>
+    <p class="sec-lede">Most vendor portals show you "test mode events" and a search box. Clones gives you the live request stream, the virtual clock, the active chaos rules, the snapshot graph, and the destructive-call refusal log — for every session, in one workspace.</p>
+
+    <div class="preview">
+      <div class="pv-bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="url">clones.molar.dev / acme-prod / sessions / run_8f3a91 — checkout-world</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--cobalt)">● live · 4 clones</div>
+      </div>
+      <div class="pv-grid">
+        <div class="col-3">
+          <div class="pv-h">Active clones</div>
+          <div class="pv-stat">4<small>of 5 spawned</small></div>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted)">stripe · twilio · email · auth</div>
+        </div>
+        <div class="col-3">
+          <div class="pv-h">Virtual clock</div>
+          <div class="pv-stat">+30d<small>offset</small></div>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted)">2026-08-14T14:30 · paused</div>
+        </div>
+        <div class="col-3">
+          <div class="pv-h">Refusals today</div>
+          <div class="pv-stat" style="color:var(--forest)">14<small>blocked</small></div>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted)">api.stripe.com · sk_live_*</div>
+        </div>
+        <div class="col-3">
+          <div class="pv-h">Snapshots</div>
+          <div class="pv-stat" style="color:var(--cobalt)">7<small>of 100</small></div>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted)">last: after-checkout · 14kb</div>
+        </div>
+
+        <div class="col-9">
+          <div class="pv-h">Live request stream — NDJSON · last 9</div>
+          <div class="log-line"><span class="t">14:30:02</span><span class="m POST">POST</span><span>/v1/customers</span><span class="s">201 · 18ms</span></div>
+          <div class="log-line"><span class="t">14:30:02</span><span class="m POST">POST</span><span>/v1/payment_intents</span><span class="s">201 · 22ms</span></div>
+          <div class="log-line"><span class="t">14:30:03</span><span class="m POST">POST</span><span>/v1/payment_intents/pi_9k8z4f/confirm</span><span class="s">200 · 31ms</span></div>
+          <div class="log-line"><span class="t">14:30:03</span><span class="m POST">POST</span><span>/Messages.json   <span style="color:var(--muted)">(twilio)</span></span><span class="s">201 · 14ms</span></div>
+          <div class="log-line"><span class="t">14:30:03</span><span class="m POST">POST</span><span>/emails           <span style="color:var(--muted)">(resend)</span></span><span class="s">200 · 9ms</span></div>
+          <div class="log-line warn"><span class="t">14:30:04</span><span class="m GET">GET</span><span>/v1/charges/ch_x9   <span style="color:var(--muted)">[chaos: 429]</span></span><span class="s">429 · 4ms</span></div>
+          <div class="log-line"><span class="t">14:30:04</span><span class="m POST">POST</span><span>/v1/webhook_endpoints/we_a91/deliver</span><span class="s">200 · 88ms</span></div>
+          <div class="log-line err"><span class="t">14:30:05</span><span class="m POST">POST</span><span>https://api.stripe.com/v1/charges   <span style="color:var(--terra)">[REFUSED · live host]</span></span><span class="s">— · —</span></div>
+          <div class="log-line"><span class="t">14:30:06</span><span class="m POST">POST</span><span>/_clone/clock/advance · 30d</span><span class="s">204 · 6ms</span></div>
+        </div>
+        <div class="col-3">
+          <div class="pv-h">Active chaos rules</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--ink-2);display:flex;flex-direction:column;gap:10px">
+            <div style="padding:8px;background:var(--bg-2);border-radius:6px"><b style="color:var(--terra)">429</b> on /v1/charges<br/><span style="color:var(--muted)">after 2 ok · this run</span></div>
+            <div style="padding:8px;background:var(--bg-2);border-radius:6px"><b style="color:var(--amber)">+800ms</b> on /Verify<br/><span style="color:var(--muted)">always · in snap</span></div>
+            <div style="padding:8px;background:var(--bg-2);border-radius:6px"><b style="color:var(--cobalt)">bounce</b> on /emails<br/><span style="color:var(--muted)">spamtrap@*</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px"><a href="https://app.molar.it" class="btn btn-cobalt" style="padding:13px 20px">Open the live dashboard →</a></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="sec-eyebrow">06 — Pricing</div>
+    <h2 class="sec-title">Pay by the clone-minute. <em>Nothing else.</em></h2>
+    <p class="sec-lede">One unit. $0.002 a minute. A typical CI run uses six of them. There's no per-vendor tax, no webhook overage, no "talk to sales" before you can spawn your second tenant.</p>
+
+    <div class="pricing-grid">
+      <div class="price">
+        <div class="tag">01 / Solo</div>
+        <h4>Hobby</h4>
+        <div class="amt">$0<small>/forever</small></div>
+        <ul>
+          <li>1 concurrent session</li>
+          <li>1,000 clone-minutes / mo</li>
+          <li>5 snapshots, 100 MB</li>
+          <li>All 5 vendor clones</li>
+          <li>Community Discord</li>
+        </ul>
+        <a href="https://app.molar.it" class="btn btn-outline">Start free →</a>
+      </div>
+      <div class="price feat-card">
+        <div class="tag">02 / Most teams</div>
+        <h4>Pro</h4>
+        <div class="amt">$199<small>/mo</small></div>
+        <ul>
+          <li>20 concurrent sessions</li>
+          <li>50,000 clone-minutes / mo</li>
+          <li>Unlimited snapshots, 10 GB</li>
+          <li>BYOC clone fleet</li>
+          <li>World snapshot CI bundles</li>
+          <li>MCP-native agent access</li>
+          <li>Email + Slack support</li>
+        </ul>
+        <a href="https://app.molar.it" class="btn btn-cobalt">Start 14-day trial</a>
+      </div>
+      <div class="price">
+        <div class="tag">03 / Big teams</div>
+        <h4>Enterprise</h4>
+        <div class="amt" style="font-size:42px">Talk to us</div>
+        <ul>
+          <li>Unlimited everything</li>
+          <li>Self-hosted Helm bundle</li>
+          <li>Air-gapped on-prem (cosign)</li>
+          <li>SSO · SCIM · audit logs</li>
+          <li>Garage / S3 snapshot store</li>
+          <li>SOC2 evidence pack</li>
+          <li>Dedicated FDE</li>
+        </ul>
+        <a href="#" class="btn btn-outline">Talk to the founder</a>
+      </div>
+    </div>
+
+    <p style="margin-top:32px;text-align:center;color:var(--muted);font-size:13px">
+      Clone-minute = $0.002. A typical CI run uses 6 clone-minutes. Pro covers ~8,000 CI runs/mo.
+    </p>
+  </div>
+</section>
+
+<!-- BIG CTA -->
+<section class="big-cta">
+  <div class="container-narrow">
+    <h2>Charge a clone.<br/><em>Refund a clone.</em><br/>Ship the real thing.</h2>
+    <p style="font-size:17px;color:var(--ink-2);max-width:640px;margin:0 auto 36px;line-height:1.5">Five minutes from one command to a stateful, signed-webhook-firing, clock-controllable clone of Stripe, Twilio, Email, Auth, and S3 — all in one tenant.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="https://app.molar.it" class="btn btn-cobalt" style="padding:14px 22px;font-size:15px">Spawn your first clone →</a>
+      <a href="#docs" class="btn btn-outline" style="padding:14px 22px;font-size:15px">Read the docs</a>
+    </div>
+    <div style="margin-top:36px;font-family:'Geist Mono',monospace;font-size:13px;color:var(--muted)">or — <span style="color:var(--ink)">$ npx molar-clones spawn stripe twilio email</span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="grid">
+      <div>
+        <div class="footer-mark"><em>Clones</em></div>
+        <p style="max-width:38ch;line-height:1.5;margin:0 0 16px">A surface of Molar. Stateful, time-travellable, vendor-faithful clones of every API your app touches.</p>
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;color:#6e6650">v0.4 · public beta · build clones-2f8a31</div>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#tour">Dashboard</a>
+        <a href="#pricing">Pricing</a>
+        <a href="https://app.molar.it">Dashboard</a>
+        <a href="#">Changelog</a>
+      </div>
+      <div>
+        <h5>Molar</h5>
+        <a href="/cartographer">Cartographer</a>
+        <a href="/clones">Clones</a>
+        <a href="/guard">Guard</a>
+        <a href="/trace">Trace</a>
+        <a href="/thesis">Thesis</a>
+      </div>
+      <div>
+        <h5>Developers</h5>
+        <a href="/docs">Docs</a>
+        <a href="#">CLI · molar clones</a>
+        <a href="#">MCP server</a>
+        <a href="https://github.com/pratikranaa/molar-it">GitHub</a>
+        <a href="#">Status</a>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© 2026 Molar Labs · Bengaluru</span>
+      <span>built with <span style="color:#7ea0d1">Go</span> · <span style="color:#7ea0d1">Hatchet</span> · <span style="color:#7ea0d1">Helm</span> · <span style="color:#7ea0d1">cosign</span></span>
+    </div>
+  </div>
+</footer>
+
+</div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/nav.jsx"></script>
+  <script type="text/babel" src="/nav-boot.jsx"></script>
+
+</body>
+</html>

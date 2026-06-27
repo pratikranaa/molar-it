@@ -6,6 +6,10 @@
     { "source": "/vs/cypress", "destination": "/vs/cypress.html" },
     { "source": "/vs/playwright", "destination": "/vs/playwright.html" },
     { "source": "/integrations/github-actions", "destination": "/integrations/github-actions.html" },
-    { "source": "/blog/test-stripe-without-real-cards", "destination": "/blog/test-stripe-without-real-cards.html" }
+    { "source": "/blog/test-stripe-without-real-cards", "destination": "/blog/test-stripe-without-real-cards.html" },
+    { "source": "/cartographer", "destination": "/cartographer/index.html" },
+    { "source": "/guard", "destination": "/guard/index.html" },
+    { "source": "/clones", "destination": "/clones/index.html" },
+    { "source": "/trace", "destination": "/trace/index.html" }
   ]
 }

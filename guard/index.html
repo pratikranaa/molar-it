@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guard by Molar — Every merge safe. Every deploy watched.</title>
+<link rel="canonical" href="https://molar.it/guard" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/guard/guard-landing.css">
+<style id="tweak-overrides">
+/* polarity: dark mode override (light is now the default) */
+[data-polarity="dark"] {
+  --bg:#0b0e0b; --bg-2:#10140f; --panel:#141813; --panel-2:#191e17;
+  --ink:#ecf1e8; --ink-2:#c4ceba; --muted:#7e8b75; --faint:#5a6553;
+  --line:#242b20; --line-2:#1b211a;
+  --green:#62cf88; --green-deep:#3da868; --green-soft:#15301f;
+  --warn:#e3b251; --err:#ec7a5c; --info:#6f9be2; --mend:#b793ec;
+  --paper:#f4f1ea; --paper-ink:#14160f;
+}
+[data-polarity="dark"] nav.top { background: rgba(11,14,11,.82); }
+[data-polarity="dark"] .announce { background: #10140f; }
+[data-polarity="dark"] .logos { background: #10140f; border-color: #242b20; }
+[data-polarity="dark"] ::selection { background: #62cf88; color: #0b0e0b; }
+[data-polarity="dark"] .big-cta { background: #10140f; }
+
+/* light-mode console / diffcard / footer — always dark surfaces */
+.console, .diffcard, footer { background: #14160f; }
+.console .body { color: #cdd6c4; }
+footer { color: #c4ceba; }
+footer a { color: #c4ceba; }
+footer .fmark { color: #ecf1e8; }
+footer .fmark em { color: #5fd08a; }
+[data-polarity="dark"] .console, [data-polarity="dark"] .diffcard { background: #07090a; }
+[data-polarity="dark"] footer { background: #07090a; }
+
+/* light-mode flipped section (originally section.light = cream-on-dark; now it's dark-on-cream) */
+section.light { background: #14160f; color: #ecf1e8; border-color: #242b20; }
+section.light .sec-lede { color: #c4ceba; }
+section.light .eyebrow { color: #5fd08a; }
+section.light .sec-title { color: #ecf1e8; }
+section.light .sec-title em { color: #5fd08a; }
+section.light .subsys { background: #242b20; border-color: #242b20; }
+section.light .subsys .s { background: #191e17; }
+section.light .subsys .s h3 { color: #ecf1e8; }
+section.light .subsys .s p { color: #c4ceba; }
+section.light .subsys .s .n { color: #5fd08a; }
+section.light .subsys .s .viz { border-color: #242b20; color: #7e8b75; }
+section.light .subsys .s .viz .ok { color: #5fd08a; }
+section.light .subsys .s .viz .warn { color: #e3b251; }
+section.light .subsys .s .viz .err { color: #ec7a5c; }
+[data-polarity="dark"] section.light { background: #f4f1ea; color: #14160f; border-color: #d9d6c5; }
+[data-polarity="dark"] section.light .sec-lede { color: #46493a; }
+[data-polarity="dark"] section.light .eyebrow { color: #14633a; }
+[data-polarity="dark"] section.light .sec-title { color: #14160f; }
+[data-polarity="dark"] section.light .sec-title em { color: #14633a; }
+[data-polarity="dark"] section.light .subsys { background: #d9d6c5; border-color: #d9d6c5; }
+[data-polarity="dark"] section.light .subsys .s { background: #fbf9f3; }
+[data-polarity="dark"] section.light .subsys .s h3 { color: #14160f; }
+[data-polarity="dark"] section.light .subsys .s p { color: #46493a; }
+[data-polarity="dark"] section.light .subsys .s .n { color: #14633a; }
+[data-polarity="dark"] section.light .subsys .s .viz { border-color: #d9d6c5; color: #6f7563; }
+
+/* density: compact */
+[data-density="compact"] section { padding: 52px 0; }
+[data-density="compact"] .hero { padding: 42px 0 24px; }
+[data-density="compact"] .hero h1 { font-size: clamp(36px, 5.6vw, 72px); margin-bottom: 16px; }
+[data-density="compact"] .hero p.lede { font-size: 16px; margin-bottom: 22px; }
+[data-density="compact"] .sec-title { font-size: clamp(30px, 4vw, 50px); margin-bottom: 14px; }
+[data-density="compact"] .sec-lede { font-size: 15px; margin-bottom: 32px; }
+[data-density="compact"] .subsys, [data-density="compact"] .loop, [data-density="compact"] .mongrid,
+[data-density="compact"] .compare, [data-density="compact"] .stats, [data-density="compact"] .ent,
+[data-density="compact"] .surfaces { margin-top: 28px; }
+[data-density="compact"] .how-step { padding: 28px 0; gap: 28px; }
+[data-density="compact"] .how-step h3 { font-size: 28px; }
+[data-density="compact"] .stat .num { font-size: 48px; }
+[data-density="compact"] .big-cta { padding: 72px 0; }
+[data-density="compact"] .big-cta h2 { font-size: clamp(36px, 5.6vw, 68px); }
+[data-density="compact"] .pricing { margin-top: 28px; }
+[data-density="compact"] .price .amt { font-size: 40px; }
+[data-density="compact"] .prob-grid, [data-density="compact"] .ent { gap: 12px; }
+[data-density="compact"] .prob, [data-density="compact"] .ent .e { padding: 18px; }
+[data-density="compact"] .reassure { margin-top: 20px; }
+[data-density="compact"] .faq { gap: 12px; margin-top: 28px; }
+[data-density="compact"] .btn-lg { padding: 10px 18px; font-size: 14px; }
+
+/* density: expansive */
+[data-density="expansive"] section { padding: 120px 0; }
+[data-density="expansive"] .hero { padding: 96px 0 56px; }
+[data-density="expansive"] .hero h1 { font-size: clamp(52px, 8.4vw, 112px); margin-bottom: 34px; }
+[data-density="expansive"] .hero p.lede { font-size: 21px; margin-bottom: 42px; }
+[data-density="expansive"] .sec-title { font-size: clamp(44px, 6vw, 76px); margin-bottom: 28px; }
+[data-density="expansive"] .sec-lede { font-size: 19px; margin-bottom: 64px; }
+[data-density="expansive"] .how-step h3 { font-size: 46px; }
+[data-density="expansive"] .stat .num { font-size: 80px; }
+[data-density="expansive"] .big-cta { padding: 160px 0; }
+</style>
+</head>
+<body>
+<link rel="stylesheet" href="/styles.css" />
+<div class="paper-grain"></div>
+<div id="nav-root"></div>
+<style>.surface-hide-local-nav nav.top{display:none!important}</style>
+<div class="surface-hide-local-nav">
+
+
+<!-- ============ Announce ============ -->
+<div class="announce"><div class="in container"><span class="pill">new</span> Guard is now generally available — <a href="https://app.molar.it" style="color:var(--green);margin-left:4px">explore the dashboard →</a></div></div>
+
+<!-- ============ Nav ============ -->
+<nav class="top"><div class="in container">
+  <a class="brand" href="/"><span class="glyph"><i></i></span> guard <span class="sub">by Molar</span></a>
+  <div class="links">
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#mender">Mender</a>
+    <a href="#monitoring">Monitoring</a>
+    <a href="#pricing">Pricing</a>
+    <a href="/docs" target="_blank">Docs</a>
+  </div>
+  <div class="cta">
+    <a class="btn btn-ghost" href="https://app.molar.it">Dashboard ↗</a>
+    <a class="btn btn-green" href="#pricing">Start for free</a>
+  </div>
+</div></nav>
+
+<!-- ============ Hero ============ -->
+<section class="hero" style="border:none">
+<div class="grid-tex"></div>
+<div class="container hero-grid">
+  <div style="position:relative">
+    <div class="eyebrow"><span class="dot"></span> Guard · surface 3 of 4</div>
+    <h1>Every merge safe.<br>Every deploy <em>watched.</em></h1>
+    <p class="lede">Guard gates pull requests with affected-scenario selection, monitors production with safe synthetics, and — when something breaks — lets Mender draft the fix. All without touching a real customer.</p>
+    <div class="cta-row">
+      <a class="btn btn-green btn-lg" href="#pricing">Start free trial</a>
+      <a class="btn btn-outline btn-lg" href="https://app.molar.it">Explore the dashboard ↗</a>
+    </div>
+    <div class="reassure">
+      <span>5 min setup</span>
+      <span>No real users touched</span>
+      <span>SOC 2 Type II</span>
+      <span>Self-host available</span>
+    </div>
+  </div>
+  <div>
+    <!-- live console -->
+    <div class="console" id="hero-console">
+      <div class="bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="title">guard — watch — acme-app</div>
+        <span class="tag"><span class="d"></span>live</span>
+      </div>
+      <div class="body" id="console-body"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Logos ============ -->
+<div class="logos">
+  <div class="container row">
+    <span class="lab">Trusted by engineering teams at</span>
+    <b>Ramp</b><b>Linear</b><b>Brex</b><b>Mercury</b><b>Plaid</b><b>Vercel</b>
+    <span style="color:var(--faint)">and 4 YC S25 startups</span>
+  </div>
+</div>
+
+<!-- ============ How Guard Works ============ -->
+<section id="how">
+<div class="container">
+  <div class="eyebrow">How Guard Works</div>
+  <h2 class="sec-title">Three systems. One release loop.</h2>
+  <p class="sec-lede">Guard isn't a test runner — it's a release-safety system. It understands your code graph, picks the right scenarios, runs them safely against cloned vendors, and fixes what it breaks.</p>
+
+  <div class="loop">
+    <div class="ph">
+      <div class="stage">① Before Merge</div>
+      <h3>PR gating</h3>
+      <p>Affected-scenario selection picks only the tests touched by your diff. Ancestor-green cache skips what's proven safe. Full-suite fallback when the graph isn't confident.</p>
+      <span class="tag">median check: 2m 14s</span>
+    </div>
+    <div class="ph">
+      <div class="stage">② After Merge</div>
+      <h3>Production monitoring</h3>
+      <p>Scheduled synthetics across 5+ regions, running real user flows against your live app — with cloned vendors so no real customer is ever touched.</p>
+      <span class="tag">40 checks / min</span>
+    </div>
+    <div class="ph">
+      <div class="stage">③ When it breaks</div>
+      <h3>Mender</h3>
+      <p>Triages the failure, classifies it (product bug? vendor drift? flake?), and — for real bugs — drafts a fix PR with a regression test. A human always approves.</p>
+      <span class="tag">68% acceptance · 14m MTTR</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Features deep-dive ============ -->
+<section id="features">
+<div class="container">
+  <div class="eyebrow">Affected-scenario selection</div>
+  <h2 class="sec-title">Run 7 scenarios, not 47.</h2>
+  <p class="sec-lede">Guard's dependency graph knows which files map to which scenarios. When a PR touches <code style="color:var(--green)">discount.ts</code>, it runs <code style="color:var(--green)">checkout.coupon</code> and <code style="color:var(--green)">checkout.flow</code> — not your entire suite.</p>
+
+  <div class="how-step">
+    <div class="sn">STEP 01</div>
+    <div>
+      <h3>Graph analysis</h3>
+      <p>Guard reads your repo's import graph, route map, and scenario definitions to build a dependency matrix. When a commit lands, it traces which scenarios are affected by the changed files.</p>
+    </div>
+    <div class="how-card">
+      <div class="h">Affected-graph trace</div>
+      <div class="r"><span>base SHA</span><b>green@4a9c11</b></div>
+      <div class="r"><span>head SHA</span><b>a3f29c1</b></div>
+      <div class="r"><span>files changed</span><b>src/checkout/discount.ts</b></div>
+      <div class="r"><span>scenarios matched</span><b class="ok">7 of 47</b></div>
+      <div class="r"><span>time saved</span><b class="ok">~6.2 min</b></div>
+    </div>
+  </div>
+
+  <div class="how-step">
+    <div class="sn">STEP 02</div>
+    <div>
+      <h3>Ancestor-green cache</h3>
+      <p>If a scenario already passed on a parent commit and none of its dependencies changed, Guard skips it. Cache policy is per-scenario — content-hash for static tests, ancestor-green for flow tests.</p>
+    </div>
+    <div class="how-card">
+      <div class="h">Cache result</div>
+      <div class="r"><span>auth.login</span><b class="ok">cached · ancestor green</b></div>
+      <div class="r"><span>checkout.flow</span><b class="warn">miss · ran fresh</b></div>
+      <div class="r"><span>checkout.coupon</span><b class="err">miss · ran fresh → FAIL</b></div>
+      <div class="r"><span>overall hit rate</span><b>61%</b></div>
+    </div>
+  </div>
+
+  <div class="how-step">
+    <div class="sn">STEP 03</div>
+    <div>
+      <h3>Full-suite fallback</h3>
+      <p>When the graph confidence drops — a lockfile touches 50 transitive deps, or a new file has no edges yet — Guard falls back to the full suite automatically. No config. No missed regressions.</p>
+    </div>
+    <div class="how-card">
+      <div class="h">Fallback trigger</div>
+      <div class="r"><span>PR #417 · chore/deps</span><b class="warn">full suite (47)</b></div>
+      <div class="r"><span>reason</span><b>lockfile → 50+ transitive deps</b></div>
+      <div class="r"><span>graph confidence</span><b class="warn">below threshold</b></div>
+      <div class="r"><span>result</span><b class="ok">all 47 passed · 3m 58s</b></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Mender ============ -->
+<section id="mender">
+<div class="container">
+  <div class="eyebrow">Mender · AI remediation</div>
+  <h2 class="sec-title">Don't just find the bug. <em>Fix it.</em></h2>
+  <p class="sec-lede">When Guard catches a regression, Mender reads the failing trace, the commit diff, and the git history — then drafts a fix PR with a regression test. A human always approves. Governance controls what files Mender may touch.</p>
+
+  <div style="display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:start;margin-top:48px">
+    <div>
+      <div class="diffcard">
+        <div class="h"><span>src/checkout/discount.ts</span><span style="color:var(--mend)">◆ mender · confidence 94%</span></div>
+        <div class="l" style="padding:10px 0"><span class="ln" style="color:var(--muted)">@@ -42,7 +42,7 @@</span><span class="c" style="color:var(--muted);font-size:11px">export function applyCoupon(amount, coupon) {</span></div>
+        <div class="l"><span class="ln"></span><span class="c" style="color:var(--ink-2)">  if (!coupon || !coupon.value) return amount;</span></div>
+        <div class="l del"><span class="ln">-</span><span class="c">  return amount * coupon.value;</span></div>
+        <div class="l add"><span class="ln">+</span><span class="c">  return amount * (1 - coupon.value);</span></div>
+        <div class="l"><span class="ln"></span><span class="c" style="color:var(--ink-2)">}</span></div>
+      </div>
+      <div class="diffcard" style="margin-top:12px">
+        <div class="h"><span>+ regression test</span></div>
+        <div class="l add"><span class="ln">+</span><span class="c">test('SAVE10 yields 10% off, not 10x', () => {</span></div>
+        <div class="l add"><span class="ln">+</span><span class="c">  expect(applyCoupon(1000, { value: 0.10 })).toBe(900);</span></div>
+        <div class="l add"><span class="ln">+</span><span class="c">});</span></div>
+      </div>
+    </div>
+    <div>
+      <div style="display:grid;gap:14px">
+        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px">
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Mender reasoning</div>
+          <div style="font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--ink-2)">
+            <span style="display:block"><span style="color:var(--mend)">◆ read</span>  src/checkout/discount.ts</span>
+            <span style="display:block"><span style="color:var(--mend)">◆ grep</span>  "coupon.value" → 3 matches</span>
+            <span style="display:block"><span style="color:var(--info)">◆ reason</span>  coupon.value = 0.10 (fraction)</span>
+            <span style="display:block;margin-left:24px">but used as multiplier → 10× price</span>
+            <span style="display:block"><span style="color:var(--green)">◆ fix</span>  1 line · discount.ts</span>
+            <span style="display:block"><span style="color:var(--green)">◆ test</span>  sandbox → ✓ total $9.00</span>
+            <span style="display:block"><span style="color:var(--green)">◆ governance</span>  forbidden-paths: clear</span>
+          </div>
+        </div>
+        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px">
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Governance rails</div>
+          <div style="display:grid;gap:10px;font-size:14px;color:var(--ink-2)">
+            <div style="display:flex;gap:10px;align-items:center"><span style="color:var(--green)">✓</span> Forbidden-paths check</div>
+            <div style="display:flex;gap:10px;align-items:center"><span style="color:var(--green)">✓</span> Monthly token budget (2.1 / 5M)</div>
+            <div style="display:flex;gap:10px;align-items:center"><span style="color:var(--green)">✓</span> Circuit breaker armed</div>
+            <div style="display:flex;gap:10px;align-items:center"><span style="color:var(--green)">✓</span> Human approval required</div>
+            <div style="display:flex;gap:10px;align-items:center"><span style="color:var(--err)">✗</span> <span>src/payments/** → <b style="color:var(--err)">blocked</b></span></div>
+            <div style="display:flex;gap:10px;align-items:center"><span style="color:var(--warn)">↻</span> Rejection feeds RLHF loop</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Monitoring ============ -->
+<section id="monitoring">
+<div class="container">
+  <div class="eyebrow">Production monitoring</div>
+  <h2 class="sec-title">Scenarios × regions. Always running.</h2>
+  <p class="sec-lede">Guard runs your critical paths on a cadence against live production — with synthetic identities and cloned vendors, so checks never generate a real charge, a real email, or a real analytics event.</p>
+
+  <div class="mongrid">
+    <table>
+      <thead>
+        <tr><th class="l">Scenario</th><th>us-east</th><th>us-west</th><th>eu-west</th><th>eu-central</th><th>ap-south</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="scn"><div>Checkout — card → receipt</div><div class="m">checkout.flow · p95 1.9s</div></td>
+          <td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td>
+        </tr>
+        <tr>
+          <td class="scn"><div>Auth — login + 2FA</div><div class="m">auth.login · p95 0.7s</div></td>
+          <td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td>
+        </tr>
+        <tr>
+          <td class="scn"><div>Billing — stripe webhook → DB</div><div class="m">billing.webhook · p95 1.1s</div></td>
+          <td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td><td><div class="cell err">✗</div></td><td><div class="cell ok">✓</div></td>
+        </tr>
+        <tr>
+          <td class="scn"><div>Email — receipt delivery</div><div class="m">email.transactional · p95 3.6s</div></td>
+          <td><div class="cell warn">!</div></td><td><div class="cell ok">✓</div></td><td><div class="cell info">◐</div></td><td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td>
+        </tr>
+        <tr>
+          <td class="scn"><div>Dashboard — first paint</div><div class="m">dashboard.load · p95 1.0s</div></td>
+          <td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td><td><div class="cell ok">✓</div></td><td><div class="cell none">·</div></td><td><div class="cell none">·</div></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="display:flex;gap:18px;margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--muted)">
+      <span><span class="cell ok" style="width:16px;height:12px;display:inline-flex;font-size:9px">✓</span> operational</span>
+      <span><span class="cell warn" style="width:16px;height:12px;display:inline-flex;font-size:9px">!</span> degraded</span>
+      <span><span class="cell err" style="width:16px;height:12px;display:inline-flex;font-size:9px">✗</span> failing</span>
+      <span><span class="cell info" style="width:16px;height:12px;display:inline-flex;font-size:9px">◐</span> shadow-diff</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Molar Suite ============ -->
+<section>
+<div class="container">
+  <div class="eyebrow">The Molar Suite</div>
+  <h2 class="sec-title">Four surfaces. One platform.</h2>
+  <p class="sec-lede">Guard is surface 3 of Molar's vision: a complete quality fabric for the AI-native engineering team. Each surface works alone — and they compound together.</p>
+
+  <div class="surfaces">
+    <div class="surface">
+      <div class="num">SURFACE 01</div>
+      <h4>Cartographer</h4>
+      <p>Map your codebase. Understand how modules connect, which paths carry risk, and where agent-written code lands.</p>
+    </div>
+    <div class="surface">
+      <div class="num">SURFACE 02</div>
+      <h4>Clones</h4>
+      <p>Behavioral replicas of your third-party dependencies. Same API, same error modes, zero real effects. The foundation Guard runs on.</p>
+    </div>
+    <div class="surface active">
+      <div class="num">SURFACE 03</div>
+      <h4>Guard</h4>
+      <p>Gate every merge. Watch every deploy. Fix what breaks. The release-safety system for AI-native teams.</p>
+    </div>
+    <div class="surface">
+      <div class="num">SURFACE 04</div>
+      <h4>Trace</h4>
+      <p>Follow a request from browser to database and back. Distributed tracing built on the Molar graph. Coming soon.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Stats ============ -->
+<section style="background:var(--bg-2)">
+<div class="container">
+  <div class="eyebrow">By the numbers</div>
+  <h2 class="sec-title">Real results from real teams.</h2>
+  <div class="stats">
+    <div class="stat"><div class="num">84<em>%</em></div><div class="lab">of PR checks use a subset — no full-suite bottleneck</div></div>
+    <div class="stat"><div class="num">2:14</div><div class="lab">median PR check time — down from 38 min full suite</div></div>
+    <div class="stat"><div class="num">14<em>m</em></div><div class="lab">mean time to resolve — 66% faster with Mender</div></div>
+    <div class="stat"><div class="num">0</div><div class="lab">real customers touched by synthetic checks — ever</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Pricing ============ -->
+<section id="pricing" style="background:var(--bg-2)">
+<div class="container">
+  <div class="eyebrow">Pricing</div>
+  <h2 class="sec-title">Pay by the run. <em>Not the runaround.</em></h2>
+  <p class="sec-lede">Every plan includes PR gating, production monitoring, the full dashboard, and the same Mender. The only knobs are runs and seats. Free until you ship — then the math is on this page.</p>
+
+  <div class="pricing">
+    <div class="price">
+      <div class="tag">Starter</div>
+      <h4>For solo devs & side projects</h4>
+      <div class="amt">$0<small>/ month</small></div>
+      <ul>
+        <li>500 PR runs / mo</li>
+        <li>2,000 production runs / mo</li>
+        <li>2 regions</li>
+        <li>Suggestive Mender (500k tokens)</li>
+        <li>1 seat</li>
+        <li>Community support</li>
+      </ul>
+      <a class="btn btn-outline" href="#">Start for free</a>
+    </div>
+    <div class="price feat">
+      <div class="tag" style="color:var(--green)">Team · most popular</div>
+      <h4>For shipping teams</h4>
+      <div class="amt">$299<small>/ month</small></div>
+      <ul>
+        <li>25,000 PR runs / mo</li>
+        <li>250,000 production runs / mo</li>
+        <li>8 regions</li>
+        <li>Aggressive Mender (5M tokens)</li>
+        <li>15 seats</li>
+        <li>Shadow-prod</li>
+        <li>Priority support · Slack Connect</li>
+      </ul>
+      <a class="btn btn-green" href="#">Start free trial</a>
+    </div>
+    <div class="price">
+      <div class="tag">Business</div>
+      <h4>For orgs that can't break prod</h4>
+      <div class="amt">Custom</div>
+      <ul>
+        <li>Unlimited runs</li>
+        <li>Unlimited regions</li>
+        <li>SSO / SCIM / RBAC</li>
+        <li>Self-host / in-VPC</li>
+        <li>Data residency</li>
+        <li>Custom Mender budgets</li>
+        <li>Dedicated CSM · SLA</li>
+      </ul>
+      <a class="btn btn-outline" href="#">Talk to sales</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Big CTA ============ -->
+<div class="big-cta">
+  <div class="grid-tex"></div>
+  <div class="container" style="position:relative">
+    <div class="eyebrow" style="justify-content:center;display:flex;margin-bottom:20px"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.4s infinite"></span></div>
+    <h2>Stop shipping <em>scared.</em></h2>
+    <p style="font-size:18px;color:var(--ink-2);max-width:580px;margin:0 auto 32px;line-height:1.6">Every merge safe. Every deploy watched. Every fix drafted.<br>Guard is the release-safety system for AI-native teams.</p>
+    <div style="display:flex;gap:14px;justify-content:center">
+      <a class="btn btn-green btn-lg" href="#pricing">Start free trial</a>
+      <a class="btn btn-outline btn-lg" href="https://app.molar.it">Explore the dashboard ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Footer ============ -->
+<footer>
+<div class="container">
+  <div class="grid">
+    <div>
+      <div class="fmark"><em>Guard</em></div>
+      <p style="max-width:38ch;line-height:1.5">The release-safety surface of Molar. Gate every merge, watch every deploy, fix what breaks.</p>
+      <div style="display:flex;gap:12px;margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--faint)">
+        <span>SOC 2</span><span>ISO 27001</span><span>GDPR</span>
+      </div>
+    </div>
+    <div>
+      <h5>Product</h5>
+      <a href="/cartographer">Cartographer</a><a href="/clones">Clones</a><a href="#" style="color:var(--green)">Guard</a><a href="/trace">Trace</a><a href="#pricing">Pricing</a><a href="#">Changelog</a>
+    </div>
+    <div>
+      <h5>Resources</h5>
+      <a href="/docs">Documentation</a><a href="#">API reference</a><a href="#">GitHub Action</a><a href="#">MCP tools</a><a href="#">Blog</a><a href="#">Status</a>
+    </div>
+    <div>
+      <h5>Company</h5>
+      <a href="#">About</a><a href="#">Careers</a><a href="#">Security</a><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="bottom">
+    <span>© 2026 Molar, Inc. All rights reserved.</span>
+    <span style="display:flex;align-items:center;gap:8px"><span class="glyph" style="width:14px;height:14px"><i style="border-width:1.2px;border-radius:4px"></i></span> guard v1.2.0</span>
+  </div>
+</div>
+</footer>
+
+<!-- ============ Console animation ============ -->
+<script>
+(function(){
+  var lines = [
+    ['prompt','~/acme-app ❯ guard watch --production --pr'],
+    ['dim','─── PR #421 · fix/discount-rate · claude-3.7-sonnet ───────────'],
+    ['ok','✓  checkout.flow              iad   1.2s'],
+    ['ok','✓  auth.login                 iad   0.4s   cached'],
+    ['ok','✓  dashboard.load             iad   0.6s'],
+    ['err','✗  checkout.coupon            iad   0.9s   expected $9.00, got $90.00'],
+    ['dim','   └ regression introduced in PR #421 · @alex'],
+    ['err','⛔ merge blocked   ·   1 required check failing'],
+    ['mend','◆  mender  triaging → product_bug · confidence 0.94'],
+    ['mend','◆  mender  drafting fix → src/checkout/discount.ts'],
+    ['info','ℹ  incident inc_881 opened · failure rate 32% / 10m'],
+    ['dim','─── production · scheduled ───────────────────────────────────'],
+    ['ok','✓  auth.login          5 regions   p95 0.7s'],
+    ['err','✗  billing.webhook     fra         DB constraint · status NULL'],
+    ['warn','!  email.transactional iad         slow 2.4s (p95)'],
+    ['ok','✓  checkout.flow       5 regions   p95 1.9s'],
+  ];
+  var el = document.getElementById('console-body');
+  var idx = 0, max = 8;
+  function addLine(){
+    if(idx >= lines.length){ idx = 0; el.innerHTML = ''; max = 8; }
+    var l = lines[idx]; idx++;
+    var span = document.createElement('span');
+    span.className = 'line ' + l[0];
+    if(l[0]==='prompt'){
+      span.innerHTML = '<span class="prompt">~/acme-app ❯ </span><span class="you">' + l[1].replace(/^.*❯ /,'') + '</span>';
+    } else {
+      span.textContent = l[1];
+    }
+    span.style.opacity = '0'; span.style.transform = 'translateY(4px)';
+    el.appendChild(span);
+    requestAnimationFrame(function(){ span.style.transition = 'all .3s'; span.style.opacity = '1'; span.style.transform = 'translateY(0)'; });
+    el.scrollTop = el.scrollHeight;
+    if(idx <= max) setTimeout(addLine, 120 + Math.random()*180);
+    else setTimeout(addLine, 1100);
+  }
+  setTimeout(addLine, 600);
+})();
+</script>
+
+<!-- ============ Tweaks ============ -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="app/tweaks-panel.jsx"></script>
+<script type="text/babel">
+const { useEffect } = React;
+
+/* ── copy variants keyed by voice ── */
+const VOICE = {
+  technical: {
+    heroH: 'Every merge safe.<br>Every deploy <em>watched.</em>',
+    heroP: 'Guard gates pull requests with affected-scenario selection, monitors production with safe synthetics, and — when something breaks — lets Mender draft the fix. All without touching a real customer.',
+    ctaPrimary: 'Start free trial',
+    ctaSecondary: 'Explore the dashboard ↗',
+    problemH: 'AI writes code faster than humans can review it.',
+    howH: 'Three systems. One release loop.',
+    menderH: "Don't just find the bug. <em>Fix it.</em>",
+    monitorH: 'Scenarios × regions. Always running.',
+    bigCtaH: 'Stop shipping <em>scared.</em>',
+    bigCtaP: 'Every merge safe. Every deploy watched. Every fix drafted.<br>Guard is the release-safety system for AI-native teams.',
+  },
+  executive: {
+    heroH: 'Ship faster.<br><em>Break nothing.</em>',
+    heroP: 'Guard eliminates the tradeoff between velocity and reliability. Your team merges with confidence, production stays healthy, and when regressions land — they\'re fixed in minutes, not hours.',
+    ctaPrimary: 'Book a demo',
+    ctaSecondary: 'See the ROI calculator ↗',
+    problemH: 'Your team ships 10× faster. Your safety net <em>hasn\'t kept up.</em>',
+    howH: 'From commit to confidence. <em>Automatically.</em>',
+    menderH: '14-minute MTTR. <em>66% faster.</em>',
+    monitorH: 'Know before your customers <em>do.</em>',
+    bigCtaH: 'Make reliability <em>a feature.</em>',
+    bigCtaP: 'Teams using Guard catch 94% of regressions before production.<br>Mean time to resolution: 14 minutes. Customer impact: zero.',
+  },
+  provocative: {
+    heroH: 'Your CI is a <em>lie.</em>',
+    heroP: 'It takes 40 minutes. Half the failures are flakes. It mocks every vendor. And it still lets regressions through. Guard replaces faith with proof — real scenarios, real vendors, real fixes.',
+    ctaPrimary: 'Prove it — free trial',
+    ctaSecondary: 'See what Guard catches ↗',
+    problemH: 'You\'re not testing your app. You\'re testing <em>your mocks.</em>',
+    howH: 'Stop guessing. <em>Start knowing.</em>',
+    menderH: 'The bug is found. The fix is written. <em>You just approve.</em>',
+    monitorH: 'Your status page says "operational." <em>Is it?</em>',
+    bigCtaH: 'Your customers already <em>know.</em>',
+    bigCtaP: 'They find your bugs on Twitter before you find them in Datadog.<br>Guard finds them first — and fixes them before anyone notices.',
+  },
+};
+
+/* ── selectors for swappable copy ── */
+const COPY_MAP = [
+  { sel: '.hero h1',           key: 'heroH' },
+  { sel: '.hero p.lede',       key: 'heroP' },
+  { sel: '.hero .cta-row .btn-green', key: 'ctaPrimary', attr: 'text' },
+  { sel: '.hero .cta-row .btn-outline', key: 'ctaSecondary', attr: 'text' },
+  { sel: '#problem .sec-title', key: 'problemH' },
+  { sel: '#how .sec-title',    key: 'howH' },
+  { sel: '#mender .sec-title', key: 'menderH' },
+  { sel: '#monitoring .sec-title', key: 'monitorH' },
+  { sel: '.big-cta h2',        key: 'bigCtaH' },
+  { sel: '.big-cta h2 + p',    key: 'bigCtaP' },
+];
+
+function applyVoice(voice) {
+  const v = VOICE[voice] || VOICE.technical;
+  COPY_MAP.forEach(({ sel, key, attr }) => {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    if (attr === 'text') { el.textContent = v[key]; }
+    else { el.innerHTML = v[key]; }
+  });
+}
+
+function applyPolarity(pol) {
+  document.documentElement.setAttribute('data-polarity', pol);
+}
+
+function applyDensity(den) {
+  document.documentElement.setAttribute('data-density', den);
+}
+
+const DEFAULTS = { voice: 'technical', polarity: 'light', density: 'regular' };
+
+function LandingTweaks() {
+  const [t, setTweak] = useTweaks(DEFAULTS);
+
+  useEffect(() => { applyVoice(t.voice); }, [t.voice]);
+  useEffect(() => { applyPolarity(t.polarity); }, [t.polarity]);
+  useEffect(() => { applyDensity(t.density); }, [t.density]);
+
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Voice & message" />
+      <TweakRadio label="Voice"
+        value={t.voice}
+        options={['technical', 'executive', 'provocative']}
+        onChange={v => setTweak('voice', v)} />
+      <TweakSection label="Visual feel" />
+      <TweakRadio label="Polarity"
+        value={t.polarity}
+        options={['dark', 'light']}
+        onChange={v => setTweak('polarity', v)} />
+      <TweakRadio label="Density"
+        value={t.density}
+        options={['compact', 'regular', 'expansive']}
+        onChange={v => setTweak('density', v)} />
+    </TweaksPanel>
+  );
+}
+
+const tweakRoot = document.createElement('div');
+document.body.appendChild(tweakRoot);
+ReactDOM.createRoot(tweakRoot).render(<LandingTweaks />);
+</script>
+
+</div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/nav.jsx"></script>
+  <script type="text/babel" src="/nav-boot.jsx"></script>
+
+</body>
+</html>

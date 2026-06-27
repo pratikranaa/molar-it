@@ -8,6 +8,34 @@ const PRIMARY_NAV = [
   { href: '/thesis', label: 'Thesis' },
 ];
 
+// Four Molar surfaces — each has its own landing page at /cartographer, etc.
+const PRODUCTS_NAV = [
+  {
+    href: '/cartographer',
+    label: 'Cartographer',
+    tag: '01 / Agent',
+    desc: 'Map your app and author critical-path tests from live traces.',
+  },
+  {
+    href: '/clones',
+    label: 'Clones',
+    tag: '02 / Sandbox',
+    desc: 'Stateful mirrors of Stripe, email, S3, and ~28 more services.',
+  },
+  {
+    href: '/guard',
+    label: 'Guard',
+    tag: '03 / Runtime',
+    desc: 'PR gates and continuous production checks before users report bugs.',
+  },
+  {
+    href: '/trace',
+    label: 'Trace',
+    tag: '04 / Debugger',
+    desc: 'Replay any failed run and diff against the last green trace.',
+  },
+];
+
 const MORE_NAV = [
   { href: '/qa-agent', label: 'QA Agent' },
   { href: '/vs/cypress', label: 'vs Cypress' },
@@ -54,9 +82,11 @@ function handleHashNavClick(e, href, onAfter) {
   }
 }
 
-function NavDropdown({ label, items, onNavigate }) {
+function NavDropdown({ label, items, onNavigate, rich }) {
+  const menuClass = 'nav-dropdown-menu' + (rich ? ' nav-dropdown-menu--rich' : '');
+
   return (
-    <div className="nav-dropdown">
+    <div className={'nav-dropdown' + (rich ? ' nav-dropdown--rich' : '')}>
       <button
         type="button"
         className="nav-dropdown-trigger"
@@ -65,17 +95,26 @@ function NavDropdown({ label, items, onNavigate }) {
         {label}
         <span className="nav-dropdown-caret" aria-hidden>▾</span>
       </button>
-      <div className="nav-dropdown-menu" role="menu">
+      <div className={menuClass} role="menu">
         {items.map((item) => (
           <a
             key={item.href}
             role="menuitem"
             href={item.href}
+            className={'nav-dropdown-item' + (rich ? ' nav-dropdown-item--rich' : '')}
             onClick={(e) => {
               handleHashNavClick(e, item.href, () => { onNavigate?.(); });
             }}
           >
-            {item.label}
+            {rich ? (
+              <>
+                <span className="nav-dropdown-item-tag">{item.tag}</span>
+                <span className="nav-dropdown-item-label">{item.label}</span>
+                <span className="nav-dropdown-item-desc">{item.desc}</span>
+              </>
+            ) : (
+              item.label
+            )}
           </a>
         ))}
       </div>
@@ -123,7 +162,13 @@ function Nav() {
           </div>
 
           <div className="nav-links nav-links--desktop">
-            {PRIMARY_NAV.map((item) => (
+            {PRIMARY_NAV.slice(0, 1).map((item) => (
+              <a key={item.href} href={item.href} onClick={(e) => onNavClick(e, item.href)}>
+                {item.label}
+              </a>
+            ))}
+            <NavDropdown label="Products" items={PRODUCTS_NAV} rich />
+            {PRIMARY_NAV.slice(1).map((item) => (
               <a key={item.href} href={item.href} onClick={(e) => onNavClick(e, item.href)}>
                 {item.label}
               </a>
@@ -177,6 +222,13 @@ function Nav() {
                   {item.label}
                 </a>
               ))}
+              <span className="nav-mobile-group-label">Products</span>
+              {PRODUCTS_NAV.map((item) => (
+                <a key={item.href} href={item.href} onClick={(e) => onNavClick(e, item.href)} className="nav-mobile-product-link">
+                  <span className="nav-mobile-product-tag">{item.tag}</span>
+                  <span>{item.label}</span>
+                </a>
+              ))}
               <span className="nav-mobile-group-label">More</span>
               {MORE_NAV.map((item) => (
                 <a key={item.href} href={item.href} onClick={(e) => onNavClick(e, item.href)}>
@@ -198,5 +250,6 @@ function Nav() {
 
 window.Nav = Nav;
 window.PRIMARY_NAV = PRIMARY_NAV;
+window.PRODUCTS_NAV = PRODUCTS_NAV;
 window.MORE_NAV = MORE_NAV;
 window.scrollToSection = scrollToSection;

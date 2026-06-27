@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cartographer — by Molar</title>
+<link rel="canonical" href="https://molar.it/cartographer" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f1ea;
+    --bg-2:#ece7dc;
+    --ink:#15120c;
+    --ink-2:#3a3528;
+    --muted:#6b6253;
+    --line:#d9d2c2;
+    --terra:#b8542e;
+    --terra-deep:#8a3d20;
+    --forest:#2f5a3a;
+    --paper:#fbf9f3;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Geist',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  .serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:-0.01em}
+  .mono{font-family:'Geist Mono',ui-monospace,Menlo,monospace}
+  .container{max-width:1240px;margin:0 auto;padding:0 32px}
+  .container-narrow{max-width:960px;margin:0 auto;padding:0 32px}
+
+  /* nav */
+  nav.top{position:sticky;top:0;z-index:50;background:rgba(244,241,234,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  nav.top .inner{display:flex;align-items:center;gap:32px;height:60px}
+  nav.top .brand{display:flex;align-items:center;gap:8px;font-weight:500}
+  nav.top .brand .glyph{width:22px;height:22px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+  nav.top .brand .glyph::before,nav.top .brand .glyph::after{content:"";position:absolute;background:var(--ink)}
+  nav.top .brand .glyph::before{left:50%;top:2px;bottom:2px;width:1.5px;transform:translateX(-50%)}
+  nav.top .brand .glyph::after{top:50%;left:2px;right:2px;height:1.5px;transform:translateY(-50%)}
+  nav.top .sub{color:var(--muted);font-size:13px;border-left:1px solid var(--line);padding-left:16px;margin-left:4px}
+  nav.top .links{display:flex;gap:28px;flex:1;justify-content:center;font-size:14px;color:var(--ink-2)}
+  nav.top .links a:hover{color:var(--ink)}
+  nav.top .cta{display:flex;align-items:center;gap:10px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;font-size:14px;font-weight:500;border:1px solid transparent;cursor:pointer;transition:all .15s}
+  .btn-ghost{color:var(--ink);border-color:transparent}
+  .btn-ghost:hover{background:rgba(0,0,0,.05)}
+  .btn-outline{border-color:var(--ink);color:var(--ink)}
+  .btn-outline:hover{background:var(--ink);color:var(--paper)}
+  .btn-primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .btn-primary:hover{background:#000}
+  .btn-terra{background:var(--terra);color:#fff;border-color:var(--terra)}
+  .btn-terra:hover{background:var(--terra-deep);border-color:var(--terra-deep)}
+
+  /* announce */
+  .announce{border-bottom:1px solid var(--line);background:var(--bg-2)}
+  .announce .inner{display:flex;align-items:center;justify-content:center;gap:10px;height:38px;font-size:13px;color:var(--ink-2)}
+  .announce .pill{font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:2px 8px;border-radius:999px;background:var(--terra);color:#fff;font-weight:600;font-family:'Geist Mono',monospace}
+
+  /* hero */
+  .hero{padding:80px 0 60px;position:relative;overflow:hidden}
+  .hero .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px}
+  .hero .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--forest);box-shadow:0 0 0 3px rgba(47,90,58,.18)}
+  .hero h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(48px,8vw,112px);line-height:.96;letter-spacing:-0.02em;margin:0 0 28px;color:var(--ink)}
+  .hero h1 em{font-style:italic;color:var(--terra)}
+  .hero p.lede{font-size:19px;line-height:1.55;color:var(--ink-2);max-width:640px;margin:0 0 36px}
+  .hero .cta-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .hero .reassure{display:flex;gap:22px;margin-top:36px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+  .hero .reassure span{display:inline-flex;align-items:center;gap:8px}
+  .hero .reassure span::before{content:"✓";color:var(--forest);font-weight:700}
+
+  /* map illustration behind hero */
+  .topo{position:absolute;right:-100px;top:40px;width:720px;height:720px;opacity:.55;pointer-events:none}
+  .topo svg{width:100%;height:100%}
+
+  /* terminal demo */
+  .terminal-wrap{margin-top:64px}
+  .terminal{background:#15120c;border-radius:14px;overflow:hidden;border:1px solid #2a2418;box-shadow:0 30px 80px -20px rgba(20,16,8,.25),0 0 0 1px rgba(255,255,255,.04) inset}
+  .terminal .bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid #2a2418;background:#1c1810}
+  .terminal .bar .dots{display:flex;gap:6px}
+  .terminal .bar .dots i{width:11px;height:11px;border-radius:50%;background:#3a3325;display:block}
+  .terminal .bar .title{flex:1;text-align:center;color:#9a8e76;font-family:'Geist Mono',monospace;font-size:12px}
+  .terminal .bar .tag{font-family:'Geist Mono',monospace;font-size:11px;color:#6b5f48;padding:2px 8px;border:1px solid #2a2418;border-radius:4px}
+  .terminal .body{padding:24px 28px;font-family:'Geist Mono',monospace;font-size:13px;line-height:1.7;color:#d9d2bf;min-height:380px}
+  .terminal .body .prompt{color:#7a6f56}
+  .terminal .body .you{color:#f4f1ea}
+  .terminal .body .ok{color:#86c374}
+  .terminal .body .warn{color:#e0b145}
+  .terminal .body .err{color:#e07a5f}
+  .terminal .body .dim{color:#6e6650}
+  .terminal .body .line{display:block;white-space:pre;overflow:hidden}
+  .terminal .body hr{border:none;border-top:1px dashed #2e281b;margin:14px 0}
+  .blink{display:inline-block;width:8px;height:14px;background:#d9d2bf;vertical-align:-2px;animation:blink 1.05s steps(2,end) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* section */
+  section{padding:88px 0;border-top:1px solid var(--line)}
+  .sec-eyebrow{font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+  .sec-title{font-family:'Instrument Serif',serif;font-size:clamp(40px,5.5vw,68px);line-height:1;letter-spacing:-0.02em;margin:0 0 24px;max-width:14ch}
+  .sec-lede{font-size:17px;line-height:1.55;color:var(--ink-2);max-width:640px;margin:0 0 56px}
+
+  /* surfaces in molar */
+  .surfaces{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:48px}
+  .surface{background:var(--paper);padding:28px;display:flex;flex-direction:column;gap:14px}
+  .surface.active{background:var(--ink);color:var(--paper);position:relative}
+  .surface.active::after{content:"YOU ARE HERE";position:absolute;top:14px;right:14px;font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--terra);background:rgba(184,84,46,.15);padding:3px 7px;border-radius:4px}
+  .surface .num{font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em}
+  .surface.active .num{color:#9a8e76}
+  .surface h4{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;margin:0;letter-spacing:-0.01em}
+  .surface p{font-size:13px;color:var(--ink-2);margin:0;line-height:1.5}
+  .surface.active p{color:#bdb39e}
+
+  /* features */
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .feat{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:28px;position:relative;overflow:hidden}
+  .feat .num{font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.15em;margin-bottom:24px}
+  .feat h3{font-family:'Instrument Serif',serif;font-size:30px;font-weight:400;margin:0 0 12px;letter-spacing:-0.01em;line-height:1.05}
+  .feat p{font-size:14px;color:var(--ink-2);margin:0;line-height:1.55}
+  .feat .viz{margin-top:24px;padding-top:24px;border-top:1px dashed var(--line);font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted);min-height:90px}
+  .feat .viz .row{display:flex;justify-content:space-between;padding:4px 0}
+  .feat .viz .row .v{color:var(--ink)}
+  .feat .viz .row .ok{color:var(--forest)}
+  .feat .viz .row .warn{color:#a36c00}
+  .feat .viz .row .err{color:var(--terra)}
+
+  /* how */
+  .how-step{display:grid;grid-template-columns:120px 1fr 1fr;gap:48px;padding:48px 0;border-top:1px solid var(--line);align-items:start}
+  .how-step:first-of-type{border-top:none}
+  .how-step .step-num{font-family:'Geist Mono',monospace;color:var(--muted);font-size:13px;letter-spacing:.1em}
+  .how-step h3{font-family:'Instrument Serif',serif;font-size:42px;font-weight:400;margin:0 0 16px;letter-spacing:-0.01em;line-height:1.02}
+  .how-step p{font-size:15px;color:var(--ink-2);margin:0;line-height:1.6}
+  .how-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px;font-family:'Geist Mono',monospace;font-size:12px;color:var(--ink-2)}
+  .how-card .h{color:var(--muted);font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px}
+  .how-card .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .how-card .row:last-child{border-bottom:none}
+  .how-card .row b{font-weight:500;color:var(--ink)}
+  .how-card .badge-ok{color:var(--forest)}
+  .how-card .badge-warn{color:#a36c00}
+  .how-card .badge-err{color:var(--terra)}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:48px}
+  .stat .num{font-family:'Instrument Serif',serif;font-size:72px;line-height:1;letter-spacing:-0.02em}
+  .stat .num em{font-style:italic;color:var(--terra)}
+  .stat .lab{font-size:13px;color:var(--muted);margin-top:8px;max-width:18ch;line-height:1.4}
+
+  /* coverage / dashboard preview */
+  .preview{margin-top:48px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:0;overflow:hidden;box-shadow:0 24px 60px -20px rgba(20,16,8,.18)}
+  .preview .pv-bar{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--bg-2)}
+  .preview .pv-bar .dots{display:flex;gap:6px}
+  .preview .pv-bar .dots i{width:10px;height:10px;border-radius:50%;background:#cabea6;display:block}
+  .preview .pv-bar .url{flex:1;font-family:'Geist Mono',monospace;font-size:12px;color:var(--muted);text-align:center}
+  .preview .pv-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--line)}
+  .preview .pv-grid > div{background:var(--paper);padding:16px;font-size:11px;font-family:'Geist Mono',monospace}
+  .preview .pv-grid .col-3{grid-column:span 3}
+  .preview .pv-grid .col-6{grid-column:span 6}
+  .preview .pv-grid .col-9{grid-column:span 9}
+  .preview .pv-grid .col-12{grid-column:span 12}
+  .preview .pv-h{color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+  .preview .pv-stat{font-family:'Instrument Serif',serif;font-size:32px;line-height:1;color:var(--ink)}
+  .preview .pv-stat small{font-size:13px;font-family:'Geist Mono',monospace;color:var(--muted);margin-left:6px}
+  .preview .step-row{display:flex;align-items:center;gap:12px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:11px}
+  .preview .step-row:last-child{border-bottom:none}
+  .preview .step-row .si{font-family:'Geist Mono',monospace;color:var(--muted)}
+  .preview .step-row .sd{flex:1;color:var(--ink)}
+  .preview .step-row .st{color:var(--forest)}
+  .preview .step-row.f .st{color:var(--terra)}
+  .preview .tier-bar{display:flex;height:10px;border-radius:999px;overflow:hidden;background:var(--bg-2);margin-top:10px}
+  .preview .tier-bar i{display:block}
+  .preview .tier-bar i.t0{background:var(--forest)}
+  .preview .tier-bar i.t1{background:#c98a2e}
+  .preview .tier-bar i.t2{background:var(--terra)}
+  .preview .map-svg{height:200px;width:100%}
+
+  /* pricing */
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+  .price{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:32px}
+  .price.feat-card{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .price .tag{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .price.feat-card .tag{color:#9a8e76}
+  .price h4{font-family:'Instrument Serif',serif;font-size:36px;font-weight:400;margin:8px 0 0;letter-spacing:-0.01em}
+  .price .amt{font-family:'Instrument Serif',serif;font-size:56px;line-height:1;margin:22px 0 6px}
+  .price .amt small{font-size:14px;font-family:'Geist',sans-serif;color:var(--muted);margin-left:4px}
+  .price.feat-card .amt small{color:#9a8e76}
+  .price ul{list-style:none;padding:0;margin:24px 0 28px;font-size:14px;display:flex;flex-direction:column;gap:10px}
+  .price ul li{display:flex;gap:10px;align-items:flex-start}
+  .price ul li::before{content:"✓";color:var(--forest);font-weight:700;margin-top:1px}
+  .price.feat-card ul li::before{color:#86c374}
+  .price .btn{width:100%;justify-content:center}
+
+  /* faq / footer */
+  footer{background:var(--ink);color:#bdb39e;padding:60px 0 32px;font-size:13px}
+  footer .grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+  footer h5{font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:#9a8e76;margin:0 0 16px}
+  footer a{display:block;padding:5px 0;color:#bdb39e}
+  footer a:hover{color:var(--paper)}
+  footer .bottom{display:flex;justify-content:space-between;padding-top:24px;border-top:1px solid #2a2418;font-size:12px;color:#6e6650}
+  footer .footer-mark{font-family:'Instrument Serif',serif;font-size:42px;color:var(--paper);margin-bottom:12px;line-height:1}
+  footer .footer-mark em{color:var(--terra);font-style:italic}
+
+  /* big cta */
+  .big-cta{padding:120px 0;text-align:center;background:var(--bg-2);border-top:1px solid var(--line)}
+  .big-cta h2{font-family:'Instrument Serif',serif;font-size:clamp(48px,7vw,96px);line-height:.98;letter-spacing:-0.02em;margin:0 0 28px}
+  .big-cta h2 em{font-style:italic;color:var(--terra)}
+
+  /* logo strip */
+  .logos{padding:32px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2)}
+  .logos .row{display:flex;gap:48px;align-items:center;justify-content:center;flex-wrap:wrap;color:var(--muted);font-family:'Geist Mono',monospace;font-size:12px}
+  .logos .row .label{letter-spacing:.12em;text-transform:uppercase;font-size:10px;color:var(--muted)}
+  .logos .row b{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;color:var(--ink-2);letter-spacing:-0.01em}
+
+  /* responsive */
+  @media (max-width:980px){
+    .surfaces{grid-template-columns:repeat(2,1fr)}
+    .feat-grid{grid-template-columns:1fr 1fr}
+    .stats{grid-template-columns:1fr 1fr}
+    .pricing-grid{grid-template-columns:1fr}
+    .how-step{grid-template-columns:1fr;gap:20px}
+    footer .grid{grid-template-columns:1fr 1fr}
+    nav.top .links{display:none}
+    .topo{display:none}
+  }
+</style>
+</head>
+<body>
+<link rel="stylesheet" href="/styles.css" />
+<div class="paper-grain"></div>
+<div id="nav-root"></div>
+<style>.surface-hide-local-nav nav.top{display:none!important}</style>
+<div class="surface-hide-local-nav">
+
+
+<!-- announce -->
+<div class="announce">
+  <div class="container inner">
+    <span class="pill">New</span>
+    <span>Cartographer v0.9 — autonomous QA agent, now in public beta</span>
+    <span style="margin-left:6px">→</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="topo" aria-hidden="true">
+    <svg viewBox="0 0 720 720" fill="none">
+      <g stroke="#b8542e" stroke-width="0.8" opacity="0.55" fill="none">
+        <path d="M360 80 Q500 140 540 280 T520 520 Q420 620 320 600 T140 460 Q90 320 180 200 T360 80Z"/>
+        <path d="M360 130 Q470 180 510 290 T490 500 Q400 580 320 560 T180 440 Q140 320 210 220 T360 130Z"/>
+        <path d="M360 180 Q450 220 480 300 T460 480 Q380 540 320 520 T220 420 Q190 320 240 240 T360 180Z"/>
+        <path d="M360 230 Q430 260 450 320 T430 460 Q360 500 320 480 T260 400 Q240 320 270 260 T360 230Z"/>
+        <path d="M360 280 Q410 300 420 340 T400 440 Q360 460 330 440 T300 380 Q290 320 310 280 T360 280Z"/>
+      </g>
+      <g stroke="#15120c" stroke-width="0.6" opacity="0.3" stroke-dasharray="2 3">
+        <line x1="40" y1="40" x2="700" y2="40"/>
+        <line x1="40" y1="680" x2="700" y2="680"/>
+        <line x1="40" y1="40" x2="40" y2="680"/>
+        <line x1="700" y1="40" x2="700" y2="680"/>
+      </g>
+      <g fill="#15120c">
+        <circle cx="220" cy="320" r="3"/>
+        <circle cx="380" cy="180" r="3"/>
+        <circle cx="500" cy="380" r="3"/>
+        <circle cx="320" cy="520" r="3"/>
+        <circle cx="180" cy="500" r="3"/>
+      </g>
+      <g stroke="#15120c" stroke-width="0.8" opacity="0.4" fill="none">
+        <path d="M220 320 L380 180 L500 380 L320 520 L180 500 Z" stroke-dasharray="3 4"/>
+      </g>
+      <g font-family="Geist Mono, monospace" font-size="9" fill="#6b6253">
+        <text x="226" y="316">/login</text>
+        <text x="386" y="176">/</text>
+        <text x="506" y="376">/checkout</text>
+        <text x="326" y="516">/account</text>
+        <text x="186" y="496">/dashboard</text>
+      </g>
+    </svg>
+  </div>
+  <div class="container" style="position:relative">
+    <div class="eyebrow">
+      <span class="dot"></span>
+      AUTONOMOUS QA · MAPS YOUR APP · WRITES THE TESTS
+    </div>
+    <h1>The agent that<br/>knows your app<br/><em>better than you do.</em></h1>
+    <p class="lede">Point Cartographer at any URL. It crawls every route, traces every flow, and writes Playwright tests you actually own — in a real browser, with real reasoning, on a budget you set.</p>
+    <div class="cta-row">
+      <a href="https://app.molar.it" class="btn btn-terra" style="padding:14px 20px;font-size:15px">Map your app →</a>
+      <a href="#how" class="btn btn-outline" style="padding:14px 20px;font-size:15px">See how it works</a>
+    </div>
+    <div class="reassure">
+      <span>60-second setup</span>
+      <span>Safe on production</span>
+      <span>Owned Playwright code, exported</span>
+      <span>MCP + CLI + Web</span>
+    </div>
+  </div>
+
+  <!-- terminal demo -->
+  <div class="container terminal-wrap">
+    <div class="terminal">
+      <div class="bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="title">cartog — autonomous run — acme.com/checkout</div>
+        <div class="tag">live</div>
+      </div>
+      <div class="body">
+<span class="line"><span class="prompt">~/acme-app ❯</span> <span class="you">cartog run "complete checkout with Pro plan"</span></span>
+<span class="line"><span class="ok">✓</span> connected to api.cartographer.molar.dev   <span class="dim">project=acme-prod  worker=hatchet-w3</span></span>
+<span class="line"><span class="ok">✓</span> route-map loaded                          <span class="dim">124 pages · 38 forms · last crawl 14m ago</span></span>
+<span class="line"><span class="ok">✓</span> planner ready                              <span class="dim">claude-sonnet-4-5  · 8 substeps proposed</span></span>
+<span class="line"><span class="dim">─────────────────────────────────────────────────────────────────────</span></span>
+<span class="line"><span class="prompt">step 01</span>  navigate /checkout                          <span class="ok">✓  tier-0  220ms</span></span>
+<span class="line"><span class="prompt">step 02</span>  fill #email = qa+pro@acme.dev              <span class="ok">✓  tier-0  180ms</span></span>
+<span class="line"><span class="prompt">step 03</span>  select plan = Pro                           <span class="ok">✓  tier-0  140ms</span></span>
+<span class="line"><span class="prompt">step 04</span>  click [data-testid=submit]                  <span class="ok">✓  tier-0  90ms</span></span>
+<span class="line"><span class="prompt">step 05</span>  await /webhooks/stripe                      <span class="warn">⟳  tier-1  Gemini Flash verify</span></span>
+<span class="line"><span class="prompt">step 06</span>  assert receipt $9.00                        <span class="err">✗  expected $9.00  got $90.00</span></span>
+<span class="line"><span class="dim">        └ regression introduced PR #421 (claude-3.7-sonnet) — checkout/discount.ts</span></span>
+<span class="line"><span class="dim">─────────────────────────────────────────────────────────────────────</span></span>
+<span class="line"><span class="ok">✓</span> playwright spec written  <span class="dim">→ tests/checkout.coupon.spec.ts (1.4kb)</span></span>
+<span class="line"><span class="ok">✓</span> pull request opened       <span class="dim">→ molar/fix-checkout-coupon · @alex</span></span>
+<span class="line"><span class="ok">✓</span> trace + screenshots         <span class="dim">→ open in dashboard ↗</span><span class="blink"></span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- logo strip -->
+<div class="logos">
+  <div class="container">
+    <div class="row">
+      <span class="label">Wired into</span>
+      <b>Playwright</b>
+      <b>GitHub</b>
+      <b>Hatchet</b>
+      <b>Langfuse</b>
+      <b>Anthropic</b>
+      <b>Gemini</b>
+      <b>MCP</b>
+      <b>Cursor</b>
+    </div>
+  </div>
+</div>
+
+<!-- SURFACES -->
+<section id="surfaces">
+  <div class="container">
+    <div class="sec-eyebrow">01 — Within Molar</div>
+    <h2 class="sec-title">One surface of four. The one that does the mapping.</h2>
+    <p class="sec-lede">Molar is a release guard with four surfaces. <strong>Cartographer</strong> is the one that reads your app end-to-end and writes the tests. It feeds the other three.</p>
+    <div class="surfaces">
+      <div class="surface active">
+        <span class="num">01 / AGENT</span>
+        <h4>Cartographer</h4>
+        <p>Crawls routes, plans goals, runs flows in a real browser, exports owned Playwright code. The reader and writer.</p>
+      </div>
+      <div class="surface">
+        <span class="num">02 / SANDBOX</span>
+        <h4>Clones</h4>
+        <p>Stateful mirrors of Stripe, SendGrid, Twilio, Postgres. Real APIs without real side effects.</p>
+      </div>
+      <div class="surface">
+        <span class="num">03 / RUNTIME</span>
+        <h4>Guard</h4>
+        <p>Runs Cartographer's flows against live production on a schedule. Catches bugs before users do.</p>
+      </div>
+      <div class="surface">
+        <span class="num">04 / DEBUGGER</span>
+        <h4>Trace</h4>
+        <p>Replay any failed run like a debugger. Diff against last green to see exactly what changed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IT DOES (features) -->
+<section id="features">
+  <div class="container">
+    <div class="sec-eyebrow">02 — What it does</div>
+    <h2 class="sec-title">Six things. None of them brittle.</h2>
+
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="num">01 / DISCOVER</div>
+        <h3>Deep crawl</h3>
+        <p>BFS from any seed URL. Resolves auth gates, follows forms, maps routes into a graph you can browse, filter, and diff between deploys.</p>
+        <div class="viz">
+          <div class="row"><span>pages discovered</span><span class="v">124</span></div>
+          <div class="row"><span>forms found</span><span class="v">38</span></div>
+          <div class="row"><span>auth states</span><span class="v">12</span></div>
+          <div class="row"><span>screenshots</span><span class="v ok">stored · S3</span></div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="num">02 / REASON</div>
+        <h3>Goal-driven runs</h3>
+        <p>Write a goal in plain English. A LangGraph planner decomposes it into steps; the actor drives a real browser; the verifier escalates only when it needs to.</p>
+        <div class="viz">
+          <div class="row"><span>planner</span><span class="v">sonnet-4-5</span></div>
+          <div class="row"><span>tier-0 grounding</span><span class="v ok">a11y + Sonnet</span></div>
+          <div class="row"><span>tier-1 grounding</span><span class="v warn">Gemini Flash</span></div>
+          <div class="row"><span>tier-2 grounding</span><span class="v">UI-TARS · local</span></div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="num">03 / EXPORT</div>
+        <h3>Owned code</h3>
+        <p>7-stage export pipeline: prune → rank selectors → cluster page objects → harvest assertions → generate → lint → sandbox-verify → heal. Drops a Playwright spec into your repo.</p>
+        <div class="viz">
+          <div class="row"><span>spec generated</span><span class="v ok">checkout.spec.ts</span></div>
+          <div class="row"><span>lint</span><span class="v ok">passed</span></div>
+          <div class="row"><span>sandbox verify</span><span class="v ok">e2b · 4.2s</span></div>
+          <div class="row"><span>testid coverage</span><span class="v">87%</span></div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="num">04 / OBSERVE</div>
+        <h3>Passive UX</h3>
+        <p>Every step runs axe accessibility, visual diff against a baseline, and optional VLM sampling. Findings land in an inbox with dedupe, severity, and dismissal.</p>
+        <div class="viz">
+          <div class="row"><span>axe rule violations</span><span class="v err">3 critical</span></div>
+          <div class="row"><span>visual diff</span><span class="v warn">2 pages drifted</span></div>
+          <div class="row"><span>VLM budget</span><span class="v">$0.42 / $5.00</span></div>
+          <div class="row"><span>dedupe</span><span class="v ok">rule+selector+route</span></div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="num">05 / INTEGRATE</div>
+        <h3>MCP + CLI + Web</h3>
+        <p>Same run_id everywhere. Drive Cartographer from Cursor / Claude Code / Windsurf via MCP, from your terminal with <code class="mono">cartog</code>, or from the web dashboard. They share state.</p>
+        <div class="viz">
+          <div class="row"><span>mcp tools exposed</span><span class="v">7</span></div>
+          <div class="row"><span>oauth 2.1</span><span class="v ok">enabled</span></div>
+          <div class="row"><span>cli command</span><span class="v">cartog run "..."</span></div>
+          <div class="row"><span>web dashboard</span><span class="v ok">parity</span></div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="num">06 / RECORD</div>
+        <h3>Demonstrate once</h3>
+        <p>Show Cartographer the flow once via the Chrome extension. It chunks the rrweb session by intent, deduplicates against the route map, and replays deterministically.</p>
+        <div class="viz">
+          <div class="row"><span>extension session</span><span class="v ok">connected</span></div>
+          <div class="row"><span>chunks recorded</span><span class="v">14</span></div>
+          <div class="row"><span>skill cache hit</span><span class="v ok">9 / 14</span></div>
+          <div class="row"><span>replay strategy</span><span class="v">rrweb + actor</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="sec-eyebrow">03 — How it works</div>
+    <h2 class="sec-title">Paste a URL. Walk away.</h2>
+    <p class="sec-lede">No fixtures. No YAML. No DSL. Cartographer reads what's there and reasons about what to do next, just like a careful human QA engineer would — except in parallel, on every flow, every commit.</p>
+
+    <div class="how-step">
+      <div class="step-num">STEP / 01</div>
+      <div>
+        <h3>Hands you a route map</h3>
+        <p>A BFS crawler with anti-bot defaults walks every reachable route from a seed URL. It captures DOM hashes, status codes, headers, screenshots, and discovered actions. The result is a queryable site graph — not a sitemap.xml dump.</p>
+      </div>
+      <div class="how-card">
+        <div class="h">crawl · acme.com</div>
+        <div class="row"><span>seed</span><b>https://acme.com</b></div>
+        <div class="row"><span>depth · max</span><b>4 · 150</b></div>
+        <div class="row"><span>scope allowlist</span><b>acme.com, *.acme.dev</b></div>
+        <div class="row"><span>anti-bot</span><b class="badge-ok">cloak · headless</b></div>
+        <div class="row"><span>status</span><b class="badge-ok">complete · 124p · 38f</b></div>
+        <div class="row"><span>resume token</span><b>crawl_3f29...</b></div>
+      </div>
+    </div>
+
+    <div class="how-step">
+      <div class="step-num">STEP / 02</div>
+      <div>
+        <h3>Plans the goal</h3>
+        <p>Planner reads the route map, the natural-language goal, and any cached skills from a prior demo. It produces a substep list. The actor executes; the verifier checks; the grounding ladder escalates only when accessibility-tree grounding isn't enough.</p>
+      </div>
+      <div class="how-card">
+        <div class="h">graph · langgraph</div>
+        <div class="row"><span>skill_cache</span><b class="badge-warn">miss · 1 of 8 hit</b></div>
+        <div class="row"><span>planner</span><b>sonnet-4-5  · 8 steps</b></div>
+        <div class="row"><span>actor</span><b>playwright · cloak</b></div>
+        <div class="row"><span>verifier</span><b>a11y → flash → tars</b></div>
+        <div class="row"><span>HITL</span><b>pending_human · 0</b></div>
+        <div class="row"><span>tier-0 share</span><b class="badge-ok">82%</b></div>
+      </div>
+    </div>
+
+    <div class="how-step">
+      <div class="step-num">STEP / 03</div>
+      <div>
+        <h3>Writes the test</h3>
+        <p>When a run succeeds, the export pipeline drops a clean Playwright spec into your repo (or a presigned zip). Page objects clustered automatically. Selectors ranked by stability. Assertions harvested from what the agent actually verified.</p>
+      </div>
+      <div class="how-card">
+        <div class="h">export · stage 1–7</div>
+        <div class="row"><span>prune trajectory</span><b class="badge-ok">42 → 18 ops</b></div>
+        <div class="row"><span>rank selectors</span><b class="badge-ok">data-testid · 87%</b></div>
+        <div class="row"><span>cluster POM</span><b>3 page objects</b></div>
+        <div class="row"><span>generate</span><b>sonnet · 1.4kb</b></div>
+        <div class="row"><span>lint</span><b class="badge-ok">eslint passed</b></div>
+        <div class="row"><span>verify</span><b class="badge-ok">e2b · 4.2s</b></div>
+        <div class="row"><span>heal</span><b class="badge-warn">gemini · 1 attempt</b></div>
+      </div>
+    </div>
+
+    <div class="how-step">
+      <div class="step-num">STEP / 04</div>
+      <div>
+        <h3>Keeps watching</h3>
+        <p>Hand the spec to Molar Guard and Cartographer will keep running it against staging and production on a schedule. Failures route back to the diff that introduced them, attributed to the human or agent who wrote it.</p>
+      </div>
+      <div class="how-card">
+        <div class="h">handoff · molar guard</div>
+        <div class="row"><span>schedule</span><b>* / 30 min</b></div>
+        <div class="row"><span>env</span><b>production · cloak</b></div>
+        <div class="row"><span>last run</span><b class="badge-ok">passed · 14m ago</b></div>
+        <div class="row"><span>last failure</span><b class="badge-err">PR #421 · 6h ago</b></div>
+        <div class="row"><span>blame</span><b>claude-3.7-sonnet</b></div>
+        <div class="row"><span>linear ticket</span><b>MOL-318</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section>
+  <div class="container">
+    <div class="sec-eyebrow">04 — The dashboard</div>
+    <h2 class="sec-title">Built for the hour when step 7 fails.</h2>
+    <p class="sec-lede">Most agent UIs show you a flat log and call it observability. Cartographer's run detail shows you reasoning, grounding tier, selector candidates, before/after screenshots, and the exact moment Tier 0 escalated to Tier 1 — for every step.</p>
+
+    <div class="preview">
+      <div class="pv-bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="url">cartographer.molar.dev / acme-prod / runs / run_8f3a91 — checkout.coupon</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted)">live</div>
+      </div>
+      <div class="pv-grid">
+        <div class="col-3">
+          <div class="pv-h">Status</div>
+          <div class="pv-stat" style="color:var(--terra)">failed<small>step 6 of 8</small></div>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted)">duration 14.2s  · cost $0.071</div>
+        </div>
+        <div class="col-3">
+          <div class="pv-h">Tier distribution</div>
+          <div class="pv-stat">82%<small>tier-0</small></div>
+          <div class="tier-bar"><i class="t0" style="width:82%"></i><i class="t1" style="width:15%"></i><i class="t2" style="width:3%"></i></div>
+          <div style="margin-top:8px;font-size:11px;color:var(--muted)">target ≥ 80% · within budget</div>
+        </div>
+        <div class="col-3">
+          <div class="pv-h">Findings</div>
+          <div class="pv-stat" style="color:#a36c00">3<small>this run</small></div>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted)">2 axe · 1 odiff · dedup'd</div>
+        </div>
+        <div class="col-3">
+          <div class="pv-h">Export</div>
+          <div class="pv-stat" style="color:var(--forest)">ready<small>spec + POM</small></div>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted)">verify ✓ · 87% testid coverage</div>
+        </div>
+
+        <div class="col-9">
+          <div class="pv-h">Step trajectory</div>
+          <div class="step-row"><span class="si">01</span><span class="sd">navigate /checkout</span><span class="st">tier-0 · 220ms ✓</span></div>
+          <div class="step-row"><span class="si">02</span><span class="sd">fill input[name=email] = "qa+pro@acme.dev"</span><span class="st">tier-0 · 180ms ✓</span></div>
+          <div class="step-row"><span class="si">03</span><span class="sd">select plan = "Pro"</span><span class="st">tier-0 · 140ms ✓</span></div>
+          <div class="step-row"><span class="si">04</span><span class="sd">click [data-testid="submit-checkout"]</span><span class="st">tier-0 · 90ms ✓</span></div>
+          <div class="step-row"><span class="si">05</span><span class="sd">await network /webhooks/stripe</span><span class="st" style="color:#a36c00">tier-1 · 2.1s · escalated</span></div>
+          <div class="step-row f"><span class="si">06</span><span class="sd">assert text = "$9.00" in [data-testid="receipt-total"]</span><span class="st">tier-0 · expected $9.00 / got $90.00</span></div>
+          <div class="step-row"><span class="si">07</span><span class="sd"><span style="color:var(--muted)">not reached — run halted</span></span><span class="st" style="color:var(--muted)">—</span></div>
+          <div class="step-row"><span class="si">08</span><span class="sd"><span style="color:var(--muted)">not reached — run halted</span></span><span class="st" style="color:var(--muted)">—</span></div>
+        </div>
+        <div class="col-3">
+          <div class="pv-h">Route map</div>
+          <svg class="map-svg" viewBox="0 0 200 200" fill="none">
+            <g stroke="#d9d2c2" stroke-width="0.5">
+              <circle cx="100" cy="100" r="80"/>
+              <circle cx="100" cy="100" r="55"/>
+              <circle cx="100" cy="100" r="30"/>
+            </g>
+            <g stroke="#15120c" stroke-width="0.5" opacity="0.4">
+              <line x1="100" y1="100" x2="40" y2="50"/>
+              <line x1="100" y1="100" x2="170" y2="60"/>
+              <line x1="100" y1="100" x2="160" y2="160"/>
+              <line x1="100" y1="100" x2="50" y2="170"/>
+              <line x1="100" y1="100" x2="100" y2="20"/>
+            </g>
+            <g fill="#15120c">
+              <circle cx="100" cy="100" r="4"/>
+              <circle cx="40" cy="50" r="3"/>
+              <circle cx="170" cy="60" r="3"/>
+              <circle cx="160" cy="160" r="3"/>
+              <circle cx="50" cy="170" r="3"/>
+              <circle cx="100" cy="20" r="3"/>
+            </g>
+            <circle cx="160" cy="160" r="6" fill="none" stroke="#b8542e" stroke-width="1.5"/>
+            <g font-family="Geist Mono, monospace" font-size="6" fill="#6b6253">
+              <text x="106" y="100">/</text>
+              <text x="44" y="46">/login</text>
+              <text x="146" y="56">/signup</text>
+              <text x="124" y="164" fill="#b8542e">/checkout</text>
+              <text x="20" y="180">/account</text>
+              <text x="84" y="16">/pricing</text>
+            </g>
+          </svg>
+          <div style="font-size:10px;color:var(--muted);margin-top:6px;text-align:center">5 routes touched · 1 hot</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px"><a href="https://app.molar.it" class="btn btn-terra" style="padding:13px 20px">Open the live dashboard →</a></div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section id="thesis">
+  <div class="container">
+    <div class="sec-eyebrow">05 — Why we built it</div>
+    <h2 class="sec-title">QA was built for code humans wrote.</h2>
+    <p class="sec-lede">2026 is the first year more than half of merged code is written by an agent. The PR-time E2E suite, the post-deploy monitor, the customer support ticket — none of that scales when a Sonnet checkpoint silently inverts a coupon calculation at 3am.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num">46<em>%</em></div>
+        <div class="lab">of code at AI-using teams is now agent-generated.</div>
+      </div>
+      <div class="stat">
+        <div class="num">5.7<em>%</em></div>
+        <div class="lab">of merged code is reverted within two weeks of landing.</div>
+      </div>
+      <div class="stat">
+        <div class="num">66<em>%</em></div>
+        <div class="lab">of devs cite "almost-right AI code" as their #1 frustration.</div>
+      </div>
+      <div class="stat">
+        <div class="num">$2.4<em>T</em></div>
+        <div class="lab">cost of poor software quality in the US, per year.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="sec-eyebrow">06 — Pricing</div>
+    <h2 class="sec-title">Priced on the page. Not behind a sales call.</h2>
+    <p class="sec-lede">Cartographer is one of four Molar surfaces. You can pay for it on its own — by run-hours and pages crawled — or get it included in the Molar suite.</p>
+
+    <div class="pricing-grid">
+      <div class="price">
+        <div class="tag">01 / Solo</div>
+        <h4>Hobby</h4>
+        <div class="amt">$0<small>/forever</small></div>
+        <ul>
+          <li>1 project</li>
+          <li>200 run-hours / mo</li>
+          <li>500 crawled pages / mo</li>
+          <li>Public GitHub repos</li>
+          <li>Community Discord</li>
+        </ul>
+        <a href="https://app.molar.it" class="btn btn-outline">Start free →</a>
+      </div>
+      <div class="price feat-card">
+        <div class="tag">02 / Most teams</div>
+        <h4>Pro</h4>
+        <div class="amt">$149<small>/mo</small></div>
+        <ul>
+          <li>Unlimited projects</li>
+          <li>2,000 run-hours / mo</li>
+          <li>Unlimited crawls</li>
+          <li>Private repos · GitHub App</li>
+          <li>MCP + CLI + Web parity</li>
+          <li>Owned Playwright exports</li>
+          <li>Bring your own LLM keys</li>
+        </ul>
+        <a href="https://app.molar.it" class="btn btn-terra">Start 14-day trial</a>
+      </div>
+      <div class="price">
+        <div class="tag">03 / Big teams</div>
+        <h4>Enterprise</h4>
+        <div class="amt" style="font-size:42px">Talk to us</div>
+        <ul>
+          <li>Unlimited everything</li>
+          <li>Self-hosted in your VPC</li>
+          <li>SSO · SCIM · audit logs</li>
+          <li>Dedicated FDE</li>
+          <li>Tier-2 grounding (UI-TARS, local)</li>
+          <li>Bring your own Hatchet / S3</li>
+        </ul>
+        <a href="#" class="btn btn-outline">Talk to the founder</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG CTA -->
+<section class="big-cta">
+  <div class="container-narrow">
+    <h2>Paste a URL.<br/>Get a <em>full-time</em><br/>QA engineer.</h2>
+    <p style="font-size:17px;color:var(--ink-2);max-width:620px;margin:0 auto 36px;line-height:1.5">Sixty seconds from your seed URL to a working Cartographer agent mapping your app, running goals, and writing Playwright tests you keep.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="https://app.molar.it" class="btn btn-terra" style="padding:14px 22px;font-size:15px">Map your app →</a>
+      <a href="#docs" class="btn btn-outline" style="padding:14px 22px;font-size:15px">Read the docs</a>
+    </div>
+    <div style="margin-top:36px;font-family:'Geist Mono',monospace;font-size:13px;color:var(--muted)">or — <span style="color:var(--ink)">$ npx cartographer init</span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="grid">
+      <div>
+        <div class="footer-mark"><em>Cartographer</em></div>
+        <p style="max-width:38ch;line-height:1.5;margin:0 0 16px">A surface of Molar. The autonomous QA agent that maps your app, writes the tests, and keeps watching.</p>
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;color:#6e6650">v0.9 · public beta · build a3f291c</div>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="https://app.molar.it">Dashboard</a>
+        <a href="#">Changelog</a>
+      </div>
+      <div>
+        <h5>Molar</h5>
+        <a href="/cartographer">Cartographer</a>
+        <a href="/clones">Clones</a>
+        <a href="/guard">Guard</a>
+        <a href="/trace">Trace</a>
+        <a href="#thesis">Thesis</a>
+      </div>
+      <div>
+        <h5>Developers</h5>
+        <a href="/docs">Docs</a>
+        <a href="#">CLI</a>
+        <a href="#">MCP</a>
+        <a href="https://github.com/pratikranaa/molar-it">GitHub</a>
+        <a href="#">Status</a>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© 2026 Molar Labs · Bengaluru</span>
+      <span>built with <span style="color:var(--terra)">Hatchet</span> · <span style="color:var(--terra)">LangGraph</span> · <span style="color:var(--terra)">Playwright</span></span>
+    </div>
+  </div>
+</footer>
+
+</div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/nav.jsx"></script>
+  <script type="text/babel" src="/nav-boot.jsx"></script>
+
+</body>
+</html>
