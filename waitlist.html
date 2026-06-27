@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join the waitlist — Molar</title>
+  <meta name="description" content="Join the Molar early-access waitlist. Autonomous QA, stateful clones, and production guard — we will reach out when your spot opens." />
+  <meta property="og:title" content="Join the waitlist — Molar" />
+  <meta property="og:description" content="Early access to Molar — autonomous QA testing with stateful clones and zero production side effects." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://molar.it/waitlist" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <link rel="canonical" href="https://molar.it/waitlist" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="seo-pages.css" />
+  <style>
+    .waitlist-page { padding: 48px 0 96px; }
+    .waitlist-card {
+      max-width: 520px;
+      padding: 36px 32px 32px;
+      border: 1px solid var(--rule);
+      background: var(--bone);
+    }
+    .waitlist-card h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(36px, 5vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin: 0 0 14px;
+      font-weight: 400;
+    }
+    .waitlist-card h1 em { font-style: italic; color: var(--signal); }
+    .waitlist-lede {
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--ink-2);
+      margin: 0 0 28px;
+      max-width: 46ch;
+    }
+    .waitlist-form { display: flex; flex-direction: column; gap: 14px; }
+    .waitlist-form label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .waitlist-form input,
+    .waitlist-form select {
+      font-family: 'Inter Tight', system-ui, sans-serif;
+      font-size: 15px;
+      padding: 12px 14px;
+      border: 1px solid var(--rule);
+      background: var(--paper, #fff);
+      color: var(--ink);
+      border-radius: 0;
+    }
+    .waitlist-form input:focus,
+    .waitlist-form select:focus {
+      outline: 2px solid var(--signal);
+      outline-offset: 1px;
+    }
+    .waitlist-hp { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
+    .waitlist-submit { margin-top: 8px; width: 100%; justify-content: center; }
+    .waitlist-note { margin-top: 14px; font-size: 13px; color: var(--ink-3); line-height: 1.5; }
+    .waitlist-status { margin-top: 12px; font-size: 14px; line-height: 1.5; }
+    .waitlist-status.is-ok { color: var(--forest, #2f5a3a); }
+    .waitlist-status.is-err { color: var(--signal); }
+    .waitlist-alt {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule-soft);
+      font-size: 14px;
+      color: var(--ink-2);
+    }
+    .waitlist-alt a { color: var(--signal); }
+  </style>
+</head>
+<body>
+  <div class="paper-grain"></div>
+  <div id="nav-root"></div>
+
+  <main class="doc-page waitlist-page">
+    <div class="frame">
+      <div class="doc-meta">
+        <span class="num">Early access</span>
+        <span class="rule"></span>
+        <span>Waitlist</span>
+      </div>
+
+      <div class="waitlist-card">
+        <h1 id="wl-headline">Join the <em>waitlist.</em></h1>
+        <p class="waitlist-lede" id="wl-lede">
+          Molar is in early access — autonomous QA, stateful clones, and production guard are rolling out in waves.
+          Leave your email and we will reach out when your spot opens (usually within a few days).
+        </p>
+
+        <form class="waitlist-form" id="waitlist-form" novalidate>
+          <label>
+            Work email
+            <input type="email" name="email" id="wl-email" autocomplete="email" placeholder="you@company.com" required />
+          </label>
+          <label>
+            Company <span style="text-transform:none;letter-spacing:0;font-family:inherit;color:var(--ink-3)">(optional)</span>
+            <input type="text" name="company" id="wl-company" autocomplete="organization" placeholder="Acme Inc." />
+          </label>
+          <label>
+            Role <span style="text-transform:none;letter-spacing:0;font-family:inherit;color:var(--ink-3)">(optional)</span>
+            <select name="role" id="wl-role">
+              <option value="">Select…</option>
+              <option value="engineer">Engineering</option>
+              <option value="founder">Founder / CTO</option>
+              <option value="qa">QA / Test</option>
+              <option value="product">Product</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="waitlist-hp" aria-hidden="true">
+            Website
+            <input type="text" name="website" tabindex="-1" autocomplete="off" />
+          </label>
+          <input type="hidden" name="source" id="wl-source" value="waitlist" />
+          <button type="submit" class="btn btn-primary waitlist-submit" id="wl-submit">Join waitlist →</button>
+        </form>
+
+        <p class="waitlist-status" id="wl-status" role="status" aria-live="polite"></p>
+        <p class="waitlist-note">
+          No spam. We only email about Molar access and product updates.
+          See our <a href="/privacy" style="color:var(--signal)">Privacy Policy</a>.
+        </p>
+
+        <div class="waitlist-alt">
+          Prefer to talk first?
+          <a href="https://calendly.com/pratikrana/30min">Book a 30‑min call →</a>
+          or email <a href="mailto:pratik@molar.it">pratik@molar.it</a>.
+        </div>
+      </div>
+
+      <a class="doc-back" href="/" style="margin-top:32px;display:inline-flex"><span class="arrow">←</span> Back to home</a>
+    </div>
+  </main>
+
+  <script src="site-config.js"></script>
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const ref = params.get('ref') || 'waitlist';
+      document.getElementById('wl-source').value = ref;
+
+      const surfaceKey = ref.split(':')[0];
+      const copy = {
+        clones: {
+          headline: 'Clones <em>early access.</em>',
+          lede: 'Stateful clones for QA are rolling out in waves. Join the waitlist and we will reach out when you can spawn your first clone.',
+        },
+        cartographer: {
+          headline: 'Cartographer <em>early access.</em>',
+          lede: 'Agentic app mapping is rolling out in waves. Join the waitlist and we will reach out when you can map your app.',
+        },
+        guard: {
+          headline: 'Guard <em>early access.</em>',
+          lede: 'Production guard and PR gating are rolling out in waves. Join the waitlist and we will reach out when your workspace is ready.',
+        },
+        trace: {
+          headline: 'Trace <em>early access.</em>',
+          lede: 'Trace dashboards and MCP are rolling out in waves. Join the waitlist and we will reach out when your spot opens.',
+        },
+      }[surfaceKey];
+
+      if (copy) {
+        document.getElementById('wl-headline').innerHTML = copy.headline;
+        document.getElementById('wl-lede').textContent = copy.lede;
+      }
+
+      const form = document.getElementById('waitlist-form');
+      const status = document.getElementById('wl-status');
+      const submit = document.getElementById('wl-submit');
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        status.className = 'waitlist-status';
+        status.textContent = '';
+
+        const email = document.getElementById('wl-email').value.trim();
+        if (!email || !email.includes('@')) {
+          status.className = 'waitlist-status is-err';
+          status.textContent = 'Enter a valid email address.';
+          return;
+        }
+
+        submit.disabled = true;
+        submit.textContent = 'Saving…';
+
+        try {
+          const res = await fetch('/api/waitlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email,
+              company: document.getElementById('wl-company').value.trim(),
+              role: document.getElementById('wl-role').value,
+              source: document.getElementById('wl-source').value,
+              website: form.website ? form.website.value : '',
+            }),
+          });
+          const data = await res.json().catch(function () { return {}; });
+
+          if (!res.ok) {
+            throw new Error(data.error || 'Something went wrong.');
+          }
+
+          status.className = 'waitlist-status is-ok';
+          status.textContent = "You're on the list — we'll reach out when your spot opens.";
+          form.reset();
+          document.getElementById('wl-source').value = ref;
+        } catch (err) {
+          status.className = 'waitlist-status is-err';
+          status.textContent = err.message || 'Could not save. Email pratik@molar.it instead.';
+        } finally {
+          submit.disabled = false;
+          submit.textContent = 'Join waitlist →';
+        }
+      });
+    })();
+  </script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="nav.jsx"></script>
+  <script type="text/babel" src="nav-boot.jsx"></script>
+</body>
+</html>

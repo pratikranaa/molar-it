@@ -1,0 +1,217 @@
+/* Waitlist popup — Calendly-style overlay + shift-up panel */
+.molar-wl-root {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.molar-wl-root.is-open {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.molar-wl-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(21, 18, 12, 0.42);
+  opacity: 0;
+  transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.molar-wl-root.is-open .molar-wl-backdrop {
+  opacity: 1;
+}
+
+.molar-wl-panel {
+  position: relative;
+  width: min(100%, 480px);
+  max-height: min(92vh, 640px);
+  overflow: auto;
+  background: var(--paper, #fbf9f3);
+  border: 1px solid var(--line, #d9d2c2);
+  box-shadow:
+    0 24px 80px rgba(21, 18, 12, 0.18),
+    0 2px 8px rgba(21, 18, 12, 0.06);
+  opacity: 0;
+  transform: translateY(28px) scale(0.97);
+  transition:
+    opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.molar-wl-root.is-open .molar-wl-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.molar-wl-root.is-closing .molar-wl-backdrop {
+  opacity: 0;
+  transition-duration: 0.28s;
+}
+
+.molar-wl-root.is-closing .molar-wl-panel {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition-duration: 0.3s;
+}
+
+.molar-wl-inner {
+  padding: 32px 28px 28px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1) 0.08s,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+}
+
+.molar-wl-root.is-open:not(.is-closing) .molar-wl-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.molar-wl-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line, #d9d2c2);
+  background: var(--bg, #f4f1ea);
+  color: var(--ink, #15120c);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  line-height: 1;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.molar-wl-close:hover {
+  background: var(--bg-2, #ece7dc);
+  border-color: var(--ink-3, #6b6253);
+}
+
+.molar-wl-kicker {
+  font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted, #6b6253);
+  margin: 0 0 10px;
+}
+
+.molar-wl-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(28px, 5vw, 40px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  margin: 0 0 12px;
+  color: var(--ink, #15120c);
+}
+
+.molar-wl-title em {
+  font-style: italic;
+  color: var(--cobalt, var(--terra, #b8542e));
+}
+
+.molar-wl-lede {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2, #3a3528);
+  margin: 0 0 22px;
+  max-width: 42ch;
+}
+
+.molar-wl-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.molar-wl-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted, #6b6253);
+}
+
+.molar-wl-form label span.opt {
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.molar-wl-form input,
+.molar-wl-form select {
+  font-family: 'Geist', 'Inter Tight', system-ui, sans-serif;
+  font-size: 15px;
+  padding: 11px 13px;
+  border: 1px solid var(--line, #d9d2c2);
+  background: #fff;
+  color: var(--ink, #15120c);
+  border-radius: 0;
+}
+
+.molar-wl-form input:focus,
+.molar-wl-form select:focus {
+  outline: 2px solid var(--cobalt, var(--terra, #b8542e));
+  outline-offset: 1px;
+}
+
+.molar-wl-hp {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.molar-wl-submit {
+  margin-top: 6px;
+  width: 100%;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.molar-wl-status {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 1.4em;
+}
+
+.molar-wl-status.is-ok { color: var(--forest, #2f5a3a); }
+.molar-wl-status.is-err { color: var(--terra, #b8542e); }
+
+.molar-wl-note {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--muted, #6b6253);
+  line-height: 1.5;
+}
+
+.molar-wl-note a { color: var(--cobalt, var(--terra, #b8542e)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .molar-wl-backdrop,
+  .molar-wl-panel,
+  .molar-wl-inner {
+    transition: opacity 0.2s ease;
+    transform: none !important;
+  }
+}

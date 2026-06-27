@@ -2,6 +2,8 @@
 
 const CALENDLY_URL = 'https://calendly.com/pratikrana/30min';
 const SHOW_PRICING = Boolean(window.MOLAR_SITE?.showPricing);
+const PRIMARY_CTA_HREF = window.molarPrimaryCta ? window.molarPrimaryCta() : 'https://app.molar.it';
+const PRIMARY_CTA_LABEL = window.molarPrimaryCtaLabel ? window.molarPrimaryCtaLabel() : 'Get started →';
 
 function handleCalendlyClick(e) {
   if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
@@ -269,7 +271,7 @@ function Nav() {
             >
               Book a demo
             </a>
-            <a href="https://app.molar.it" className="btn btn-primary nav-cta-btn">Get started →</a>
+            <a href={PRIMARY_CTA_HREF} className="btn btn-primary nav-cta-btn">{PRIMARY_CTA_LABEL}</a>
             <button
               type="button"
               className="nav-menu-toggle"
@@ -334,8 +336,8 @@ function Nav() {
               >
                 Book a demo
               </a>
-              <a href="https://app.molar.it" className="btn btn-primary" onClick={closeMenu}>
-                Get started →
+              <a href={PRIMARY_CTA_HREF} className="btn btn-primary" onClick={closeMenu}>
+                {PRIMARY_CTA_LABEL}
               </a>
             </div>
           </div>

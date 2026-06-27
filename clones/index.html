@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="/site-config.js"></script>
+<link rel="stylesheet" href="/waitlist-modal.css">
 <style>
   html.pricing-off #pricing,html.pricing-off a[href="#pricing"]{display:none!important}
   :root{
@@ -294,7 +295,7 @@
   }
 </style>
 </head>
-<body>
+<body data-waitlist-surface="clones">
 
 <!-- announce -->
 <div class="announce">
@@ -386,7 +387,7 @@
     <div class="cta-row">
       <a href="https://app.molar.it" class="btn btn-cobalt" style="padding:14px 20px;font-size:15px">Spawn a clone →</a>
       <a href="#tour" class="btn btn-outline" style="padding:14px 20px;font-size:15px">See a 90-second tour</a>
-      <a href="#how" class="btn btn-ghost" style="padding:14px 20px;font-size:15px;color:var(--muted)">Read the docs ↗</a>
+      <a href="https://molar.it/docs#clones" class="btn btn-ghost" style="padding:14px 20px;font-size:15px;color:var(--muted)" target="_blank" rel="noopener noreferrer">Read the docs ↗</a>
     </div>
     <div class="reassure">
       <span>5-minute setup</span>
@@ -796,7 +797,7 @@
     <p style="font-size:17px;color:var(--ink-2);max-width:640px;margin:0 auto 36px;line-height:1.5">Five minutes from one command to a stateful, signed-webhook-firing, clock-controllable clone of Stripe, Twilio, Email, Auth, and S3 — all in one tenant.</p>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
       <a href="https://app.molar.it" class="btn btn-cobalt" style="padding:14px 22px;font-size:15px">Spawn your first clone →</a>
-      <a href="#docs" class="btn btn-outline" style="padding:14px 22px;font-size:15px">Read the docs</a>
+      <a href="https://molar.it/docs#clones" class="btn btn-outline" style="padding:14px 22px;font-size:15px" target="_blank" rel="noopener noreferrer">Read the docs ↗</a>
     </div>
     <div style="margin-top:36px;font-family:'Geist Mono',monospace;font-size:13px;color:var(--muted)">or — <span style="color:var(--ink)">$ npx molar-clones spawn stripe twilio email</span></div>
   </div>
@@ -848,5 +849,6 @@
   </div>
 </footer>
 
+<script src="/waitlist-modal.js"></script>
 </body>
 </html>

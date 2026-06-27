@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="/site-config.js"></script>
+<link rel="stylesheet" href="/waitlist-modal.css">
 <style>
   html.pricing-off #pricing,html.pricing-off a[href="#pricing"]{display:none!important}
   :root{
@@ -223,7 +224,7 @@
   }
 </style>
 </head>
-<body>
+<body data-waitlist-surface="cartographer">
 
 <!-- announce -->
 <div class="announce">
@@ -244,6 +245,7 @@
     </a>
     <div class="links">
       <a href="#how">How it works</a>
+      <a href="#tour">Dashboard</a>
       <a href="#surfaces">Cartographer + Molar</a>
       <a href="#pricing">Pricing</a>
       <a href="https://molar.it/docs">Docs</a>
@@ -301,7 +303,8 @@
     <p class="lede">Point Cartographer at any URL. It crawls every route, traces every flow, and writes Playwright tests you actually own — in a real browser, with real reasoning, on a budget you set.</p>
     <div class="cta-row">
       <a href="https://app.molar.it" class="btn btn-terra" style="padding:14px 20px;font-size:15px">Map your app →</a>
-      <a href="#how" class="btn btn-outline" style="padding:14px 20px;font-size:15px">See how it works</a>
+      <a href="#tour" class="btn btn-outline" style="padding:14px 20px;font-size:15px">See a 90-second tour</a>
+      <a href="https://molar.it/docs" class="btn btn-ghost" style="padding:14px 20px;font-size:15px;color:var(--muted)" target="_blank" rel="noopener noreferrer">Read the docs ↗</a>
     </div>
     <div class="reassure">
       <span>60-second setup</span>
@@ -545,7 +548,7 @@
 </section>
 
 <!-- DASHBOARD PREVIEW -->
-<section>
+<section id="tour">
   <div class="container">
     <div class="sec-eyebrow">04 — The dashboard</div>
     <h2 class="sec-title">Built for the hour when step 7 fails.</h2>
@@ -721,7 +724,7 @@
     <p style="font-size:17px;color:var(--ink-2);max-width:620px;margin:0 auto 36px;line-height:1.5">Sixty seconds from your seed URL to a working Cartographer agent mapping your app, running goals, and writing Playwright tests you keep.</p>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
       <a href="https://app.molar.it" class="btn btn-terra" style="padding:14px 22px;font-size:15px">Map your app →</a>
-      <a href="#docs" class="btn btn-outline" style="padding:14px 22px;font-size:15px">Read the docs</a>
+      <a href="https://molar.it/docs" class="btn btn-outline" style="padding:14px 22px;font-size:15px" target="_blank" rel="noopener noreferrer">Read the docs ↗</a>
     </div>
     <div style="margin-top:36px;font-family:'Geist Mono',monospace;font-size:13px;color:var(--muted)">or — <span style="color:var(--ink)">$ npx cartographer init</span></div>
   </div>
@@ -740,6 +743,7 @@
         <h5>Product</h5>
         <a href="#features">Features</a>
         <a href="#how">How it works</a>
+        <a href="#tour">Dashboard</a>
         <a href="#pricing">Pricing</a>
         <a href="https://app.molar.it">Dashboard</a>
         <a href="https://molar.it/changelog">Changelog</a>
@@ -772,5 +776,6 @@
   </div>
 </footer>
 
+<script src="/waitlist-modal.js"></script>
 </body>
 </html>

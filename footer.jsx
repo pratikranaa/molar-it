@@ -29,8 +29,8 @@ function SiteFooter() {
               >
                 Talk to founders →
               </a>
-              <a href="https://app.molar.it" className="btn btn-primary">
-                Get started →
+              <a href={window.molarPrimaryCta ? window.molarPrimaryCta() : 'https://app.molar.it'} className="btn btn-primary">
+                {window.molarPrimaryCtaLabel ? window.molarPrimaryCtaLabel() : 'Get started →'}
               </a>
             </div>
           </div>

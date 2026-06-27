@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="/site-config.js"></script>
+<link rel="stylesheet" href="/waitlist-modal.css">
 <style>
   html.pricing-off #pricing,html.pricing-off a[href="#pricing"]{display:none!important}
   :root{
@@ -433,7 +434,7 @@
   }
 </style>
 </head>
-<body>
+<body data-waitlist-surface="trace">
 
 <!-- ============ NAV ============ -->
 <nav class="nav">
@@ -453,7 +454,7 @@
       <span class="sub">by Molar</span>
     </a>
     <div class="nav-links">
-      <a href="#product">Product</a>
+      <a href="#tour">Dashboard</a>
       <a href="#how">How it works</a>
       <a href="#capabilities">Capabilities</a>
       <a href="#pricing">Pricing</a>
@@ -556,7 +557,8 @@
     <p class="hero-lede">Trace captures every Playwright, Cypress, Cartographer agent and Guard run as a navigable forensic record — video, DOM, network, console, clone state, and the planner's own thoughts. Step backward. Step forward. Ask the Debugger what broke. Replay from any step with a fix applied.</p>
     <div class="hero-actions">
       <a class="btn btn--accent btn--xl" href="https://app.molar.it#home">Open the demo dashboard →</a>
-      <a class="btn btn--outline btn--xl" href="#how">See how it works</a>
+      <a class="btn btn--outline btn--xl" href="#tour">See a 90-second tour</a>
+      <a class="btn btn--ghost btn--xl" href="https://molar.it/docs" target="_blank" rel="noopener noreferrer" style="color:var(--muted)">Read the docs ↗</a>
       <span class="keys">or hit <kbd>⌘</kbd><kbd>K</kbd> in any trace</span>
     </div>
     </div>
@@ -641,7 +643,7 @@
 </section>
 
 <!-- ============ PRODUCT (the motif: stacked-ribbon scrubber) ============ -->
-<section class="product" id="product">
+<section class="product" id="tour">
   <div class="wrap">
     <div class="product-h">
       <div>
@@ -1228,7 +1230,8 @@
         <p>One token, one CI run, one permalink your team will paste in standup for the next year. The demo workspace already has 1,240 traces in it — open the failed checkout and start scrubbing.</p>
         <div class="bigcta-actions">
           <a class="btn btn--accent btn--xl" href="https://app.molar.it#trace/550e8400-e29b-41d4-a716-446655440000">Open the failed checkout trace →</a>
-          <a class="btn btn--outline btn--xl" href="https://app.molar.it#home">Tour the dashboard</a>
+          <a class="btn btn--outline btn--xl" href="#tour">See a 90-second tour</a>
+          <a class="btn btn--ghost btn--xl" href="https://molar.it/docs" target="_blank" rel="noopener noreferrer" style="border-color:rgba(244,241,234,.18);color:rgba(244,241,234,.72)">Read the docs ↗</a>
         </div>
         <div class="bigcta-stamp">Private beta · 47-day trial · usage-based · zero platform fee</div>
       </div>
@@ -1260,7 +1263,7 @@
       </div>
       <div class="footer-col">
         <h5 class="footer-h">Trace</h5>
-        <a href="#product">Scrubber</a>
+        <a href="#tour">Scrubber</a>
         <a href="#how">How it works</a>
         <a href="#capabilities">Capabilities</a>
         <a href="#pricing">Pricing</a>
@@ -1468,5 +1471,6 @@
 })();
 </script>
 
+<script src="/waitlist-modal.js"></script>
 </body>
 </html>

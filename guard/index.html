@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/guard/guard-landing.css">
 <script src="/site-config.js"></script>
+<link rel="stylesheet" href="/waitlist-modal.css">
 <style id="tweak-overrides">
 html.pricing-off #pricing,html.pricing-off a[href="#pricing"]{display:none!important}
 /* polarity: dark mode override (light is now the default) */
@@ -99,7 +100,7 @@ section.light .subsys .s .viz .err { color: #ec7a5c; }
 [data-density="expansive"] .big-cta { padding: 160px 0; }
 </style>
 </head>
-<body>
+<body data-waitlist-surface="guard">
 
 <!-- ============ Announce ============ -->
 <div class="announce"><div class="in container"><span class="pill">new</span> Guard is now generally available — <a href="https://app.molar.it" style="color:var(--green);margin-left:4px">explore the dashboard →</a></div></div>
@@ -109,9 +110,9 @@ section.light .subsys .s .viz .err { color: #ec7a5c; }
   <a class="brand" href="/"><span class="glyph"><i></i></span> guard <span class="sub">by Molar</span></a>
   <div class="links">
     <a href="#how">How it works</a>
+    <a href="#tour">Dashboard</a>
     <a href="#features">Features</a>
     <a href="#mender">Mender</a>
-    <a href="#monitoring">Monitoring</a>
     <a href="#pricing">Pricing</a>
     <a href="https://molar.it/docs" target="_blank">Docs</a>
   </div>
@@ -131,7 +132,8 @@ section.light .subsys .s .viz .err { color: #ec7a5c; }
     <p class="lede">Guard gates pull requests with affected-scenario selection, monitors production with safe synthetics, and — when something breaks — lets Mender draft the fix. All without touching a real customer.</p>
     <div class="cta-row">
       <a class="btn btn-green btn-lg" href="#pricing">Start free trial</a>
-      <a class="btn btn-outline btn-lg" href="https://app.molar.it">Explore the dashboard ↗</a>
+      <a class="btn btn-outline btn-lg" href="#tour">See a 90-second tour</a>
+      <a class="btn btn-ghost btn-lg" href="https://molar.it/docs" target="_blank" rel="noopener noreferrer" style="color:var(--muted)">Read the docs ↗</a>
     </div>
     <div class="reassure">
       <span>5 min setup</span>
@@ -304,7 +306,7 @@ section.light .subsys .s .viz .err { color: #ec7a5c; }
 </section>
 
 <!-- ============ Monitoring ============ -->
-<section id="monitoring">
+<section id="tour">
 <div class="container">
   <div class="eyebrow">Production monitoring</div>
   <h2 class="sec-title">Scenarios × regions. Always running.</h2>
@@ -457,9 +459,10 @@ section.light .subsys .s .viz .err { color: #ec7a5c; }
     <div class="eyebrow" style="justify-content:center;display:flex;margin-bottom:20px"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.4s infinite"></span></div>
     <h2>Stop shipping <em>scared.</em></h2>
     <p style="font-size:18px;color:var(--ink-2);max-width:580px;margin:0 auto 32px;line-height:1.6">Every merge safe. Every deploy watched. Every fix drafted.<br>Guard is the release-safety system for AI-native teams.</p>
-    <div style="display:flex;gap:14px;justify-content:center">
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
       <a class="btn btn-green btn-lg" href="#pricing">Start free trial</a>
-      <a class="btn btn-outline btn-lg" href="https://app.molar.it">Explore the dashboard ↗</a>
+      <a class="btn btn-outline btn-lg" href="#tour">See a 90-second tour</a>
+      <a class="btn btn-ghost btn-lg" href="https://molar.it/docs" target="_blank" rel="noopener noreferrer" style="color:var(--muted)">Read the docs ↗</a>
     </div>
   </div>
 </div>
@@ -596,7 +599,7 @@ const COPY_MAP = [
   { sel: '#problem .sec-title', key: 'problemH' },
   { sel: '#how .sec-title',    key: 'howH' },
   { sel: '#mender .sec-title', key: 'menderH' },
-  { sel: '#monitoring .sec-title', key: 'monitorH' },
+  { sel: '#tour .sec-title', key: 'monitorH' },
   { sel: '.big-cta h2',        key: 'bigCtaH' },
   { sel: '.big-cta h2 + p',    key: 'bigCtaP' },
 ];
@@ -653,5 +656,6 @@ document.body.appendChild(tweakRoot);
 ReactDOM.createRoot(tweakRoot).render(<LandingTweaks />);
 </script>
 
+<script src="/waitlist-modal.js"></script>
 </body>
 </html>
