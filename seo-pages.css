@@ -79,3 +79,126 @@
   .doc-sidebar { position: static; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
   .doc-toc { border-top: 0; padding-top: 0; }
 }
+
+/* Blog index */
+.blog-index-header { margin-bottom: 48px; max-width: 52ch; }
+.blog-index-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(40px, 5.5vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  font-weight: 400;
+}
+.blog-index-title em { font-style: italic; color: var(--signal); }
+.blog-index-lede {
+  margin-top: 18px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.blog-section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--signal);
+  margin-bottom: 16px;
+}
+.blog-featured { margin-bottom: 56px; }
+.blog-featured-card {
+  display: block;
+  padding: 32px 32px 28px;
+  border: 1px solid var(--ink);
+  background: var(--bone-2);
+  text-decoration: none;
+  color: inherit;
+  transition: background 160ms ease, box-shadow 160ms ease;
+}
+.blog-featured-card:hover {
+  background: var(--bone);
+  box-shadow: 0 16px 40px -20px rgba(20, 15, 10, 0.2);
+}
+.blog-featured-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 16px;
+}
+.blog-tag {
+  color: var(--signal);
+  font-weight: 500;
+}
+.blog-featured-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 40px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  max-width: 22ch;
+}
+.blog-featured-title em { font-style: italic; color: var(--signal); }
+.blog-featured-excerpt {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 58ch;
+}
+.blog-read-more {
+  display: inline-block;
+  margin-top: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+.blog-post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ink);
+}
+.blog-post-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  transition: color 160ms ease;
+}
+.blog-post-row:hover .blog-post-row-title { color: var(--signal); }
+.blog-post-row-main { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.blog-post-row-title {
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.blog-post-row-excerpt {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.blog-post-row-date {
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  padding-top: 4px;
+}
+@media (max-width: 640px) {
+  .blog-post-row { flex-direction: column; gap: 8px; }
+  .blog-featured-card { padding: 24px 22px; }
+}

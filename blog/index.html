@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molar Blog — QA Engineering, E2E Testing &amp; Production Guard</title>
+  <meta name="description" content="Engineering notes from Molar on autonomous QA, stateful API clones, Stripe checkout testing, GitHub Actions gating, and guarding production without touching real customers." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://molar.it/blog" />
+  <meta property="og:title" content="Molar Blog — QA Engineering &amp; Production Testing" />
+  <meta property="og:description" content="How to test billing flows, gate PRs, and guard production with autonomous QA and stateful clones." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://molar.it/blog" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Molar Blog — QA Engineering &amp; Production Testing" />
+  <meta name="twitter:description" content="Autonomous QA, Stripe clones, GitHub Actions, and production guard — from the Molar team." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" }
+        ]
+      },
+      {
+        "@type": "Blog",
+        "@id": "https://molar.it/blog#blog",
+        "name": "Molar Blog",
+        "description": "Engineering notes on autonomous QA, stateful clones, and production testing.",
+        "url": "https://molar.it/blog",
+        "publisher": { "@id": "https://molar.it/#org" },
+        "blogPost": [
+          {
+            "@type": "BlogPosting",
+            "headline": "How to Test Stripe Checkout Without Charging a Real Card",
+            "url": "https://molar.it/blog/test-stripe-without-real-cards",
+            "datePublished": "2026-06-27",
+            "author": { "@type": "Person", "name": "Pratik Rana" }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+</head>
+<body>
+  <div class="paper-grain"></div>
+  <div id="nav-root"></div>
+  <main class="doc-page blog-index">
+    <div class="frame">
+      <div class="doc-meta">
+        <span class="num">Blog</span>
+        <span class="rule"></span>
+        <span>Engineering</span>
+      </div>
+
+      <header class="blog-index-header">
+        <h1 class="blog-index-title">Notes on <em>guarding</em> production</h1>
+        <p class="blog-index-lede">
+          How autonomous QA, stateful clones, and continuous production checks work in practice —
+          without charging real cards or emailing real customers.
+        </p>
+      </header>
+
+      <section class="blog-featured" aria-labelledby="featured-heading">
+        <h2 id="featured-heading" class="blog-section-label">Featured</h2>
+        <a class="blog-featured-card" href="/blog/test-stripe-without-real-cards">
+          <div class="blog-featured-meta">
+            <span class="blog-tag">QA engineering</span>
+            <time datetime="2026-06-27">June 27, 2026</time>
+          </div>
+          <h3 class="blog-featured-title">Test Stripe checkout <em>without</em> charging a real card</h3>
+          <p class="blog-featured-excerpt">
+            Why Stripe test mode isn't enough for end-to-end checkout — and how stateful clones let CI
+            exercise real application code paths without financial side effects.
+          </p>
+          <span class="blog-read-more">Read article →</span>
+        </a>
+      </section>
+
+      <section class="blog-list" aria-labelledby="all-posts-heading">
+        <h2 id="all-posts-heading" class="blog-section-label">All posts</h2>
+        <ul class="blog-post-list">
+          <li>
+            <a class="blog-post-row" href="/blog/test-stripe-without-real-cards">
+              <div class="blog-post-row-main">
+                <span class="blog-post-row-title">Test Stripe checkout without charging a real card</span>
+                <span class="blog-post-row-excerpt">Stateful Stripe clones for E2E and production guard.</span>
+              </div>
+              <time class="blog-post-row-date" datetime="2026-06-27">Jun 27, 2026</time>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <a class="doc-back" href="/"><span class="arrow">←</span> Back to home</a>
+    </div>
+  </main>
+  <footer>
+    <div class="frame foot-inner">
+      <div>© 2026 Molar Labs</div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <a href="/docs" style="color:inherit;text-decoration:none;">Docs</a>
+        <a href="/integrations/github-actions" style="color:inherit;text-decoration:none;">GitHub Actions</a>
+        <a href="https://github.com/pratikranaa/molar-it" style="color:inherit;text-decoration:none;">GitHub</a>
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/nav.jsx"></script>
+  <script type="text/babel" src="/nav-boot.jsx"></script>
+</body>
+</html>

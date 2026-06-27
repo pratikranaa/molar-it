@@ -6,21 +6,34 @@
   <title>How to Test Stripe Checkout Without Charging a Real Card — Molar</title>
   <meta name="description" content="Test Stripe checkout and billing flows safely using stateful API clones. No real charges, no test-mode gaps — Molar runs your app against deterministic Stripe clones in CI and production guard." />
   <link rel="canonical" href="https://molar.it/blog/test-stripe-without-real-cards" />
-  <meta property="og:title" content="How to Test Stripe Checkout Without Charging a Real Card" />
-  <meta property="og:url" content="https://molar.it/blog/test-stripe-without-real-cards" />
+  <meta property="og:description" content="Test Stripe checkout safely with stateful API clones — no real charges, realistic errors, CI and production guard." />
+  <meta property="og:type" content="article" />
   <meta property="og:image" content="https://molar.it/og.png" />
   <meta property="og:site_name" content="Molar" />
   <meta name="twitter:card" content="summary_large_image" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "How to Test Stripe Checkout Without Charging a Real Card",
-    "datePublished": "2026-06-27",
-    "dateModified": "2026-06-27",
-    "author": { "@type": "Person", "name": "Pratik Rana" },
-    "publisher": { "@type": "Organization", "name": "Molar", "logo": { "@type": "ImageObject", "url": "https://molar.it/assets/molar-mark-apple.png" } },
-    "mainEntityOfPage": "https://molar.it/blog/test-stripe-without-real-cards"
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Test Stripe checkout without charging a real card", "item": "https://molar.it/blog/test-stripe-without-real-cards" }
+        ]
+      },
+      {
+        "@type": "Article",
+        "headline": "How to Test Stripe Checkout Without Charging a Real Card",
+        "datePublished": "2026-06-27",
+        "dateModified": "2026-06-27",
+        "author": { "@type": "Person", "name": "Pratik Rana" },
+        "publisher": { "@type": "Organization", "name": "Molar", "logo": { "@type": "ImageObject", "url": "https://molar.it/assets/molar-mark-apple.png" } },
+        "mainEntityOfPage": "https://molar.it/blog/test-stripe-without-real-cards",
+        "image": "https://molar.it/og.png"
+      }
+    ]
   }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -62,7 +75,7 @@
             <a href="/" class="btn btn-ghost">Try Molar</a>
           </div>
         </section>
-        <a class="doc-back" href="/"><span class="arrow">←</span> Back to home</a>
+        <a class="doc-back" href="/blog"><span class="arrow">←</span> Back to blog</a>
       </article>
     </div>
   </main>

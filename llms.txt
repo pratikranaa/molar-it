@@ -40,6 +40,7 @@ direct, production fit.
 ## Links
 
 - [Home](https://molar.it)
+- [Blog](https://molar.it/blog)
 - [Molar QA Agent](https://molar.it/qa-agent)
 - [Molar vs Cypress](https://molar.it/vs/cypress)
 - [Molar vs Playwright](https://molar.it/vs/playwright)

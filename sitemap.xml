@@ -67,6 +67,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://molar.it/blog</loc>
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://molar.it/blog/test-stripe-without-real-cards</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>monthly</changefreq>

@@ -4,6 +4,7 @@ const PRIMARY_NAV = [
   { href: '/#how', label: 'How it works' },
   { href: '/#pricing', label: 'Pricing' },
   { href: '/#faq', label: 'FAQ' },
+  { href: '/blog', label: 'Blog' },
   { href: '/docs', label: 'Docs' },
   { href: '/thesis', label: 'Thesis' },
 ];
@@ -41,7 +42,6 @@ const MORE_NAV = [
   { href: '/vs/cypress', label: 'vs Cypress' },
   { href: '/vs/playwright', label: 'vs Playwright' },
   { href: '/integrations/github-actions', label: 'GitHub Actions' },
-  { href: '/blog/test-stripe-without-real-cards', label: 'Blog · Stripe testing' },
 ];
 
 function isHomePath() {
@@ -49,18 +49,44 @@ function isHomePath() {
   return p === '/' || p === '/index.html' || p.endsWith('/index.html');
 }
 
+function findSectionEl(id) {
+  const root = document.getElementById('root');
+  if (root) {
+    const inRoot = root.querySelector('#' + CSS.escape(id));
+    if (inRoot) return inRoot;
+  }
+  return document.getElementById(id);
+}
+
 function scrollToSection(hash, behavior) {
   if (!hash || hash === '#') return false;
   const id = hash.replace(/^#/, '');
-  const el = document.getElementById(id);
-  if (!el) return false;
-  el.scrollIntoView({ behavior: behavior || 'smooth', block: 'start' });
-  const next = '#' + id;
-  if (window.history.replaceState) {
-    window.history.replaceState(null, '', next);
-  } else {
-    window.location.hash = id;
-  }
+  const doScroll = (el) => {
+    if (!el) return false;
+    el.scrollIntoView({ behavior: behavior || 'smooth', block: 'start' });
+    const next = '#' + id;
+    if (window.history.replaceState) {
+      window.history.replaceState(null, '', next);
+    } else {
+      window.location.hash = id;
+    }
+    return true;
+  };
+
+  const el = findSectionEl(id);
+  if (el) return doScroll(el);
+
+  // Homepage: React sections may not be mounted yet when nav is clicked early.
+  let tries = 0;
+  const attempt = () => {
+    const target = findSectionEl(id);
+    if (target) {
+      doScroll(target);
+      return;
+    }
+    if (tries++ < 40) requestAnimationFrame(attempt);
+  };
+  requestAnimationFrame(attempt);
   return true;
 }
 

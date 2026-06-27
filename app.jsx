@@ -64,15 +64,22 @@ function App() {
     const scrollFromHash = () => {
       const hash = window.location.hash;
       if (!hash || hash.length < 2) return;
+      if (window.scrollToSection) {
+        window.scrollToSection(hash, 'auto');
+        return;
+      }
       const id = hash.slice(1);
       let tries = 0;
       const attempt = () => {
-        const el = document.getElementById(id);
+        const root = document.getElementById('root');
+        const el = root
+          ? root.querySelector('#' + CSS.escape(id)) || document.getElementById(id)
+          : document.getElementById(id);
         if (el) {
           el.scrollIntoView({ behavior: tries === 0 ? 'auto' : 'smooth', block: 'start' });
           return;
         }
-        if (tries++ < 24) requestAnimationFrame(attempt);
+        if (tries++ < 40) requestAnimationFrame(attempt);
       };
       requestAnimationFrame(attempt);
     };
