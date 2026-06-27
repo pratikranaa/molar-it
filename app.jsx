@@ -16,8 +16,8 @@ const ACCENTS = {
 
 const HEADLINES = {
   'users-qa': {
-    h1: <>Autonomous continuous<br/>QA testing for<br/><em>production</em> dev teams.</>,
-    sub: <>Your <span className="strike">users</span> shouldn't be your QA team. <span className="pop">Molar</span> reads your app, writes critical-path tests, and guards production in real time — <span className="pop">without ever charging a real card, emailing a real user, or touching a real account.</span></>,
+    h1: <>Your <span className="strike">users</span><br/>shouldn't be<br/>your <em>QA team.</em></>,
+    sub: <>An autonomous QA agent that reads your app, writes the tests, and guards production in real time — <span className="pop">without ever charging a real card, emailing a real user, or touching a real account.</span></>,
   },
   'destruction-free': {
     h1: <>Test <em>everything.</em><br/>Break <span className="strike">nothing.</span></>,

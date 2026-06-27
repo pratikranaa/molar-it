@@ -46,8 +46,8 @@ function InstallCard({ large = false, onCopy }) {
 }
 
 function Hero({ headlineH1, headlineSub }) {
-  const h1 = headlineH1 || (<>Autonomous continuous<br/>QA testing for<br/><em>production</em> dev teams.</>);
-  const sub = headlineSub || (<>Your <span className="strike">users</span> shouldn't be your QA team. <span className="pop">Molar</span> reads your app, writes critical-path tests, and guards production in real time — <span className="pop">without ever charging a real card, sending a real email, or touching a real customer.</span></>);
+  const h1 = headlineH1 || (<>Your <span className="strike">users</span><br/>shouldn't be<br/>your <em>QA team.</em></>);
+  const sub = headlineSub || (<>An autonomous QA agent that reads your app, writes the tests, and guards production in real time — <span className="pop">without ever charging a real card, sending a real email, or touching a real customer.</span></>);
   return (
     <section className="hero">
       <div className="frame">
@@ -59,7 +59,6 @@ function Hero({ headlineH1, headlineSub }) {
         </div></FadeIn>
         <div className="hero-grid">
           <StaggerContainer staggerDelay={90} baseDelay={60}>
-            <FadeUp y={12} blur={6}><p className="hero-kicker">Molar — autonomous QA testing platform</p></FadeUp>
             <FadeUp y={18} blur={10} duration={1050}><h1 className="hero-headline">{h1}</h1></FadeUp>
             <FadeUp y={14} blur={8}><p className="hero-sub">{sub}</p></FadeUp>
             <FadeUp y={10} blur={4}><div className="hero-install-row" id="get-started">
