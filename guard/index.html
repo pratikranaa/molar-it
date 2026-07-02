@@ -96,7 +96,11 @@
   ]
 }
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="/site-config.js"></script>
+<link rel="stylesheet" href="/guard/guard-landing.css">
 <link rel="stylesheet" href="/waitlist-modal.css">
 <style id="tweak-overrides">
 html.pricing-off #pricing,html.pricing-off a[href="#pricing"]{display:none!important}
@@ -650,120 +654,6 @@ section.light .subsys .s .viz .err { color: #ec7a5c; }
   }
   setTimeout(addLine, 600);
 })();
-</script>
-
-<!-- ============ Tweaks ============ -->
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script type="text/babel" src="app/tweaks-panel.jsx"></script>
-<script type="text/babel">
-const { useEffect } = React;
-
-/* ── copy variants keyed by voice ── */
-const VOICE = {
-  technical: {
-    heroH: 'Every merge safe.<br>Every deploy <em>watched.</em>',
-    heroP: 'Guard gates pull requests with affected-scenario selection, monitors production with safe synthetics, and — when something breaks — lets Mender draft the fix. All without touching a real customer.',
-    ctaPrimary: 'Start free trial',
-    ctaSecondary: 'Explore the dashboard ↗',
-    problemH: 'AI writes code faster than humans can review it.',
-    howH: 'Three systems. One release loop.',
-    menderH: "Don't just find the bug. <em>Fix it.</em>",
-    monitorH: 'Scenarios × regions. Always running.',
-    bigCtaH: 'Stop shipping <em>scared.</em>',
-    bigCtaP: 'Every merge safe. Every deploy watched. Every fix drafted.<br>Guard is the release-safety system for AI-native teams.',
-  },
-  executive: {
-    heroH: 'Ship faster.<br><em>Break nothing.</em>',
-    heroP: 'Guard eliminates the tradeoff between velocity and reliability. Your team merges with confidence, production stays healthy, and when regressions land — they\'re fixed in minutes, not hours.',
-    ctaPrimary: 'Book a demo',
-    ctaSecondary: 'See the ROI calculator ↗',
-    problemH: 'Your team ships 10× faster. Your safety net <em>hasn\'t kept up.</em>',
-    howH: 'From commit to confidence. <em>Automatically.</em>',
-    menderH: '14-minute MTTR. <em>66% faster.</em>',
-    monitorH: 'Know before your customers <em>do.</em>',
-    bigCtaH: 'Make reliability <em>a feature.</em>',
-    bigCtaP: 'Teams using Guard catch 94% of regressions before production.<br>Mean time to resolution: 14 minutes. Customer impact: zero.',
-  },
-  provocative: {
-    heroH: 'Your CI is a <em>lie.</em>',
-    heroP: 'It takes 40 minutes. Half the failures are flakes. It mocks every vendor. And it still lets regressions through. Guard replaces faith with proof — real scenarios, real vendors, real fixes.',
-    ctaPrimary: 'Prove it — free trial',
-    ctaSecondary: 'See what Guard catches ↗',
-    problemH: 'You\'re not testing your app. You\'re testing <em>your mocks.</em>',
-    howH: 'Stop guessing. <em>Start knowing.</em>',
-    menderH: 'The bug is found. The fix is written. <em>You just approve.</em>',
-    monitorH: 'Your status page says "operational." <em>Is it?</em>',
-    bigCtaH: 'Your customers already <em>know.</em>',
-    bigCtaP: 'They find your bugs on Twitter before you find them in Datadog.<br>Guard finds them first — and fixes them before anyone notices.',
-  },
-};
-
-/* ── selectors for swappable copy ── */
-const COPY_MAP = [
-  { sel: '.hero h1',           key: 'heroH' },
-  { sel: '.hero p.lede',       key: 'heroP' },
-  { sel: '.hero .cta-row .btn-green', key: 'ctaPrimary', attr: 'text' },
-  { sel: '.hero .cta-row .btn-outline', key: 'ctaSecondary', attr: 'text' },
-  { sel: '#problem .sec-title', key: 'problemH' },
-  { sel: '#how .sec-title',    key: 'howH' },
-  { sel: '#mender .sec-title', key: 'menderH' },
-  { sel: '#tour .sec-title', key: 'monitorH' },
-  { sel: '.big-cta h2',        key: 'bigCtaH' },
-  { sel: '.big-cta h2 + p',    key: 'bigCtaP' },
-];
-
-function applyVoice(voice) {
-  const v = VOICE[voice] || VOICE.technical;
-  COPY_MAP.forEach(({ sel, key, attr }) => {
-    const el = document.querySelector(sel);
-    if (!el) return;
-    if (attr === 'text') { el.textContent = v[key]; }
-    else { el.innerHTML = v[key]; }
-  });
-}
-
-function applyPolarity(pol) {
-  document.documentElement.setAttribute('data-polarity', pol);
-}
-
-function applyDensity(den) {
-  document.documentElement.setAttribute('data-density', den);
-}
-
-const DEFAULTS = { voice: 'technical', polarity: 'light', density: 'regular' };
-
-function LandingTweaks() {
-  const [t, setTweak] = useTweaks(DEFAULTS);
-
-  useEffect(() => { applyVoice(t.voice); }, [t.voice]);
-  useEffect(() => { applyPolarity(t.polarity); }, [t.polarity]);
-  useEffect(() => { applyDensity(t.density); }, [t.density]);
-
-  return (
-    <TweaksPanel title="Tweaks">
-      <TweakSection label="Voice & message" />
-      <TweakRadio label="Voice"
-        value={t.voice}
-        options={['technical', 'executive', 'provocative']}
-        onChange={v => setTweak('voice', v)} />
-      <TweakSection label="Visual feel" />
-      <TweakRadio label="Polarity"
-        value={t.polarity}
-        options={['dark', 'light']}
-        onChange={v => setTweak('polarity', v)} />
-      <TweakRadio label="Density"
-        value={t.density}
-        options={['compact', 'regular', 'expansive']}
-        onChange={v => setTweak('density', v)} />
-    </TweaksPanel>
-  );
-}
-
-const tweakRoot = document.createElement('div');
-document.body.appendChild(tweakRoot);
-ReactDOM.createRoot(tweakRoot).render(<LandingTweaks />);
 </script>
 
 <script type="application/ld+json">

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trace — Playwright Trace Alternative &amp; Forensic Test Replay | Molar</title>
-<meta name="description" content="Trace captures Playwright, Cypress, and agent runs as navigable forensic records — video, DOM, network, console, and planner thoughts. Replay failures like a debugger, step backward, diff against green." />
+<meta name="description" content="Trace captures Playwright, Cypress, and agent runs as navigable forensic records — five parallel ribbons for video, DOM, network, console, and agent thoughts. Forensic replay, Debugger AI, Layer 2 re-runs, and Mender fix-PR hand-off from Guard failures." />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <link rel="canonical" href="https://trace.molar.it/" />
 <link rel="alternate" type="text/plain" title="llms.txt" href="https://molar.it/llms.txt" />
@@ -59,6 +59,7 @@
         "Debugger AI for root-cause analysis",
         "Diff against last green run",
         "MCP server for coding agents",
+        "Mender fix-PR hand-off from Debugger and Layer 2 diffs",
         "PII redaction and EU data residency"
       ],
       "isPartOf": { "@type": "SoftwareApplication", "name": "Molar", "url": "https://molar.it" }
@@ -89,6 +90,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Layer 2 replay lets you step backward through a failure, apply a test fix, and validate from that point — restoring clone state when needed — without re-running the entire suite."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does Trace connect to Mender?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When Guard confirms a regression, the failing trace opens in Trace for forensic replay. Debugger cites events on the five-ribbon timeline; confirmed fixes hand off to Mender, which drafts a fix pull request with regression tests — a human always approves the merge."
           }
         }
       ]
@@ -147,6 +156,10 @@
   .nav-suite a:hover{background:var(--bg2); color:var(--ink)}
   .nav-suite a.is-on{background:var(--ink); color:var(--bg)}
   .nav-cta{display:flex; gap:8px}
+  .announce{background:var(--plum-deep); color:var(--bg); font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-align:center; padding:10px 16px}
+  .announce a{color:var(--plum-soft); font-weight:500}
+  .announce a:hover{color:#fff}
+  .announce .pill{display:inline-block; background:var(--plum); color:#fff; border-radius:4px; padding:2px 7px; margin-right:8px; font-size:10px; text-transform:uppercase}
 
   /* Brand glyph (stacked ribbons + playhead) */
   .glyph{width:24px; height:24px; flex-shrink:0}
@@ -523,6 +536,8 @@
 </head>
 <body data-waitlist-surface="trace">
 
+<div class="announce"><span class="pill">live</span> Forensic replay is in the demo workspace — <a href="https://app.molar.it#trace/550e8400-e29b-41d4-a716-446655440000">open a failed checkout trace →</a></div>
+
 <!-- ============ NAV ============ -->
 <nav class="nav">
   <div class="wrap nav-inner">
@@ -541,7 +556,7 @@
       <span class="sub">by Molar</span>
     </a>
     <div class="nav-links">
-      <a href="#tour">Dashboard</a>
+      <a href="https://app.molar.it#traces">Dashboard</a>
       <a href="#how">How it works</a>
       <a href="#capabilities">Capabilities</a>
       <a href="#pricing">Pricing</a>
@@ -554,8 +569,8 @@
       <a href="/" class="is-on" title="Trace">Trace</a>
     </div>
     <div class="nav-cta">
-      <a class="btn btn--ghost" href="https://app.molar.it#home">Sign in</a>
-      <a class="btn btn--accent" href="https://app.molar.it#home">Open Trace</a>
+      <a class="btn btn--ghost" href="https://app.molar.it">Sign in</a>
+      <a class="btn btn--accent" href="https://app.molar.it#traces">Open Trace</a>
     </div>
   </div>
 </nav>
@@ -641,9 +656,9 @@
     <div class="hero-copy">
     <div class="eyebrow"><span class="dot"></span><span>Now in private beta · for teams shipping with agents</span></div>
     <h1>Replay every failure, <em>like a debugger.</em></h1>
-    <p class="hero-lede">Trace captures every Playwright, Cypress, Cartographer agent and Guard run as a navigable forensic record — video, DOM, network, console, clone state, and the planner's own thoughts. Step backward. Step forward. Ask the Debugger what broke. Replay from any step with a fix applied.</p>
+    <p class="hero-lede">Trace is Molar's flagship forensic replay surface — every Playwright, Cypress, Cartographer agent, and Guard run becomes a five-ribbon record: video, DOM, network, console, clone state, and agent thoughts on one playhead. Scrub backward and forward, ask the Debugger what broke, replay from any step with a fix — then hand confirmed diffs to <a href="https://guard.molar.it#mender" style="color:var(--plum);text-decoration:underline;text-underline-offset:3px">Mender</a> for a draft fix PR.</p>
     <div class="hero-actions">
-      <a class="btn btn--accent btn--xl" href="https://app.molar.it#home">Open the demo dashboard →</a>
+      <a class="btn btn--accent btn--xl" href="https://app.molar.it#trace/550e8400-e29b-41d4-a716-446655440000">Open the demo trace →</a>
       <a class="btn btn--outline btn--xl" href="#tour">See a 90-second tour</a>
       <a class="btn btn--ghost btn--xl" href="https://molar.it/docs" target="_blank" rel="noopener noreferrer" style="color:var(--muted)">Read the docs ↗</a>
       <span class="keys">or hit <kbd>⌘</kbd><kbd>K</kbd> in any trace</span>
@@ -743,7 +758,7 @@
     <div class="product-frame">
       <div class="pf-bar">
         <div class="traffic"><i></i><i></i><i></i></div>
-        <div class="url">app.molar.cloud / r / xY9zQ2mNp</div>
+        <div class="url">app.molar.it / r / xY9zQ2mNp</div>
         <div class="right">
           <span style="color:var(--err)">●</span>
           <span>failed · step 7 · webhook-404</span>
@@ -956,7 +971,7 @@
         <p>Every failed run becomes a permalink. Scrub the timeline, step through events, watch the DOM mutate. Pinned failures stay hot for 90 days — others tier down automatically.</p>
         <div class="hc-art hc-link">
           <div class="hc-link-bar">
-            <div class="hc-link-url"><span class="lock">🔒</span><span>app.molar.cloud/r/<span class="path">xY9zQ2mNp</span></span></div>
+            <div class="hc-link-url"><span class="lock">🔒</span><span>app.molar.it/r/<span class="path">xY9zQ2mNp</span></span></div>
             <button class="hc-link-copy" type="button">Copy</button>
           </div>
           <div class="hc-link-body">
@@ -968,11 +983,11 @@
       <div class="how-card">
         <div class="num">3</div>
         <h3>Ask the Debugger.</h3>
-        <p>The forensic chat reads NDJSON events, Clone state, and your source via the GitHub App. Replies cite events. Replay from any step with a one-line patch applied.</p>
+        <p>The forensic chat reads NDJSON events, Clone state, and your source via the GitHub App. Replies cite events on the agent ribbon. Replay from any step with a one-line patch — or hand the confirmed diff to Mender for a fix PR.</p>
         <div class="hc-art hc-chat">
           <div class="hc-msg you"><span class="av">YOU</span><span class="bub">Why did step 7 fail?</span></div>
           <div class="hc-msg bot"><span class="av">DBG</span><span class="bub">The webhook embedded <code>amt=9000</code> <span class="seq">[seq:16]</span>. <code>discount.ts:14</code> returns <code>amount * coupon.value</code> — should be <code>amount * (1 - coupon.value)</code>.</span></div>
-          <div class="hc-chat-foot">↳ Replay from step 6 with patch applied</div>
+          <div class="hc-chat-foot">↳ Replay from step 6 · or hand to <a href="https://guard.molar.it#mender" style="color:var(--plum)">Mender</a> →</div>
         </div>
       </div>
     </div>
@@ -1024,6 +1039,11 @@
         <div class="feat">Storage that scales with reality<small>thousands of traces a day shouldn't cost more than your test runner</small></div>
         <div class="val">Local .zip · you self-manage</div>
         <div class="val"><span class="ck">✓</span> hot · warm · cold · GB-mo billing · pin to keep hot</div>
+      </div>
+      <div class="row">
+        <div class="feat">Mender fix-PR hand-off<small>Guard failure → forensic replay → confirmed diff → draft fix PR with regression test</small></div>
+        <div class="val muted">—</div>
+        <div class="val"><span class="ck">✓</span> One click from Debugger or Layer 2 comparison · human approves merge</div>
       </div>
       <div class="row">
         <div class="feat">MCP server for your IDE<small>let your coding agent search and read traces directly</small></div>
@@ -1102,7 +1122,7 @@
       <a class="suite-card" href="https://guard.molar.it">
         <div class="ill"><svg viewBox="0 0 80 50" fill="none"><path d="M40 6 L20 14 V28 c0 12 8 18 20 20 12-2 20-8 20-20 V14 Z" stroke="#2f5a3a" stroke-width="1.4" fill="none"/><path d="m32 26 6 6 10-12" stroke="#2f5a3a" stroke-width="1.6" fill="none"/></svg></div>
         <div class="name">Guards <span class="tag">checks</span></div>
-        <p>Pre-merge checks. Runs your scenarios on every PR, every push to main, every clone-state shift.</p>
+        <p>Pre-merge checks and production synthetics. Failed runs open in Trace; confirmed regressions flow to Mender for fix PRs.</p>
         <span class="link">guards →</span>
       </a>
       <a class="suite-card is-this" href="/">
@@ -1157,6 +1177,11 @@
         <div class="meta"><span class="pill">storage</span></div>
       </div>
       <div class="cap">
+        <h3>Mender hand-off</h3>
+        <p>When Debugger or Layer 2 confirms the root cause, promote the diff to <a href="https://guard.molar.it#mender" style="color:var(--plum)">Mender</a>. It drafts a fix PR with regression tests — you approve the merge.</p>
+        <div class="meta"><span class="pill">guard</span> <span class="pill">fix pr</span></div>
+      </div>
+      <div class="cap">
         <h3>Saved views</h3>
         <p>“Failed · 24h”, “Awaiting Layer 2”, “PR #4521” — saved filters that show up as left-rail entries.</p>
         <div class="meta"><span class="pill">list</span></div>
@@ -1201,7 +1226,7 @@
       <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20l16-8L4 4l3 8-3 8Z"/></svg></span>Cypress</div><p>Plugin loads in <code class="mono">setupNodeEvents</code>; ships video + HAR + console.</p><span class="tag">plugin · npm</span></div>
       <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></span>Selenium</div><p>pytest listener for Python. CDP capture for Java/JS via testcontainers.</p><span class="tag">pypi · maven</span></div>
       <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="m15 9-2 5-5 2 2-5 5-2Z"/></svg></span>Cartographer</div><p>Agent runs ship a trace automatically; clone state included.</p><span class="tag">native</span></div>
-      <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 6v6c0 5 3 8 8 9 5-1 8-4 8-9V6l-8-3Z"/></svg></span>Guard</div><p>Every Guard check produces a trace — failed gates open directly here.</p><span class="tag">native</span></div>
+      <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 6v6c0 5 3 8 8 9 5-1 8-4 8-9V6l-8-3Z"/></svg></span>Guard + Mender</div><p>Every Guard check produces a trace — failed gates open here for forensic replay, then hand off to <a href="https://guard.molar.it#mender" style="color:var(--plum)">Mender</a> for fix PRs.</p><span class="tag">native · failure → trace → mender</span></div>
       <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="14" width="6" height="6" rx="1"/><rect x="14" y="8" width="6" height="6" rx="1"/></svg></span>Clones</div><p>State at every step boundary, queryable with jmespath. Diffable across runs.</p><span class="tag">native</span></div>
       <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="6" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="12" r="2.2"/><path d="M6 8v8M8 6a6 6 0 0 0 6 6"/></svg></span>GitHub</div><p>App reads source so the Debugger cites your code. PR check posts a trace summary.</p><span class="tag">app · cli</span></div>
       <div class="integ-card"><div class="name"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="10" width="8" height="4" rx="2"/><rect x="13" y="10" width="8" height="4" rx="2"/><rect x="10" y="3" width="4" height="8" rx="2"/><rect x="10" y="13" width="4" height="8" rx="2"/></svg></span>Slack</div><p>Unfurls share links, posts clusters on threshold, replies with Debugger if asked.</p><span class="tag">app</span></div>
@@ -1230,7 +1255,7 @@
           <li>7-day hot retention</li>
           <li>Debugger · cheap mode only</li>
         </ul>
-        <div class="cta"><a class="btn btn--outline" href="https://app.molar.it#home">Start free</a></div>
+        <div class="cta"><a class="btn btn--outline" href="https://app.molar.it#traces">Start free</a></div>
       </div>
       <div class="price-card is-pop">
         <span class="ribbon">Most teams</span>
@@ -1246,7 +1271,7 @@
           <li>Layer 2 replays at $0.20 / minute</li>
           <li>Slack · GitHub · MCP · webhooks</li>
         </ul>
-        <div class="cta"><a class="btn btn--accent" href="https://app.molar.it#home">Start trial · 47 days</a></div>
+        <div class="cta"><a class="btn btn--accent" href="https://app.molar.it#traces">Start trial · 47 days</a></div>
       </div>
       <div class="price-card">
         <div class="tier">ENTERPRISE</div>
@@ -1260,7 +1285,7 @@
           <li>VPC-peered S3 · CMKs · audit log export</li>
           <li>Solutions architect · uptime SLA</li>
         </ul>
-        <div class="cta"><a class="btn btn--outline" href="#">Talk to us →</a></div>
+        <div class="cta"><a class="btn btn--outline" href="mailto:pratik@molar.it">Talk to us →</a></div>
       </div>
     </div>
     <div class="price-foot">All tiers include unlimited public share links · NDJSON export · MCP server · zero platform fee</div>
@@ -1273,7 +1298,7 @@
     <div class="faq-h">
       <div class="eyebrow" style="justify-content:center; display:inline-flex"><span class="dot"></span><span>FAQ</span></div>
       <h2>Honest answers to the <em>real questions</em>.</h2>
-      <p style="font-size:15px;color:var(--ink2);max-width:62ch;margin:16px auto 0;line-height:1.55">Also known as: Playwright trace alternative, test replay debugger, forensic CI debugging, Replay.io alternative, flaky test root-cause. See <a href="https://molar.it/vs/playwright">Molar vs Playwright</a>.</p>
+      <p style="font-size:15px;color:var(--ink2);max-width:62ch;margin:16px auto 0;line-height:1.55">Also known as: Playwright trace alternative, test replay debugger, forensic CI debugging, Replay.io alternative, flaky test root-cause. See <a href="https://molar.it/vs/playwright-trace">Trace vs Playwright Trace Viewer</a> and <a href="https://guard.molar.it#mender">Mender auto-fix</a>.</p>
     </div>
     <div class="faq-grid">
       <details class="faq-item" open><summary><span class="q">Do I have to use Cartographer or Guard?</span><span class="plus">+</span></summary><p>No. Trace works standalone for any Playwright, Cypress, Selenium, or raw NDJSON source. The other Molar tools are nice to have because they ship traces automatically, but Trace doesn't require them.</p></details>
@@ -1283,6 +1308,7 @@
       <details class="faq-item"><summary><span class="q">Can I export everything?</span><span class="plus">+</span></summary><p>Yes. <code>POST /trace/v1/export</code> bundles your workspace as NDJSON + video + clone snapshots into a single tarball. No lock-in, ever.</p></details>
       <details class="faq-item"><summary><span class="q">What does the Debugger cost?</span><span class="plus">+</span></summary><p>Opus is metered at the model's published rate plus a 10% margin. Haiku (cheap mode) is the same. You can set a monthly cap, a soft cap that flips to cheap mode automatically, and per-user budgets. Bring your own Anthropic key to bypass our markup.</p></details>
       <details class="faq-item"><summary><span class="q">Does Trace replace Playwright Trace Viewer?</span><span class="plus">+</span></summary><p>For agent-era CI: yes, but we don't make you choose. The Playwright trace.zip is one of our supported artifacts. Open it in the local viewer when you're offline; open it here when you want clusters, Debugger, and replay.</p></details>
+      <details class="faq-item"><summary><span class="q">How does Trace connect to Mender?</span><span class="plus">+</span></summary><p>Guard runs your scenarios; failures produce traces that open here for forensic replay on the five-ribbon timeline. Debugger cites <code class="mono">[seq:N]</code> events and reads Mender's classification when present. When you confirm a fix — via Layer 2 replay or Debugger — one click hands the diff to <a href="https://guard.molar.it#mender">Mender</a>, which drafts a fix PR with a regression test. A human always approves the merge.</p></details>
       <details class="faq-item"><summary><span class="q">Is there an on-prem option?</span><span class="plus">+</span></summary><p>Yes, on Enterprise. We ship a Helm chart that runs ingest, workers, S3-compatible storage, and the Debugger against your own model endpoint.</p></details>
     </div>
   </div>
@@ -1355,7 +1381,7 @@
         <a href="#how">How it works</a>
         <a href="#capabilities">Capabilities</a>
         <a href="#pricing">Pricing</a>
-        <a href="https://app.molar.it#home">Dashboard</a>
+        <a href="https://app.molar.it#traces">Dashboard</a>
         <a href="https://app.molar.it#mcp">MCP install</a>
       </div>
       <div class="footer-col">
@@ -1363,6 +1389,7 @@
         <a href="https://cartographer.molar.it">Cartographer</a>
         <a href="https://clones.molar.it">Clones</a>
         <a href="https://guard.molar.it">Guards</a>
+        <a href="https://guard.molar.it#mender">Mender</a>
         <a href="https://trace.molar.it">Trace</a>
       </div>
       <div class="footer-col">
@@ -1370,8 +1397,8 @@
         <a href="https://app.molar.it#developers">API</a>
         <a href="https://app.molar.it#mcp">MCP server</a>
         <a href="https://app.molar.it#ingest">Ingest setup</a>
-        <a href="#">Webhooks</a>
-        <a href="#">SDK · TS · py</a>
+        <a href="https://molar.it/docs">Webhooks</a>
+        <a href="https://molar.it/docs">SDK · TS · py</a>
         <a href="https://molar.it/changelog">Changelog</a>
       </div>
       <div class="footer-col">

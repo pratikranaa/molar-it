@@ -46,7 +46,8 @@ safe checks — zero real customers touched. GitHub required status checks.
 ### Trace (https://trace.molar.it)
 Playwright trace alternative, forensic test replay, flaky-test debugging. Five-ribbon
 timeline (video, DOM, network, console, agent), Layer 2 replay, Debugger AI, MCP.
-Replay.io / BrowserTrace alternative for the CI test loop (not production RUM).
+Guard failure → forensic replay → Mender fix PR. Replay.io / BrowserTrace alternative
+for the CI test loop (not production RUM).
 - [Trace landing](https://trace.molar.it)
 - [Trace vs Playwright Trace Viewer](https://molar.it/vs/playwright-trace)
 
@@ -73,6 +74,42 @@ Replay.io / BrowserTrace alternative for the CI test loop (not production RUM).
 - [Free](https://molar.it/#pricing): 1 project, 500 test runs/month, public GitHub repos.
 - [Pro — $99/mo](https://molar.it/#pricing): unlimited projects, 10k runs, private repos, Guard, Clones.
 - [Enterprise](https://molar.it/#pricing): self-hosted, SSO/SCIM, custom clone coverage.
+
+## Getting started
+
+Install the CLI:
+
+```
+npx molar-agent init          # scaffold .molar/ in a repo
+npm install -g @molar/cli     # global molar CLI
+curl -fsSL https://get.molar.it | sh
+```
+
+**Human signup:** [app.molar.it](https://app.molar.it) → create org → Settings → Tokens for PAT.
+
+**Agent self-serve (no pre-existing account):** an AI agent registers itself, a human verifies with a 6-digit email code, then the agent connects to MCP. See the guide below.
+
+## Guides
+
+- Get started > [Install & initialize](https://docs.molar.it/docs/getting-started/install)
+- Get started > [Agent self-serve signup](https://docs.molar.it/docs/getting-started/agent-signup) — agent registers, human verifies, MCP unlocks
+- Get started > [Your first scenario](https://docs.molar.it/docs/getting-started/first-scenario)
+- Get started > [Choose your path](https://docs.molar.it/docs/getting-started/choose-your-path)
+- Platform > [MCP server setup](https://docs.molar.it/docs/platform/mcp)
+- Platform > [CLI reference](https://docs.molar.it/docs/platform/cli)
+- Platform > [OAuth & authentication](https://docs.molar.it/docs/platform/oauth-authentication)
+
+## Agent signup API
+
+Unauthenticated register; Bearer token for verify and status.
+
+- `POST https://api.molar.it/api/v1/agent-signup` — body: `{ human_email, display_name, note_to_human?, harness? }` → `{ api_key, org_id, agent_id, status }`
+- `POST https://api.molar.it/api/v1/agent-signup/verify` — Bearer agent API key, body: `{ verification_code }` → `{ status, scopes_upgraded, mcp_install_url }`
+- `GET https://api.molar.it/api/v1/agent-signup/status` — Bearer agent API key → `{ claim_status, restrictions, entitlements }`
+
+CLI: `molar agent signup`, `molar agent signup verify --code <code>`, `molar agent signup status`
+
+Skills / discovery: full agent-signup walkthrough at [docs.molar.it/docs/getting-started/agent-signup](https://docs.molar.it/docs/getting-started/agent-signup)
 
 ## Links
 
