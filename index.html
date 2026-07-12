@@ -174,17 +174,31 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="home.css" />
   <link rel="stylesheet" href="seo-static.css" />
   <link rel="stylesheet" href="waitlist-modal.css" />
   <style>
-    body.density-tight .section { padding: 80px 0; }
-    body.density-tight .hero { padding: 72px 0 48px; }
-    body.density-airy .section { padding: 160px 0; }
-    body.density-airy .hero { padding: 120px 0 96px; }
+    /* seo-static.css tokens expected from the old styles.css */
+    :root { --rule-soft: #efece4; }
+  </style>
+  <!-- Hide SEO fallback + show root before React/Babel boot (prevents bland static flash) -->
+  <script>document.documentElement.className = 'js';</script>
+  <style>
+    html.js #root { display: block; min-height: 100vh; background: #faf9f6; }
+    .boot-splash {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      font-family: "Bricolage Grotesque", "Instrument Sans", sans-serif;
+      font-size: clamp(40px, 8vw, 64px);
+      font-weight: 640;
+      letter-spacing: -0.03em;
+      color: #17150f;
+    }
+    .boot-splash .boot-dot { color: #e04a2f; }
   </style>
 </head>
 <body data-waitlist-surface="home">
@@ -289,7 +303,9 @@
     </div>
   </div>
 
-  <div id="root"></div>
+  <div id="root">
+    <div class="boot-splash" aria-hidden="true">Molar<span class="boot-dot">.</span></div>
+  </div>
 
   <noscript>
     <p style="padding:12px;text-align:center;background:var(--signal-soft);font-size:14px;">
@@ -299,18 +315,12 @@
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/framer-motion@11.15.0/dist/framer-motion.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
   <script src="site-config.js"></script>
-  <script type="text/babel" src="tweaks-panel.jsx"></script>
-  <script type="text/babel" src="nav.jsx"></script>
-  <script type="text/babel" src="terminal.jsx"></script>
-  <script type="text/babel" src="animations.jsx"></script>
-  <script type="text/babel" src="clone-catalog.jsx"></script>
-  <script type="text/babel" src="footer.jsx"></script>
-  <script type="text/babel" src="sections.jsx"></script>
-  <script type="text/babel" src="app.jsx"></script>
+  <script type="text/babel" src="home.jsx"></script>
   <script src="waitlist-modal.js"></script>
 </body>
 </html>

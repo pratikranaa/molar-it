@@ -5,7 +5,11 @@ html.no-js #root {
 }
 
 html.js #static-landing {
-  display: none;
+  display: none !important;
+}
+
+html.js #root {
+  display: block;
 }
 
 #static-landing {
