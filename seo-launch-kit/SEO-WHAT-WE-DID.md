@@ -83,9 +83,11 @@ Surfaces deployed via [`vercel.json`](../vercel.json) host-based routes.
 
 Both linked from robots.txt comment and homepage `rel="alternate"`. Updated with comparison page links and surface cross-links.
 
-### 1.7 Removed docs.molar.it
+### 1.7 docs.molar.it — unified, not excluded (updated 2026-07-13)
 
-Docs consolidated at **`https://molar.it/docs`**. The subdomain was never deployed; it is **excluded** from sitemap, schema `sameAs`, and internal links to avoid split entity signals. See [`README.md`](../README.md).
+**Superseded.** `docs.molar.it` is now live as the full product documentation (Next.js, `apps/docs-site`). Rather than exclude it, we **unify the entity graph**: its `Organization` JSON-LD reuses the same `@id` (`https://molar.it/#org`) as this hub, and `docs.molar.it` is listed in the hub's schema `sameAs` plus the four product subdomains. `llms.txt` already cross-links to `docs.molar.it/docs/*`.
+
+Each host keeps its **own** sitemap (we do not list `docs.molar.it` URLs inside `molar.it/sitemap.xml`). `molar.it/docs` remains a thin marketing quickstart landing + long-tail per-clone SEO pages that link into `docs.molar.it` for full reference — kept distinct in intent to avoid duplicate content. See [`README.md`](../README.md).
 
 ### 1.8 Keyword research files
 

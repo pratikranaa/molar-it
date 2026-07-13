@@ -82,7 +82,9 @@ node scripts/gen-clone-routes.mjs
 
 **OG images (TODO):** surface pages reference per-product social images at `/og-clones.png`, `/og-cartographer.png`, `/og-guard.png`, `/og-trace.png` (1200×630). Create and deploy to `molar.it/` root for rich social previews.
 
-**Note:** `docs.molar.it` is not live — docs live at `https://molar.it/docs`. Do not add `docs.molar.it` to sitemap or schema `sameAs`.
+**Docs architecture:** The full product documentation is the Next.js site at **`https://docs.molar.it`** (source: `apps/docs-site` in the Molar monorepo). It has its own sitemap and JSON-LD, and its `Organization` node shares the same `@id` (`https://molar.it/#org`) so the two properties resolve to one entity. `docs.molar.it` is in this site's schema `sameAs` and is cross-linked from `llms.txt`. Do **not** list another domain's URLs in `molar.it/sitemap.xml` — each host serves its own sitemap.
+
+`molar.it/docs` (`docs.html`) is a thin marketing quickstart landing plus the long-tail per-clone SEO pages at `/docs/clones/:slug`; it links into `docs.molar.it` for full reference. Keep the two surfaces distinct in intent to avoid duplicate content.
 
 ## Contact
 
