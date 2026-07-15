@@ -196,10 +196,16 @@ const DEMO_OUTCOMES = {
 };
 
 function useReducedMotion() {
-  return React.useMemo(
-    () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-    []
-  );
+  const [reduced, setReduced] = React.useState(false);
+  React.useEffect(() => {
+    if (!window.matchMedia) return;
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReduced(query.matches);
+    update();
+    query.addEventListener?.('change', update);
+    return () => query.removeEventListener?.('change', update);
+  }, []);
+  return reduced;
 }
 
 const DEMO_SWAP_MS = 360;
@@ -1294,6 +1300,24 @@ function Hero() {
         </div>
         <div className="frame hero-install-row">
           <InstallCmd />
+          <section className="hero-entry-rail" aria-label="Ways to use Molar">
+            <div className="hero-entry-intro">
+              <span>One execution graph</span>
+              <strong>Four ways in.</strong>
+            </div>
+            {[
+              ['MCP', 'Coding agents'],
+              ['CLI', 'Terminal workflows'],
+              ['GitHub', 'Release gates'],
+              ['Dashboard', 'Live evidence'],
+            ].map(([label, detail], index) => (
+              <div className="hero-entry" key={label}>
+                <span>0{index + 1}</span>
+                <strong>{label}</strong>
+                <small>{detail}</small>
+              </div>
+            ))}
+          </section>
         </div>
       </div>
     </section>
@@ -1997,14 +2021,19 @@ function Surfaces() {
 
 /* ---------- page loader ---------- */
 function PageLoader() {
-  const [phase, setPhase] = React.useState('in');
+  const [phase, setPhase] = React.useState(() => {
+    try { return sessionStorage.getItem('molar:loader-seen') ? 'gone' : 'in'; }
+    catch { return 'in'; }
+  });
   const letters = ['M', 'o', 'l', 'a', 'r'];
 
   React.useEffect(() => {
+    if (phase === 'gone') return;
     const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    try { sessionStorage.setItem('molar:loader-seen', '1'); } catch {}
     document.body.classList.add('is-loading');
-    const outDelay = reduced ? 0 : 400;
-    const goneDelay = reduced ? 200 : 900;
+    const outDelay = reduced ? 0 : 260;
+    const goneDelay = reduced ? 0 : 680;
     const outT = window.setTimeout(() => setPhase('out'), outDelay);
     const goneT = window.setTimeout(() => {
       setPhase('gone');
