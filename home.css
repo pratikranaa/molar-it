@@ -3973,7 +3973,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   .loop-panel-copy, .loop-panel-visual { opacity: 1; transform: none; transition: none; }
   .loop-terminal { opacity: 1; transform: none; }
   .loader-char { animation: none !important; opacity: 1; transform: none; }
-  .page-loader { transition: none; }
+  .page-loader { display: none; transition: none; }
   .loop-scroll-spacer { display: none; }
   .loop-pin { position: relative; height: auto; min-height: 0; }
   .loop-hud { padding-top: 84px; }

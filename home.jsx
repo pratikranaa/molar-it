@@ -2022,7 +2022,10 @@ function Surfaces() {
 /* ---------- page loader ---------- */
 function PageLoader() {
   const [phase, setPhase] = React.useState(() => {
-    try { return sessionStorage.getItem('molar:loader-seen') ? 'gone' : 'in'; }
+    try {
+      if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return 'gone';
+      return sessionStorage.getItem('molar:loader-seen') ? 'gone' : 'in';
+    }
     catch { return 'in'; }
   });
   const letters = ['M', 'o', 'l', 'a', 'r'];
