@@ -82,7 +82,6 @@ Install the CLI:
 ```
 npx molar-agent init          # scaffold .molar/ in a repo
 npm install -g @molar/cli     # global molar CLI
-curl -fsSL https://get.molar.it | sh
 ```
 
 **Human signup:** [app.molar.it](https://app.molar.it) → create org → Settings → Tokens for PAT.
