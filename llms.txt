@@ -57,6 +57,7 @@ for the CI test loop (not production RUM).
 - [Continuous production guard](https://guard.molar.it): PR gating + scheduled synthetics with auto-fix.
 - [Stateful third-party clones](https://clones.molar.it): ~28 vendor clones, no real charges or emails.
 - [Trace capture & replay](https://trace.molar.it): forensic debugging for every failed run.
+- [Verification Reliability Lab](https://app.molar.it/reliability): public, versioned 30-flow release-safety scorecard with raw Trace evidence.
 - [PR-gating](https://guard.molar.it): GitHub App required check blocks bad merges.
 - [Auto-fix (Mender)](https://guard.molar.it): drafts fix PRs on confirmed regressions.
 - [MCP connector](https://molar.it): agents run tests, drive clones, read traces as tools.
@@ -129,4 +130,5 @@ Skills / discovery: full agent-signup walkthrough at [docs.molar.it/docs/getting
 - [Trace vs Playwright Trace Viewer](https://molar.it/vs/playwright-trace)
 - [GitHub Actions integration](https://molar.it/integrations/github-actions)
 - [Dashboard](https://app.molar.it)
+- [Verification Reliability Lab](https://app.molar.it/reliability)
 - [Full LLM overview](https://molar.it/llms-full.txt)
