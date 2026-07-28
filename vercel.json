@@ -29,6 +29,8 @@
     { "source": "/trace", "destination": "https://trace.molar.it", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/verify", "destination": "/verify.html" },
+    { "source": "/api/instant-proof/:path*", "destination": "/api/instant-proof?__path=:path*" },
     { "source": "/waitlist", "destination": "/waitlist.html" },
     { "source": "/docs", "destination": "/docs.html" },
     { "source": "/docs/clones/:slug", "destination": "/docs/clone.html?slug=:slug" },

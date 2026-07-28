@@ -2052,6 +2052,12 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 .demo-action.on .demo-action-kind { opacity: 1; color: var(--signal); }
 .demo-action-text { min-width: 0; }
+.demo-action-ms {
+  flex: 0 0 auto;
+  font: 500 10px/1 var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  color: var(--ink-3, #8a8a84);
+  letter-spacing: 0.02em;
+}
 .demo-action-check {
   font-size: 10px;
   color: var(--jade);

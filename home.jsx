@@ -2,8 +2,8 @@
 // Other pages keep nav.jsx/sections.jsx/styles.css; do not load those here.
 
 const CALENDLY_URL = 'https://calendly.com/pratikrana/30min';
-/** Instant Proof — URL + intent before signup (V3 instrument until molar.it hosts it). */
-const INSTANT_PROOF_URL = 'https://molar-v3-preview.vercel.app/#instant-proof';
+/** Instant Proof — URL + intent before signup (hosted on molar.it). */
+const INSTANT_PROOF_URL = '/verify#instant-proof';
 const APP_URL = 'https://app.molar.it';
 
 function openCalendly(e) {
@@ -125,37 +125,37 @@ const DEMO_TABS = [
 ];
 
 const TEST_STEPS = [
-  { say: 'Opening the pricing page…', scene: 'pricing', action: 'nav', cursor: { x: 50, y: 55 } },
-  { say: 'Typing a throwaway test email.', scene: 'email', action: 'type', cursor: { x: 50, y: 58 }, highlight: 'email' },
-  { say: 'Clicking Continue to checkout…', scene: 'email', action: 'click', cursor: { x: 50, y: 73 }, highlight: 'cta' },
-  { say: 'Opening the test inbox…', scene: 'confirm', action: 'nav', cursor: { x: 54, y: 35 }, safe: 'No real email sent' },
-  { say: 'Clicking the confirm link.', scene: 'confirm', action: 'click', cursor: { x: 54, y: 35 }, highlight: 'inbox' },
-  { say: 'Loading checkout…', scene: 'pay', action: 'nav', cursor: { x: 30, y: 38 } },
-  { say: 'Entering a test card number.', scene: 'pay', action: 'type', cursor: { x: 30, y: 46 }, highlight: 'card', safe: 'No real card charged' },
-  { say: 'Checking the receipt shows $99.00.', scene: 'receipt', action: 'nav', cursor: { x: 52, y: 52 }, highlight: 'total' },
-  { say: 'Passed — saved as a Playwright test you own.', scene: 'done', cursor: { x: 50, y: 65 } },
+  { say: 'Opening pricing on staging…', scene: 'pricing', action: 'nav', cursor: { x: 50, y: 55 }, ms: 820 },
+  { say: 'Typing inkbox+qa@acme.test', scene: 'email', action: 'type', cursor: { x: 50, y: 58 }, highlight: 'email', ms: 1100 },
+  { say: 'Continue → checkout', scene: 'email', action: 'click', cursor: { x: 50, y: 73 }, highlight: 'cta', ms: 640 },
+  { say: 'Opening clone inbox (no SMTP)', scene: 'confirm', action: 'nav', cursor: { x: 54, y: 35 }, safe: 'No real email sent', ms: 900 },
+  { say: 'Click confirm link in message', scene: 'confirm', action: 'click', cursor: { x: 54, y: 35 }, highlight: 'inbox', ms: 720 },
+  { say: 'Checkout /pay — viewport 1440×900', scene: 'pay', action: 'nav', cursor: { x: 30, y: 38 }, ms: 780 },
+  { say: 'Fill Stripe clone · 4242…', scene: 'pay', action: 'type', cursor: { x: 30, y: 46 }, highlight: 'card', safe: 'No real card charged', ms: 1400 },
+  { say: 'Assert receipt total == $99.00', scene: 'receipt', action: 'nav', cursor: { x: 52, y: 52 }, highlight: 'total', ms: 680 },
+  { say: 'PASS · exported Playwright + Trace', scene: 'done', cursor: { x: 50, y: 65 }, ms: 500 },
 ];
 
 const EXPLORE_STEPS = [
-  { say: 'Starting at staging.acme.dev like a first-time visitor.', scene: 'home', cursor: { x: 50, y: 40 } },
-  { say: 'Clicking through pages and filling forms…', scene: 'crawl', cursor: { x: 65, y: 55 } },
-  { say: 'Found checkout, signup, billing — 12 flows total.', scene: 'flows', cursor: { x: 45, y: 35 } },
-  { say: 'Turning each flow into a plain-English scenario.', scene: 'scenarios', cursor: { x: 55, y: 50 } },
-  { say: 'Exported 6 Playwright tests ready for your CI pipeline.', scene: 'export', cursor: { x: 58, y: 65 } },
+  { say: 'Seed: https://staging.acme.dev', scene: 'home', cursor: { x: 50, y: 40 }, ms: 700 },
+  { say: 'Crawl links + forms (pairwise covering)', scene: 'crawl', cursor: { x: 65, y: 55 }, ms: 1600 },
+  { say: 'Mapped 12 flows · 3 auth gates', scene: 'flows', cursor: { x: 45, y: 35 }, ms: 900 },
+  { say: 'Compile .molar.md scenarios', scene: 'scenarios', cursor: { x: 55, y: 50 }, ms: 1100 },
+  { say: 'Export 6 Playwright specs for CI', scene: 'export', cursor: { x: 58, y: 65 }, ms: 800 },
 ];
 
 const GUARD_STEPS = [
-  { say: 'New pull request: coupon discount feature.', scene: 'pr', cursor: { x: 40, y: 30 } },
-  { say: 'Running checkout against the preview deploy…', scene: 'running', cursor: { x: 50, y: 50 } },
-  { say: 'Price mismatch — expected $9.00, got $90.00.', scene: 'fail', cursor: { x: 55, y: 58 }, highlight: 'price' },
-  { say: 'Merge blocked. Opening a fix PR automatically.', scene: 'block', cursor: { x: 48, y: 72 } },
+  { say: 'PR #421 · coupon discount', scene: 'pr', cursor: { x: 40, y: 30 }, ms: 600 },
+  { say: 'Check run: checkout on preview URL', scene: 'running', cursor: { x: 50, y: 50 }, ms: 1400 },
+  { say: 'FAIL expected $9.00 · got $90.00', scene: 'fail', cursor: { x: 55, y: 58 }, highlight: 'price', ms: 900 },
+  { say: 'Merge blocked · Mender draft PR opened', scene: 'block', cursor: { x: 48, y: 72 }, ms: 800 },
 ];
 
 const DEBUG_STEPS = [
-  { say: 'Checkout failed on production. Opening the recording…', scene: 'fail', cursor: { x: 50, y: 35 } },
-  { say: 'Rewinding to the moment before it broke.', scene: 'replay', cursor: { x: 42, y: 55 } },
-  { say: 'Payment API errored — the page still looked fine.', scene: 'diff', cursor: { x: 58, y: 48 }, highlight: 'api' },
-  { say: 'Root cause: coupon rounding bug in discount.ts.', scene: 'cause', cursor: { x: 52, y: 62 } },
+  { say: 'Prod checkout fail · open Trace', scene: 'fail', cursor: { x: 50, y: 35 }, ms: 700 },
+  { say: 'Rewind rrweb to T−4.2s', scene: 'replay', cursor: { x: 42, y: 55 }, ms: 1200 },
+  { say: 'POST /pay 422 · UI still green', scene: 'diff', cursor: { x: 58, y: 48 }, highlight: 'api', ms: 900 },
+  { say: 'Root cause discount.ts:42 rounding', scene: 'cause', cursor: { x: 52, y: 62 }, ms: 700 },
 ];
 
 const DEMO_STEPS = {
@@ -715,12 +715,16 @@ function DemoActionLog({ steps, activeIdx, done }) {
       {steps.map((s, i) => {
         const state = done || i < activeIdx ? 'done' : i === activeIdx ? 'on' : '';
         const kind = s.highlight ? (s.safe ? 'clone' : 'click') : i === 0 ? 'nav' : 'act';
+        const ms = typeof s.ms === 'number' ? s.ms : null;
         return (
           <li key={i} className={`demo-action${state ? ` ${state}` : ''}`}>
             <span className={`demo-action-kind kind-${kind}`} aria-hidden>
               {kind === 'nav' ? '→' : kind === 'click' ? '◉' : kind === 'clone' ? '⛨' : '·'}
             </span>
             <span className="demo-action-text">{s.say}</span>
+            {ms != null && (
+              <span className="demo-action-ms" aria-hidden>{(ms / 1000).toFixed(1)}s</span>
+            )}
             {(state === 'done' || (done && i === steps.length - 1)) && (
               <span className="demo-action-check" aria-hidden>✓</span>
             )}
