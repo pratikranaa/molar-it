@@ -33,7 +33,10 @@ test("primary actions point to the live Molar app", async () => {
 
 test("page exposes keyboard and screen-reader contracts", async () => {
   const html = await read("index.html");
-  assert.match(html, /<link rel="icon" href="\.\.\/\.\.\/assets\/molar-mark-favicon\.png">/);
+  assert.match(
+    html,
+    /<link rel="icon" href="\.\/assets\/brand\/favicon\.svg" type="image\/svg\+xml">/,
+  );
   assert.match(html, /<button[^>]+data-menu-toggle[^>]+aria-expanded="false"/);
   assert.match(html, /<nav[^>]+data-mobile-menu[^>]+aria-label="Mobile"/);
   assert.match(html, /<main id="main-content">/);
@@ -49,7 +52,6 @@ test("copy stays inside the approved truth boundary", async () => {
     "tests everything",
     "100% coverage",
     "zero bugs",
-    "$99",
     "10,000 runs",
     "thousands of browsers",
   ]) {

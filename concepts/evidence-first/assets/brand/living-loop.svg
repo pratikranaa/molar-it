@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img">
+  <title>Molar Living Loop</title>
+  <style>
+    .ink { fill: #1c1c1c; }
+    .paper { fill: #f6f6f5; }
+    .plum { fill: #92294f; }
+  </style>
+  <path class="ink" d="M7 35C7 16 20 9 31 21l8 9-8 9-8-9c-4-5-7-2-7 5 0 8 7 13 15 7l6 8C22 62 7 53 7 35Z"/>
+  <path class="ink" d="M57 29c0 19-13 26-24 14l-8-9 8-9 8 9c4 5 7 2 7-5 0-8-7-13-15-7l-6-8C42 2 57 11 57 29Z"/>
+  <circle class="plum" cx="32" cy="32" r="5"/>
+</svg>

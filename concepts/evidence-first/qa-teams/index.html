@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Molar for QA Teams — Browser evidence that leaves receipts</title>
+  <meta name="description" content="Turn plain-English verification goals into reviewable browser evidence, bounded persona coverage, and reusable Playwright artifacts.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aleo:wght@400;500;600;700&family=Azeret+Mono:wght@500;600&family=Host+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../concept.css">
+  <link rel="stylesheet" href="../pages.css">
+  <script>document.documentElement.classList.remove("no-js");</script>
+  <script src="../concept.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+      <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+      <span>Molar</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/" aria-current="page">QA teams</a>
+      <a href="../pricing/">Pricing</a>
+    </nav>
+    <div class="header-actions">
+      <a class="button button-quiet sign-in" href="https://app.molar.it">Sign in</a>
+      <a class="button button-quiet" href="../contact/">Contact us</a>
+      <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
+        <span class="sr-only">Open navigation</span><span aria-hidden="true">Menu</span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu" data-mobile-menu aria-label="Mobile" hidden>
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/" aria-current="page">QA teams</a>
+      <a href="../security/">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">About</a>
+      <a href="../contact/">Contact us</a>
+      <a href="https://app.molar.it">Sign in</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="route-hero section-shell">
+      <div>
+        <p class="eyebrow">Molar · QA teams</p>
+        <h1>A QA teammate that leaves receipts.</h1>
+      </div>
+      <p class="route-lede">Describe the outcome in plain-English, exercise it in a browser, and review what happened without turning uncertainty into a false pass.</p>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">From intent to evidence</p>
+      <h2>Keep the test readable and the result inspectable.</h2>
+      <div class="proof-panel">
+        <div class="proof-panel-header">
+          <span>Illustrative scenario</span>
+          <span>Human-reviewed outcome</span>
+        </div>
+        <div class="proof-grid">
+          <article>
+            <p class="mini-label">Plain-English goal</p>
+            <h3>Describe what matters</h3>
+            <p>“A returning buyer can sign in, restore a saved cart, and complete checkout without a duplicate charge.”</p>
+          </article>
+          <article>
+            <p class="mini-label">Browser run</p>
+            <h3>Observe each meaningful state</h3>
+            <p>Capture the route, account state, screenshots, integration evidence, and unresolved branches.</p>
+          </article>
+          <article>
+            <p class="mini-label">Adjudication</p>
+            <h3>Let a reviewer decide with context</h3>
+            <p>Molar organizes evidence for adjudication; it does not imply that every ambiguous failure can be decided automatically.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Team workflow</p>
+      <h2>One evidence loop across release and production work.</h2>
+      <div class="capability-matrix">
+        <article>
+          <p class="mini-label">Current</p>
+          <h3>Scenarios and Playwright</h3>
+          <p>Natural-language scenarios, browser execution, evidence capture, and Playwright export can coexist with the deterministic suite a team already maintains.</p>
+        </article>
+        <article>
+          <p class="mini-label">Limited · Deployment-dependent</p>
+          <h3>Pull request exploration</h3>
+          <p>Pull request context can inform a bounded exploration plan where repository access, preview environments, and Guard workflows are configured.</p>
+        </article>
+        <article>
+          <p class="mini-label">Limited · Deployment-dependent</p>
+          <h3>Scheduled checks</h3>
+          <p>Scheduled monitoring depends on the deployed worker, credentials, environment reachability, and an explicitly configured scenario.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Coverage with boundaries</p>
+      <h2>See which role reached which state.</h2>
+      <div class="detail-copy">
+        <p><strong>Persona state</strong> Bind roles and account state to isolated sessions so expected permissions and denials remain visible.</p>
+        <p><strong>Evidence review</strong> Compare screenshots, Trace context, network observations, and controlled integration state before adjudication.</p>
+        <p><strong>Reusable checks</strong> Preserve stable flows as Playwright while retaining exploratory evidence for the branches that need judgment.</p>
+        <p><strong>Uncertainty</strong> Report skipped, queued, denied, and unresolved work rather than suggesting the browser visited every possible state.</p>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Operating boundary</p>
+      <h2>Automation assists the accountable reviewer.</h2>
+      <aside class="boundary-note">
+        <p class="mini-label">Deployment-dependent</p>
+        <p>Repository-aware exploration, scheduled execution, shared evidence retention, and approval workflows depend on the connected environment. Molar does not present automatic adjudication as universally available.</p>
+      </aside>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Related paths</p>
+      <nav class="related-grid" aria-label="Related Molar pages">
+        <a href="../swarm/"><strong>Swarm</strong><span>Compare bounded coverage across isolated personas.</span></a>
+        <a href="../integrations/"><strong>Integrations</strong><span>Exercise payments, messages, files, and webhooks safely.</span></a>
+        <a href="../pricing/"><strong>Pricing</strong><span>Review proposed packaging and usage boundaries.</span></a>
+      </nav>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+        <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+        <span>Molar</span>
+      </a>
+      <p>Real-browser evidence for software teams and coding agents.</p>
+      <p><a href="mailto:pratik@molar.it">pratik@molar.it</a></p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../security/">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../contact/">Contact us</a>
+    </nav>
+    <p class="footer-note">Evidence-first concept · Molar</p>
+  </footer>
+</body>
+</html>

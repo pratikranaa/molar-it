@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img">
+  <title>Molar favicon</title>
+  <style>
+    .ink { fill: #1c1c1c; }
+    .paper { fill: #f6f6f5; }
+    .plum { fill: #92294f; }
+  </style>
+  <rect class="ink" x="5" y="5" width="54" height="54" rx="13"/>
+  <path class="paper" d="M16 46V18h9l7 9 7-9h9v28H38V33l-6 7-6-7v13Z"/>
+  <circle class="plum" cx="44" cy="46" r="5"/>
+</svg>

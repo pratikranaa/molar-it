@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" role="img">
+  <title>Molar logo</title>
+  <style>
+    .ink { fill: #1c1c1c; }
+    .paper { fill: #f6f6f5; }
+    .plum { fill: #92294f; }
+  </style>
+  <circle class="ink" cx="32" cy="32" r="27"/>
+  <path class="paper" d="M37 13c-12 0-21 8-21 19v4l-5 7c-1 2 0 4 3 4h6v6c0 2 2 4 4 4h12l-2-12c-1-6 2-10 6-15 4-5 3-13-3-17Z"/>
+  <circle class="plum" cx="32" cy="29" r="8"/>
+  <circle class="paper" cx="29" cy="29" r="3"/>
+  <path class="ink" d="M76 47V17h8l10 14 10-14h8v30h-8V29L94 42 84 29v18Z"/>
+  <path class="ink" d="M119 36c0-7 6-12 14-12s14 5 14 12-6 12-14 12-14-5-14-12Zm8 0c0 4 2 6 6 6s6-2 6-6-2-6-6-6-6 2-6 6Z"/>
+  <path class="ink" d="M154 14h8v33h-8Z"/>
+  <path class="ink" d="M169 36c0-7 5-12 12-12 3 0 6 1 8 3v-3h8v23h-8v-3c-2 3-5 4-9 4-6 0-11-5-11-12Zm8 0c0 4 2 6 6 6s6-2 6-6-2-6-6-6-6 2-6 6Z"/>
+  <path class="ink" d="M205 24h8v4c2-3 5-5 10-5v8h-3c-5 0-7 2-7 8v8h-8Z"/>
+</svg>

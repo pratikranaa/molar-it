@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Molar — Bring us the flow you need verified</title>
+  <meta name="description" content="Tell Molar about the application, team, and critical browser flow you need to verify, then compose a pre-addressed email.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aleo:wght@400;500;600;700&family=Azeret+Mono:wght@500;600&family=Host+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../concept.css">
+  <link rel="stylesheet" href="../pages.css">
+  <script>document.documentElement.classList.remove("no-js");</script>
+  <script src="../concept.js" defer></script>
+  <script type="module" src="../contact.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+      <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+      <span>Molar</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../pricing/">Pricing</a>
+    </nav>
+    <div class="header-actions">
+      <a class="button button-quiet sign-in" href="https://app.molar.it">Sign in</a>
+      <a class="button button-quiet" href="../contact/" aria-current="page">Contact us</a>
+      <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
+        <span class="sr-only">Open navigation</span><span aria-hidden="true">Menu</span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu" data-mobile-menu aria-label="Mobile" hidden>
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../security/">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">About</a>
+      <a href="../contact/" aria-current="page">Contact us</a>
+      <a href="https://app.molar.it">Sign in</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="route-hero section-shell" aria-labelledby="contact-title">
+      <div>
+        <p class="eyebrow">Molar · contact</p>
+        <h1 id="contact-title">Bring us the flow that has to work.</h1>
+      </div>
+      <p class="route-lede">Share the critical browser outcome, the systems around it, and the environment where it runs. We will start with the verification question—not a generic sales script.</p>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="expect-title">
+      <p class="section-label">What happens next</p>
+      <h2 id="expect-title">A short note, already structured for a useful conversation.</h2>
+      <div class="proof-grid">
+        <article>
+          <p class="mini-label">01 · Describe</p>
+          <h3>Name the risky flow</h3>
+          <p>Tell us what a real user should accomplish and which integration, role, or release condition makes it hard to verify.</p>
+        </article>
+        <article>
+          <p class="mini-label">02 · Compose</p>
+          <h3>Review the message</h3>
+          <p>This page prepares a pre-addressed email in your own email application. It does not submit form data to a Molar backend.</p>
+        </article>
+        <article>
+          <p class="mini-label">03 · Decide</p>
+          <h3>Send when ready</h3>
+          <p>You can edit, attach context, or close the draft. Nothing is sent until you choose to send it.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="form-title">
+      <p class="section-label">Verification inquiry</p>
+      <h2 id="form-title">Give us enough context to start at the right layer.</h2>
+
+      <div class="contact-layout">
+        <form class="contact-form" data-contact-form>
+        <label for="contact-email">
+          Work email
+          <input id="contact-email" type="email" name="email" autocomplete="email" required aria-describedby="email-hint">
+        </label>
+        <p id="email-hint">Required. Used in the email body so we know where to reply.</p>
+
+        <label for="contact-company">
+          Company
+          <input id="contact-company" type="text" name="company" autocomplete="organization">
+        </label>
+
+        <label for="contact-app-url">
+          Application URL
+          <input id="contact-app-url" type="url" name="appUrl" inputmode="url" autocomplete="url" placeholder="https://staging.example.com" aria-describedby="app-url-hint">
+        </label>
+        <p id="app-url-hint">Optional. Include a localhost, preview, staging, or authorized production URL.</p>
+
+        <label for="contact-team-size">
+          Team size
+          <select id="contact-team-size" name="teamSize">
+            <option value="">Select a range (optional)</option>
+            <option value="1">1</option>
+            <option value="2–10">2–10</option>
+            <option value="11–50">11–50</option>
+            <option value="51–200">51–200</option>
+            <option value="201+">201+</option>
+          </select>
+        </label>
+
+        <label for="contact-flow">
+          Critical flow or verification question
+          <textarea id="contact-flow" name="flow" required aria-describedby="flow-hint" placeholder="Example: Verify that a new workspace owner can complete signup, receive an OTP, invite a read-only member, and upgrade with our test payment provider."></textarea>
+        </label>
+        <p id="flow-hint">Required. Include the expected outcome, relevant persona, and any payment, identity, messaging, file, or webhook dependency.</p>
+
+        <div class="form-actions">
+          <button type="submit">Compose email</button>
+          <p>Opens your email app.</p>
+        </div>
+        <p aria-live="polite" data-contact-status></p>
+        </form>
+
+        <div class="detail-copy contact-boundary">
+          <p>Prefer to write directly? <a href="mailto:pratik@molar.it">pratik@molar.it</a></p>
+          <p><strong>Privacy boundary</strong> The form is processed in your browser to compose an email. This static concept does not claim a contact-form API, CRM submission, or stored draft.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell">
+      <p class="section-label">Explore before writing</p>
+      <nav class="related-grid" aria-label="Related Molar pages">
+        <a href="../platform/"><strong>Platform</strong><span>See how the five instruments share one evidence loop.</span></a>
+        <a href="../integrations/"><strong>Integrations</strong><span>Map the controlled and observed systems around the browser.</span></a>
+        <a href="../security/"><strong>Security</strong><span>Review credential, evidence, action, and deployment boundaries.</span></a>
+      </nav>
+      <div class="hero-actions">
+        <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+        <a class="text-link" href="../pricing/">Review pricing <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+        <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+        <span>Molar</span>
+      </a>
+      <p>Real-browser evidence for software teams and coding agents.</p>
+      <p><a href="mailto:pratik@molar.it">pratik@molar.it</a></p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../security/">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../contact/" aria-current="page">Contact us</a>
+    </nav>
+    <p class="footer-note">Evidence-first concept · Molar</p>
+  </footer>
+</body>
+</html>

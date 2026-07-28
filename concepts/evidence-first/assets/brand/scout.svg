@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img">
+  <title>Molar Scout</title>
+  <style>
+    .ink { fill: #1c1c1c; }
+    .paper { fill: #f6f6f5; }
+    .plum { fill: #92294f; }
+  </style>
+  <path class="ink" d="M7 58c2-15 11-23 25-23s23 8 25 23Z"/>
+  <path class="ink" d="M13 35C9 19 17 8 30 6l23 20c3 3 2 7-2 10-11-4-24-4-38-1Z"/>
+  <circle class="paper" cx="28" cy="25" r="7"/>
+  <circle class="ink" cx="28" cy="25" r="3"/>
+  <path class="plum" d="M37 6c8-2 16 2 22 9L48 26 34 13Z"/>
+</svg>

@@ -1,0 +1,378 @@
+import assert from "node:assert/strict";
+import { access, readFile } from "node:fs/promises";
+import { dirname, extname, resolve } from "node:path";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
+
+const root = new URL("./", import.meta.url);
+const routes = [
+  ["home", "index.html", "Molar Evidence"],
+  ["platform", "platform/index.html", "Molar Platform"],
+  ["swarm", "swarm/index.html", "Molar Swarm"],
+  ["integrations", "integrations/index.html", "Molar Integrations"],
+  ["coding-agents", "coding-agents/index.html", "Molar for Coding Agents"],
+  ["qa-teams", "qa-teams/index.html", "Molar for QA Teams"],
+  ["security", "security/index.html", "Molar Security"],
+  ["pricing", "pricing/index.html", "Molar Pricing"],
+  ["docs", "docs/index.html", "Molar Docs"],
+  ["about", "about/index.html", "About Molar"],
+  ["contact", "contact/index.html", "Contact Molar"],
+];
+const brandAssets = [
+  "observer.svg",
+  "living-loop.svg",
+  "scout.svg",
+  "portal.svg",
+  "monogram.svg",
+  "sentinel.svg",
+  "molar-lockup.svg",
+  "favicon.svg",
+];
+const read = (path) => readFile(new URL(path, root), "utf8");
+
+test("all approved routes ship unique metadata and noindex", async () => {
+  const titles = new Set();
+  const headings = new Set();
+  for (const [name, path, titlePrefix] of routes) {
+    const html = await read(path);
+    const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+    const heading = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1]
+      .replace(/<[^>]+>/g, "")
+      .trim();
+    assert.ok(title?.startsWith(titlePrefix), `${name} title`);
+    assert.equal(titles.has(title), false, `${name} unique title`);
+    titles.add(title);
+    assert.ok(heading, `${name} heading`);
+    assert.equal(headings.has(heading), false, `${name} unique heading`);
+    headings.add(heading);
+    assert.match(html, /<meta name="description" content="[^"]+">/);
+    assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
+    assert.match(html, /<main id="main-content">/);
+    assert.match(html, /class="skip-link"/);
+  }
+});
+
+test("every detail route exposes the shared buyer journey", async () => {
+  for (const [, path] of routes.slice(1)) {
+    const html = await read(path);
+    for (const href of [
+      "../platform/",
+      "../swarm/",
+      "../integrations/",
+      "../coding-agents/",
+      "../qa-teams/",
+      "../pricing/",
+      "../contact/",
+    ]) {
+      assert.match(html, new RegExp(`href="${href.replaceAll("/", "\\/")}"`));
+    }
+    assert.match(html, /href="https:\/\/app\.molar\.it"/);
+  }
+});
+
+test("the approved logo family ships as clean local SVG", async () => {
+  for (const name of brandAssets) {
+    const path = `assets/brand/${name}`;
+    await access(new URL(path, root));
+    const svg = await read(path);
+    const withoutNamespace = svg.replace(
+      'xmlns="http://www.w3.org/2000/svg"',
+      "",
+    );
+    assert.match(svg, /^<svg[\s>]/);
+    assert.equal(
+      /<image|linearGradient|radialGradient|https?:\/\//.test(withoutNamespace),
+      false,
+      path,
+    );
+    assert.match(svg, /#1c1c1c|currentColor/);
+  }
+});
+
+test("shared detail assets provide type and resilience contracts", async () => {
+  const css = await read("pages.css");
+  assert.match(css, /--page-hero:/);
+  assert.match(css, /--section-display:/);
+  assert.match(css, /min-height:\s*44px/);
+  assert.match(
+    css,
+    /\.proof-grid > \*,\s*\n\.capability-matrix > \* \{[^}]*min-width:\s*0;/s,
+  );
+  assert.match(css, /\.detail-section pre \{[^}]*overflow-x:\s*auto;/s);
+  assert.match(css, /@media \(max-width: 780px\)/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+});
+
+test("approved plan amounts appear only on the pricing route", async () => {
+  const home = await read("index.html");
+  assert.equal(/\$99|\$399|\$948|\$3,828/.test(home), false);
+
+  const pricing = await read("pricing/index.html");
+  for (const amount of ["$99", "$399", "$948", "$3,828"]) {
+    assert.match(pricing, new RegExp(amount.replace("$", "\\$")));
+  }
+});
+
+test("platform, about, and docs explain the evidence system", async () => {
+  const platform = await read("platform/index.html");
+  for (const name of ["Cartographer", "Guard", "Clones", "Trace", "Plumbing"]) {
+    assert.match(platform, new RegExp(name));
+  }
+  assert.match(platform, /one verified run/i);
+  assert.match(platform, /Limited/);
+
+  const about = await read("about/index.html");
+  assert.match(about, /Evidence should outlive the run/);
+  assert.match(about, /uncertainty/i);
+
+  const docs = await read("docs/index.html");
+  for (const task of ["First verification", "CLI", "MCP", "Scenarios", "Traces"]) {
+    assert.match(docs, new RegExp(task));
+  }
+  assert.match(docs, /https:\/\/docs\.molar\.it/);
+});
+
+test("swarm exposes personas, budgets, and honest coverage states", async () => {
+  const html = await read("swarm/index.html");
+  for (const copy of [
+    "One goal. Several isolated points of view.",
+    "New customer",
+    "Returning buyer",
+    "Workspace admin",
+    "Read-only member",
+    "Passed",
+    "Denied as expected",
+    "Skipped",
+    "Uncertain",
+    "Safety budget",
+    "Current",
+    "Limited",
+    "Proposed",
+  ]) {
+    assert.match(html, new RegExp(copy));
+  }
+  assert.equal(/tests every corner|100% coverage/i.test(html), false);
+});
+
+test("integrations explain controlled cross-system verification", async () => {
+  const html = await read("integrations/index.html");
+  for (const copy of [
+    "Test the system around your product.",
+    "Payment",
+    "OTP",
+    "Permissions",
+    "Webhook",
+    "Files",
+    "eventual consistency",
+    "deliberate failure",
+    "What Molar controls",
+    "What Molar observes",
+    "What Molar verifies",
+    "Deployment-dependent",
+  ]) {
+    assert.match(html, new RegExp(copy, "i"));
+  }
+  assert.match(html, /Coverage depends on the configured environment/);
+});
+
+test("audience routes show distinct workflows and availability", async () => {
+  const agents = await read("coding-agents/index.html");
+  for (const copy of [
+    "Give your coding agent a real release check.",
+    "molar verify",
+    "MCP",
+    "error.hint",
+    "fix",
+    "re-verify",
+    "Current",
+    "Limited",
+  ]) {
+    assert.match(agents, new RegExp(copy, "i"));
+  }
+
+  const qa = await read("qa-teams/index.html");
+  for (const copy of [
+    "A QA teammate that leaves receipts.",
+    "plain-English",
+    "pull request",
+    "scheduled",
+    "Playwright",
+    "adjudication",
+    "Deployment-dependent",
+  ]) {
+    assert.match(qa, new RegExp(copy, "i"));
+  }
+});
+
+test("security explains controls without unsupported certification claims", async () => {
+  const html = await read("security/index.html");
+  for (const copy of [
+    "Verification within explicit boundaries.",
+    "Credentials",
+    "Action approval",
+    "Tenant",
+    "Retention",
+    "Redaction",
+    "Audit",
+    "Current",
+    "Limited",
+    "Deployment-dependent",
+  ]) {
+    assert.match(html, new RegExp(copy, "i"));
+  }
+  assert.equal(/SOC 2 certified|HIPAA compliant|zero trust certified/i.test(html), false);
+});
+
+test("pricing ships four plans, exact packaging, and a qualified value target", async () => {
+  const html = await read("pricing/index.html");
+  for (const copy of [
+    "Developer",
+    "Starter",
+    "Team",
+    "Enterprise",
+    "$99",
+    "$399",
+    "$948",
+    "$3,828",
+    "Contact us",
+    "Target at least $2 of measurable value",
+    "Illustrative",
+    "Proposed packaging",
+    "Verified runs",
+    "2,500",
+    "Evidence retention",
+    "90 days",
+    "agent compute",
+    "browser time",
+    "proxy",
+  ]) {
+    assert.match(html, new RegExp(copy.replace("$", "\\$"), "i"));
+  }
+  for (const category of [
+    "Usage",
+    "Workflows",
+    "Evidence",
+    "Integrations",
+    "Team",
+    "Support",
+    "Security",
+  ]) {
+    assert.match(html, new RegExp(`data-matrix-category="${category.toLowerCase()}"`));
+  }
+  assert.match(html, /name="billing-cycle"/);
+  assert.match(html, /value="monthly"[^>]+checked/);
+  assert.match(html, /value="annual"/);
+  assert.match(html, /<table[^>]+class="[^"]*feature-matrix/);
+  assert.match(html, /<script type="module" src="\.\.\/pricing\.js"><\/script>/);
+  assert.equal(/guaranteed 2|guarantee.*ROI|\$5,000/i.test(html), false);
+});
+
+test("contact route is explicit about native validation and opening email", async () => {
+  const html = await read("contact/index.html");
+  assert.match(html, /data-contact-form/);
+  assert.match(html, /type="email"[^>]+required/);
+  assert.match(html, /type="url"/);
+  assert.match(html, /name="flow"[^>]+required/);
+  assert.match(html, /Opens your email app\./);
+  assert.match(html, /mailto:pratik@molar\.it/);
+  assert.match(html, /aria-live="polite"[^>]+data-contact-status/);
+  assert.match(html, /<script type="module" src="\.\.\/contact\.js"><\/script>/);
+});
+
+test("commercial routes expose responsive controls and layout hooks", async () => {
+  const [css, pricingJs, contact] = await Promise.all([
+    read("pages.css"),
+    read("pricing.js"),
+    read("contact/index.html"),
+  ]);
+  for (const selector of [
+    ".pricing-grid",
+    ".segment-control label",
+    ".matrix-controls",
+    ".feature-matrix-wrap",
+    ".roi-grid",
+    ".roi-receipt",
+    ".contact-layout",
+  ]) {
+    assert.match(css, new RegExp(selector.replace(".", "\\.")));
+  }
+  assert.match(pricingJs, /classList\.add\("pricing-ready"\)/);
+  assert.match(contact, /class="contact-layout"/);
+});
+
+test("all local links, fragments, scripts, styles, and images resolve", async () => {
+  for (const [, path] of routes) {
+    const html = await read(path);
+    const pageDir = dirname(fileURLToPath(new URL(path, root)));
+    const references = [
+      ...html.matchAll(/\b(?:href|src)="([^"]+)"/g),
+    ].map((match) => match[1]);
+
+    for (const reference of references) {
+      if (/^(?:https?:|mailto:|tel:|data:|\/\/)/.test(reference)) continue;
+      const [rawTarget, fragment = ""] = reference.split("#", 2);
+      const target = rawTarget || path.split("/").at(-1);
+      let targetHtml = html;
+
+      if (rawTarget) {
+        const cleanTarget = rawTarget.split("?")[0];
+        const resolved = resolve(pageDir, cleanTarget);
+        const file = cleanTarget.endsWith("/")
+          ? `${resolved}/index.html`
+          : extname(resolved)
+            ? resolved
+            : `${resolved}/index.html`;
+        await access(file);
+        if (fragment) targetHtml = await readFile(file, "utf8");
+      }
+
+      if (fragment) {
+        assert.match(
+          targetHtml,
+          new RegExp(`\\bid="${fragment.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}"`),
+          `${path} → #${fragment}`,
+        );
+      }
+      assert.ok(target, `${path} has a non-empty local target`);
+    }
+  }
+});
+
+test("no route overclaims coverage, ROI, certification, or enterprise price", async () => {
+  for (const [name, path] of routes) {
+    const html = (await read(path)).toLowerCase();
+    for (const claim of [
+      "tests every corner",
+      "tests everything",
+      "100% coverage",
+      "zero bugs",
+      "guaranteed roi",
+      "$5,000",
+      "soc 2 certified",
+      "hipaa compliant",
+      "zero trust certified",
+    ]) {
+      assert.equal(html.includes(claim), false, `${name}: ${claim}`);
+    }
+  }
+});
+
+test("the site preserves the approved design system and exact truth labels", async () => {
+  const css = `${await read("concept.css")}\n${await read("pages.css")}`;
+  for (const token of [
+    "Host Grotesk",
+    "Aleo",
+    "Azeret Mono",
+    "#92294f",
+    "#f6f6f5",
+  ]) {
+    assert.match(css, new RegExp(token, "i"));
+  }
+
+  const siteCopy = (
+    await Promise.all(routes.map(([, path]) => read(path)))
+  ).join("\n");
+  for (const state of ["Current", "Limited", "Proposed", "Deployment-dependent"]) {
+    assert.match(siteCopy, new RegExp(`>\\s*${state}\\s*<`, "i"));
+  }
+});

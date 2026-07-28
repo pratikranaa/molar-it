@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Molar Integrations — Verify the systems around your product</title>
+  <meta name="description" content="Explore deployment-dependent Molar verification flows for payments, OTP, permissions, webhooks, files, and deliberate failures.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aleo:wght@400;500;600;700&family=Azeret+Mono:wght@500;600&family=Host+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../concept.css">
+  <link rel="stylesheet" href="../pages.css">
+  <script>document.documentElement.classList.remove("no-js");</script>
+  <script src="../concept.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+      <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+      <span>Molar</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/" aria-current="page">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../pricing/">Pricing</a>
+    </nav>
+    <div class="header-actions">
+      <a class="button button-quiet sign-in" href="https://app.molar.it">Sign in</a>
+      <a class="button button-quiet" href="../contact/">Contact us</a>
+      <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
+        <span class="sr-only">Open navigation</span><span aria-hidden="true">Menu</span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu" data-mobile-menu aria-label="Mobile" hidden>
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/" aria-current="page">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../security/">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">About</a>
+      <a href="../contact/">Contact us</a>
+      <a href="https://app.molar.it">Sign in</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="route-hero section-shell" aria-labelledby="integrations-title">
+      <div>
+        <p class="eyebrow">Molar Integrations · controlled cross-system evidence</p>
+        <h1 id="integrations-title">Test the system around your product.</h1>
+      </div>
+      <div>
+        <img class="brand-symbol" src="../assets/brand/portal.svg" alt="">
+        <p class="route-lede">Exercise the browser and the state it depends on—payments, identity, messages, webhooks, files, and failure conditions—without pretending every environment exposes the same controls.</p>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="boundary-title">
+      <p class="section-label">Deployment-dependent</p>
+      <h2 id="boundary-title">Control test systems. Observe real vendors.</h2>
+      <div class="detail-copy">
+        <p><strong>What Molar controls</strong> Configured Clones, synthetic identities, test fixtures, virtual time, and explicitly connected test systems.</p>
+        <p><strong>What Molar observes</strong> Browser-visible outcomes, sanitized network shape, permitted vendor state, callbacks, logs, and evidence returned by configured environments.</p>
+        <p><strong>What Molar verifies</strong> A specific expected outcome supported by the available browser and integration evidence—not hidden state it cannot see.</p>
+      </div>
+      <aside class="boundary-note proposal-block">
+        <p class="mini-label">Environment boundary</p>
+        <p>Coverage depends on the configured environment and available integrations. Molar does not imply a complete clone of every third-party service.</p>
+        <p>Every flow on this page is <strong>Deployment-dependent</strong>. Real vendors are observed; Molar controls only configured Clones and authorized test systems.</p>
+      </aside>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="flows-title">
+      <p class="section-label">Six cross-system flows</p>
+      <h2 id="flows-title">Follow each side effect to an observable outcome.</h2>
+
+      <article class="proof-panel integration-flow" aria-labelledby="payment-flow">
+        <div class="proof-panel-header">
+          <span>Payment · Deployment-dependent</span>
+          <span>Configured Stripe Clone or test provider</span>
+        </div>
+        <div class="detail-copy">
+          <h3 id="payment-flow">Authorization, decline, refund, and subscription state</h3>
+          <p><strong>Trigger</strong> A browser persona submits checkout, changes a plan, or requests a refund.</p>
+          <p><strong>Controlled state</strong> When a Stripe Clone or authorized test provider is configured, seed a customer, payment method, balance, decline condition, or subscription clock.</p>
+          <p><strong>Observed evidence</strong> Capture the user-visible receipt or refusal, sanitized request shape, callback timing, and permitted payment state.</p>
+          <p><strong>Verified outcome</strong> Confirm that the UI and configured payment system agree on the expected authorized, declined, refunded, or subscribed state.</p>
+        </div>
+      </article>
+
+      <article class="proof-panel integration-flow" aria-labelledby="otp-flow">
+        <div class="proof-panel-header">
+          <span>OTP + authentication · Deployment-dependent</span>
+          <span>Configured Email, SMS, or Auth path</span>
+        </div>
+        <div class="detail-copy">
+          <h3 id="otp-flow">One-time codes without leaking the secret</h3>
+          <p><strong>Trigger</strong> A browser persona signs up, signs in, or reaches a step-up authentication challenge.</p>
+          <p><strong>Controlled state</strong> A configured Email, SMS, or Auth Clone can provide a run-scoped identity and deterministic delivery; a managed relay requires explicit deployment configuration.</p>
+          <p><strong>Observed evidence</strong> Record delivery metadata, consume-once resolution, browser progress, and redacted Trace events without retaining the OTP value.</p>
+          <p><strong>Verified outcome</strong> Confirm that the intended identity reaches the authorized page and replayed or foreign credentials are refused.</p>
+        </div>
+      </article>
+
+      <article class="proof-panel integration-flow" aria-labelledby="permissions-flow">
+        <div class="proof-panel-header">
+          <span>Permissions · Deployment-dependent</span>
+          <span>Configured roles and account state</span>
+        </div>
+        <div class="detail-copy">
+          <h3 id="permissions-flow">A denial can be the correct result</h3>
+          <p><strong>Trigger</strong> An admin, member, billing owner, or read-only persona attempts the same protected action.</p>
+          <p><strong>Controlled state</strong> Seed or provision role-specific accounts only through the identity system available in the target environment.</p>
+          <p><strong>Observed evidence</strong> Compare visible controls, navigation, response status, and bounded audit or policy evidence where the integration exposes it.</p>
+          <p><strong>Verified outcome</strong> Confirm that authorized roles proceed and restricted roles are denied as expected, without treating the denial as a failed test.</p>
+        </div>
+      </article>
+
+      <article class="proof-panel integration-flow" aria-labelledby="webhook-flow">
+        <div class="proof-panel-header">
+          <span>Webhook + eventual consistency · Deployment-dependent</span>
+          <span>Configured receiver and retry policy</span>
+        </div>
+        <div class="detail-copy">
+          <h3 id="webhook-flow">Wait for the system to converge, not merely respond</h3>
+          <p><strong>Trigger</strong> A browser action produces an asynchronous event such as payment completion, delivery, or account provisioning.</p>
+          <p><strong>Controlled state</strong> In a configured Clone or test receiver, delay delivery, return a bounded transient failure, or advance virtual time to exercise retries.</p>
+          <p><strong>Observed evidence</strong> Preserve attempt count, signature-safe metadata, retry timing, final callback state, and the corresponding browser transition.</p>
+          <p><strong>Verified outcome</strong> Confirm eventual consistency within the declared budget—or report timeout and unresolved state as uncertainty.</p>
+        </div>
+      </article>
+
+      <article class="proof-panel integration-flow" aria-labelledby="files-flow">
+        <div class="proof-panel-header">
+          <span>Files · Deployment-dependent</span>
+          <span>Configured S3 Clone or test storage</span>
+        </div>
+        <div class="detail-copy">
+          <h3 id="files-flow">Verify upload, access, download, and object state</h3>
+          <p><strong>Trigger</strong> A browser persona uploads an object, opens a generated asset, or downloads a protected file.</p>
+          <p><strong>Controlled state</strong> A configured S3 Clone or authorized test bucket can seed object versions, access rules, multipart state, and snapshot boundaries.</p>
+          <p><strong>Observed evidence</strong> Capture browser status, sanitized transfer metadata, expected filename or MIME type, and permitted object-state evidence.</p>
+          <p><strong>Verified outcome</strong> Confirm successful authorized access, correct content identity, and refusal for a foreign or insufficiently privileged session.</p>
+        </div>
+      </article>
+
+      <article class="proof-panel integration-flow" aria-labelledby="failure-flow">
+        <div class="proof-panel-header">
+          <span>Deliberate failure · Deployment-dependent</span>
+          <span>Configured fault-capable test system</span>
+        </div>
+        <div class="detail-copy">
+          <h3 id="failure-flow">Prove the product survives the unhappy path</h3>
+          <p><strong>Trigger</strong> Run a critical journey while an explicitly configured dependency returns a timeout, rate limit, partial response, or bounded outage.</p>
+          <p><strong>Controlled state</strong> Inject the fault only in a Clone or authorized test environment with a clear time, request, and mutation ceiling.</p>
+          <p><strong>Observed evidence</strong> Record retries, user-facing recovery, network shape, console evidence, and any residual external state after the run.</p>
+          <p><strong>Verified outcome</strong> Confirm graceful recovery, an honest failure, or an explicit uncertain result—never infer resilience from an unexercised fault.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="receipt-title">
+      <p class="section-label">Deployment-dependent evidence receipt</p>
+      <h2 id="receipt-title">Browser outcome and external state belong together.</h2>
+      <div class="proof-panel">
+        <div class="proof-panel-header">
+          <span>Illustrative cross-system receipt</span>
+          <img class="brand-symbol" src="../assets/brand/portal.svg" alt="">
+        </div>
+        <div class="proof-grid">
+          <article>
+            <p class="mini-label">Browser</p>
+            <h3>Plan updated</h3>
+            <p>The visible account state shows the expected plan after navigation settled.</p>
+          </article>
+          <article>
+            <p class="mini-label">Configured system</p>
+            <h3>Subscription active</h3>
+            <p>The authorized test integration reports the matching customer and subscription state.</p>
+          </article>
+          <article>
+            <p class="mini-label">Uncertainty</p>
+            <h3>Webhook pending</h3>
+            <p>The callback has not converged inside the budget, so the receipt remains uncertain rather than passed.</p>
+          </article>
+        </div>
+      </div>
+      <div class="detail-copy">
+        <p><strong>Control boundary</strong> The receipt must identify whether evidence came from a Clone, a real vendor's test mode, or browser observation alone.</p>
+        <p><strong>Inference boundary</strong> Molar cannot verify private vendor state that the configured integration does not expose.</p>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell">
+      <nav class="related-grid" aria-label="Continue exploring Molar">
+        <a href="../swarm/"><strong>Swarm</strong><span>Exercise configured systems across roles and account state.</span></a>
+        <a href="../qa-teams/"><strong>QA teams</strong><span>Review integration evidence and unresolved uncertainty.</span></a>
+        <a href="../security/"><strong>Security</strong><span>Understand credential, action, evidence, and deployment boundaries.</span></a>
+      </nav>
+      <div class="hero-actions">
+        <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+        <a class="text-link" href="../contact/">Contact us <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+        <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+        <span>Molar</span>
+      </a>
+      <p>Real-browser evidence for software teams and coding agents.</p>
+      <a href="mailto:pratik@molar.it">pratik@molar.it</a>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../security/">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../contact/">Contact us</a>
+    </nav>
+    <p class="footer-note">Evidence-first concept · Molar</p>
+  </footer>
+</body>
+</html>
