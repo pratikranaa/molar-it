@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Molar Swarm — Bounded verification across real user perspectives</title>
+  <meta name="description" content="See how Molar models personas, isolates browser sessions, shares coverage evidence, and reports the limits of a bounded verification swarm.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aleo:wght@400;500;600;700&family=Azeret+Mono:wght@500;600&family=Host+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../concept.css">
+  <link rel="stylesheet" href="../pages.css">
+  <script>document.documentElement.classList.remove("no-js");</script>
+  <script src="../concept.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+      <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+      <span>Molar</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/" aria-current="page">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../pricing/">Pricing</a>
+    </nav>
+    <div class="header-actions">
+      <a class="button button-quiet sign-in" href="https://app.molar.it">Sign in</a>
+      <a class="button button-quiet" href="../contact/">Contact us</a>
+      <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
+        <span class="sr-only">Open navigation</span><span aria-hidden="true">Menu</span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu" data-mobile-menu aria-label="Mobile" hidden>
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/" aria-current="page">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../security/">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">About</a>
+      <a href="../contact/">Contact us</a>
+      <a href="https://app.molar.it">Sign in</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="route-hero section-shell" aria-labelledby="swarm-title">
+      <div>
+        <p class="eyebrow">Molar Swarm · bounded persona exploration</p>
+        <h1 id="swarm-title">One goal. Several isolated points of view.</h1>
+      </div>
+      <div>
+        <img class="brand-symbol" src="../assets/brand/living-loop.svg" alt="">
+        <p class="route-lede">Model who is using the product, what state they begin with, and what they are allowed to do—then preserve the coverage gaps and uncertainty alongside the passes.</p>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="persona-title">
+      <p class="section-label">Current foundation · persona inputs</p>
+      <h2 id="persona-title">A role is more than a different login.</h2>
+      <div class="proof-panel">
+        <div class="proof-panel-header">
+          <span>Persona setup</span>
+          <img class="brand-symbol" src="../assets/brand/scout.svg" alt="">
+        </div>
+        <div class="capability-matrix persona-spec-grid">
+          <article>
+            <p class="mini-label">New customer</p>
+            <h3>Fresh account</h3>
+            <p>No purchase history, first-run onboarding, narrow permissions, and a mobile browser viewport.</p>
+          </article>
+          <article>
+            <p class="mini-label">Returning buyer</p>
+            <h3>Known state</h3>
+            <p>Existing account, saved cart, previous transaction state, and a desktop browser viewport.</p>
+          </article>
+          <article>
+            <p class="mini-label">Workspace admin</p>
+            <h3>Elevated authority</h3>
+            <p>Billing ownership, member administration, and high-risk actions that may require approval.</p>
+          </article>
+          <article>
+            <p class="mini-label">Read-only member</p>
+            <h3>Expected denial</h3>
+            <p>Can inspect shared work but must be refused when attempting a protected mutation.</p>
+          </article>
+        </div>
+      </div>
+      <div class="detail-copy">
+        <p><strong>Current</strong> Molar accepts explicit personas and bounded combinations of role, account state, and browser viewport.</p>
+        <p><strong>Boundary</strong> Browser viewport profiles are not native iOS or Android device execution.</p>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="sessions-title">
+      <p class="section-label">Illustrative · Limited</p>
+      <h2 id="sessions-title">Four sessions, one visible frontier.</h2>
+      <p class="route-lede">The composition below illustrates the intended review surface. Bounded persona execution and isolated contexts are implemented and locally proven; hosted multi-persona browser proof and this complete live orchestration remain limited.</p>
+      <div class="proof-panel">
+        <div class="proof-panel-header">
+          <span>Illustrative four-session exploration</span>
+          <span>Limited availability</span>
+        </div>
+        <div class="proof-grid">
+          <article>
+            <p class="mini-label">Session 01 · New customer</p>
+            <h3>Signup completed</h3>
+            <p>Onboarding reached its expected outcome with browser evidence attached.</p>
+            <span class="status status-pass">Passed</span>
+          </article>
+          <article>
+            <p class="mini-label">Session 02 · Returning buyer</p>
+            <h3>Checkout observed</h3>
+            <p>Payment state is only controlled when the configured test system or Clone is available.</p>
+            <span class="status status-pass">Passed</span>
+          </article>
+          <article>
+            <p class="mini-label">Session 03 · Workspace admin</p>
+            <h3>Billing change paused</h3>
+            <p>The action reached a policy boundary and remained queued for exact-action approval.</p>
+            <span class="status">Uncertain</span>
+          </article>
+          <article>
+            <p class="mini-label">Session 04 · Read-only member</p>
+            <h3>Mutation refused</h3>
+            <p>The denied action is evidence of correct permissions, not a failed journey.</p>
+            <span class="status">Denied as expected</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="flowmap-title">
+      <p class="section-label">Limited · shared evidence</p>
+      <h2 id="flowmap-title">One FlowMap, with disagreement preserved.</h2>
+      <div class="detail-copy">
+        <p><strong>Shared route</strong> Each explorer contributes observed nodes and edges to a common coverage view.</p>
+        <p><strong>Persona identity</strong> The same route can carry a different result for an admin, buyer, or restricted member.</p>
+        <p><strong>Honest gaps</strong> Queued, skipped, uncertain, and uncovered branches remain visible rather than becoming inferred passes.</p>
+      </div>
+      <div class="proof-panel">
+        <div class="proof-panel-header">
+          <span>Illustrative FlowMap</span>
+          <img class="brand-symbol" src="../assets/brand/living-loop.svg" alt="">
+        </div>
+        <div class="proof-grid">
+          <article><p class="mini-label">Entry</p><h3>Signup</h3><p>Observed by New customer.</p></article>
+          <article><p class="mini-label">Shared path</p><h3>Workspace</h3><p>Observed by all four personas with different permissions.</p></article>
+          <article><p class="mini-label">Controlled edge</p><h3>Billing</h3><p>Observed for admin and buyer; restricted for the read-only member.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="coverage-title">
+      <p class="section-label">Limited · surface-by-persona coverage</p>
+      <h2 id="coverage-title">A blank cell is a gap, not a pass.</h2>
+      <div class="detail-table-wrap" role="region" aria-label="Persona coverage matrix" tabindex="0">
+        <table class="detail-table coverage-ledger">
+          <thead>
+            <tr>
+              <th scope="col">Surface</th>
+              <th scope="col">New customer</th>
+              <th scope="col">Returning buyer</th>
+              <th scope="col">Workspace admin</th>
+              <th scope="col">Read-only member</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Signup</th>
+              <td>Passed</td>
+              <td>Skipped</td>
+              <td>Skipped</td>
+              <td>Skipped</td>
+            </tr>
+            <tr>
+              <th scope="row">Checkout</th>
+              <td>Uncertain</td>
+              <td>Passed</td>
+              <td>Skipped</td>
+              <td>Denied as expected</td>
+            </tr>
+            <tr>
+              <th scope="row">Workspace settings</th>
+              <td>Denied as expected</td>
+              <td>Skipped</td>
+              <td>Passed</td>
+              <td>Denied as expected</td>
+            </tr>
+            <tr>
+              <th scope="row">Invoice download</th>
+              <td>Skipped</td>
+              <td>Uncertain</td>
+              <td>Passed</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="budget-title">
+      <p class="section-label">Safety budget</p>
+      <h2 id="budget-title">More perspectives, still within explicit limits.</h2>
+      <div class="proof-grid budget-ledger">
+        <article>
+          <p class="mini-label">Time</p>
+          <h3>Bound the search</h3>
+          <p>Set maximum duration and step ceilings so exploration cannot run without a visible stopping rule.</p>
+        </article>
+        <article>
+          <p class="mini-label">Cost + concurrency</p>
+          <h3>Cap parallel work</h3>
+          <p>Configured worker capacity and run budgets remain authoritative; additional personas do not imply unlimited browsers.</p>
+        </article>
+        <article>
+          <p class="mini-label">Action policy</p>
+          <h3>Pause risky mutations</h3>
+          <p>High-risk actions can stop at an approval boundary. Availability depends on the deployment and configured policy.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" aria-labelledby="truth-title">
+      <p class="section-label">Truth ledger</p>
+      <h2 id="truth-title">What exists now—and what this concept proposes.</h2>
+      <div class="detail-copy">
+        <p><strong>Current</strong> Explicit personas, bounded pairwise population generation, persona-keyed coverage, named actors, and browser viewport profiles are implemented foundations.</p>
+        <p><strong>Limited</strong> Isolated persona execution, concurrent exploration, shared coverage review, and ordered collaboration have code and local evidence, but hosted multi-persona proof and broad deployment remain open.</p>
+        <p><strong>Proposed</strong> Describe a population once, launch the complete coordinated Swarm, and review every live session through this unified experience.</p>
+      </div>
+      <aside class="boundary-note proposal-block">
+        <p class="proposal-label">Proposed one-prompt orchestration</p>
+        <p>“Explore signup, checkout, billing, and permissions as a new customer, a returning buyer, a workspace admin, and a read-only member.”</p>
+        <p>This is a proposed experience built on current and limited foundations—not a claim of exhaustive coverage or universal hosted availability.</p>
+      </aside>
+    </section>
+
+    <section class="detail-section section-shell">
+      <nav class="related-grid" aria-label="Continue exploring Molar">
+        <a href="../integrations/"><strong>Integrations</strong><span>Give personas controlled payment, identity, message, and file state.</span></a>
+        <a href="../qa-teams/"><strong>QA teams</strong><span>Turn coverage evidence into review and release decisions.</span></a>
+        <a href="../pricing/"><strong>Pricing</strong><span>Compare proposed plans and bounded capacity.</span></a>
+      </nav>
+      <div class="hero-actions">
+        <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+        <a class="text-link" href="../contact/">Contact us <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+        <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+        <span>Molar</span>
+      </a>
+      <p>Real-browser evidence for software teams and coding agents.</p>
+      <a href="mailto:pratik@molar.it">pratik@molar.it</a>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../security/">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../contact/">Contact us</a>
+    </nav>
+    <p class="footer-note">Evidence-first concept · Molar</p>
+  </footer>
+</body>
+</html>
