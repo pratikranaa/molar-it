@@ -33,6 +33,17 @@ python3 -m http.server 8080
 
 Deploy: `vercel --prod` (Vercel project `molar` → molar.it).
 
+### Instant Proof (`/verify`)
+
+Public URL+claim verification before signup. Requires Vercel env on the `molar` project:
+
+| Variable | Required | Notes |
+|----------|----------|-------|
+| `INSTANT_PROOF_PROXY_SECRET` | yes (≥32 chars) | HMAC for browser/network identity cookie; must match control-plane proxy verification if shared |
+| `MOLAR_CONTROL_PLANE_URL` | optional | Defaults to `https://api.molar.it` |
+
+Local: `python3 -m http.server` does **not** run `/api/instant-proof` — use `vercel dev` or deploy.
+
 **Clone docs:** per-clone tool tables are generated from `molar-clones` fixtures. After changing fixtures, run:
 
 ```bash
