@@ -215,3 +215,59 @@ test("security explains controls without unsupported certification claims", asyn
   }
   assert.equal(/SOC 2 certified|HIPAA compliant|zero trust certified/i.test(html), false);
 });
+
+test("pricing ships four plans, exact packaging, and a qualified value target", async () => {
+  const html = await read("pricing/index.html");
+  for (const copy of [
+    "Developer",
+    "Starter",
+    "Team",
+    "Enterprise",
+    "$99",
+    "$399",
+    "$948",
+    "$3,828",
+    "Contact us",
+    "Target at least $2 of measurable value",
+    "Illustrative",
+    "Proposed packaging",
+    "Verified runs",
+    "2,500",
+    "Evidence retention",
+    "90 days",
+    "agent compute",
+    "browser time",
+    "proxy",
+  ]) {
+    assert.match(html, new RegExp(copy.replace("$", "\\$"), "i"));
+  }
+  for (const category of [
+    "Usage",
+    "Workflows",
+    "Evidence",
+    "Integrations",
+    "Team",
+    "Support",
+    "Security",
+  ]) {
+    assert.match(html, new RegExp(`data-matrix-category="${category.toLowerCase()}"`));
+  }
+  assert.match(html, /name="billing-cycle"/);
+  assert.match(html, /value="monthly"[^>]+checked/);
+  assert.match(html, /value="annual"/);
+  assert.match(html, /<table[^>]+class="[^"]*feature-matrix/);
+  assert.match(html, /<script type="module" src="\.\.\/pricing\.js"><\/script>/);
+  assert.equal(/guaranteed 2|guarantee.*ROI|\$5,000/i.test(html), false);
+});
+
+test("contact route is explicit about native validation and opening email", async () => {
+  const html = await read("contact/index.html");
+  assert.match(html, /data-contact-form/);
+  assert.match(html, /type="email"[^>]+required/);
+  assert.match(html, /type="url"/);
+  assert.match(html, /name="flow"[^>]+required/);
+  assert.match(html, /Opens your email app\./);
+  assert.match(html, /mailto:pratik@molar\.it/);
+  assert.match(html, /aria-live="polite"[^>]+data-contact-status/);
+  assert.match(html, /<script type="module" src="\.\.\/contact\.js"><\/script>/);
+});
