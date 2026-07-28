@@ -1519,6 +1519,14 @@ ol {
     min-height: 44px;
   }
 
+  .copy-button {
+    min-height: 44px;
+  }
+
+  .menu-toggle {
+    min-height: 44px;
+  }
+
   .browser-receipt {
     margin-top: 66px;
   }
@@ -1546,6 +1554,12 @@ ol {
   .integration-grid,
   .plan-grid {
     grid-template-columns: 1fr;
+  }
+
+  .browser-body,
+  .receipt-step-rail,
+  .receipt-result {
+    min-width: 0;
   }
 
   .receipt-step-rail,

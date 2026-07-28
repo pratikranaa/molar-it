@@ -33,6 +33,7 @@ test("primary actions point to the live Molar app", async () => {
 
 test("page exposes keyboard and screen-reader contracts", async () => {
   const html = await read("index.html");
+  assert.match(html, /<link rel="icon" href="\.\.\/\.\.\/assets\/molar-mark-favicon\.png">/);
   assert.match(html, /<button[^>]+data-menu-toggle[^>]+aria-expanded="false"/);
   assert.match(html, /<nav[^>]+data-mobile-menu[^>]+aria-label="Mobile"/);
   assert.match(html, /<main id="main-content">/);
@@ -69,6 +70,9 @@ test("visual and interaction files contain required safeguards", async () => {
   assert.match(css, /--font-sans:\s*"Host Grotesk"/);
   assert.match(css, /--font-serif:\s*"Aleo"/);
   assert.match(css, /--font-mono:\s*"Azeret Mono"/);
+  assert.match(css, /\.browser-body,\s*\n\s*\.receipt-step-rail,\s*\n\s*\.receipt-result\s*\{\s*\n\s*min-width:\s*0;/);
+  assert.match(css, /\.copy-button\s*\{\s*\n\s*min-height:\s*44px;/);
+  assert.match(css, /\.menu-toggle\s*\{\s*\n\s*min-height:\s*44px;/);
   assert.match(js, /data-menu-toggle/);
   assert.match(js, /IntersectionObserver/);
   assert.match(js, /prefers-reduced-motion/);
