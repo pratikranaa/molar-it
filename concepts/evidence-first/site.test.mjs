@@ -94,6 +94,11 @@ test("shared detail assets provide type and resilience contracts", async () => {
   assert.match(css, /--page-hero:/);
   assert.match(css, /--section-display:/);
   assert.match(css, /min-height:\s*44px/);
+  assert.match(
+    css,
+    /\.proof-grid > \*,\s*\n\.capability-matrix > \* \{[^}]*min-width:\s*0;/s,
+  );
+  assert.match(css, /\.detail-section pre \{[^}]*overflow-x:\s*auto;/s);
   assert.match(css, /@media \(max-width: 780px\)/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 });
