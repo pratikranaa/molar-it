@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Molar Evidence — Browser verification for teams and coding agents</title>
+  <meta name="description" content="Describe what should work. Molar uses your application like a real user and returns browser evidence your team or coding agent can act on.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aleo:wght@400;500;600;700&family=Azeret+Mono:wght@500;600&family=Host+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./concept.css">
+  <script>document.documentElement.classList.remove("no-js");</script>
+  <script src="./concept.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Molar home">
+      <span class="brand-mark" aria-hidden="true">M</span><span>Molar</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a href="#how">How it works</a><a href="#evidence">Evidence</a>
+      <a href="#swarm">Swarm</a><a href="#integrations">Integrations</a>
+      <a href="#plans">Plans</a><a href="#faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a class="button button-quiet sign-in" href="https://app.molar.it">Sign in</a>
+      <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
+        <span class="sr-only">Open navigation</span><span aria-hidden="true">Menu</span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu" data-mobile-menu aria-label="Mobile" hidden>
+      <a href="#how">How it works</a><a href="#evidence">Evidence</a>
+      <a href="#swarm">Swarm</a><a href="#integrations">Integrations</a>
+      <a href="#plans">Plans</a><a href="#faq">FAQ</a>
+      <a href="https://app.molar.it">Sign in</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="hero section-shell" aria-labelledby="hero-title">
+      <p class="eyebrow">Molar · for teams + coding agents</p>
+      <h1 class="hero-title" id="hero-title">
+        The browser agent that <strong>proves your software works.</strong>
+      </h1>
+      <p class="hero-lede">
+        Describe what should work. Molar uses your application like a real user,
+        verifies the outcome, and returns evidence your team—or coding agent—can act on.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+        <a class="text-link" href="#how">See how it works <span aria-hidden="true">↓</span></a>
+      </div>
+
+      <figure class="browser-receipt" id="evidence" data-reveal>
+        <div class="browser-chrome" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <div class="browser-address">localhost:3000/dashboard</div>
+        </div>
+        <div class="receipt-heading">
+          <div>
+            <p class="receipt-kicker">Illustrative run · browser verification</p>
+            <h2>A user can sign in and reach the dashboard.</h2>
+          </div>
+          <span class="status status-pass">Verified</span>
+        </div>
+        <div class="browser-body">
+          <div class="receipt-step-rail">
+            <p class="mini-label">Execution</p>
+            <ol class="receipt-steps">
+              <li class="is-done">Plan the flow</li>
+              <li class="is-done">Enter credentials</li>
+              <li class="is-done">Open dashboard</li>
+              <li class="is-done">Observe state</li>
+              <li class="is-current">Verify outcome</li>
+            </ol>
+          </div>
+          <div class="receipt-result">
+            <div class="result-summary">
+              <div class="result-mark" aria-hidden="true">✓</div>
+              <div>
+                <p class="mini-label">Outcome</p>
+                <p class="result-title">Dashboard reached</p>
+                <p>Authenticated navigation completed and the expected dashboard state was visible.</p>
+              </div>
+            </div>
+            <div class="evidence-grid" aria-label="Illustrative evidence">
+              <div><strong>4 screenshots</strong><span>visual checkpoints</span></div>
+              <div><strong>Trace 7f3</strong><span>replayable timeline</span></div>
+              <div><strong>8.3 seconds</strong><span>elapsed time</span></div>
+            </div>
+            <div class="agent-result">
+              <div class="command-heading">
+                <span>Structured result</span>
+                <button class="copy-button" type="button" data-copy-target="hero-result">Copy JSON</button>
+              </div>
+              <pre id="hero-result"><code>{
+  "status": "passed",
+  "outcome": "dashboard_reached",
+  "traceId": "7f3"
+}</code></pre>
+              <span class="copy-status" aria-live="polite" data-copy-status></span>
+            </div>
+          </div>
+        </div>
+        <figcaption>Verified browser receipt for a login flow</figcaption>
+      </figure>
+    </section>
+
+    <section class="capability-strip" aria-label="Works with">
+      <p>Built for the software around your product</p>
+      <ul>
+        <li>Playwright</li>
+        <li>GitHub</li>
+        <li>Stripe Clone</li>
+        <li>Email + OTP</li>
+        <li>MCP</li>
+        <li>Localhost</li>
+      </ul>
+    </section>
+
+    <section class="editorial-section section-shell" id="problem" data-reveal>
+      <div class="section-intro">
+        <p class="section-label">The verification gap</p>
+        <h2 class="display">Your software changes faster than anyone can <strong>verify it.</strong></h2>
+      </div>
+      <div class="split">
+        <p class="lead-copy">
+          Code can compile, unit tests can pass, and a deploy can still fail where
+          it matters: in the browser, across roles, integrations, and real user state.
+        </p>
+        <aside class="editorial-note">
+          <span class="mini-label">What Molar organizes</span>
+          <p>Molar turns browser behavior, release diffs, traces, and production checks into evidence that stays useful after a run ends.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="editorial-section section-shell" id="how" data-reveal>
+      <div class="section-intro">
+        <p class="section-label">How it works</p>
+        <h2 class="display">Closer to a tireless QA teammate than to software.</h2>
+      </div>
+      <ol class="steps-grid">
+        <li>
+          <span class="step-number">01</span>
+          <h3>Describe the outcome</h3>
+          <p>Provide a URL and a plain-English goal through the application, CLI, or MCP.</p>
+        </li>
+        <li>
+          <span class="step-number">02</span>
+          <h3>Molar uses the real app</h3>
+          <p>It plans, acts, and verifies in a browser while capturing evidence at every meaningful state.</p>
+        </li>
+        <li>
+          <span class="step-number">03</span>
+          <h3>Act on the receipt</h3>
+          <p>A person reviews it or a coding agent consumes the structured result and continues the fix-and-verify loop.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="editorial-section section-shell" id="swarm" data-reveal>
+      <div class="section-intro">
+        <p class="section-label">Molar Swarm</p>
+        <h2 class="display">Send a QA team, not a single happy-path bot.</h2>
+        <p class="section-lede">
+          Explore a release through isolated browser sessions with account state,
+          permissions, and devices that change what each persona can see and do.
+        </p>
+      </div>
+
+      <div class="proposal-block">
+        <p class="proposal-label">Proposed Swarm experience</p>
+        <blockquote class="population-prompt">
+          Explore signup, checkout, billing, and permissions as a new customer, a
+          returning buyer, a workspace admin, and a read-only member.
+        </blockquote>
+        <button class="copy-button" type="button" data-copy-target="swarm-prompt">Copy prompt</button>
+        <span id="swarm-prompt" hidden>Explore signup, checkout, billing, and permissions as a new customer, a returning buyer, a workspace admin, and a read-only member.</span>
+      </div>
+
+      <div class="swarm-frame">
+        <div class="swarm-toolbar">
+          <div>
+            <span class="live-dot" aria-hidden="true"></span>
+            <span>4 isolated explorers</span>
+          </div>
+          <span>Shared FlowMap · illustrative state</span>
+        </div>
+        <div class="swarm-body">
+          <div class="persona-rail">
+            <article class="persona-card is-active">
+              <span class="persona-avatar">NC</span>
+              <div><h3>New customer</h3><p>Fresh account · mobile</p></div>
+              <span class="status status-pass">Passed</span>
+            </article>
+            <article class="persona-card">
+              <span class="persona-avatar">RB</span>
+              <div><h3>Returning buyer</h3><p>Saved cart · desktop</p></div>
+              <span class="status status-pass">Passed</span>
+            </article>
+            <article class="persona-card">
+              <span class="persona-avatar">WA</span>
+              <div><h3>Workspace admin</h3><p>Billing owner · desktop</p></div>
+              <span class="status status-warn">Queued</span>
+            </article>
+            <article class="persona-card">
+              <span class="persona-avatar">RO</span>
+              <div><h3>Read-only member</h3><p>Restricted role · mobile</p></div>
+              <span class="status status-denied">Denied as expected</span>
+            </article>
+          </div>
+          <div class="flowmap-panel">
+            <div class="flowmap-heading">
+              <div><p class="mini-label">Shared FlowMap</p><h3>Coverage grows across every explorer</h3></div>
+              <span>12 surfaces observed</span>
+            </div>
+            <div class="flowmap" role="img" aria-label="Illustrative flow from signup through authentication to checkout, billing, and permissions">
+              <svg viewBox="0 0 720 240" aria-hidden="true" focusable="false">
+                <path d="M95 120 H230 M310 120 H410 M490 120 H625 M450 150 V198 M270 150 V198"></path>
+              </svg>
+              <span class="flow-node node-signup">Signup</span>
+              <span class="flow-node node-auth">Authenticate</span>
+              <span class="flow-node node-checkout">Checkout</span>
+              <span class="flow-node node-billing">Billing</span>
+              <span class="flow-node node-permissions">Permissions</span>
+            </div>
+          </div>
+        </div>
+        <div class="coverage-wrap">
+          <table class="coverage-table">
+            <caption>Surface-by-persona coverage for this illustrative exploration</caption>
+            <thead>
+              <tr>
+                <th scope="col">Surface</th>
+                <th scope="col">New customer</th>
+                <th scope="col">Returning buyer</th>
+                <th scope="col">Admin</th>
+                <th scope="col">Read-only</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Signup</th><td>Passed</td><td>Skipped</td><td>Skipped</td><td>Skipped</td></tr>
+              <tr><th scope="row">Checkout</th><td>Passed</td><td>Passed</td><td>Queued</td><td>Denied</td></tr>
+              <tr><th scope="row">Billing</th><td>Skipped</td><td>Passed</td><td>Queued</td><td>Denied</td></tr>
+              <tr><th scope="row">Permissions</th><td>Uncertain</td><td>Skipped</td><td>Queued</td><td>Denied as expected</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="coverage-note">
+        Molar shows what it covered, what failed, what was denied, what it skipped, and where uncertainty remains.
+      </p>
+      <div class="foundation-note">
+        <p class="mini-label">Foundations available today</p>
+        <p>
+          Bounded parallel frontier exploration, isolated browser sessions,
+          persona-keyed account state, synthetic identities and OTP handling,
+          concurrent scenario execution, and coverage reporting.
+        </p>
+      </div>
+    </section>
+
+    <section class="editorial-section section-shell" id="integrations" data-reveal>
+      <div class="section-intro">
+        <p class="section-label">Integration-heavy verification</p>
+        <h2 class="display">Test the parts ordinary suites are afraid to touch.</h2>
+        <p class="section-lede">
+          Exercise difficult paths with deterministic state, protection from
+          destructive side effects, and replayable browser evidence.
+        </p>
+      </div>
+      <div class="integration-grid">
+        <article>
+          <span class="cell-index">01</span><h3>Payments without real charges</h3>
+          <p>Verify checkout, subscriptions, declines, and refunds against controlled payment state.</p>
+        </article>
+        <article>
+          <span class="cell-index">02</span><h3>Email and SMS OTP loops</h3>
+          <p>Follow signup and authentication through synthetic inboxes and one-time codes.</p>
+        </article>
+        <article>
+          <span class="cell-index">03</span><h3>Permissions across roles</h3>
+          <p>Confirm that admins can act, members can collaborate, and restricted users are denied correctly.</p>
+        </article>
+        <article>
+          <span class="cell-index">04</span><h3>Webhooks and eventual consistency</h3>
+          <p>Observe retries, delayed updates, and downstream state without pretending every response is instant.</p>
+        </article>
+        <article>
+          <span class="cell-index">05</span><h3>Files and isolated storage</h3>
+          <p>Exercise uploads, downloads, access boundaries, and replayable object state safely.</p>
+        </article>
+        <article>
+          <span class="cell-index">06</span><h3>Deliberate failure paths</h3>
+          <p>Introduce timeouts, declines, rate limits, and partial failures to verify recovery behavior.</p>
+        </article>
+      </div>
+      <p class="fine-print">Coverage depends on the configured environment and available integrations; this page does not imply a complete clone of every third-party service.</p>
+    </section>
+
+    <section class="editorial-section section-shell" id="tasks" data-reveal>
+      <div class="section-intro">
+        <p class="section-label">Ask Molar</p>
+        <h2 class="display">Start with the question your release needs answered.</h2>
+      </div>
+      <ul class="task-grid">
+        <li>Check whether this deploy works.</li>
+        <li>Explore this PR for regressions.</li>
+        <li>Test checkout without charging a card.</li>
+        <li>Explain why this run failed.</li>
+        <li>Turn this flow into Playwright.</li>
+        <li>Monitor this path in production.</li>
+      </ul>
+    </section>
+
+    <section class="editorial-section section-shell outputs-section" data-reveal>
+      <div class="section-intro">
+        <p class="section-label">One run, two audiences</p>
+        <h2 class="display">Evidence for your team, structured results for your agent.</h2>
+      </div>
+      <div class="split output-columns">
+        <article>
+          <p class="mini-label">For people</p>
+          <h3>See what happened.</h3>
+          <ul>
+            <li>Live browser</li>
+            <li>Screenshots</li>
+            <li>Recording</li>
+            <li>Replayable Trace</li>
+            <li>Browser and network evidence</li>
+          </ul>
+        </article>
+        <article>
+          <p class="mini-label">For agents</p>
+          <h3>Know what to do next.</h3>
+          <ul>
+            <li>Deterministic commands</li>
+            <li>Structured JSON</li>
+            <li>Actionable error hints</li>
+            <li>MCP tools</li>
+            <li>Exportable Playwright</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="editorial-section section-shell" id="plans" data-reveal>
+      <div class="section-intro">
+        <p class="section-label">Ways to run Molar</p>
+        <h2 class="display">Use the boundary that fits your software.</h2>
+      </div>
+      <div class="plan-grid">
+        <article class="plan-card">
+          <p class="plan-name">Local</p>
+          <h3>On your machine</h3>
+          <p>Verify local builds and private development environments close to the code you are changing.</p>
+          <ul><li>Localhost workflows</li><li>CLI and MCP access</li><li>Developer-owned evidence</li></ul>
+          <a class="text-link" href="https://app.molar.it">Start with Local <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="plan-card is-featured">
+          <p class="plan-name">Cloud</p>
+          <h3>For your team</h3>
+          <p>Coordinate verification across pull requests, shared environments, scheduled runs, and releases.</p>
+          <ul><li>Shared run history</li><li>Team workflows</li><li>Continuous verification</li></ul>
+          <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+        </article>
+        <article class="plan-card">
+          <p class="plan-name">Enterprise</p>
+          <h3>Inside your boundary</h3>
+          <p>Bring browser verification to controlled networks and software with stricter deployment requirements.</p>
+          <ul><li>Private connectivity</li><li>Environment control</li><li>Organization workflows</li></ul>
+          <a class="text-link" href="https://app.molar.it">Explore Enterprise <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="editorial-section section-shell faq-section" id="faq" data-reveal>
+      <div class="section-intro">
+        <p class="section-label">Frequently asked questions</p>
+        <h2 class="display">What teams and agents need to know.</h2>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Is Molar another test generator?</summary>
+          <p>No. Molar executes your product in a real browser, verifies outcomes, captures evidence, and can turn proven flows into reusable tests. Generation is one output of the verification loop.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can coding agents invoke Molar?</summary>
+          <p>Yes. Molar is designed for agent-readable invocation through its CLI and MCP tools, with structured results that support a fix-and-verify loop.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does Molar replace Playwright?</summary>
+          <p>No. Molar builds on browser automation and can export Playwright. It adds planning, exploration, evidence, and verification around the deterministic browser layer.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does it test Stripe, email, SMS, and storage safely?</summary>
+          <p>Molar can use controlled clones and synthetic identities where configured, so teams can exercise integration behavior without destructive production side effects. Available coverage depends on the environment and configured services.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can it test several roles and account states?</summary>
+          <p>Molar has foundations for isolated sessions, persona-keyed accounts, concurrent scenarios, and bounded parallel exploration. The one-prompt Swarm orchestration shown above is a proposed experience built on those foundations.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can Molar guarantee exhaustive coverage?</summary>
+          <p>No system can truthfully guarantee every possible state. Molar expands a visible coverage frontier within explicit time, cost, and safety budgets, then reports uncovered branches, skipped work, and uncertainty instead of hiding them.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can Molar run locally or inside a private network?</summary>
+          <p>Molar is designed for local, shared-cloud, and controlled-network workflows. The right deployment depends on where your application, credentials, and evidence need to remain.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="closing-section" data-reveal>
+      <div class="section-shell">
+        <p class="section-label">Verification that gets more useful</p>
+        <h2 class="display">Give every release evidence that compounds.</h2>
+        <p>Turn browser outcomes into context your team can trust and your coding agents can use.</p>
+        <a class="button button-light" data-primary-cta href="https://app.molar.it">Verify your app</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <a class="brand" href="/" aria-label="Molar home">
+        <span class="brand-mark" aria-hidden="true">M</span><span>Molar</span>
+      </a>
+      <p>Real-browser evidence for software teams and coding agents.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="#how">How it works</a>
+      <a href="#swarm">Swarm</a>
+      <a href="#integrations">Integrations</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://app.molar.it">Sign in</a>
+    </nav>
+    <p class="footer-note">Evidence-first concept · Molar</p>
+  </footer>
+</body>
+</html>
