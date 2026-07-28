@@ -90,7 +90,8 @@
       <p class="section-label">Verification inquiry</p>
       <h2 id="form-title">Give us enough context to start at the right layer.</h2>
 
-      <form class="contact-form" data-contact-form>
+      <div class="contact-layout">
+        <form class="contact-form" data-contact-form>
         <label for="contact-email">
           Work email
           <input id="contact-email" type="email" name="email" autocomplete="email" required aria-describedby="email-hint">
@@ -126,16 +127,17 @@
         </label>
         <p id="flow-hint">Required. Include the expected outcome, relevant persona, and any payment, identity, messaging, file, or webhook dependency.</p>
 
-        <div>
+        <div class="form-actions">
           <button type="submit">Compose email</button>
           <p>Opens your email app.</p>
         </div>
         <p aria-live="polite" data-contact-status></p>
-      </form>
+        </form>
 
-      <div class="detail-copy">
-        <p>Prefer to write directly? <a href="mailto:pratik@molar.it">pratik@molar.it</a></p>
-        <p><strong>Privacy boundary</strong> The form is processed in your browser to compose an email. This static concept does not claim a contact-form API, CRM submission, or stored draft.</p>
+        <div class="detail-copy contact-boundary">
+          <p>Prefer to write directly? <a href="mailto:pratik@molar.it">pratik@molar.it</a></p>
+          <p><strong>Privacy boundary</strong> The form is processed in your browser to compose an email. This static concept does not claim a contact-form API, CRM submission, or stored draft.</p>
+        </div>
       </div>
     </section>
 

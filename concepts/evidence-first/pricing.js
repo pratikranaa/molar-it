@@ -141,6 +141,7 @@ export function initPricingPage(doc) {
 
   valueForm?.addEventListener("input", renderValue);
   applyCycle(controls.find((control) => control.checked)?.value ?? "monthly");
+  doc.documentElement.classList.add("pricing-ready");
 }
 
 if (typeof document !== "undefined") initPricingPage(document);

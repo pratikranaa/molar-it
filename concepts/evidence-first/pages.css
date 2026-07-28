@@ -154,19 +154,24 @@
 .segment-control {
   display: inline-grid;
   grid-auto-flow: column;
+  padding: 0;
+  margin: clamp(36px, 6vw, 64px) 0 0;
   border: 1px solid var(--ink);
 }
 
-.segment-control button,
+.segment-control label,
 .matrix-toggle,
 .contact-form button {
   min-height: 44px;
 }
 
-.segment-control button {
+.segment-control label {
+  position: relative;
+  display: flex;
   min-width: 110px;
+  align-items: center;
+  gap: 9px;
   padding: 9px 16px;
-  border: 0;
   border-right: 1px solid var(--ink);
   background: transparent;
   cursor: pointer;
@@ -177,13 +182,128 @@
   text-transform: uppercase;
 }
 
-.segment-control button:last-child {
+.segment-control label:last-child {
   border-right: 0;
 }
 
-.segment-control button[aria-pressed="true"] {
+.segment-control label:has(input:checked) {
   background: var(--ink);
   color: var(--white);
+}
+
+.segment-control label:has(input:focus-visible) {
+  outline: 3px solid var(--plum);
+  outline-offset: 3px;
+  z-index: 1;
+}
+
+.segment-control input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--plum);
+}
+
+.segment-control label > span {
+  color: inherit;
+  font-size: 9px;
+  opacity: .72;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(42px, 7vw, 76px);
+  border: 1px solid var(--rule-dark);
+}
+
+.pricing-grid .plan-card {
+  min-width: 0;
+  min-height: 620px;
+  padding: 30px 26px;
+  border: 0;
+  border-right: 1px solid var(--rule);
+  background: transparent;
+}
+
+.pricing-grid .plan-card:last-child {
+  border-right: 0;
+}
+
+.pricing-grid .plan-card.is-featured {
+  background: var(--white);
+}
+
+.pricing-grid .plan-name {
+  margin-bottom: 58px;
+  color: var(--plum);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+
+.pricing-grid h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 2.8vw, 38px);
+  letter-spacing: -.035em;
+}
+
+.pricing-grid h3 small {
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.pricing-grid h3 + p {
+  min-height: 22px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.pricing-grid .button {
+  align-self: stretch;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.matrix-controls {
+  display: none;
+}
+
+.matrix-toggle {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--rule-dark);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .045em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.matrix-toggle::after {
+  float: right;
+  content: "+";
+}
+
+.matrix-toggle[aria-expanded="true"]::after {
+  content: "−";
+}
+
+.matrix-toggle:focus-visible {
+  outline: 3px solid var(--plum);
+  outline-offset: 2px;
 }
 
 .detail-table-wrap {
@@ -211,6 +331,117 @@
   font-size: 11px;
   letter-spacing: .04em;
   text-transform: uppercase;
+}
+
+.feature-matrix-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.feature-matrix {
+  width: 100%;
+  min-width: 960px;
+}
+
+.feature-matrix caption {
+  padding: 0 0 14px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .035em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.feature-matrix tbody[hidden] {
+  display: none;
+}
+
+.feature-matrix th[scope="rowgroup"] {
+  padding-block: 13px;
+  background: #eeeeeb;
+  color: var(--plum);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.feature-matrix tbody th[scope="row"] {
+  min-width: 210px;
+  font-family: var(--font-serif);
+  font-size: 15px;
+}
+
+.feature-matrix td {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.roi-grid {
+  display: grid;
+  max-width: none;
+  grid-template-columns: minmax(0, 1fr) minmax(330px, .82fr);
+  gap: 18px clamp(42px, 6vw, 76px);
+  align-items: start;
+}
+
+.roi-grid > label {
+  grid-column: 1;
+}
+
+.roi-receipt {
+  position: sticky;
+  top: 92px;
+  grid-column: 2;
+  grid-row: 1 / span 6;
+  margin-top: 0;
+  background: var(--ink);
+  color: var(--white);
+}
+
+.roi-receipt .proof-panel-header {
+  border-color: #3c3c39;
+}
+
+.roi-receipt .proof-grid {
+  grid-template-columns: 1fr;
+}
+
+.roi-receipt .proof-grid > * {
+  min-height: 104px;
+  padding: 20px;
+  border-right: 0;
+  border-bottom: 1px solid #3c3c39;
+}
+
+.roi-receipt p {
+  margin: 0;
+  padding: 20px;
+}
+
+.roi-receipt .mini-label {
+  display: block;
+  margin-bottom: 9px;
+  color: #aaa9a3;
+}
+
+.roi-receipt strong {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -.03em;
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .65fr);
+  gap: clamp(42px, 7vw, 88px);
+  align-items: start;
+  margin-top: clamp(40px, 7vw, 84px);
 }
 
 .contact-form {
@@ -242,6 +473,22 @@
   font: 16px/1.4 var(--font-sans);
 }
 
+.contact-form input:focus-visible,
+.contact-form select:focus-visible,
+.contact-form textarea:focus-visible {
+  border-color: var(--plum);
+  outline: 3px solid color-mix(in srgb, var(--plum) 28%, transparent);
+  outline-offset: 2px;
+}
+
+.contact-form input:user-invalid,
+.contact-form select:user-invalid,
+.contact-form textarea:user-invalid,
+.contact-form [aria-invalid="true"] {
+  border-color: var(--plum);
+  box-shadow: inset 4px 0 0 var(--plum);
+}
+
 .contact-form textarea {
   min-height: 150px;
   resize: vertical;
@@ -261,6 +508,70 @@
   text-transform: uppercase;
 }
 
+.contact-form button:hover {
+  background: var(--plum);
+  border-color: var(--plum);
+}
+
+.contact-form button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.contact-form > p:not([data-contact-status]) {
+  margin: -14px 0 0;
+  color: var(--faint);
+  font-size: 12px;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.form-actions p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+[data-contact-status] {
+  min-height: 1.5em;
+  margin: 0;
+  color: var(--plum);
+  font-size: 14px;
+}
+
+.contact-boundary {
+  max-width: none;
+  margin-top: 0;
+  border-top: 1px solid var(--ink);
+}
+
+@media (max-width: 1040px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pricing-grid .plan-card {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .pricing-grid .plan-card:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .pricing-grid .plan-card:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  .roi-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(310px, .85fr);
+    column-gap: 38px;
+  }
+}
+
 @media (max-width: 780px) {
   :root {
     --page-hero: clamp(42px, 12vw, 52px);
@@ -270,7 +581,10 @@
   .route-hero,
   .related-grid,
   .proof-grid,
-  .capability-matrix {
+  .capability-matrix,
+  .pricing-grid,
+  .roi-grid,
+  .contact-layout {
     grid-template-columns: 1fr;
   }
 
@@ -292,6 +606,105 @@
     min-height: 0;
     border-right: 0;
     border-bottom: 1px solid var(--rule);
+  }
+
+  .site-header .header-actions .button-quiet {
+    display: none;
+  }
+
+  .pricing-grid .plan-card,
+  .pricing-grid .plan-card:nth-child(2n),
+  .pricing-grid .plan-card:nth-last-child(-n + 2) {
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .pricing-grid .plan-card:last-child {
+    border-bottom: 0;
+  }
+
+  .pricing-grid .plan-name {
+    margin-bottom: 42px;
+  }
+
+  .pricing-ready .matrix-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 36px;
+  }
+
+  .feature-matrix-wrap {
+    margin-top: 20px;
+  }
+
+  .feature-matrix {
+    min-width: 840px;
+  }
+
+  .feature-matrix thead th:first-child,
+  .feature-matrix tbody th[scope="row"] {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--paper);
+    box-shadow: 1px 0 0 var(--rule);
+  }
+
+  .feature-matrix thead th:first-child {
+    z-index: 2;
+  }
+
+  .roi-grid > label,
+  .roi-receipt {
+    grid-column: 1;
+  }
+
+  .roi-receipt {
+    position: static;
+    grid-row: auto;
+    margin-top: 14px;
+  }
+
+  .contact-layout {
+    gap: 52px;
+  }
+
+  .contact-layout .contact-form,
+  .contact-boundary {
+    max-width: none;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 430px) {
+  .segment-control {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .segment-control label {
+    min-width: 0;
+    justify-content: center;
+    padding-inline: 10px;
+  }
+
+  .pricing-grid .plan-card {
+    padding-inline: 20px;
+  }
+
+  .pricing-ready .matrix-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
   }
 }
 

@@ -271,3 +271,24 @@ test("contact route is explicit about native validation and opening email", asyn
   assert.match(html, /aria-live="polite"[^>]+data-contact-status/);
   assert.match(html, /<script type="module" src="\.\.\/contact\.js"><\/script>/);
 });
+
+test("commercial routes expose responsive controls and layout hooks", async () => {
+  const [css, pricingJs, contact] = await Promise.all([
+    read("pages.css"),
+    read("pricing.js"),
+    read("contact/index.html"),
+  ]);
+  for (const selector of [
+    ".pricing-grid",
+    ".segment-control label",
+    ".matrix-controls",
+    ".feature-matrix-wrap",
+    ".roi-grid",
+    ".roi-receipt",
+    ".contact-layout",
+  ]) {
+    assert.match(css, new RegExp(selector.replace(".", "\\.")));
+  }
+  assert.match(pricingJs, /classList\.add\("pricing-ready"\)/);
+  assert.match(contact, /class="contact-layout"/);
+});
