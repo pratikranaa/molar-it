@@ -2,6 +2,9 @@
 // Other pages keep nav.jsx/sections.jsx/styles.css; do not load those here.
 
 const CALENDLY_URL = 'https://calendly.com/pratikrana/30min';
+/** Instant Proof — URL + intent before signup (V3 instrument until molar.it hosts it). */
+const INSTANT_PROOF_URL = 'https://molar-v3-preview.vercel.app/#instant-proof';
+const APP_URL = 'https://app.molar.it';
 
 function openCalendly(e) {
   if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
@@ -69,8 +72,8 @@ function HomeNav() {
         </nav>
         <div className="nv-cta-row">
           <a className="nv-ghost" href={CALENDLY_URL} onClick={openCalendly}>Book a demo</a>
-          <a className="btn btn-primary btn-sm" href="https://app.molar.it">
-            Get started <span className="arr">→</span>
+          <a className="btn btn-primary btn-sm" href={INSTANT_PROOF_URL}>
+            Verify a URL <span className="arr">→</span>
           </a>
           <button className="nv-burger" aria-label="Menu" aria-expanded={open} onClick={() => setOpen(!open)}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
@@ -1274,7 +1277,7 @@ function Hero() {
         </Reveal>
         <Reveal delay={160}>
           <div className="hero-cta-row">
-            <a className="btn btn-signal" href="https://app.molar.it">Start testing free <span className="arr">→</span></a>
+            <a className="btn btn-signal" href={INSTANT_PROOF_URL}>Verify a URL free <span className="arr">→</span></a>
             <a className="btn btn-outline" href="/docs">Read documentation</a>
           </div>
         </Reveal>
@@ -2940,7 +2943,7 @@ function CTA() {
       <h2>Ship faster. Break <span className="hl">nothing.</span></h2>
       <p>Sixty seconds from one command to a QA agent guarding your production. No real cards, no real emails, no real customers harmed.</p>
       <div className="cta-row">
-        <a className="btn btn-signal" href="https://app.molar.it">Get started free <span className="arr">→</span></a>
+        <a className="btn btn-signal" href={INSTANT_PROOF_URL}>Verify a URL free <span className="arr">→</span></a>
         <a className="btn btn-outline" href={CALENDLY_URL} onClick={openCalendly}>Talk to the founder</a>
       </div>
       <div className="cta-hint">
