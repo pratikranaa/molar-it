@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Molar Security — Verification within explicit boundaries</title>
+  <meta name="description" content="Understand Molar credential, action, evidence, isolation, retention, and deployment boundaries without unsupported badge claims.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aleo:wght@400;500;600;700&family=Azeret+Mono:wght@500;600&family=Host+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../concept.css">
+  <link rel="stylesheet" href="../pages.css">
+  <script>document.documentElement.classList.remove("no-js");</script>
+  <script src="../concept.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+      <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+      <span>Molar</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../pricing/">Pricing</a>
+    </nav>
+    <div class="header-actions">
+      <a class="button button-quiet sign-in" href="https://app.molar.it">Sign in</a>
+      <a class="button button-quiet" href="../contact/">Contact us</a>
+      <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
+        <span class="sr-only">Open navigation</span><span aria-hidden="true">Menu</span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu" data-mobile-menu aria-label="Mobile" hidden>
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../security/" aria-current="page">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">About</a>
+      <a href="../contact/">Contact us</a>
+      <a href="https://app.molar.it">Sign in</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="route-hero section-shell">
+      <div>
+        <p class="eyebrow">Molar · security boundaries</p>
+        <h1>Verification within explicit boundaries.</h1>
+      </div>
+      <p class="route-lede">A browser agent should know what it may observe, which actions require approval, where evidence is stored, and what remains specific to a deployment.</p>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Boundary map</p>
+      <h2>Authority is part of the verification result.</h2>
+      <div class="proof-panel">
+        <div class="proof-panel-header">
+          <span>Security posture · qualified by deployment</span>
+          <img src="../assets/brand/sentinel.svg" alt="" width="34" height="34">
+        </div>
+        <div class="proof-grid">
+          <article>
+            <p class="mini-label">Current</p>
+            <h3>Observe with context</h3>
+            <p>Runs can preserve browser actions and evidence context while configured controls constrain the available surface.</p>
+          </article>
+          <article>
+            <p class="mini-label">Limited</p>
+            <h3>Apply scoped controls</h3>
+            <p>Credential, redaction, and retention mechanisms vary across services and must be evaluated against the chosen run path.</p>
+          </article>
+          <article>
+            <p class="mini-label">Deployment-dependent</p>
+            <h3>Match the environment</h3>
+            <p>Private connectivity, enterprise identity, custom retention, and approval policy depend on the supported deployment.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Credentials and actions</p>
+      <h2>Possession of a credential is not permission to do everything.</h2>
+      <div class="detail-copy">
+        <p><strong>Credentials · Current</strong> Configured run paths can use scoped project credentials and synthetic identities. Secret handling must be reviewed for the service and deployment actually in use.</p>
+        <p><strong>Action approval · Limited</strong> Workflows can distinguish observation from mutation, but the exact approval mechanism is not uniform across every surface.</p>
+        <p><strong>High-risk actions · Deployment-dependent</strong> Purchases, destructive changes, broad permission grants, and production mutations require explicit policy and may require human approval.</p>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Isolation</p>
+      <h2>Keep browser state and organizational context bounded.</h2>
+      <div class="capability-matrix">
+        <article>
+          <p class="mini-label">Current</p>
+          <h3>Session boundaries</h3>
+          <p>Browser sessions can isolate persona cookies, account state, and device context for a bounded run.</p>
+        </article>
+        <article>
+          <p class="mini-label">Limited</p>
+          <h3>Tenant scoping</h3>
+          <p>Workspace-scoped control-plane paths exist, but exact Tenant isolation guarantees must be confirmed for each deployed service and legacy surface.</p>
+        </article>
+        <article>
+          <p class="mini-label">Deployment-dependent</p>
+          <h3>Network boundary</h3>
+          <p>Private application access, egress policy, proxy routing, and regional requirements depend on the selected environment.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Evidence lifecycle</p>
+      <h2>Retain what is useful. Expose what needs review.</h2>
+      <div class="detail-copy">
+        <p><strong>Audit · Current</strong> Trace and run evidence can record what the agent observed, what action it chose, and which outcome was verified.</p>
+        <p><strong>Redaction · Limited</strong> Available filtering and evidence controls depend on the artifact type and configured storage path; sensitive fixtures still require deliberate setup.</p>
+        <p><strong>Retention · Deployment-dependent</strong> Duration, deletion workflow, storage location, and custom retention policy vary by plan, service, and supported deployment.</p>
+      </div>
+      <aside class="boundary-note">
+        <p class="mini-label">Evaluation note</p>
+        <p>This concept describes product and deployment boundaries, not an external certification status. Confirm the controls required by your organization during security review.</p>
+      </aside>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Related paths</p>
+      <nav class="related-grid" aria-label="Related Molar pages">
+        <a href="../platform/"><strong>Platform</strong><span>Trace how responsibilities move through the evidence loop.</span></a>
+        <a href="../integrations/"><strong>Integrations</strong><span>Understand controlled and observed third-party state.</span></a>
+        <a href="../contact/"><strong>Contact us</strong><span>Bring the boundaries your environment needs reviewed.</span></a>
+      </nav>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+        <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+        <span>Molar</span>
+      </a>
+      <p>Real-browser evidence for software teams and coding agents.</p>
+      <p><a href="mailto:pratik@molar.it">pratik@molar.it</a></p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../security/" aria-current="page">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../contact/">Contact us</a>
+    </nav>
+    <p class="footer-note">Evidence-first concept · Molar</p>
+  </footer>
+</body>
+</html>

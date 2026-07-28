@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Molar for Coding Agents — Real-browser release evidence</title>
+  <meta name="description" content="Give coding agents browser evidence, structured recovery hints, and a bounded path from code change to re-verification.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aleo:wght@400;500;600;700&family=Azeret+Mono:wght@500;600&family=Host+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../concept.css">
+  <link rel="stylesheet" href="../pages.css">
+  <script>document.documentElement.classList.remove("no-js");</script>
+  <script src="../concept.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+      <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+      <span>Molar</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/" aria-current="page">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../pricing/">Pricing</a>
+    </nav>
+    <div class="header-actions">
+      <a class="button button-quiet sign-in" href="https://app.molar.it">Sign in</a>
+      <a class="button button-quiet" href="../contact/">Contact us</a>
+      <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
+        <span class="sr-only">Open navigation</span><span aria-hidden="true">Menu</span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu" data-mobile-menu aria-label="Mobile" hidden>
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../coding-agents/" aria-current="page">Coding agents</a>
+      <a href="../qa-teams/">QA teams</a>
+      <a href="../security/">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../docs/">Docs</a>
+      <a href="../about/">About</a>
+      <a href="../contact/">Contact us</a>
+      <a href="https://app.molar.it">Sign in</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="route-hero section-shell">
+      <div>
+        <p class="eyebrow">Molar · coding agents</p>
+        <h1>Give your coding agent a real release check.</h1>
+      </div>
+      <p class="route-lede">Move from “the tests passed” to evidence that the changed product worked in a browser—and return that evidence in a shape an agent can use.</p>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">The verification loop</p>
+      <h2>Code. Verify. Diagnose. Fix. Re-verify.</h2>
+      <div class="proof-panel" aria-label="Illustrative coding-agent verification">
+        <div class="proof-panel-header">
+          <span>Illustrative result · Limited availability</span>
+          <span>Local application</span>
+        </div>
+        <div class="proof-grid">
+          <article>
+            <p class="mini-label">01 · Request</p>
+            <h3>Describe the outcome</h3>
+            <pre><code>molar verify "login works" \
+  --url http://localhost:3000 \
+  --json</code></pre>
+          </article>
+          <article>
+            <p class="mini-label">02 · Evidence</p>
+            <h3>Use the real interface</h3>
+            <p>A bounded browser run observes the route, screenshots, Trace context, and the expected authenticated state.</p>
+          </article>
+          <article>
+            <p class="mini-label">03 · Recovery</p>
+            <h3>Return the next useful action</h3>
+            <pre><code>{
+  "status": "failed",
+  "traceId": "tr_7f3",
+  "artifacts": ["screenshot", "trace"],
+  "error.hint": "Inspect the callback redirect."
+}</code></pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">What an agent can use</p>
+      <h2>Evidence is more useful when it is addressable.</h2>
+      <div class="capability-matrix">
+        <article>
+          <p class="mini-label">Current</p>
+          <h3>MCP and structured recovery</h3>
+          <p>The public MCP surface can expose task-oriented tools, evidence references, and structured <code>error.hint</code> fields for agent recovery.</p>
+        </article>
+        <article>
+          <p class="mini-label">Current</p>
+          <h3>Browser evidence</h3>
+          <p>Screenshots, trace context, observed outcomes, and exportable Playwright artifacts give a person or agent something concrete to inspect.</p>
+        </article>
+        <article>
+          <p class="mini-label">Limited</p>
+          <h3>Packaged command distribution</h3>
+          <p>The cohesive <code>molar verify</code>, <code>molar agent init</code>, and <code>molar docs</code> journey is a limited distribution surface while packaging is completed.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Agent boundary</p>
+      <h2>Autonomy stays inside explicit authority.</h2>
+      <div class="detail-copy">
+        <p><strong>Read and observe · Current</strong> An agent can consume the result and follow references to browser evidence exposed by the configured surface.</p>
+        <p><strong>Retry and re-verify · Limited</strong> Automated fix-and-verify loops depend on the caller, environment, and available task interface.</p>
+        <p><strong>Destructive actions · Deployment-dependent</strong> Purchases, deletes, permission changes, and other high-risk actions require configured policy and, where appropriate, human approval.</p>
+      </div>
+    </section>
+
+    <section class="detail-section section-shell" data-reveal>
+      <p class="section-label">Related paths</p>
+      <nav class="related-grid" aria-label="Related Molar pages">
+        <a href="../platform/"><strong>Platform</strong><span>See how one run moves through the Molar evidence loop.</span></a>
+        <a href="../integrations/"><strong>Integrations</strong><span>Verify the systems surrounding the browser.</span></a>
+        <a href="../qa-teams/"><strong>QA teams</strong><span>Give human reviewers the same durable receipts.</span></a>
+      </nav>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <a class="brand brand-lockup" href="../" aria-label="Molar evidence-first home">
+        <img class="brand-symbol" src="../assets/brand/observer.svg" alt="">
+        <span>Molar</span>
+      </a>
+      <p>Real-browser evidence for software teams and coding agents.</p>
+      <p><a href="mailto:pratik@molar.it">pratik@molar.it</a></p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../platform/">Platform</a>
+      <a href="../swarm/">Swarm</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../security/">Security</a>
+      <a href="../pricing/">Pricing</a>
+      <a href="../contact/">Contact us</a>
+    </nav>
+    <p class="footer-note">Evidence-first concept · Molar</p>
+  </footer>
+</body>
+</html>
