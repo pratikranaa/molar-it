@@ -105,3 +105,113 @@ test("approved plan amounts appear only on the pricing route", async () => {
     assert.match(pricing, new RegExp(amount.replace("$", "\\$")));
   }
 });
+
+test("platform, about, and docs explain the evidence system", async () => {
+  const platform = await read("platform/index.html");
+  for (const name of ["Cartographer", "Guard", "Clones", "Trace", "Plumbing"]) {
+    assert.match(platform, new RegExp(name));
+  }
+  assert.match(platform, /one verified run/i);
+  assert.match(platform, /Limited/);
+
+  const about = await read("about/index.html");
+  assert.match(about, /Evidence should outlive the run/);
+  assert.match(about, /uncertainty/i);
+
+  const docs = await read("docs/index.html");
+  for (const task of ["First verification", "CLI", "MCP", "Scenarios", "Traces"]) {
+    assert.match(docs, new RegExp(task));
+  }
+  assert.match(docs, /https:\/\/docs\.molar\.it/);
+});
+
+test("swarm exposes personas, budgets, and honest coverage states", async () => {
+  const html = await read("swarm/index.html");
+  for (const copy of [
+    "One goal. Several isolated points of view.",
+    "New customer",
+    "Returning buyer",
+    "Workspace admin",
+    "Read-only member",
+    "Passed",
+    "Denied as expected",
+    "Skipped",
+    "Uncertain",
+    "Safety budget",
+    "Current",
+    "Limited",
+    "Proposed",
+  ]) {
+    assert.match(html, new RegExp(copy));
+  }
+  assert.equal(/tests every corner|100% coverage/i.test(html), false);
+});
+
+test("integrations explain controlled cross-system verification", async () => {
+  const html = await read("integrations/index.html");
+  for (const copy of [
+    "Test the system around your product.",
+    "Payment",
+    "OTP",
+    "Permissions",
+    "Webhook",
+    "Files",
+    "eventual consistency",
+    "deliberate failure",
+    "What Molar controls",
+    "What Molar observes",
+    "What Molar verifies",
+    "Deployment-dependent",
+  ]) {
+    assert.match(html, new RegExp(copy, "i"));
+  }
+  assert.match(html, /Coverage depends on the configured environment/);
+});
+
+test("audience routes show distinct workflows and availability", async () => {
+  const agents = await read("coding-agents/index.html");
+  for (const copy of [
+    "Give your coding agent a real release check.",
+    "molar verify",
+    "MCP",
+    "error.hint",
+    "fix",
+    "re-verify",
+    "Current",
+    "Limited",
+  ]) {
+    assert.match(agents, new RegExp(copy, "i"));
+  }
+
+  const qa = await read("qa-teams/index.html");
+  for (const copy of [
+    "A QA teammate that leaves receipts.",
+    "plain-English",
+    "pull request",
+    "scheduled",
+    "Playwright",
+    "adjudication",
+    "Deployment-dependent",
+  ]) {
+    assert.match(qa, new RegExp(copy, "i"));
+  }
+});
+
+test("security explains controls without unsupported certification claims", async () => {
+  const html = await read("security/index.html");
+  for (const copy of [
+    "Verification within explicit boundaries.",
+    "Credentials",
+    "Action approval",
+    "Tenant",
+    "Retention",
+    "Redaction",
+    "Audit",
+    "Current",
+    "Limited",
+    "Deployment-dependent",
+  ]) {
+    assert.match(html, new RegExp(copy, "i"));
+  }
+  assert.equal(/SOC 2 certified|HIPAA compliant|zero trust certified/i.test(html), false);
+});
