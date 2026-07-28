@@ -36,10 +36,11 @@ if (menuToggle && mobileMenu) {
   });
 }
 
-const copyStatus = document.querySelector("[data-copy-status]");
-
 for (const copyButton of document.querySelectorAll("[data-copy-target]")) {
   const originalLabel = copyButton.textContent;
+  const copyStatus =
+    copyButton.closest("[data-copy-group]")?.querySelector("[data-copy-status]") ??
+    document.querySelector("[data-copy-status]");
 
   copyButton.addEventListener("click", async () => {
     const targetId = copyButton.dataset.copyTarget;

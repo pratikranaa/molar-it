@@ -18,27 +18,36 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="site-header">
-    <a class="brand" href="/" aria-label="Molar home">
+    <a class="brand brand-lockup" href="./" aria-label="Molar evidence-first home">
       <img class="brand-symbol" src="./assets/brand/observer.svg" alt="">
       <span>Molar</span>
     </a>
     <nav class="desktop-nav" aria-label="Primary">
-      <a href="#how">How it works</a><a href="#evidence">Evidence</a>
-      <a href="#swarm">Swarm</a><a href="#integrations">Integrations</a>
-      <a href="#plans">Plans</a><a href="#faq">FAQ</a>
+      <a href="./platform/">Platform</a>
+      <a href="./swarm/">Swarm</a>
+      <a href="./integrations/">Integrations</a>
+      <a href="./coding-agents/">Coding agents</a>
+      <a href="./qa-teams/">QA teams</a>
+      <a href="./pricing/">Pricing</a>
     </nav>
     <div class="header-actions">
-      <a class="button button-quiet sign-in" href="https://app.molar.it">Sign in</a>
+      <a class="button button-quiet sign-in" href="./contact/">Contact us</a>
       <a class="button button-dark" data-primary-cta href="https://app.molar.it">Verify your app</a>
       <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
         <span class="sr-only">Open navigation</span><span aria-hidden="true">Menu</span>
       </button>
     </div>
     <nav class="mobile-menu" id="mobile-menu" data-mobile-menu aria-label="Mobile" hidden>
-      <a href="#how">How it works</a><a href="#evidence">Evidence</a>
-      <a href="#swarm">Swarm</a><a href="#integrations">Integrations</a>
-      <a href="#plans">Plans</a><a href="#faq">FAQ</a>
-      <a href="https://app.molar.it">Sign in</a>
+      <a href="./platform/">Platform</a>
+      <a href="./swarm/">Swarm</a>
+      <a href="./integrations/">Integrations</a>
+      <a href="./coding-agents/">Coding agents</a>
+      <a href="./qa-teams/">QA teams</a>
+      <a href="./security/">Security</a>
+      <a href="./pricing/">Pricing</a>
+      <a href="./docs/">Docs</a>
+      <a href="./about/">About</a>
+      <a href="./contact/">Contact us</a>
     </nav>
   </header>
 
@@ -94,7 +103,7 @@
               <div><strong>Trace 7f3</strong><span>replayable timeline</span></div>
               <div><strong>8.3 seconds</strong><span>elapsed time</span></div>
             </div>
-            <div class="agent-result">
+            <div class="agent-result" data-copy-group>
               <div class="command-heading">
                 <span>Structured result</span>
                 <button class="copy-button" type="button" data-copy-target="hero-result">Copy JSON</button>
@@ -175,7 +184,7 @@
         </p>
       </div>
 
-      <div class="proposal-block">
+      <div class="proposal-block" data-copy-group>
         <p class="proposal-label">Proposed Swarm experience</p>
         <blockquote class="population-prompt">
           Explore signup, checkout, billing, and permissions as a new customer, a
@@ -183,6 +192,7 @@
         </blockquote>
         <button class="copy-button" type="button" data-copy-target="swarm-prompt">Copy prompt</button>
         <span id="swarm-prompt" hidden>Explore signup, checkout, billing, and permissions as a new customer, a returning buyer, a workspace admin, and a read-only member.</span>
+        <span class="copy-status" aria-live="polite" data-copy-status></span>
       </div>
 
       <div class="swarm-frame">
@@ -265,6 +275,7 @@
           concurrent scenario execution, and coverage reporting.
         </p>
       </div>
+      <a class="section-route-link" href="./swarm/">Explore Molar Swarm <span aria-hidden="true">→</span></a>
     </section>
 
     <section class="editorial-section section-shell" id="integrations" data-reveal>
@@ -303,6 +314,7 @@
         </article>
       </div>
       <p class="fine-print">Coverage depends on the configured environment and available integrations; this page does not imply a complete clone of every third-party service.</p>
+      <a class="section-route-link" href="./integrations/">Explore integrations <span aria-hidden="true">→</span></a>
     </section>
 
     <section class="editorial-section section-shell" id="tasks" data-reveal>
@@ -347,6 +359,7 @@
             <li>MCP tools</li>
             <li>Exportable Playwright</li>
           </ul>
+          <a class="section-route-link" href="./coding-agents/">Explore coding agents <span aria-hidden="true">→</span></a>
         </article>
       </div>
     </section>
@@ -379,6 +392,10 @@
           <a class="text-link" href="https://app.molar.it">Explore Enterprise <span aria-hidden="true">→</span></a>
         </article>
       </div>
+      <nav class="section-route-nav" aria-label="Deployment and pricing details">
+        <a href="./security/">Explore Security <span aria-hidden="true">→</span></a>
+        <a href="./pricing/">Explore Pricing <span aria-hidden="true">→</span></a>
+      </nav>
     </section>
 
     <section class="editorial-section section-shell faq-section" id="faq" data-reveal>
@@ -416,6 +433,11 @@
           <p>Molar is designed for local, shared-cloud, and controlled-network workflows. The right deployment depends on where your application, credentials, and evidence need to remain.</p>
         </details>
       </div>
+      <nav class="section-route-nav" aria-label="More about Molar">
+        <a href="./about/">Explore About <span aria-hidden="true">→</span></a>
+        <a href="./docs/">Explore Docs <span aria-hidden="true">→</span></a>
+        <a href="./contact/">Contact us <span aria-hidden="true">→</span></a>
+      </nav>
     </section>
 
     <section class="closing-section" data-reveal>
@@ -430,18 +452,19 @@
 
   <footer class="site-footer">
     <div class="footer-brand">
-      <a class="brand" href="/" aria-label="Molar home">
+      <a class="brand brand-lockup" href="./" aria-label="Molar evidence-first home">
         <img class="brand-symbol" src="./assets/brand/observer.svg" alt="">
         <span>Molar</span>
       </a>
       <p>Real-browser evidence for software teams and coding agents.</p>
     </div>
     <nav aria-label="Footer">
-      <a href="#how">How it works</a>
-      <a href="#swarm">Swarm</a>
-      <a href="#integrations">Integrations</a>
-      <a href="#faq">FAQ</a>
-      <a href="https://app.molar.it">Sign in</a>
+      <a href="./platform/">Platform</a>
+      <a href="./swarm/">Swarm</a>
+      <a href="./integrations/">Integrations</a>
+      <a href="./security/">Security</a>
+      <a href="./pricing/">Pricing</a>
+      <a href="./contact/">Contact us</a>
     </nav>
     <p class="footer-note">Evidence-first concept · Molar</p>
   </footer>
