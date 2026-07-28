@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
+import { dirname, extname, resolve } from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 const root = new URL("./", import.meta.url);
 const routes = [
@@ -291,4 +293,81 @@ test("commercial routes expose responsive controls and layout hooks", async () =
   }
   assert.match(pricingJs, /classList\.add\("pricing-ready"\)/);
   assert.match(contact, /class="contact-layout"/);
+});
+
+test("all local links, fragments, scripts, styles, and images resolve", async () => {
+  for (const [, path] of routes) {
+    const html = await read(path);
+    const pageDir = dirname(fileURLToPath(new URL(path, root)));
+    const references = [
+      ...html.matchAll(/\b(?:href|src)="([^"]+)"/g),
+    ].map((match) => match[1]);
+
+    for (const reference of references) {
+      if (/^(?:https?:|mailto:|tel:|data:|\/\/)/.test(reference)) continue;
+      const [rawTarget, fragment = ""] = reference.split("#", 2);
+      const target = rawTarget || path.split("/").at(-1);
+      let targetHtml = html;
+
+      if (rawTarget) {
+        const cleanTarget = rawTarget.split("?")[0];
+        const resolved = resolve(pageDir, cleanTarget);
+        const file = cleanTarget.endsWith("/")
+          ? `${resolved}/index.html`
+          : extname(resolved)
+            ? resolved
+            : `${resolved}/index.html`;
+        await access(file);
+        if (fragment) targetHtml = await readFile(file, "utf8");
+      }
+
+      if (fragment) {
+        assert.match(
+          targetHtml,
+          new RegExp(`\\bid="${fragment.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}"`),
+          `${path} → #${fragment}`,
+        );
+      }
+      assert.ok(target, `${path} has a non-empty local target`);
+    }
+  }
+});
+
+test("no route overclaims coverage, ROI, certification, or enterprise price", async () => {
+  for (const [name, path] of routes) {
+    const html = (await read(path)).toLowerCase();
+    for (const claim of [
+      "tests every corner",
+      "tests everything",
+      "100% coverage",
+      "zero bugs",
+      "guaranteed roi",
+      "$5,000",
+      "soc 2 certified",
+      "hipaa compliant",
+      "zero trust certified",
+    ]) {
+      assert.equal(html.includes(claim), false, `${name}: ${claim}`);
+    }
+  }
+});
+
+test("the site preserves the approved design system and exact truth labels", async () => {
+  const css = `${await read("concept.css")}\n${await read("pages.css")}`;
+  for (const token of [
+    "Host Grotesk",
+    "Aleo",
+    "Azeret Mono",
+    "#92294f",
+    "#f6f6f5",
+  ]) {
+    assert.match(css, new RegExp(token, "i"));
+  }
+
+  const siteCopy = (
+    await Promise.all(routes.map(([, path]) => read(path)))
+  ).join("\n");
+  for (const state of ["Current", "Limited", "Proposed", "Deployment-dependent"]) {
+    assert.match(siteCopy, new RegExp(`>\\s*${state}\\s*<`, "i"));
+  }
 });
