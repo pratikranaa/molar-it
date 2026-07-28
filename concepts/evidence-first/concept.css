@@ -153,6 +153,12 @@ ol {
   line-height: 1;
 }
 
+.brand-symbol {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+}
+
 .desktop-nav {
   display: flex;
   align-items: center;
