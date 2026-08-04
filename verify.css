@@ -3,11 +3,13 @@
   --bg: #faf9f6;
   --ink: #17150f;
   --ink-2: #565144;
-  --ink-3: #8f897a;
+  /* Muted ink ≥4.5:1 on cream (#faf9f6) — WCAG AA; was #8f897a ≈3.3:1 */
+  --ink-3: #5c574b;
   --line: #e7e3d8;
   --card: #ffffff;
   --signal: #e04a2f;
-  --jade: #178a5b;
+  /* Jade darkened so labels on --jade-soft / cream pass AA (≥4.5); was #178a5b ≈3.9:1 */
+  --jade: #127a50;
   --jade-soft: #e8f5ee;
   --fail: #a9232f;
   --fail-soft: #fce9eb;
@@ -101,7 +103,7 @@ a { color: inherit; }
 }
 .frame img { width: 100%; height: auto; display: block; background: #fff; }
 .frame strong { display: block; margin-top: 8px; font-size: 16px; color: #fff; }
-.frame small { display: block; margin-top: 6px; color: #8f897a; }
+.frame small { display: block; margin-top: 6px; color: var(--ink-3); }
 
 .evidence { padding: 16px 16px 18px; }
 .evidence header { display: flex; justify-content: space-between; margin-bottom: 12px; font: 600 11px/1 var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; }
