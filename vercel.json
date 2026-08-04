@@ -3,49 +3,183 @@
   "routes": [
     {
       "src": "/",
-      "has": [{ "type": "host", "value": "cartographer.molar.it" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "cartographer.molar.it"
+        }
+      ],
       "dest": "/cartographer/index.html"
     },
     {
       "src": "/",
-      "has": [{ "type": "host", "value": "clones.molar.it" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "clones.molar.it"
+        }
+      ],
       "dest": "/clones/index.html"
     },
     {
       "src": "/",
-      "has": [{ "type": "host", "value": "guard.molar.it" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "guard.molar.it"
+        }
+      ],
       "dest": "/guard/index.html"
     },
     {
       "src": "/",
-      "has": [{ "type": "host", "value": "trace.molar.it" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "trace.molar.it"
+        }
+      ],
       "dest": "/trace/index.html"
     }
   ],
   "redirects": [
-    { "source": "/cartographer", "destination": "https://cartographer.molar.it", "permanent": true },
-    { "source": "/clones", "destination": "https://clones.molar.it", "permanent": true },
-    { "source": "/guard", "destination": "https://guard.molar.it", "permanent": true },
-    { "source": "/trace", "destination": "https://trace.molar.it", "permanent": true }
+    {
+      "source": "/cartographer",
+      "destination": "https://cartographer.molar.it",
+      "permanent": true
+    },
+    {
+      "source": "/clones",
+      "destination": "https://clones.molar.it",
+      "permanent": true
+    },
+    {
+      "source": "/guard",
+      "destination": "https://guard.molar.it",
+      "permanent": true
+    },
+    {
+      "source": "/trace",
+      "destination": "https://trace.molar.it",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/verify", "destination": "/verify.html" },
-    { "source": "/api/instant-proof/:path*", "destination": "/api/instant-proof?__path=:path*" },
-    { "source": "/waitlist", "destination": "/waitlist.html" },
-    { "source": "/docs", "destination": "/docs.html" },
-    { "source": "/docs/clones/:slug", "destination": "/docs/clone.html?slug=:slug" },
-    { "source": "/changelog", "destination": "/changelog.html" },
-    { "source": "/thesis", "destination": "/thesis.html" },
-    { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/terms", "destination": "/terms.html" },
-    { "source": "/qa-agent", "destination": "/qa-agent.html" },
-    { "source": "/vs/cypress", "destination": "/vs/cypress.html" },
-    { "source": "/vs/playwright", "destination": "/vs/playwright.html" },
-    { "source": "/vs/wiremock", "destination": "/vs/wiremock.html" },
-    { "source": "/vs/checkly", "destination": "/vs/checkly.html" },
-    { "source": "/vs/playwright-trace", "destination": "/vs/playwright-trace.html" },
-    { "source": "/integrations/github-actions", "destination": "/integrations/github-actions.html" },
-    { "source": "/blog", "destination": "/blog/index.html" },
-    { "source": "/blog/test-stripe-without-real-cards", "destination": "/blog/test-stripe-without-real-cards.html" }
+    {
+      "source": "/verify",
+      "destination": "/verify.html"
+    },
+    {
+      "source": "/api/instant-proof/:path*",
+      "destination": "/api/instant-proof?__path=:path*"
+    },
+    {
+      "source": "/waitlist",
+      "destination": "/waitlist.html"
+    },
+    {
+      "source": "/docs",
+      "destination": "/docs.html"
+    },
+    {
+      "source": "/docs/clones/:slug",
+      "destination": "/docs/clone.html?slug=:slug"
+    },
+    {
+      "source": "/changelog",
+      "destination": "/changelog.html"
+    },
+    {
+      "source": "/thesis",
+      "destination": "/thesis.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms.html"
+    },
+    {
+      "source": "/qa-agent",
+      "destination": "/qa-agent.html"
+    },
+    {
+      "source": "/vs/cypress",
+      "destination": "/vs/cypress.html"
+    },
+    {
+      "source": "/vs/playwright",
+      "destination": "/vs/playwright.html"
+    },
+    {
+      "source": "/vs/wiremock",
+      "destination": "/vs/wiremock.html"
+    },
+    {
+      "source": "/vs/checkly",
+      "destination": "/vs/checkly.html"
+    },
+    {
+      "source": "/vs/playwright-trace",
+      "destination": "/vs/playwright-trace.html"
+    },
+    {
+      "source": "/integrations/github-actions",
+      "destination": "/integrations/github-actions.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog/index.html"
+    },
+    {
+      "source": "/blog/test-stripe-without-real-cards",
+      "destination": "/blog/test-stripe-without-real-cards.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/verify",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: blob:; connect-src 'self'"
+        }
+      ]
+    },
+    {
+      "source": "/verify.html",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: blob:; connect-src 'self'"
+        }
+      ]
+    }
   ]
 }
