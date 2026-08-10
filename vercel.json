@@ -106,6 +106,14 @@
       "destination": "/qa-agent.html"
     },
     {
+      "source": "/v4",
+      "destination": "/v4/index.html"
+    },
+    {
+      "source": "/v4/",
+      "destination": "/v4/index.html"
+    },
+    {
       "source": "/vs/cypress",
       "destination": "/vs/cypress.html"
     },

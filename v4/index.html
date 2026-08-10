@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molar v4 — Universal browser automation &amp; verification</title>
+  <meta name="description" content="Molar is the universal browser-automation and verification platform. Coding agents and teams say what should work; Molar runs it in a real browser, livestreams the viewport, and returns evidence — Cartographer, Guard, Clones, Trace, MCP/CLI." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://molar.it/v4/" />
+  <link rel="icon" href="../assets/molar-mark-favicon.png" type="image/png" />
+  <link rel="stylesheet" href="./v4.css" />
+  <script>document.documentElement.classList.remove('no-js');</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" data-nav>
+    <a class="brand" href="./" aria-label="Molar v4 home">
+      <img class="brand-mark" src="../assets/molar-mark.png" width="28" height="28" alt="" />
+      <span class="brand-name">Molar</span>
+      <span class="brand-ver">v4</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#platform">Platform</a>
+      <a href="#agent">Agents</a>
+      <a href="#trust">Trust</a>
+      <a href="#start">Start</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-ghost" href="https://docs.molar.it">Docs</a>
+      <a class="btn btn-primary" href="https://app.molar.it">Open app</a>
+      <button class="menu-btn" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-nav">
+        <span class="sr-only">Menu</span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" data-mobile-nav hidden aria-label="Mobile">
+      <a href="#platform">Platform</a>
+      <a href="#agent">Agents</a>
+      <a href="#trust">Trust</a>
+      <a href="#start">Start</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://docs.molar.it">Docs</a>
+      <a class="btn btn-primary" href="https://app.molar.it">Open app</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- HERO — GraspNote rhythm: brand → H1 → lede → CTAs → interactive product -->
+    <section class="hero shell" aria-labelledby="hero-title">
+      <p class="eyebrow">Molar · universal browser platform</p>
+      <h1 id="hero-title" class="hero-title">
+        <span class="hero-brand">Molar</span>
+        runs your app like a user — and proves it worked.
+      </h1>
+      <p class="hero-lede">
+        Say what should work in plain English. Molar drives a real browser,
+        livestreams the viewport, and returns pass/fail with screenshots, Trace,
+        and structured evidence your team — or coding agent — can act on.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="/verify">Try Instant Proof</a>
+        <a class="btn btn-secondary btn-lg" href="https://app.molar.it">Open the app</a>
+      </div>
+      <p class="hero-note">
+        No invented benchmarks. Instant Proof is live on molar.it · agents use MCP + CLI.
+      </p>
+
+      <div class="hero-stage" data-demo data-reveal>
+        <div class="demo-chrome" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <div class="demo-url">molar verify “login works” —url localhost:3000</div>
+        </div>
+        <div class="demo-body">
+          <aside class="demo-rail" aria-label="Demo modes">
+            <button type="button" class="demo-tab is-active" data-demo-tab="verify" aria-pressed="true">
+              <span class="demo-tab-kicker">Instant Proof</span>
+              <span class="demo-tab-label">Verify a claim</span>
+            </button>
+            <button type="button" class="demo-tab" data-demo-tab="agent" aria-pressed="false">
+              <span class="demo-tab-kicker">MCP / CLI</span>
+              <span class="demo-tab-label">Agent loop</span>
+            </button>
+            <button type="button" class="demo-tab" data-demo-tab="guard" aria-pressed="false">
+              <span class="demo-tab-kicker">Guard</span>
+              <span class="demo-tab-label">PR gate</span>
+            </button>
+          </aside>
+          <div class="demo-panel" data-demo-panel>
+            <!-- filled by v4.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE CLUSTER — GraspNote “intelligently organized” pattern -->
+    <section class="section shell" id="platform" aria-labelledby="platform-title">
+      <div class="section-head">
+        <p class="eyebrow">Platform</p>
+        <h2 id="platform-title">One platform. Four surfaces. Real evidence.</h2>
+        <p class="section-lede">
+          Cartographer maps flows. Guard gates releases. Clones keep third parties hermetic.
+          Trace lets you rewind what happened. Plumbing ties them together for humans and agents.
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card" data-reveal>
+          <div class="feature-copy">
+            <h3>Cartographer</h3>
+            <p>Seed a URL. Get a verified map of user flows and production-grade Playwright exports — not a pile of brittle selectors.</p>
+            <a class="text-link" href="https://cartographer.molar.it">Explore Cartographer →</a>
+          </div>
+          <div class="feature-viz map-viz" aria-hidden="true">
+            <div class="map-node is-seed">seed</div>
+            <div class="map-edge"></div>
+            <div class="map-node">login</div>
+            <div class="map-edge"></div>
+            <div class="map-node">checkout</div>
+            <div class="map-edge"></div>
+            <div class="map-node is-pass">export</div>
+          </div>
+        </article>
+
+        <article class="feature-card flip" data-reveal>
+          <div class="feature-copy">
+            <h3>Guard + Mender</h3>
+            <p>PR gating and production monitoring with evidence links. When something breaks, Mender can propose a fix tied to Trace — not a vibes-based comment.</p>
+            <a class="text-link" href="https://guard.molar.it">Explore Guard →</a>
+          </div>
+          <div class="feature-viz guard-viz" aria-hidden="true">
+            <div class="guard-row"><span>PR #421 preview</span><span class="pill pill-run">running</span></div>
+            <div class="guard-row"><span>checkout total</span><span class="pill pill-fail">expected $9 · got $90</span></div>
+            <div class="guard-row"><span>merge</span><span class="pill pill-block">blocked</span></div>
+          </div>
+        </article>
+
+        <article class="feature-card" data-reveal>
+          <div class="feature-copy">
+            <h3>Clones</h3>
+            <p>Stateful local clones of Stripe, Twilio, email, auth, S3, and more — deterministic IDs, virtual clock, snapshot/restore. Customers never see a test.</p>
+            <a class="text-link" href="https://clones.molar.it">Explore Clones →</a>
+          </div>
+          <div class="feature-viz clone-viz" aria-hidden="true">
+            <div class="clone-chip">Stripe clone · 4242…</div>
+            <div class="clone-chip">Email clone · OTP inbox</div>
+            <div class="clone-chip">Auth clone · OIDC/PKCE</div>
+            <div class="clone-chip is-ok">No live vendor charge</div>
+          </div>
+        </article>
+
+        <article class="feature-card flip" data-reveal>
+          <div class="feature-copy">
+            <h3>Trace</h3>
+            <p>Debugger-grade timeline: viewport replay, network, console, and AI decision context — so failures are reconstructable, not “works on my machine.”</p>
+            <a class="text-link" href="https://trace.molar.it">Explore Trace →</a>
+          </div>
+          <div class="feature-viz trace-viz" aria-hidden="true">
+            <div class="trace-bar"><i style="--w:28%"></i><i style="--w:18%"></i><i style="--w:34%"></i><i class="hot" style="--w:12%"></i></div>
+            <div class="trace-meta">T−4.2s · POST /pay 422 · discount.ts</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ACCORDION — GraspNote “Meet the extension” pattern -->
+    <section class="section shell band" id="agent" aria-labelledby="agent-title">
+      <div class="split">
+        <div class="split-copy">
+          <p class="eyebrow">For coding agents</p>
+          <h2 id="agent-title">Meet the agent harness that keeps up with your commits.</h2>
+          <p class="section-lede">
+            Agents write code. Molar verifies it in a real browser — MCP tools, CLI,
+            livestream, and structured JSON — without waiting on a human QA cycle.
+          </p>
+          <a class="btn btn-primary" href="https://docs.molar.it">Read agent docs</a>
+        </div>
+        <div class="accordion" data-accordion>
+          <details class="acc-item" open>
+            <summary>
+              <span class="acc-icon" aria-hidden="true">⌘</span>
+              <span>CLI that agents can discover</span>
+            </summary>
+            <div class="acc-body">
+              <p><code>molar verify</code>, <code>molar test</code>, <code>molar docs --json</code>, and <code>molar agent init</code> — task-oriented routing so coding agents self-correct without a human reading a manual.</p>
+            </div>
+          </details>
+          <details class="acc-item">
+            <summary>
+              <span class="acc-icon" aria-hidden="true">◎</span>
+              <span>MCP-native tool surface</span>
+            </summary>
+            <div class="acc-body">
+              <p>Invoke <code>molar_run_task</code>, <code>molar_verify</code>, <code>molar_live_view</code>, Clones spawn/restore, Trace, and Guard tools over MCP — OAuth 2.1 + PKCE for remote agents, stdio for local.</p>
+            </div>
+          </details>
+          <details class="acc-item">
+            <summary>
+              <span class="acc-icon" aria-hidden="true">▣</span>
+              <span>Instant Proof before signup</span>
+            </summary>
+            <div class="acc-body">
+              <p>Paste a URL and a claim on <a href="/verify">molar.it/verify</a>. Get browser evidence first — then decide whether to wire MCP, Guard, or the full app.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST PAIR — GraspNote “Built for Privacy and Scale” -->
+    <section class="section shell" id="trust" aria-labelledby="trust-title">
+      <div class="section-head">
+        <p class="eyebrow">Trust</p>
+        <h2 id="trust-title">Built for hermetic runs and honest claims.</h2>
+        <p class="section-lede">
+          Production safety preflight, hostile-DNS refusal for live vendors in Clones,
+          and marketing that refuses fake metrics.
+        </p>
+      </div>
+      <div class="trust-grid">
+        <article class="trust-card" data-reveal>
+          <h3>Your customers never see a test</h3>
+          <p>Clones keep Stripe, email, auth, and SMS off the real rails. Snapshots restore worlds so flaky shared sandboxes don’t poison your suite.</p>
+        </article>
+        <article class="trust-card" data-reveal>
+          <h3>Evidence you can ship with</h3>
+          <p>Every meaningful failure path ties back to Trace — viewport, network, and decision context — so PR comments and Mender drafts cite proof, not opinions.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONVERSION — GraspNote pricing slot, without invented $ tiers -->
+    <section class="section shell band" id="start" aria-labelledby="start-title">
+      <div class="section-head center">
+        <p class="eyebrow">Start</p>
+        <h2 id="start-title">Prove it on your URL. Upgrade when the loop compounds.</h2>
+        <p class="section-lede">
+          Instant Proof is free to try. The app, MCP connector, Guard, Clones, and Trace
+          are the same platform — pick the surface your workflow needs.
+        </p>
+      </div>
+      <div class="plan-grid">
+        <article class="plan-card" data-reveal>
+          <p class="plan-kicker">Try now</p>
+          <h3>Instant Proof</h3>
+          <p class="plan-price">Free to try</p>
+          <p class="plan-desc">URL + claim → real browser run → evidence. No card required to see whether Molar fits.</p>
+          <ul>
+            <li>Public <code>/verify</code> on molar.it</li>
+            <li>Pass/fail + screenshots path</li>
+            <li>Honest empty/error states</li>
+          </ul>
+          <a class="btn btn-secondary btn-block" href="/verify">Run Instant Proof</a>
+        </article>
+        <article class="plan-card plan-featured" data-reveal>
+          <p class="plan-badge">Most used</p>
+          <p class="plan-kicker">Full platform</p>
+          <h3>App + agents</h3>
+          <p class="plan-price">app.molar.it</p>
+          <p class="plan-desc">Cartographer, Guard, Clones, Trace, MCP, and CLI in one console — for teams and coding agents.</p>
+          <ul>
+            <li>PR gating + production monitor</li>
+            <li>Hermetic vendor clones</li>
+            <li>MCP + <code>molar</code> CLI</li>
+            <li>Replayable Trace</li>
+          </ul>
+          <a class="btn btn-primary btn-block" href="https://app.molar.it">Open the app</a>
+        </article>
+      </div>
+      <p class="fineprint">
+        We do not publish vanity conversion percentages or invented “hours saved” scores on this page.
+        Capabilities above are product surfaces that ship today — see STATUS.md in the monorepo for traffic-light honesty.
+      </p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section shell" id="faq" aria-labelledby="faq-title">
+      <div class="section-head">
+        <p class="eyebrow">FAQ</p>
+        <h2 id="faq-title">Frequently asked questions</h2>
+        <p class="section-lede">Straight answers about what Molar is — and what this v4 page is for.</p>
+      </div>
+      <div class="faq" data-faq>
+        <details>
+          <summary>What is Molar?</summary>
+          <p>Molar is a universal browser-automation and verification platform: Cartographer (explore/export), Guard (PR + prod), Clones (hermetic vendors), Trace (replay/debug), plus Plumbing (control plane, MCP, CLI, dashboard).</p>
+        </details>
+        <details>
+          <summary>How is this different from Playwright alone?</summary>
+          <p>Playwright is the execution substrate agents and LLMs know best. Molar adds agentic exploration, scenario authoring, hermetic clones, PR gating, livestream, Trace evidence, and MCP/CLI so coding agents can verify changes without a human in the loop.</p>
+        </details>
+        <details>
+          <summary>Can coding agents use Molar directly?</summary>
+          <p>Yes. MCP tools and the <code>molar</code> CLI return structured output (including <code>--json</code>). Agents can call verify/run/live-view flows and self-correct from evidence.</p>
+        </details>
+        <details>
+          <summary>Will Instant Proof charge real cards or email real users?</summary>
+          <p>No. Clones and production-safety preflight exist so tests stay off live vendor rails. Instant Proof is the public stranger path to see a real browser verification before deeper setup.</p>
+        </details>
+        <details>
+          <summary>What is this /v4/ page?</summary>
+          <p>An isolated future marketing layout. Production molar.it root remains the live homepage until an explicit cutover. This page is <code>noindex</code> and versioned for iteration.</p>
+        </details>
+        <details>
+          <summary>Where are docs?</summary>
+          <p>Product docs: <a href="https://docs.molar.it">docs.molar.it</a>. Quickstart marketing docs also live under molar.it/docs. Surface landings: cartographer / guard / clones / trace.molar.it.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- CLOSING CTA — GraspNote final band -->
+    <section class="closing shell" aria-labelledby="closing-title">
+      <h2 id="closing-title">Verify faster. Ship safer.</h2>
+      <p>Point Molar at a URL. Watch the browser. Keep the evidence.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="/verify">Try Instant Proof</a>
+        <a class="btn btn-secondary btn-lg" href="https://app.molar.it">Open the app</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer shell">
+    <div class="footer-brand">
+      <img src="../assets/molar-mark.png" width="22" height="22" alt="" />
+      <span>Molar</span>
+      <span class="footer-muted">marketing v4 · future homepage candidate</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://molar.it">Live site</a>
+      <a href="https://docs.molar.it">Docs</a>
+      <a href="https://app.molar.it">App</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </div>
+  </footer>
+
+  <script src="./v4.js" defer></script>
+</body>
+</html>
