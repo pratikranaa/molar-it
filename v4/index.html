@@ -23,6 +23,7 @@
     <nav class="nav-links" aria-label="Primary">
       <a href="#platform">Platform</a>
       <a href="#agent">Agents</a>
+      <a href="#loop">Loop</a>
       <a href="#trust">Trust</a>
       <a href="#start">Start</a>
       <a href="#faq">FAQ</a>
@@ -38,6 +39,7 @@
     <nav class="mobile-nav" id="mobile-nav" data-mobile-nav hidden aria-label="Mobile">
       <a href="#platform">Platform</a>
       <a href="#agent">Agents</a>
+      <a href="#loop">Loop</a>
       <a href="#trust">Trust</a>
       <a href="#start">Start</a>
       <a href="#faq">FAQ</a>
@@ -66,6 +68,59 @@
       <p class="hero-note">
         No invented benchmarks. Instant Proof is live on molar.it · agents use MCP + CLI.
       </p>
+
+      <!-- GraspNote desk rhythm: soft summary cards + list (porcelain, not purple) -->
+      <div class="hero-desk" data-reveal>
+        <div class="stat-row" aria-label="Platform snapshot">
+          <article class="stat-card">
+            <span class="stat-label">Instant Proof</span>
+            <strong class="stat-value">Live</strong>
+            <span class="stat-meta">molar.it/verify</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Surfaces</span>
+            <strong class="stat-value">4</strong>
+            <span class="stat-meta">Cartographer · Guard · Clones · Trace</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Agent access</span>
+            <strong class="stat-value">MCP + CLI</strong>
+            <span class="stat-meta">OAuth 2.1 · --json</span>
+          </article>
+        </div>
+        <div class="desk-list" aria-hidden="true">
+          <article class="desk-item">
+            <span class="desk-type desk-type-run">RUN</span>
+            <div class="desk-body">
+              <h3>Verify login on localhost:3000</h3>
+              <p class="desk-meta">Saved just now · Instant Proof</p>
+              <p class="desk-sum">Stealth browser · assert dashboard · Trace attached.</p>
+              <div class="desk-tags"><span>verify</span><span>1440×900</span></div>
+            </div>
+            <span class="desk-badge is-ready">Ready</span>
+          </article>
+          <article class="desk-item">
+            <span class="desk-type desk-type-pr">PR</span>
+            <div class="desk-body">
+              <h3>Guard check · preview URL</h3>
+              <p class="desk-meta">PR #421 · coupon discount</p>
+              <p class="desk-sum">Expected $9 · got $90 · merge blocked · Mender draft.</p>
+              <div class="desk-tags"><span>guard</span><span>mender</span></div>
+            </div>
+            <span class="desk-badge is-block">Blocked</span>
+          </article>
+          <article class="desk-item">
+            <span class="desk-type desk-type-clone">CLONE</span>
+            <div class="desk-body">
+              <h3>Stripe + email world restored</h3>
+              <p class="desk-meta">Hermetic · no live vendor charge</p>
+              <p class="desk-sum">Deterministic IDs · OTP inbox · snapshot/restore.</p>
+              <div class="desk-tags"><span>clones</span><span>stripe</span></div>
+            </div>
+            <span class="desk-badge is-ready">Ready</span>
+          </article>
+        </div>
+      </div>
 
       <div class="hero-stage" data-demo data-reveal>
         <div class="demo-chrome" aria-hidden="true">
@@ -98,7 +153,7 @@
     <section class="section shell" id="platform" aria-labelledby="platform-title">
       <div class="section-head">
         <p class="eyebrow">Platform</p>
-        <h2 id="platform-title">One platform. Four surfaces. Real evidence.</h2>
+        <h2 id="platform-title">Your runs, intelligently evidenced.</h2>
         <p class="section-lede">
           Cartographer maps flows. Guard gates releases. Clones keep third parties hermetic.
           Trace lets you rewind what happened. Plumbing ties them together for humans and agents.
@@ -164,7 +219,7 @@
       </div>
     </section>
 
-    <!-- ACCORDION — GraspNote “Meet the extension” pattern -->
+    <!-- ACCORDION — GraspNote “Meet the extension” pattern + live panel -->
     <section class="section shell band" id="agent" aria-labelledby="agent-title">
       <div class="split">
         <div class="split-copy">
@@ -176,35 +231,72 @@
           </p>
           <a class="btn btn-primary" href="https://docs.molar.it">Read agent docs</a>
         </div>
-        <div class="accordion" data-accordion>
-          <details class="acc-item" open>
-            <summary>
-              <span class="acc-icon" aria-hidden="true">⌘</span>
-              <span>CLI that agents can discover</span>
-            </summary>
-            <div class="acc-body">
-              <p><code>molar verify</code>, <code>molar test</code>, <code>molar docs --json</code>, and <code>molar agent init</code> — task-oriented routing so coding agents self-correct without a human reading a manual.</p>
+        <div class="agent-stage">
+          <div class="accordion" data-accordion>
+            <details class="acc-item" open data-acc-panel="cli">
+              <summary>
+                <span class="acc-icon" aria-hidden="true">⌘</span>
+                <span>CLI that agents can discover</span>
+              </summary>
+              <div class="acc-body">
+                <p><code>molar verify</code>, <code>molar test</code>, <code>molar docs --json</code>, and <code>molar agent init</code> — task-oriented routing so coding agents self-correct without a human reading a manual.</p>
+              </div>
+            </details>
+            <details class="acc-item" data-acc-panel="mcp">
+              <summary>
+                <span class="acc-icon" aria-hidden="true">◎</span>
+                <span>MCP-native tool surface</span>
+              </summary>
+              <div class="acc-body">
+                <p>Invoke <code>molar_run_task</code>, <code>molar_verify</code>, <code>molar_live_view</code>, Clones spawn/restore, Trace, and Guard tools over MCP — OAuth 2.1 + PKCE for remote agents, stdio for local.</p>
+              </div>
+            </details>
+            <details class="acc-item" data-acc-panel="proof">
+              <summary>
+                <span class="acc-icon" aria-hidden="true">▣</span>
+                <span>Instant Proof before signup</span>
+              </summary>
+              <div class="acc-body">
+                <p>Paste a URL and a claim on <a href="/verify">molar.it/verify</a>. Get browser evidence first — then decide whether to wire MCP, Guard, or the full app.</p>
+              </div>
+            </details>
+          </div>
+          <aside class="agent-panel" data-agent-panel aria-hidden="true">
+            <div class="agent-panel-chrome">
+              <span class="agent-panel-dot"></span>
+              <span data-agent-panel-title>molar docs --json</span>
             </div>
-          </details>
-          <details class="acc-item">
-            <summary>
-              <span class="acc-icon" aria-hidden="true">◎</span>
-              <span>MCP-native tool surface</span>
-            </summary>
-            <div class="acc-body">
-              <p>Invoke <code>molar_run_task</code>, <code>molar_verify</code>, <code>molar_live_view</code>, Clones spawn/restore, Trace, and Guard tools over MCP — OAuth 2.1 + PKCE for remote agents, stdio for local.</p>
-            </div>
-          </details>
-          <details class="acc-item">
-            <summary>
-              <span class="acc-icon" aria-hidden="true">▣</span>
-              <span>Instant Proof before signup</span>
-            </summary>
-            <div class="acc-body">
-              <p>Paste a URL and a claim on <a href="/verify">molar.it/verify</a>. Get browser evidence first — then decide whether to wire MCP, Guard, or the full app.</p>
-            </div>
-          </details>
+            <pre class="agent-panel-body" data-agent-panel-body></pre>
+          </aside>
         </div>
+      </div>
+    </section>
+
+    <!-- HOW IT RUNS — GraspNote “Save / inbox / ask” three-beat -->
+    <section class="section shell" id="loop" aria-labelledby="loop-title">
+      <div class="section-head center">
+        <p class="eyebrow">Loop</p>
+        <h2 id="loop-title">Say it. Run it. Keep the proof.</h2>
+        <p class="section-lede">
+          Three beats that mirror how teams and coding agents actually work — no bookmark graveyard, no “trust me” CI green.
+        </p>
+      </div>
+      <div class="beat-grid">
+        <article class="beat-card" data-reveal>
+          <span class="beat-num">01</span>
+          <h3>Describe the claim</h3>
+          <p>Plain English or <code>.molar.md</code> — login works, checkout totals $9, OTP arrives. Agents call the same path over MCP.</p>
+        </article>
+        <article class="beat-card" data-reveal>
+          <span class="beat-num">02</span>
+          <h3>Drive a real browser</h3>
+          <p>Stealth viewport, hermetic Clones when vendors are involved, livestream so you (or the agent) can watch.</p>
+        </article>
+        <article class="beat-card" data-reveal>
+          <span class="beat-num">03</span>
+          <h3>Ship with evidence</h3>
+          <p>Pass/fail, screenshots, Trace, structured JSON. Guard comments and Mender drafts cite proof — not vibes.</p>
+        </article>
       </div>
     </section>
 

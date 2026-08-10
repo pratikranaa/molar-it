@@ -3017,6 +3017,7 @@ function SiteFooter() {
               <a href="https://github.com/pratikranaa/molar-it">GitHub</a>
               <a href="/blog">Blog</a>
               <a href="/changelog">Changelog</a>
+              <a href="/v4/" title="Future homepage candidate (noindex)">Preview</a>
             </nav>
           </div>
 

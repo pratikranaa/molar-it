@@ -33,8 +33,20 @@
     });
   });
 
-  /* ---------- scroll reveal ---------- */
+  /* ---------- scroll reveal (stagger siblings) ---------- */
   const reveals = [...document.querySelectorAll("[data-reveal]")];
+  const staggerGroups = [
+    [...document.querySelectorAll(".feature-grid [data-reveal]")],
+    [...document.querySelectorAll(".beat-grid [data-reveal]")],
+    [...document.querySelectorAll(".trust-grid [data-reveal]")],
+    [...document.querySelectorAll(".plan-grid [data-reveal]")],
+  ];
+  staggerGroups.forEach((group) => {
+    group.forEach((el, i) => {
+      el.style.setProperty("--reveal-delay", `${i * 90}ms`);
+    });
+  });
+
   if (reduced || !("IntersectionObserver" in window)) {
     reveals.forEach((el) => el.classList.add("is-in"));
   } else {
@@ -47,21 +59,63 @@
           }
         }
       },
-      { threshold: 0.16, rootMargin: "0px 0px -6% 0px" }
+      { threshold: 0.14, rootMargin: "0px 0px -5% 0px" }
     );
     reveals.forEach((el) => io.observe(el));
   }
 
-  /* ---------- accordion: one open at a time (GraspNote feel) ---------- */
+  /* ---------- accordion + agent panel (GraspNote side-panel energy) ---------- */
+  const AGENT_PANELS = {
+    cli: {
+      title: "molar docs --json",
+      body: `<span class="dim">$</span> molar docs --json
+{
+  <span class="hi">"topic"</span>: "verify",
+  <span class="hi">"hint"</span>: "molar verify \\"login works\\" --url …",
+  <span class="ok">"ok"</span>: true
+}`,
+    },
+    mcp: {
+      title: "mcp · molar_verify",
+      body: `<span class="dim">→</span> molar_verify
+  claim: checkout total is $9.00
+  url: https://preview…/cart
+
+<span class="ok">PASS</span> · Trace t_8f2a · live_view ready
+<span class="dim">agent self-corrects from evidence</span>`,
+    },
+    proof: {
+      title: "molar.it/verify",
+      body: `<span class="dim">Instant Proof</span>
+url: https://example.com
+claim: sign-in reaches dashboard
+
+<span class="hi">browser</span> · 1440×900
+<span class="ok">evidence</span> · screenshots + Trace
+<span class="dim">no card required to try</span>`,
+    },
+  };
+
   const accordion = document.querySelector("[data-accordion]");
+  const panelTitle = document.querySelector("[data-agent-panel-title]");
+  const panelBody = document.querySelector("[data-agent-panel-body]");
+
+  const paintAgentPanel = (key) => {
+    const scene = AGENT_PANELS[key] || AGENT_PANELS.cli;
+    if (panelTitle) panelTitle.textContent = scene.title;
+    if (panelBody) panelBody.innerHTML = scene.body;
+  };
+
   accordion?.querySelectorAll("details").forEach((item) => {
     item.addEventListener("toggle", () => {
       if (!item.open) return;
       accordion.querySelectorAll("details").forEach((other) => {
         if (other !== item) other.open = false;
       });
+      paintAgentPanel(item.getAttribute("data-acc-panel") || "cli");
     });
   });
+  paintAgentPanel(accordion?.querySelector("details[open]")?.getAttribute("data-acc-panel") || "cli");
 
   /* ---------- hero interactive demo ---------- */
   const SCENES = {

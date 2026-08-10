@@ -17,15 +17,16 @@ Production root (`index.html` / `home.jsx`) stays untouched. This folder is link
 Structure and conversion rhythm inspired by [GraspNote](https://www.graspnote.com/):
 
 1. Brand-forward sticky nav + dual CTAs  
-2. Hero (brand → headline → lede → CTAs → interactive product moment)  
+2. Hero (brand → headline → lede → CTAs → desk snapshot + interactive product moment)  
 3. Feature section with live product mock panels  
-4. Accordion deep-dive (“Meet the agent…”)  
-5. Trust / scale pair  
-6. Conversion band (no invented pricing tiers)  
-7. FAQ accordion  
-8. Closing CTA  
+4. Accordion deep-dive + agent terminal panel (“Meet the agent…”)  
+5. Three-beat loop (say → run → prove)  
+6. Trust / scale pair  
+7. Conversion band (no invented pricing tiers)  
+8. FAQ accordion  
+9. Closing CTA  
 
-Visual system stays **Molar**: porcelain canvas, vermilion signal, Bricolage Grotesque + Instrument Sans + Geist Mono (self-hosted from `../fonts/`). Not purple SaaS defaults.
+Visual system stays **Molar**: porcelain canvas, vermilion signal, Bricolage Grotesque + Instrument Sans + Geist Mono (self-hosted from `../fonts/`). Card rhythm (12–16px radius, 1px borders, soft shadows, list-item anatomy) aligned to GraspNote app cleanliness — **not** purple SaaS defaults.
 
 Claims map to real products: universal browser automation + verification, Cartographer, Guard, Clones, Trace, MCP/CLI, Instant Proof (`/verify`).
 
@@ -45,4 +46,5 @@ No build step. Static HTML/CSS/JS only.
 
 - Files ship with the `molar` Vercel project when this submodule is deployed.
 - `robots`: `noindex` until a deliberate cutover — this is future marketing, not the public homepage yet.
-- Soft link from production root is optional and not required for this slice.
+- Soft link: live homepage footer Resources → **Preview** (`/v4/`) — discreet, does not hijack primary CTAs.
+- Still `noindex` until an explicit cutover.
