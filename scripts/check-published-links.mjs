@@ -13,6 +13,7 @@ const sources = await Promise.all(
 );
 
 const waitlistModal = await readFile(new URL('../waitlist-modal.js', import.meta.url), 'utf8');
+const nav = await readFile(new URL('../nav.jsx', import.meta.url), 'utf8');
 assert.match(
   waitlistModal,
   /MOLAR_SITE\?\.appLive[^\n]*return/,
@@ -34,6 +35,11 @@ for (const surface of ['cartographer', 'clones', 'guard', 'trace']) {
     source,
     new RegExp(`https://app\\.molar\\.it/dashboard/${surface}`),
     `${surface}/index.html must deep-link to its dashboard`,
+  );
+  assert.match(
+    nav,
+    new RegExp(`href: 'https://${surface}\\.molar\\.it'`),
+    `navbar must link to the ${surface} subdomain landing`,
   );
 }
 
