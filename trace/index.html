@@ -536,7 +536,7 @@
 </head>
 <body data-waitlist-surface="trace">
 
-<div class="announce"><span class="pill">live</span> Forensic replay is in the demo workspace — <a href="https://app.molar.it#trace/550e8400-e29b-41d4-a716-446655440000">open a failed checkout trace →</a></div>
+<div class="announce"><span class="pill">live</span> Forensic replay is in the demo workspace — <a href="https://app.molar.it/dashboard/trace">open Trace →</a></div>
 
 <!-- ============ NAV ============ -->
 <nav class="nav">
@@ -556,7 +556,7 @@
       <span class="sub">by Molar</span>
     </a>
     <div class="nav-links">
-      <a href="https://app.molar.it#traces">Dashboard</a>
+      <a href="https://app.molar.it/dashboard/trace">Dashboard</a>
       <a href="#how">How it works</a>
       <a href="#capabilities">Capabilities</a>
       <a href="#pricing">Pricing</a>
@@ -569,8 +569,8 @@
       <a href="/" class="is-on" title="Trace">Trace</a>
     </div>
     <div class="nav-cta">
-      <a class="btn btn--ghost" href="https://app.molar.it">Sign in</a>
-      <a class="btn btn--accent" href="https://app.molar.it#traces">Open Trace</a>
+      <a class="btn btn--ghost" href="https://app.molar.it/dashboard/trace">Sign in</a>
+      <a class="btn btn--accent" href="https://app.molar.it/dashboard/trace">Open Trace</a>
     </div>
   </div>
 </nav>
@@ -658,7 +658,7 @@
     <h1>Replay every failure, <em>like a debugger.</em></h1>
     <p class="hero-lede">Trace is Molar's flagship forensic replay surface — every Playwright, Cypress, Cartographer agent, and Guard run becomes a five-ribbon record: video, DOM, network, console, clone state, and agent thoughts on one playhead. Scrub backward and forward, ask the Debugger what broke, replay from any step with a fix — then hand confirmed diffs to <a href="https://guard.molar.it#mender" style="color:var(--plum);text-decoration:underline;text-underline-offset:3px">Mender</a> for a draft fix PR.</p>
     <div class="hero-actions">
-      <a class="btn btn--accent btn--xl" href="https://app.molar.it#trace/550e8400-e29b-41d4-a716-446655440000">Open the demo trace →</a>
+      <a class="btn btn--accent btn--xl" href="https://app.molar.it/dashboard/trace">Open Trace →</a>
       <a class="btn btn--outline btn--xl" href="#tour">See a 90-second tour</a>
       <a class="btn btn--ghost btn--xl" href="https://molar.it/docs" target="_blank" rel="noopener noreferrer" style="color:var(--muted)">Read the docs ↗</a>
       <span class="keys">or hit <kbd>⌘</kbd><kbd>K</kbd> in any trace</span>
@@ -1070,25 +1070,25 @@
       <p>A trace means something different to QA, an SRE, an engineer, and a coding agent. Trace gives each of them a doorway over the same NDJSON.</p>
     </div>
     <div class="doors-grid">
-      <a class="door" href="https://app.molar.it#traces/failed24">
+      <a class="door" href="https://app.molar.it/dashboard/trace">
         <div class="door-ill"><svg viewBox="0 0 80 60" fill="none"><rect x="4"  y="14" width="72" height="6" rx="2" fill="#8a3556" opacity=".22"/><rect x="4"  y="26" width="56" height="6" rx="2" fill="#8a3556" opacity=".4"/><rect x="4"  y="38" width="44" height="6" rx="2" fill="#b8542e"/><rect x="4"  y="50" width="34" height="6" rx="2" fill="#8a3556" opacity=".15"/><rect x="64" y="34" width="2"  height="14" fill="#b8542e"/></svg></div>
         <h3>QA &amp; Test eng</h3>
         <p>Triage today's failures by cluster, not by test name. Pin what matters; let the rest tier down.</p>
         <div class="meta"><span>open failed · 24h</span><span class="arrow">→</span></div>
       </a>
-      <a class="door" href="https://app.molar.it#trace/550e8400-e29b-41d4-a716-446655440000">
+      <a class="door" href="https://app.molar.it/dashboard/trace">
         <div class="door-ill"><svg viewBox="0 0 80 60" fill="none"><circle cx="20" cy="30" r="5" fill="#8a3556"/><circle cx="60" cy="14" r="5" fill="#8a3556" opacity=".4"/><circle cx="60" cy="46" r="5" fill="#8a3556" opacity=".4"/><path d="M24 28L57 16M24 33L57 44" stroke="#8a3556" stroke-width="1" opacity=".5"/><rect x="14" y="50" width="50" height="4" rx="1" fill="#8a3556" opacity=".18"/></svg></div>
         <h3>Engineers</h3>
         <p>Step through the failed PR run, ask the Debugger why, replay with your fix — without leaving the trace.</p>
         <div class="meta"><span>open a failed trace</span><span class="arrow">→</span></div>
       </a>
-      <a class="door" href="https://app.molar.it#scenarios">
+      <a class="door" href="https://app.molar.it/dashboard/scenarios">
         <div class="door-ill"><svg viewBox="0 0 80 60" fill="none"><path d="M4 50 Q14 48 18 42 T28 32 T40 26 T55 22 T76 18" stroke="#8a3556" stroke-width="1.6" fill="none"/><circle cx="76" cy="18" r="3" fill="#8a3556"/><path d="M4 56 L76 56" stroke="#8a3556" stroke-width=".4" opacity=".3"/></svg></div>
         <h3>Eng managers</h3>
         <p>Watch pass-rate per scenario, regression rates per PR. Spot which flow degraded this week before the customer does.</p>
         <div class="meta"><span>scenarios overview</span><span class="arrow">→</span></div>
       </a>
-      <a class="door" href="https://app.molar.it#mcp">
+      <a class="door" href="https://mcp.molar.it">
         <div class="door-ill"><svg viewBox="0 0 80 60" fill="none"><rect x="6" y="14" width="68" height="32" rx="4" fill="none" stroke="#8a3556" stroke-width="1.4"/><path d="M16 24l-4 6 4 6M30 36h8M52 24l4 6-4 6" stroke="#8a3556" stroke-width="1.4" fill="none"/></svg></div>
         <h3>Coding agents</h3>
         <p>Point Claude Code at <code class="mono">@molar/trace-mcp</code>. The agent searches traces, reads NDJSON, diffs runs, and proposes patches.</p>
@@ -1255,7 +1255,7 @@
           <li>7-day hot retention</li>
           <li>Debugger · cheap mode only</li>
         </ul>
-        <div class="cta"><a class="btn btn--outline" href="https://app.molar.it#traces">Start free</a></div>
+        <div class="cta"><a class="btn btn--outline" href="https://app.molar.it/dashboard/trace">Start free</a></div>
       </div>
       <div class="price-card is-pop">
         <span class="ribbon">Most teams</span>
@@ -1271,7 +1271,7 @@
           <li>Layer 2 replays at $0.20 / minute</li>
           <li>Slack · GitHub · MCP · webhooks</li>
         </ul>
-        <div class="cta"><a class="btn btn--accent" href="https://app.molar.it#traces">Start trial · 47 days</a></div>
+        <div class="cta"><a class="btn btn--accent" href="https://app.molar.it/dashboard/trace">Start trial · 47 days</a></div>
       </div>
       <div class="price-card">
         <div class="tier">ENTERPRISE</div>
@@ -1343,7 +1343,7 @@
       <div>
         <p>One token, one CI run, one permalink your team will paste in standup for the next year. The demo workspace already has 1,240 traces in it — open the failed checkout and start scrubbing.</p>
         <div class="bigcta-actions">
-          <a class="btn btn--accent btn--xl" href="https://app.molar.it#trace/550e8400-e29b-41d4-a716-446655440000">Open the failed checkout trace →</a>
+          <a class="btn btn--accent btn--xl" href="https://app.molar.it/dashboard/trace">Open Trace →</a>
           <a class="btn btn--outline btn--xl" href="#tour">See a 90-second tour</a>
           <a class="btn btn--ghost btn--xl" href="https://molar.it/docs" target="_blank" rel="noopener noreferrer" style="border-color:rgba(244,241,234,.18);color:rgba(244,241,234,.72)">Read the docs ↗</a>
         </div>
@@ -1370,9 +1370,9 @@
         </div>
         <p class="footer-tagline">Tools for teams shipping with agents. <em>One root system.</em></p>
         <div style="display:flex; gap:8px; margin-top:6px">
-          <a class="btn btn--ghost" style="border:1px solid rgba(244,241,234,.18); padding:7px 12px; font-size:12.5px" href="#">github</a>
-          <a class="btn btn--ghost" style="border:1px solid rgba(244,241,234,.18); padding:7px 12px; font-size:12.5px" href="#">x / twitter</a>
-          <a class="btn btn--ghost" style="border:1px solid rgba(244,241,234,.18); padding:7px 12px; font-size:12.5px" href="#">linear</a>
+          <a class="btn btn--ghost" style="border:1px solid rgba(244,241,234,.18); padding:7px 12px; font-size:12.5px" href="https://github.com/pratikranaa/molar-it">github</a>
+          <a class="btn btn--ghost" style="border:1px solid rgba(244,241,234,.18); padding:7px 12px; font-size:12.5px" href="https://www.linkedin.com/in/ranapratik/">linkedin</a>
+          <a class="btn btn--ghost" style="border:1px solid rgba(244,241,234,.18); padding:7px 12px; font-size:12.5px" href="https://docs.molar.it/docs/trace/integrations">integrations</a>
         </div>
       </div>
       <div class="footer-col">
@@ -1381,8 +1381,8 @@
         <a href="#how">How it works</a>
         <a href="#capabilities">Capabilities</a>
         <a href="#pricing">Pricing</a>
-        <a href="https://app.molar.it#traces">Dashboard</a>
-        <a href="https://app.molar.it#mcp">MCP install</a>
+        <a href="https://app.molar.it/dashboard/trace">Dashboard</a>
+        <a href="https://mcp.molar.it">MCP install</a>
       </div>
       <div class="footer-col">
         <h5 class="footer-h">Suite</h5>
@@ -1394,9 +1394,9 @@
       </div>
       <div class="footer-col">
         <h5 class="footer-h">Developers</h5>
-        <a href="https://app.molar.it#developers">API</a>
-        <a href="https://app.molar.it#mcp">MCP server</a>
-        <a href="https://app.molar.it#ingest">Ingest setup</a>
+        <a href="https://docs.molar.it/docs/trace/api-reference">API</a>
+        <a href="https://mcp.molar.it">MCP server</a>
+        <a href="https://docs.molar.it/docs/trace/workers-ingestion">Ingest setup</a>
         <a href="https://molar.it/docs">Webhooks</a>
         <a href="https://molar.it/docs">SDK · TS · py</a>
         <a href="https://molar.it/changelog">Changelog</a>

@@ -1,4 +1,4 @@
-// Surface landings: intercept app.molar.it CTAs → animated waitlist popup (Calendly-style).
+// Early-access mode: intercept app.molar.it CTAs → animated waitlist popup (Calendly-style).
 // Opt in: <body data-waitlist-surface="clones"> + load waitlist-modal.css + this script.
 (function () {
   const COPY = {
@@ -272,6 +272,7 @@
   }
 
   function init() {
+    if (window.MOLAR_SITE?.appLive) return;
     const surface = document.body && document.body.dataset.waitlistSurface;
     if (!surface) return;
     ensureModal();

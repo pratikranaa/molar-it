@@ -53,7 +53,7 @@ node scripts/gen-sitemap.mjs
 
 Surface landings use subdomains (`cartographer.molar.it`, etc.). Add each as a domain on the Vercel project and point DNS (CNAME to `cname.vercel-dns.com`). Old paths (`/cartographer`, …) 301 to the subdomain.
 
-**CTAs:** `https://app.molar.it` is live for the main Molar product. Surface landings (Cartographer, Clones, Guard, Trace) only have marketing pages today — any `app.molar.it` button opens an in-page waitlist popup (`waitlist-modal.js`, Calendly-style) with `data-waitlist-surface` on `<body>`.
+**CTAs:** `https://app.molar.it` is live for the main Molar product. Product CTAs deep-link to `/dashboard/cartographer`, `/dashboard/clones`, `/dashboard/guard`, and `/dashboard/trace`. The waitlist popup (`waitlist-modal.js`) intercepts those links only when `MOLAR_SITE.appLive` is false.
 
 ### Waitlist — receive signups for $0
 
