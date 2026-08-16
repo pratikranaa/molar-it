@@ -4,7 +4,7 @@
 
 **Goal:** Refresh `/changelog` with the live Molar homepage design and a current, customer-readable release feed.
 
-**Architecture:** Preserve the existing static React timeline and URL-backed product filters. Extend the data model with availability and summaries, render those fields semantically, and replace only the changelog CSS block with homepage-aligned styling.
+**Architecture:** Preserve the existing static React timeline and URL-backed product filters. Extend the data model with availability and summaries, render those fields semantically, share the current homepage chrome with the changelog, and replace only the changelog CSS block with homepage-aligned styling.
 
 **Tech Stack:** Static HTML, React 18 via Babel, CSS, Node.js source-contract tests, Playwright browser verification.
 
@@ -34,10 +34,15 @@
 - Modify: `changelog.html`
 - Modify: `changelog.jsx`
 - Modify: `seo-pages.css`
+- Create: `marketing-chrome.jsx`
+- Modify: `home.jsx`
+- Modify: `home.css`
+- Modify: `index.html`
 
 - [ ] Align fonts and metadata with the live homepage.
 - [ ] Render availability, summary, and customer-benefit lists without versions or engineering tags.
 - [ ] Restyle the existing header, tabs, timeline, and entries using the homepage cream canvas, grain, ink, vermilion accent, spacing rhythm, buttons, and restrained motion.
+- [ ] Use one current navigation and footer on the homepage and changelog, with a custom Products menu linking the four product landing subdomains.
 - [ ] Keep visible focus states and a no-overflow single-column mobile layout.
 - [ ] Run `node --check changelog-data.js`, `node scripts/check-published-links.mjs`, and `git diff --check`.
 

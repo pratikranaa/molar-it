@@ -5,6 +5,7 @@ const CALENDLY_URL = 'https://calendly.com/pratikrana/30min';
 /** Instant Proof — URL + intent before signup (hosted on molar.it). */
 const INSTANT_PROOF_URL = '/verify#instant-proof';
 const APP_URL = 'https://app.molar.it';
+const { MarketingNav, MarketingFooter } = window.MolarMarketingChrome;
 
 function openCalendly(e) {
   if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
@@ -3082,7 +3083,7 @@ function App() {
   return (
     <>
       <PageLoader />
-      <HomeNav />
+      <MarketingNav />
       <main>
         <Hero />
         <Problem />
@@ -3094,7 +3095,7 @@ function App() {
         <FAQ />
         <CTA />
       </main>
-      <SiteFooter />
+      <MarketingFooter />
     </>
   );
 }

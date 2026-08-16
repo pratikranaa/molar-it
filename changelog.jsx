@@ -5,8 +5,11 @@ function formatChangelogDate(iso) {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
+    timeZone: 'UTC',
   });
 }
+
+const { MarketingNav, MarketingFooter } = window.MolarMarketingChrome;
 
 function ChangelogPage() {
   const products = window.CHANGELOG_PRODUCTS;
@@ -41,6 +44,7 @@ function ChangelogPage() {
 
   return (
     <>
+      <MarketingNav />
       <main className="doc-page changelog-page">
         <div className="frame">
           <div className="doc-meta">
@@ -50,9 +54,10 @@ function ChangelogPage() {
           </div>
 
           <header className="changelog-header">
-            <h1 className="changelog-title">What we <em>shipped</em></h1>
+            <p className="changelog-kicker">New in Molar</p>
+            <h1 className="changelog-title">Better testing,<br /><em>week by week.</em></h1>
             <p className="changelog-lede">
-              Product updates for Molar and each surface — Cartographer, Clones, Guard, and Trace.
+              The latest ways Molar helps you explore customer journeys, prevent regressions, and understand every run.
             </p>
           </header>
 
@@ -79,25 +84,21 @@ function ChangelogPage() {
                 <article key={entry.id} className="changelog-entry">
                   <div className="changelog-entry-date">
                     <time dateTime={entry.date}>{formatChangelogDate(entry.date)}</time>
-                    {entry.version && (
-                      <span className="changelog-version mono">v{entry.version}</span>
-                    )}
                   </div>
                   <div className="changelog-entry-rail" aria-hidden="true">
                     <span className="changelog-entry-dot"></span>
                   </div>
                   <div className="changelog-entry-body">
-                    <div className="changelog-entry-product mono">
-                      {products.find((p) => p.id === entry.product)?.label || entry.product}
+                    <div className="changelog-entry-meta">
+                      <span className="changelog-entry-product mono">
+                        {products.find((p) => p.id === entry.product)?.label || entry.product}
+                      </span>
+                      <span className="changelog-availability" data-availability={entry.availability === 'Preview' ? 'preview' : 'available'}>
+                        {entry.availability}
+                      </span>
                     </div>
                     <h2 className="changelog-entry-title">{entry.title}</h2>
-                    {entry.tags && entry.tags.length > 0 && (
-                      <div className="changelog-tags">
-                        {entry.tags.map((tag) => (
-                          <span key={tag} className="changelog-tag">{tag}</span>
-                        ))}
-                      </div>
-                    )}
+                    <p className="changelog-entry-summary">{entry.summary}</p>
                     <ul className="changelog-items">
                       {entry.items.map((item) => (
                         <li key={item}>{item}</li>
@@ -109,10 +110,13 @@ function ChangelogPage() {
             )}
           </div>
 
-          <a className="doc-back" href="/"><span className="arrow">←</span> Back to home</a>
+          <div className="changelog-footer-actions">
+            <a className="btn btn-primary" href="https://app.molar.it">Open Molar →</a>
+            <a className="doc-back" href="/"><span className="arrow">←</span> Back to home</a>
+          </div>
         </div>
       </main>
-      <SiteFooter />
+      <MarketingFooter />
     </>
   );
 }

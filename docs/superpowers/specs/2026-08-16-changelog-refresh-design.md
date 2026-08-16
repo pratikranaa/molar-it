@@ -6,7 +6,8 @@ Refresh the existing Molar changelog without changing its proven timeline or pro
 
 ## Visual direction
 
-- Reuse the live homepage’s cream canvas, paper grain, dark ink, vermilion accent, typography, spacing rhythm, buttons, navigation, and footer.
+- Reuse the live homepage’s cream canvas, paper grain, dark ink, vermilion accent, typography, spacing rhythm, buttons, navigation, and footer through one shared marketing-chrome component.
+- Add a polished Products menu to that shared navigation with direct links to the Cartographer, Clones, Guard, and Trace landing subdomains.
 - Keep the current chronological timeline and product filters.
 - Improve hierarchy with a stronger opening statement, compact filter controls, quieter metadata, refined dividers, and more deliberate whitespace.
 - Use restrained reveal and hover motion already compatible with the marketing site; respect reduced-motion preferences.
@@ -37,8 +38,8 @@ Only capabilities supported by current product evidence will be labeled `Availab
 - Filters remain keyboard-operable tabs and update the URL.
 - Focus states remain visible on every control and link.
 - Color is never the only availability indicator.
-- Mobile retains a single-column timeline with no horizontal scrolling.
-- Existing navigation and footer behavior remains unchanged.
+- Mobile retains a single-column timeline with wrapped product filters and no horizontal scrolling.
+- The homepage and changelog share the same navigation and footer behavior.
 
 ## Verification
 
