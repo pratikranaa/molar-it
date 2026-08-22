@@ -40,6 +40,86 @@
         }
       ],
       "dest": "/trace/index.html"
+    },
+    {
+      "source": "/blog/ai-playwright-test-generation",
+      "destination": "/blog/ai-playwright-test-generation.html"
+    },
+    {
+      "source": "/blog/flaky-tests-causes-and-fixes",
+      "destination": "/blog/flaky-tests-causes-and-fixes.html"
+    },
+    {
+      "source": "/blog/self-healing-test-automation",
+      "destination": "/blog/self-healing-test-automation.html"
+    },
+    {
+      "source": "/blog/e2e-testing-best-practices",
+      "destination": "/blog/e2e-testing-best-practices.html"
+    },
+    {
+      "source": "/blog/github-actions-playwright-ci",
+      "destination": "/blog/github-actions-playwright-ci.html"
+    },
+    {
+      "source": "/blog/required-status-checks-merge-gate",
+      "destination": "/blog/required-status-checks-merge-gate.html"
+    },
+    {
+      "source": "/blog/synthetic-monitoring-production",
+      "destination": "/blog/synthetic-monitoring-production.html"
+    },
+    {
+      "source": "/blog/test-twilio-sms-otp-flows",
+      "destination": "/blog/test-twilio-sms-otp-flows.html"
+    },
+    {
+      "source": "/blog/email-workflow-testing-otp",
+      "destination": "/blog/email-workflow-testing-otp.html"
+    },
+    {
+      "source": "/blog/api-mocking-vs-service-clones",
+      "destination": "/blog/api-mocking-vs-service-clones.html"
+    },
+    {
+      "source": "/blog/regression-testing-strategies",
+      "destination": "/blog/regression-testing-strategies.html"
+    },
+    {
+      "source": "/blog/testing-third-party-apis-safely",
+      "destination": "/blog/testing-third-party-apis-safely.html"
+    },
+    {
+      "source": "/blog/continuous-testing-ci-cd-pipeline",
+      "destination": "/blog/continuous-testing-ci-cd-pipeline.html"
+    },
+    {
+      "source": "/blog/staging-environment-alternatives",
+      "destination": "/blog/staging-environment-alternatives.html"
+    },
+    {
+      "source": "/blog/ai-agents-future-software-testing",
+      "destination": "/blog/ai-agents-future-software-testing.html"
+    },
+    {
+      "source": "/blog/shift-left-testing-explained",
+      "destination": "/blog/shift-left-testing-explained.html"
+    },
+    {
+      "source": "/blog/playwright-vs-cypress-comparison",
+      "destination": "/blog/playwright-vs-cypress-comparison.html"
+    },
+    {
+      "source": "/blog/startup-qa-without-qa-team",
+      "destination": "/blog/startup-qa-without-qa-team.html"
+    },
+    {
+      "source": "/blog/test-data-management-best-practices",
+      "destination": "/blog/test-data-management-best-practices.html"
+    },
+    {
+      "source": "/blog/visual-regression-testing-guide",
+      "destination": "/blog/visual-regression-testing-guide.html"
     }
   ],
   "redirects": [
