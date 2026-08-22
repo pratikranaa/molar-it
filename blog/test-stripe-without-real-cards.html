@@ -3,99 +3,172 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to Test Stripe Checkout Without Charging a Real Card — Molar</title>
-  <meta name="description" content="Test Stripe checkout and billing flows safely using stateful API clones. No real charges, no test-mode gaps — Molar runs your app against deterministic Stripe clones in CI and production guard." />
+  <title>How to Test Stripe Checkout Without Charging a Real Card | Molar</title>
+  <meta name="description" content="Test Stripe checkout and billing flows safely using stateful API clones. No real charges, no test-mode gaps — deterministic Stripe clones in CI and production guard." />
   <link rel="canonical" href="https://molar.it/blog/test-stripe-without-real-cards" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
   <meta property="og:title" content="How to Test Stripe Checkout Without Charging a Real Card" />
   <meta property="og:description" content="Test Stripe checkout safely with stateful API clones — no real charges, realistic errors, CI and production guard." />
-  <meta property="og:type" content="article" />
   <meta property="og:url" content="https://molar.it/blog/test-stripe-without-real-cards" />
   <meta property="og:image" content="https://molar.it/og.png" />
   <meta property="og:site_name" content="Molar" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Test Stripe Checkout Without Charging a Real Card" />
+  <meta name="twitter:description" content="Stateful API clones for safe Stripe checkout testing in CI and production." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
-          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
-          { "@type": "ListItem", "position": 3, "name": "Test Stripe checkout without charging a real card", "item": "https://molar.it/blog/test-stripe-without-real-cards" }
-        ]
-      },
-      {
-        "@type": "Article",
+      { "@type": "BreadcrumbList", "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+        { "@type": "ListItem", "position": 3, "name": "Test Stripe checkout without charging a real card", "item": "https://molar.it/blog/test-stripe-without-real-cards" }
+      ]},
+      { "@type": "BlogPosting",
         "headline": "How to Test Stripe Checkout Without Charging a Real Card",
+        "description": "Use stateful Stripe clones so checkout tests exercise real application code paths without financial side effects.",
+        "url": "https://molar.it/blog/test-stripe-without-real-cards",
         "datePublished": "2026-06-27",
-        "dateModified": "2026-06-27",
-        "author": { "@type": "Person", "name": "Pratik Rana" },
-        "publisher": { "@type": "Organization", "name": "Molar", "logo": { "@type": "ImageObject", "url": "https://molar.it/assets/molar-mark-apple.png" } },
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
         "mainEntityOfPage": "https://molar.it/blog/test-stripe-without-real-cards",
-        "image": "https://molar.it/og.png"
+        "image": "https://molar.it/og.png",
+        "keywords": "stripe testing, checkout e2e tests, stateful api clones, webhook signature testing"
       }
     ]
   }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../styles.css" />
-  <link rel="stylesheet" href="../seo-pages.css" />
-  <link rel="stylesheet" href="../waitlist-modal.css" />
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
 </head>
-<body data-waitlist-surface="blog">
-  <div class="paper-grain"></div>
-  <div id="nav-root"></div>
-  <main class="doc-page">
-    <div class="frame">
-      <div class="doc-meta"><span class="num">Blog</span><span class="rule"></span><span>Engineering</span></div>
-      <article class="doc-article">
-        <header>
-          <p class="doc-kicker">June 27, 2026 · QA engineering</p>
-          <h1 class="doc-title">Test Stripe checkout <em>without</em> charging a real card</h1>
-          <p class="doc-lede">
-            <strong>Short answer:</strong> Don't mock Stripe with static fixtures alone — use a stateful clone that
-            speaks the same API surface as Stripe, returns realistic errors, and never hits live payments.
-            Molar provisions deterministic Stripe clones for E2E and production-guard runs so checkout tests
-            exercise real application code paths without financial side effects.
-          </p>
-        </header>
-        <section class="doc-section">
-          <h2>Why Stripe test mode isn't enough</h2>
-          <p>Stripe test keys prevent real charges, but teams still skip end-to-end checkout in CI because webhooks, Connect accounts, and cross-service state are hard to reproduce. Tests drift to "click pay button" happy paths while production breaks on edge cases.</p>
-        </section>
-        <section class="doc-section">
-          <h2>Stateful clones vs static mocks</h2>
-          <p>A static mock returns canned JSON. A <strong>stateful clone</strong> maintains session state: customers, payment intents, failures, and webhook payloads — so your app behaves as it would against real Stripe, without network egress to Stripe's API.</p>
-        </section>
-        <section class="doc-section">
-          <h2>How Molar runs checkout tests</h2>
-          <p>Molar points an autonomous agent at your staging or production URL, authors a critical-path checkout scenario, and runs it against cloned Stripe plus email and auth dependencies. Failures produce a full trace; regressions can gate PRs via GitHub Actions.</p>
-          <div class="doc-cta">
-            <a href="https://app.molar.it" class="btn btn-primary">Join waitlist →</a>
-            <a href="/integrations/github-actions" class="btn btn-ghost">GitHub Actions guide</a>
-          </div>
-        </section>
-        <section class="doc-section">
-          <h2>Related</h2>
-          <p>Compare <a href="/vs/wiremock" style="color:var(--signal)">Molar Clones vs WireMock</a>, read the <a href="https://clones.molar.it" style="color:var(--signal)">Clones landing</a>, or browse <a href="/docs/clones/stripe" style="color:var(--signal)">Stripe clone docs</a>.</p>
-          <div class="doc-cta">
-            <a href="https://app.molar.it" class="btn btn-primary">Get early access →</a>
-            <a href="/docs/clones/stripe" class="btn btn-ghost">Stripe clone docs</a>
-          </div>
-        </section>
-        <a class="doc-back" href="/blog"><span class="arrow">←</span> Back to blog</a>
-      </article>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Stripe checkout testing</span>
+    </nav>
+
+    <div class="post-kicker">QA engineering · Clones</div>
+    <h1 class="post-title">Test Stripe checkout <em style="font-style:italic;color:var(--signal)">without</em> charging a real card</h1>
+    <p class="post-lede">
+      <strong>Short answer:</strong> don't mock Stripe with static fixtures alone — use a stateful clone that
+      speaks the same API surface as Stripe, returns realistic errors, and never touches live payments.
+      Molar provisions deterministic Stripe clones for E2E and production-guard runs so checkout tests
+      exercise real application code paths with zero financial side effects.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-06-27">June 27, 2026</time>
+      <span class="dot"></span>
+      <span>6 min read</span>
     </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>Why Stripe test mode isn't enough</h2>
+        <p>
+          Test keys prevent real charges, but teams still skip end-to-end checkout in CI because webhooks,
+          Connect accounts, and cross-service state are hard to reproduce. So suites drift toward
+          “click the pay button” happy paths while production breaks on edge cases: declined cards,
+          proration rounding, idempotency replays.
+        </p>
+        <div class="post-callout warn">
+          The most expensive bugs live in the gap between “the button works” and “the ledger is right”.
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>Stateful clones vs static mocks</h2>
+        <p>
+          A static mock returns canned JSON. A <strong>stateful clone</strong> maintains session state:
+          customers, payment intents, failures, and signed webhook payloads — so your app behaves as it
+          would against real Stripe, with no network egress to Stripe's API. See
+          <a href="/blog/api-mocking-vs-service-clones">mocking vs clones</a> for the full comparison.
+        </p>
+        <pre><code>// your app calls the clone exactly like production
+const intent = await stripe.paymentIntents.create({ amount: 9900 });
+// clone records state + emits a correctly-signed webhook
+await expect(receipt.total).toBe(9900);</code></pre>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>How Molar runs checkout tests</h2>
+        <p>
+          Molar points an autonomous agent at your staging or production URL, authors a critical-path
+          checkout scenario in plain English, and runs it against cloned Stripe plus email and auth
+          dependencies — see <a href="/blog/testing-third-party-apis-safely">safe third-party testing</a>.
+          Failures capture a full replayable trace; regressions gate PRs through
+          <a href="/blog/github-actions-playwright-ci">required GitHub checks</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>What you get on every run</h2>
+        <ul>
+          <li>Deterministic charge state you can assert against (amounts, currency, metadata).</li>
+          <li>Correctly signed webhooks your handlers actually accept.</li>
+          <li>Error semantics that match production (declines, timeouts) on demand.</li>
+          <li>Synthetic identities marked <code>qa+</code> so nothing touches a real customer.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Keep reading</h2>
+        <p>
+          Compare <a href="/vs/wiremock">Molar Clones vs WireMock</a>, browse the
+          <a href="https://docs.molar.it">documentation</a>, or read
+          <a href="/blog/email-workflow-testing-otp">email workflow testing</a> to cover the receipt side.
+        </p>
+      </section>
+
+      <div class="post-cta">
+        <h2>Run your first safe checkout test today</h2>
+        <p>Molar maps your flows, clones its third parties, and guards the result in CI and production.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+          <a class="btn btn-ghost" href="/docs">Read the docs</a>
+        </div>
+      </div>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/blog/api-mocking-vs-service-clones">
+          <span class="rc-tag">Clones</span>
+          <span class="rc-title">API mocking vs stateful service clones</span>
+        </a>
+        <a class="related-card" href="/blog/email-workflow-testing-otp">
+          <span class="rc-tag">Clones</span>
+          <span class="rc-title">Email workflow testing: OTPs &amp; invites</span>
+        </a>
+        <a class="related-card" href="/blog/github-actions-playwright-ci">
+          <span class="rc-tag">CI/CD</span>
+          <span class="rc-title">Playwright in GitHub Actions</span>
+        </a>
+      </div>
+    </aside>
   </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
-  <script src="../site-config.js"></script>
-  <script type="text/babel" src="../nav.jsx"></script>
-  <script type="text/babel" src="../nav-boot.jsx"></script>
-  <script src="../waitlist-modal.js"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
 </body>
 </html>

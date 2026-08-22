@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Synthetic Monitoring for Production | Beyond Pings | Molar</title>
+  <meta name="description" content="Uptime pings miss broken flows. Synthetic checks walk critical paths every few minutes and catch what pings can't." />
+  <link rel="canonical" href="https://molar.it/blog/synthetic-monitoring-production" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Synthetic Monitoring for Production | Beyond Pings" />
+  <meta property="og:description" content="Uptime pings miss broken flows. Synthetic checks walk critical paths every few minutes and catch what pings can't." />
+  <meta property="og:url" content="https://molar.it/blog/synthetic-monitoring-production" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Synthetic Monitoring for Production | Beyond Pings" />
+  <meta name="twitter:description" content="Flow-level synthetic checks: frequency, regions, synthetic identities, alert dedup, and diff correlation." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Synthetic monitoring for production", "item": "https://molar.it/blog/synthetic-monitoring-production" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Synthetic monitoring for production, beyond uptime pings",
+        "description": "Uptime pings miss broken flows. Synthetic checks walk critical paths every few minutes and catch what pings can't.",
+        "url": "https://molar.it/blog/synthetic-monitoring-production",
+        "datePublished": "2026-07-25",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/synthetic-monitoring-production",
+        "keywords": "synthetic monitoring, production testing, uptime monitoring alternatives, user journey monitoring"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Synthetic monitoring for production</span>
+    </nav>
+
+    <div class="post-kicker">Production</div>
+    <h1 class="post-title">Synthetic monitoring for production, beyond uptime pings</h1>
+    <p class="post-lede">
+      A 200 from <code>/healthz</code> tells you the process is up. It says nothing about whether a customer
+      can sign up, log in, or pay. Flow-level synthetic checks close that gap — if you design them well.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-07-25">July 25, 2026</time>
+      <span class="dot"></span>
+      <span>9 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>Pings measure liveness, not correctness</h2>
+        <p>
+          Every outage postmortem has a version of the same line: “monitoring was green.” Uptime pings answer one
+          narrow question — did the server return an HTTP success code within N milliseconds? They don’t exercise
+          the code path your revenue depends on. A broken signup form behind a bad JS bundle, an expired OAuth client
+          secret, a payment provider whose schema changed silently, a feature flag that renders an empty dashboard —
+          all invisible to a ping, all catastrophic for users.
+        </p>
+        <p>
+          The industry’s answer is <em>synthetic monitoring</em>: scripted checks that behave like real users,
+          running continuously against production. Done right, this is just
+          <a href="/blog/e2e-testing-best-practices">end-to-end testing</a> executed on a schedule against live
+          infrastructure. Done badly, it’s a pile of flaky checks that page you at 3am because a CDN hiccuped.
+          The difference is entirely in the design decisions below.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>What a good synthetic check looks like</h2>
+        <p>
+          A flow-level check walks one critical user path end to end, asserts on outcomes (not pixels), and cleans
+          up after itself. Model each check on a named business flow rather than a URL list:
+        </p>
+        <pre><code># synthetic-checks/signup.yaml
+flow: signup-and-first-login
+schedule: "*/5 * * * *"        # every 5 minutes
+regions: [us-east, eu-west]
+steps:
+  - open: /signup
+  - fill_email: "{{ synthetic.identity }}@mail.example.com"
+  - fill_password: "{{ synthetic.password }}"
+  - click: Create account
+  - expect_text: "Check your inbox"
+  - extract_code_from_email: inbox={{ synthetic.inbox }}   # via mail clone
+  - submit_code
+  - expect_url: /dashboard
+assert_timeout_s: 30</code></pre>
+        <p>
+          Three properties matter more than coverage breadth. First, every check has an owner — unowned alerts get
+          ignored. Second, assertions are semantic (“dashboard heading renders”) not visual-only, which keeps them
+          out of <a href="/blog/flaky-tests-causes-and-fixes">flake territory</a>. Third, the check is hermetic:
+          its email, SMS, and payment interactions hit clones, not live vendors, so runs cost nothing side-effect-wise.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>Frequency and regions: match cadence to blast radius</h2>
+        <p>
+          Run everything every minute and you’ll spend real money generating load and drown yourself in noise.
+          Run things hourly and your mean time to detection is an hour. Calibrate by blast radius:
+        </p>
+        <ul>
+          <li><strong>Revenue path (checkout, paywall):</strong> every 1–5 minutes, from multiple regions.</li>
+          <li><strong>Auth path (login, SSO):</strong> every 5–10 minutes. Auth breakage blocks everything else.</li>
+          <li><strong>Core UX (search, profile, upload):</strong> every 15–30 minutes is usually fine.</li>
+          <li><strong>Long-tail pages:</strong> daily crawl-style sweeps instead of dedicated checks.</li>
+        </ul>
+        <p>
+          Regions matter for two reasons: CDNs and edge functions fail regionally, and latency-based routing can
+          serve different backends. Two or three regions for revenue-critical checks is a sane default; one region
+          everywhere else. Guard schedules in Molar work this way — you attach a cadence and region set to a flow,
+          and the platform handles the run distribution, evidence capture, and alert routing so you’re not gluing
+          cron to Playwright by hand.
+        </p>
+        <div class="post-callout warn">
+          Don’t point production synthetics at load-test-sized intervals. A checkout flow running once a minute
+          creates ~43k sessions a month. If your checks create orders, make sure downstream systems (finance,
+          fulfillment, support tooling) know which ones are synthetic — see the next section.
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>Marked synthetic identities, always</h2>
+        <p>
+          Every synthetic run should act through clearly labeled identities: emails like
+          <code>+synth-</code>-tagged addresses, accounts flagged in your database, order notes marking automation.
+          This pays off repeatedly:
+        </p>
+        <ul>
+          <li>Analytics stay clean — dashboards exclude synthetic traffic instead of showing phantom conversion dips.</li>
+          <li>Support can recognize synthetic orders instead of investigating “customers” who never respond.</li>
+          <li>You can audit check behavior after the fact: every artifact ties back to a known identity.</li>
+        </ul>
+        <p>
+          Unmarked synthetic data is how you end up emailing a fake customer a real invoice. If your checks need
+          OTP codes or magic links, route them through a controlled mail system rather than a shared inbox — the
+          same mechanics described in our guide to <a href="/blog/email-workflow-testing-otp">testing email workflows</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Alert dedup: the difference between signal and noise</h2>
+        <p>
+          A single broken deployment fails every scheduled run until someone fixes it. At 5-minute cadence across
+          three regions, one incident generates hundreds of failures. Naive paging on each failure trains everyone
+          to ignore the channel within a week. Dedup before notifying:
+        </p>
+        <pre><code># Grouping rule (pseudo-config)
+group_by: flow_id
+window: 15m
+notify_when: first_failure_in_group
+escalate_when: failures >= 3 consecutive   # ~15 min sustained
+resolve_when: 2 consecutive passes
+suppress_during_deploy_window: true          # known-change quieting</code></pre>
+        <p>
+          The key ideas: notify on group-open, not every failure; require <em>sustained</em> failure before paging
+          humans (transient network blips self-heal); auto-resolve on consecutive passes; and suppress alerts during
+          an active deploy window when a change is already being rolled back. Route sustained failures into the same
+          channel your engineers already watch — for most teams that means opening a GitHub issue or firing the
+          on-call webhook, not yet another dashboard nobody has open. This pairs naturally with
+          <a href="/blog/github-actions-playwright-ci">PR-gated E2E in CI</a>: if a change was going to break the
+          flow, the gate should catch it before production ever sees it.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">06</span>Tie failures to diffs, not mysteries</h2>
+        <p>
+          An alert that says “signup flow failed” starts an investigation. An alert that says “signup flow started
+          failing at 14:32 UTC, first failing run followed deploy <code>a71f0e3</code> by 90 seconds; trace shows
+          the submit button no longer enables” starts a fix. Correlating check failures with recent deploys and
+          attaching full execution evidence — DOM snapshot, network log, console output — turns production incidents
+          into ten-minute fixes.
+        </p>
+        <p>
+          This deploy-correlation habit also feeds your broader
+          <a href="/blog/regression-testing-strategies">regression strategy</a>: flows that keep breaking in
+          production are telling you your pre-merge suite has a gap at exactly that spot. Treat every synthetic
+          escape as a missing test case, write it, and add it to the PR gate.
+        </p>
+        <div class="post-cta">
+          <h2>Ship a production safety net this afternoon</h2>
+          <p>Molar’s Guard runs your critical flows on a schedule, marks every identity synthetic, dedups alerts, and attaches replayable evidence to each failure. Free tier included.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/blog/regression-testing-strategies">
+          <span class="rc-tag">Strategy</span>
+          <span class="rc-title">Regression testing strategies for fast-moving teams</span>
+        </a>
+        <a class="related-card" href="/blog/flaky-tests-causes-and-fixes">
+          <span class="rc-tag">Reliability</span>
+          <span class="rc-title">Flaky tests: root causes and durable fixes</span>
+        </a>
+        <a class="related-card" href="/blog/e2e-testing-best-practices">
+          <span class="rc-tag">Fundamentals</span>
+          <span class="rc-title">End-to-end testing best practices that hold up</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>

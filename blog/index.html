@@ -3,136 +3,191 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Molar Blog — QA Engineering, E2E Testing &amp; Production Guard</title>
-  <meta name="description" content="Engineering notes from Molar on autonomous QA, stateful API clones, Stripe checkout testing, GitHub Actions gating, and guarding production without touching real customers." />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>Molar Blog — Autonomous QA, Playwright Generation &amp; Safe Testing | Molar</title>
+  <meta name="description" content="Engineering guides on AI-generated Playwright tests, flaky test fixes, PR merge gates, stateful clones of Stripe/Twilio/email, and guarding production without real side effects." />
   <link rel="canonical" href="https://molar.it/blog" />
-  <meta property="og:title" content="Molar Blog — QA Engineering &amp; Production Testing" />
-  <meta property="og:description" content="How to test billing flows, gate PRs, and guard production with autonomous QA and stateful clones." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta property="og:type" content="website" />
+  <meta property="og:title" content="Molar Blog — Autonomous QA &amp; Safe Testing Engineering" />
+  <meta property="og:description" content="Practical guides on AI-generated Playwright tests, merge gates, stateful service clones, and continuous production guard." />
   <meta property="og:url" content="https://molar.it/blog" />
   <meta property="og:image" content="https://molar.it/og.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
   <meta property="og:site_name" content="Molar" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Molar Blog — QA Engineering &amp; Production Testing" />
-  <meta name="twitter:description" content="Autonomous QA, Stripe clones, GitHub Actions, and production guard — from the Molar team." />
+  <meta name="twitter:title" content="Molar Blog — Autonomous QA &amp; Safe Testing Engineering" />
+  <meta name="twitter:description" content="Practical guides on AI-generated Playwright tests, merge gates, clones, and production guard." />
   <meta name="twitter:image" content="https://molar.it/og.png" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
-          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" }
-        ]
-      },
-      {
-        "@type": "Blog",
-        "@id": "https://molar.it/blog#blog",
-        "name": "Molar Blog",
-        "description": "Engineering notes on autonomous QA, stateful clones, and production testing.",
+      { "@type": "BreadcrumbList", "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" }
+      ]},
+      { "@type": "Blog", "@id": "https://molar.it/blog#blog", "name": "Molar Blog",
+        "description": "Engineering guides on autonomous QA, safe third-party testing, and continuous production guard.",
         "url": "https://molar.it/blog",
-        "publisher": { "@id": "https://molar.it/#org" },
-        "blogPost": [
-          {
-            "@type": "BlogPosting",
-            "headline": "How to Test Stripe Checkout Without Charging a Real Card",
-            "url": "https://molar.it/blog/test-stripe-without-real-cards",
-            "datePublished": "2026-06-27",
-            "author": { "@type": "Person", "name": "Pratik Rana" }
-          }
-        ]
-      }
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" } }
     ]
   }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
   <link rel="stylesheet" href="/seo-pages.css" />
   <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
 </head>
-<body data-waitlist-surface="blog">
-  <div class="paper-grain"></div>
-  <div id="nav-root"></div>
-  <main class="doc-page blog-index">
-    <div class="frame">
-      <div class="doc-meta">
-        <span class="num">Blog</span>
-        <span class="rule"></span>
-        <span>Engineering</span>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <header class="blog-hero">
+    <div class="kicker">Molar · Engineering blog</div>
+    <h1>Ship fast.<br />Break <em>nothing</em>.</h1>
+    <p class="sub">
+      Practical engineering guides from the Molar team — AI-generated Playwright suites,
+      deterministic testing against cloned services, and merge gates that actually hold.
+    </p>
+  </header>
+
+  <main class="blog-shell">
+    <a class="featured-post" href="/blog/ai-playwright-test-generation">
+      <div class="featured-main">
+        <div class="pill-row"><span class="pill accent">Featured</span><span class="pill">Test automation</span></div>
+        <h2>AI Playwright test generation: how it actually works in 2026</h2>
+        <p>Crawl mapping, locator ranking, assertion synthesis, deterministic export — what separates a generator you can trust in CI from a demo.</p>
+        <span class="read-link">Read article <span class="arr">→</span></span>
       </div>
+      <div class="featured-side">
+        <blockquote>“If a generated test has no assertion except ‘page loaded’, it isn’t a test.”</blockquote>
+        <div class="who">Pratik Rana · Aug 10, 2026</div>
+      </div>
+    </a>
 
-      <header class="blog-index-header">
-        <h1 class="blog-index-title">Notes on <em>guarding</em> production</h1>
-        <p class="blog-index-lede">
-          How autonomous QA, stateful clones, and continuous production checks work in practice —
-          without charging real cards or emailing real customers.
-        </p>
-      </header>
-
-      <section class="blog-featured" aria-labelledby="featured-heading">
-        <h2 id="featured-heading" class="blog-section-label">Featured</h2>
-        <a class="blog-featured-card" href="/blog/test-stripe-without-real-cards">
-          <div class="blog-featured-meta">
-            <span class="blog-tag">QA engineering</span>
-            <time datetime="2026-06-27">June 27, 2026</time>
-          </div>
-          <h3 class="blog-featured-title">Test Stripe checkout <em>without</em> charging a real card</h3>
-          <p class="blog-featured-excerpt">
-            Why Stripe test mode isn't enough for end-to-end checkout — and how stateful clones let CI
-            exercise real application code paths without financial side effects.
-          </p>
-          <span class="blog-read-more">Read article →</span>
-        </a>
-      </section>
-
-      <section class="blog-list" aria-labelledby="all-posts-heading">
-        <h2 id="all-posts-heading" class="blog-section-label">All posts</h2>
-        <ul class="blog-post-list">
-          <li>
-            <a class="blog-post-row" href="/blog/test-stripe-without-real-cards">
-              <div class="blog-post-row-main">
-                <span class="blog-post-row-title">Test Stripe checkout without charging a real card</span>
-                <span class="blog-post-row-excerpt">Stateful Stripe clones for E2E and production guard.</span>
-              </div>
-              <time class="blog-post-row-date" datetime="2026-06-27">Jun 27, 2026</time>
-            </a>
-          </li>
-        </ul>
-      </section>
-
-      <section class="doc-section">
-        <div class="doc-cta">
-          <a href="https://app.molar.it" class="btn btn-primary">Join waitlist →</a>
-          <a href="/docs/clones/stripe" class="btn btn-ghost">Stripe clone docs</a>
-        </div>
-      </section>
-
-      <a class="doc-back" href="/"><span class="arrow">←</span> Back to home</a>
+    <div class="section-label">All posts</div>
+    <div class="post-grid">
+      <a class="post-card" href="/blog/flaky-tests-causes-and-fixes">
+        <span class="pc-title">Flaky tests: root causes and durable fixes</span>
+        <span class="pc-excerpt">Timing races, shared state, drifting environments — and the fix for each.</span>
+        <span class="pc-meta"><span class="tag">Reliability</span><time datetime="2026-08-08">Aug 8</time></span>
+      </a>
+      <a class="post-card" href="/blog/self-healing-test-automation">
+        <span class="pc-title">Self-healing test automation, done right</span>
+        <span class="pc-excerpt">Locator re-ranking with approval gates — never silent rewrites.</span>
+        <span class="pc-meta"><span class="tag">Maintenance</span><time datetime="2026-08-05">Aug 5</time></span>
+      </a>
+      <a class="post-card" href="/blog/e2e-testing-best-practices">
+        <span class="pc-title">E2E best practices that survive scale</span>
+        <span class="pc-excerpt">Critical path first, user-visible selectors, deterministic data.</span>
+        <span class="pc-meta"><span class="tag">Fundamentals</span><time datetime="2026-08-01">Aug 1</time></span>
+      </a>
+      <a class="post-card" href="/blog/github-actions-playwright-ci">
+        <span class="pc-title">Playwright in GitHub Actions</span>
+        <span class="pc-excerpt">Caching, sharding, traces, and required checks that hold.</span>
+        <span class="pc-meta"><span class="tag">CI/CD</span><time datetime="2026-07-30">Jul 30</time></span>
+      </a>
+      <a class="post-card" href="/blog/required-status-checks-merge-gate">
+        <span class="pc-title">Required status checks: practical merge gates</span>
+        <span class="pc-excerpt">Branch protection that blocks broken merges — with escape hatches.</span>
+        <span class="pc-meta"><span class="tag">CI/CD</span><time datetime="2026-07-28">Jul 28</time></span>
+      </a>
+      <a class="post-card" href="/blog/synthetic-monitoring-production">
+        <span class="pc-title">Synthetic monitoring beyond uptime pings</span>
+        <span class="pc-excerpt">Flow-level checks every few minutes catch what pings can't.</span>
+        <span class="pc-meta"><span class="tag">Production</span><time datetime="2026-07-25">Jul 25</time></span>
+      </a>
+      <a class="post-card" href="/blog/test-twilio-sms-otp-flows">
+        <span class="pc-title">Testing Twilio SMS + OTP flows safely</span>
+        <span class="pc-excerpt">Deterministic codes from stateful clones — no carriers in CI.</span>
+        <span class="pc-meta"><span class="tag">Clones</span><time datetime="2026-07-22">Jul 22</time></span>
+      </a>
+      <a class="post-card" href="/blog/email-workflow-testing-otp">
+        <span class="pc-title">Email workflow testing: OTPs &amp; invites</span>
+        <span class="pc-excerpt">Assert arrival, links, and codes — no SMTP, no real inboxes.</span>
+        <span class="pc-meta"><span class="tag">Clones</span><time datetime="2026-07-19">Jul 19</time></span>
+      </a>
+      <a class="post-card" href="/blog/api-mocking-vs-service-clones">
+        <span class="pc-title">API mocking vs stateful service clones</span>
+        <span class="pc-excerpt">Mocks stub responses; clones run real vendor semantics.</span>
+        <span class="pc-meta"><span class="tag">Clones</span><time datetime="2026-07-16">Jul 16</time></span>
+      </a>
+      <a class="post-card" href="/blog/regression-testing-strategies">
+        <span class="pc-title">Regression strategies for fast-moving teams</span>
+        <span class="pc-excerpt">Risk-based selection, PR gates, insurance runs that work.</span>
+        <span class="pc-meta"><span class="tag">Fundamentals</span><time datetime="2026-07-12">Jul 12</time></span>
+      </a>
+      <a class="post-card" href="/blog/testing-third-party-apis-safely">
+        <span class="pc-title">Testing third-party APIs safely</span>
+        <span class="pc-excerpt">Stripe, SendGrid, S3 — real semantics, zero blast radius.</span>
+        <span class="pc-meta"><span class="tag">Clones</span><time datetime="2026-07-09">Jul 9</time></span>
+      </a>
+      <a class="post-card" href="/blog/continuous-testing-ci-cd-pipeline">
+        <span class="pc-title">Continuous testing in your pipeline</span>
+        <span class="pc-excerpt">What to run at commit, PR, deploy, and production.</span>
+        <span class="pc-meta"><span class="tag">CI/CD</span><time datetime="2026-07-06">Jul 6</time></span>
+      </a>
+      <a class="post-card" href="/blog/staging-environment-alternatives">
+        <span class="pc-title">Staging environments are lying to you</span>
+        <span class="pc-excerpt">Drift and dirty data — what to run against instead.</span>
+        <span class="pc-meta"><span class="tag">Environments</span><time datetime="2026-07-02">Jul 2</time></span>
+      </a>
+      <a class="post-card" href="/blog/test-stripe-without-real-cards">
+        <span class="pc-title">Test Stripe checkout without charging a card</span>
+        <span class="pc-excerpt">Stateful Stripe clones for E2E and production guard.</span>
+        <span class="pc-meta"><span class="tag">QA engineering</span><time datetime="2026-06-27">Jun 27</time></span>
+      </a>
+      <a class="post-card" href="/blog/ai-agents-future-software-testing">
+        <span class="pc-title">AI agents and the future of testing</span>
+        <span class="pc-excerpt">Agents write half the code. Who verifies it?</span>
+        <span class="pc-meta"><span class="tag">Opinion</span><time datetime="2026-06-29">Jun 29</time></span>
+      </a>
+      <a class="post-card" href="/blog/shift-left-testing-explained">
+        <span class="pc-title">Shift-left testing, explained</span>
+        <span class="pc-excerpt">Catch bugs where they're cheapest — design and PR time.</span>
+        <span class="pc-meta"><span class="tag">Fundamentals</span><time datetime="2026-06-25">Jun 25</time></span>
+      </a>
+      <a class="post-card" href="/blog/playwright-vs-cypress-comparison">
+        <span class="pc-title">Playwright vs Cypress in 2026</span>
+        <span class="pc-excerpt">Architecture, debugging, scale — an honest comparison.</span>
+        <span class="pc-meta"><span class="tag">Comparisons</span><time datetime="2026-06-22">Jun 22</time></span>
+      </a>
+      <a class="post-card" href="/blog/startup-qa-without-qa-team">
+        <span class="pc-title">Startup QA without a QA team</span>
+        <span class="pc-excerpt">Automate the money paths before you can hire QA.</span>
+        <span class="pc-meta"><span class="tag">Startups</span><time datetime="2026-06-20">Jun 20</time></span>
+      </a>
+      <a class="post-card" href="/blog/test-data-management-best-practices">
+        <span class="pc-title">Test data management best practices</span>
+        <span class="pc-excerpt">Deterministic IDs and synthetic identities kill interference.</span>
+        <span class="pc-meta"><span class="tag">Fundamentals</span><time datetime="2026-06-18">Jun 18</time></span>
+      </a>
+      <a class="post-card" href="/blog/visual-regression-testing-guide">
+        <span class="pc-title">Visual regression testing: pragmatic guide</span>
+        <span class="pc-excerpt">Diffs without noise — semantic assertions come first.</span>
+        <span class="pc-meta"><span class="tag">Fundamentals</span><time datetime="2026-06-16">Jun 16</time></span>
+      </a>
     </div>
+
+    <section class="index-cta">
+      <div>
+        <h2>Put your QA on autopilot</h2>
+        <p>Molar maps your app, authors the tests, gates your PRs, and guards production — no real cards, emails, or users harmed.</p>
+      </div>
+      <a class="btn btn-primary" href="https://app.molar.it">Verify a URL free <span class="arr">→</span></a>
+    </section>
+
+    <p class="subtle-note">Also read the <a href="/thesis">Molar thesis</a> or browse the <a href="https://docs.molar.it">documentation</a>.</p>
   </main>
-  <footer>
-    <div class="frame foot-inner">
-      <div>© 2026 Molar Labs</div>
-      <div style="display:flex;gap:24px;flex-wrap:wrap;">
-        <a href="/docs" style="color:inherit;text-decoration:none;">Docs</a>
-        <a href="/integrations/github-actions" style="color:inherit;text-decoration:none;">GitHub Actions</a>
-        <a href="https://github.com/pratikranaa/molar-it" style="color:inherit;text-decoration:none;">GitHub</a>
-      </div>
-    </div>
-  </footer>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
-  <script src="/site-config.js"></script>
-  <script type="text/babel" src="/nav.jsx"></script>
-  <script type="text/babel" src="/nav-boot.jsx"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
   <script src="/waitlist-modal.js"></script>
 </body>
 </html>

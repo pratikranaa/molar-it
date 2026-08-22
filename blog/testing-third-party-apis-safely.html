@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testing Third-Party APIs Safely | Stripe, S3, Email | Molar</title>
+  <meta name="description" content="Sandbox limitations, rate limits, fake-data drift. Destruction-safe clones give tests real API semantics with zero blast radius." />
+  <link rel="canonical" href="https://molar.it/blog/testing-third-party-apis-safely" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Testing Third-Party APIs Safely: Stripe, SendGrid, S3" />
+  <meta property="og:description" content="Sandbox limitations, rate limits, fake-data drift — and how destruction-safe clones give tests real API semantics with zero blast radius." />
+  <meta property="og:url" content="https://molar.it/blog/testing-third-party-apis-safely" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Testing Third-Party APIs Safely: Stripe, SendGrid, S3" />
+  <meta name="twitter:description" content="Sandbox limitations, rate limits, fake-data drift — and how clones fix all three." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Testing third-party APIs safely", "item": "https://molar.it/blog/testing-third-party-apis-safely" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Testing third-party APIs safely: Stripe, SendGrid, S3",
+        "description": "Sandbox limitations, rate limits, fake-data drift. Destruction-safe clones give tests real API semantics with zero blast radius.",
+        "url": "https://molar.it/blog/testing-third-party-apis-safely",
+        "datePublished": "2026-07-09",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/testing-third-party-apis-safely",
+        "keywords": "testing third-party APIs, Stripe sandbox limitations, stateful API clones, webhook signature testing"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Testing third-party APIs safely</span>
+    </nav>
+
+    <div class="post-kicker">Clones</div>
+    <h1 class="post-title">Testing third-party APIs safely: Stripe, SendGrid, S3</h1>
+    <p class="post-lede">
+      Your checkout flow touches Stripe. Your signup flow touches SendGrid and Twilio. Your upload
+      pipeline touches S3. Every one of those is a place your test suite can either lie to you or
+      cost you money. Here’s how to get real API semantics with zero blast radius.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-07-09">July 9, 2026</time>
+      <span class="dot"></span>
+      <span>10 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>Sandboxes aren’t production, and that’s the problem</h2>
+        <p>
+          Vendor sandboxes exist to help you integrate, not to absorb thousands of automated test runs
+          a day. Three failure modes show up on nearly every team we talk to:
+        </p>
+        <ul>
+          <li>
+            <strong>No behavioral parity.</strong> Test mode happily accepts the magic test card, but it won’t
+            decline based on velocity, won’t surface 3DS challenges the same way, and rarely fires the dispute
+            or refund webhooks your code actually has to handle. You pass in the sandbox and fail in production.
+          </li>
+          <li>
+            <strong>Shared rate limits.</strong> Your CI queue isn’t the only tenant hammering a sandbox. When a
+            vendor throttles test traffic globally, your pipeline turns red for reasons that have nothing to do
+            with your code — a special circle of flaky-test hell documented at length in our piece on
+            <a href="/blog/flaky-tests-causes-and-fixes">flaky tests and their fixes</a>.
+          </li>
+          <li>
+            <strong>Fake-data drift.</strong> Sandboxes accumulate months of other integrators’ test objects.
+            Search endpoints return strangers’ records, idempotency keys collide, and list responses grow until
+            pagination assumptions quietly break. We cover the cleanup side of this in
+            <a href="/blog/test-data-management-best-practices">test data management</a>.
+          </li>
+        </ul>
+        <p>
+          None of this means sandboxes are bad — they’re just not designed as test infrastructure. Treating them
+          like infrastructure is how teams end up with suites that are simultaneously slow, flaky, and shallow.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>The live-key rules that keep you safe</h2>
+        <p>
+          Some teams skip the sandbox entirely and point tests at production APIs with real keys. Don’t — unless
+          you enforce hard guardrails. The minimum set:
+        </p>
+        <ul>
+          <li><strong>Refuse live credentials in CI.</strong> Fail the build at startup if any configured key matches a live prefix (<code>sk_live_</code>, a production Twilio SID, a bucket without <code>-test</code>).</li>
+          <li><strong>Allow-list test cards and numbers.</strong> Only known-inert values may appear in fixtures.</li>
+          <li><strong>Cap spend and side effects.</strong> Hard ceilings per run, checked before each call.</li>
+          <li><strong>Separate accounts entirely.</strong> A dedicated sub-account for tests, so even a mistake can’t touch customer data.</li>
+        </ul>
+        <div class="post-callout warn">
+          Make the live-key check a hard startup assertion, not a lint rule: read every credential your test
+          config can see, and abort the run if any of them looks production-shaped. A lint rule gets disabled
+          during a “quick fix”; an assertion that crashes CI at 3 a.m. does not.
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>Mocks are fast; clones are honest</h2>
+        <p>
+          The usual fix is to mock the third party. HTTP-level mocks (WireMock, MSW, stub servers) are fast and
+          deterministic, but they only know what you taught them — which is usually the happy path from the docs.
+          They can’t tell you that your retry loop breaks on Stripe’s real <code>idempotency_error</code> shape,
+          or that your webhook handler chokes on event ordering.
+        </p>
+        <p>
+          A stateful clone sits between the extremes: it speaks the vendor’s API contract <em>and</em> keeps
+          state across calls. Create a customer, charge them, refund them — each step sees the effects of the
+          last, with deterministic IDs and realistic error semantics, but no money moves and no email leaves.
+          We compare the tradeoffs in detail in
+          <a href="/blog/api-mocking-vs-service-clones">API mocking vs. service clones</a>, and walk through
+          payments specifically in <a href="/blog/test-stripe-without-real-cards">testing Stripe without real cards</a>.
+        </p>
+        <p>
+          The practical split we recommend: mocks for edge-case status codes you want to simulate on demand,
+          clones for any flow where state accumulates — checkout, subscription lifecycle, OTP delivery, file
+          upload then download. For SMS and email verification flows, clones pair naturally with inbox
+          capture; see <a href="/blog/test-twilio-sms-otp-flows">Twilio SMS/OTP testing</a> and
+          <a href="/blog/email-workflow-testing-otp">email workflow testing</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>World snapshot / restore</h2>
+        <p>
+          Once your dependencies hold state, tests start interfering with each other: one run’s refund becomes
+          another run’s unexpected balance. The fix borrowed from database testing is snapshot and restore —
+          capture the entire simulated world before a scenario, restore it after, or fork it per worker:
+        </p>
+        <pre><code># Fork an isolated world per parallel worker,
+# seeded from a known-good baseline
+world := clones.Fork("checkout-baseline@v14")
+defer world.Discard()
+
+stripe := world.Stripe()
+cust, _ := stripe.Customers.Create(...)
+charge, _ := stripe.Charges.Create(cust.ID, 4200, "usd")
+
+// assert, mutate, break things — nothing leaks
+refund, _ := stripe.Refunds.Create(charge.ID)
+if cust.Balance != -4200 { t.Fatal("balance not updated") }</code></pre>
+        <p>
+          Two properties matter more than the mechanism. First, restore must be <em>cheap</em> — sub-second — or
+          teams will batch scenarios and lose isolation anyway. Second, snapshots should be named and versioned
+          like fixtures, so a test failure can say “reproducible against <code>baseline@v14</code>” instead of
+          “works on my machine.”
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Webhooks: signature parity or it didn’t happen</h2>
+        <p>
+          Most third-party integrations have two halves: the API you call, and the webhooks that call you.
+          Mocks usually skip the second half entirely, which is why webhook handlers are chronically untested.
+          A clone that emits events must also sign them exactly as the vendor does — same header format, same
+          timestamp tolerance, same HMAC scheme — so your verification code runs for real:
+        </p>
+        <pre><code>// Your existing handler, unchanged, verifying a cloned event
+const event = stripe.webhooks.constructEvent(
+  rawBody,                       // exact bytes the clone sent
+  req.headers['stripe-signature'],
+  process.env.STRIPE_WEBHOOK_SECRET
+);
+if (event.type === 'charge.refunded') { ... }</code></pre>
+        <p>
+          Test the unhappy paths too: replayed events (same ID, second delivery), stale timestamps outside the
+          tolerance window, and signatures computed with the wrong secret. Those three cases cause most real
+          webhook incidents, and none of them are reachable through a sandbox UI.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">06</span>A rollout checklist</h2>
+        <ul>
+          <li><strong>Inventory</strong> every third-party call in critical flows: payments, email, SMS, storage, auth.</li>
+          <li><strong>Classify</strong>: read-only (safe-ish), stateful (needs clones), side-effecting (never live).</li>
+          <li><strong>Swap</strong> stateful dependencies to clones via env-based base URLs — no code changes.</li>
+          <li><strong>Add</strong> the live-key refusal assertion to CI startup.</li>
+          <li><strong>Seed</strong> named world snapshots for each critical flow; version them with the app.</li>
+          <li><strong>Prove</strong> webhook handling with signed cloned events, including replays and bad signatures.</li>
+        </ul>
+        <p>
+          Molar ships destruction-safe clones of Stripe, Twilio, email, S3, auth, and GitHub behind this exact
+          model — deterministic IDs, virtual clock for expiry-sensitive logic, snapshot/restore per run — and
+          Trace records every cloned interaction as evidence next to DOM and network captures. If you want the
+          deeper walkthrough for one vendor, start with
+          <a href="/blog/test-stripe-without-real-cards">Stripe without real cards</a>.
+        </p>
+        <div class="post-cta">
+          <h2>Run your scariest tests with zero blast radius</h2>
+          <p>Molar gives your suite stateful clones of Stripe, S3, email, SMS and auth — real semantics, deterministic IDs, nothing destructive ever leaves the building.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="post-related-grid">
+        <a class="related-card" href="/blog/test-stripe-without-real-cards">
+          <span class="rc-tag">Payments</span>
+          <span class="rc-title">Testing Stripe without real cards</span>
+        </a>
+        <a class="related-card" href="/blog/api-mocking-vs-service-clones">
+          <span class="rc-tag">Test doubles</span>
+          <span class="rc-title">API mocking vs. service clones</span>
+        </a>
+        <a class="related-card" href="/blog/test-twilio-sms-otp-flows">
+          <span class="rc-tag">Messaging</span>
+          <span class="rc-title">Testing Twilio SMS and OTP flows</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>

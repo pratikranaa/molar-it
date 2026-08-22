@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Workflow Testing: OTPs, Invites, Notifications | Molar</title>
+  <meta name="description" content="Verify the whole email path in tests — delivery, links, codes — without SMTP or real inboxes. Deterministic and instant." />
+  <link rel="canonical" href="https://molar.it/blog/email-workflow-testing-otp" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Email Workflow Testing: OTPs, Invites, Notifications" />
+  <meta property="og:description" content="Verify the whole email path in tests — delivery, links, codes — without SMTP or real inboxes. Deterministic and instant." />
+  <meta property="og:url" content="https://molar.it/blog/email-workflow-testing-otp" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Email Workflow Testing: OTPs, Invites, Notifications" />
+  <meta name="twitter:description" content="Assert on arrival, links, and codes. Unique-per-run addresses, extraction helpers, zero real inboxes." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Email workflow testing", "item": "https://molar.it/blog/email-workflow-testing-otp" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Email workflow testing: OTPs, invites, notifications",
+        "description": "Verify the whole email path in tests — delivery, links, codes — without SMTP or real inboxes. Deterministic and instant.",
+        "url": "https://molar.it/blog/email-workflow-testing-otp",
+        "datePublished": "2026-07-19",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/email-workflow-testing-otp",
+        "keywords": "email testing automation, OTP verification testing, transactional email tests, magic link testing"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Email workflow testing</span>
+    </nav>
+
+    <div class="post-kicker">Clones</div>
+    <h1 class="post-title">Email workflow testing: OTPs, invites, notifications</h1>
+    <p class="post-lede">
+      Signup, password reset, team invites, receipts — half your product’s most important moments end in an inbox.
+      If your tests stop at “form submitted,” they’re not covering the flow users actually experience.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-07-19">July 19, 2026</time>
+      <span class="dot"></span>
+      <span>8 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>The inbox is part of your app surface</h2>
+        <p>
+          Consider a normal B2B signup: user submits the form → receives a verification code → confirms → gets a
+          team invite → clicks a link → lands in the app. Three of five steps happen outside your UI, over email.
+          A test suite that mocks the mailer with “assume sent” verifies nothing: broken templates, wrong merge
+          fields, dead links, expired tokens, and missing emails all ship to production looking green.
+        </p>
+        <p>
+          Teams avoid asserting on email because the traditional options are bad. Real SMTP through a provider is
+          slow (seconds to minutes per message), costs money at CI volume, risks sending actual mail to actual
+          people, and gives you no clean programmatic inbox to assert against. Shared Gmail test inboxes accumulate
+          state across runs and trip spam filters. What you need instead is a mail system built for machines —
+          which is exactly what an <a href="/blog/testing-third-party-apis-safely">email clone</a> provides:
+          SMTP/API compatible, instantly delivered, fully inspectable.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>What to actually assert</h2>
+        <p>
+          For every transactional email your app sends, three properties are worth verifying in E2E tests:
+        </p>
+        <ul>
+          <li><strong>Arrival.</strong> The right email reaches the right address within your SLA window — one assertion catches the entire broken-template / crashed-worker class of bugs.</li>
+          <li><strong>Links.</strong> Every actionable URL resolves: extract it from the message, request or navigate it, assert the destination state (“reset confirmed”, not a 404). This catches token-expiry misconfigurations and base-URL drift between environments.</li>
+          <li><strong>Codes.</strong> For OTP flows, extract the code and drive the UI with it — proving the full loop works, not just that something was rendered.</li>
+        </ul>
+        <pre><code>test('password reset completes via emailed link', async ({ page }) => {
+  await requestReset(page, 'ci-run-a7f3+user@mail.clone');
+  const mail = await clone.waitForMessage({
+    to: 'ci-run-a7f3+user@mail.clone',
+    subjectContains: 'Reset your password',
+    timeoutMs: 5_000,
+  });
+  const link = mail.links.find(l => l.href.includes('/reset/'));
+  await page.goto(link.href);
+  await page.fill('#new-password', 'correct-horse-battery');
+  await expect(page.getByText('Password updated')).toBeVisible();
+});</code></pre>
+        <p>
+          Notice what’s <em>not</em> asserted here: pixel-perfect rendering of the template. That belongs in a
+          separate, slower template-snapshot job, not in the critical path of every run.
+        </p>
+        <p>
+          Apply the same three-part lens to the other transactional types. Invites: assert the email reaches the
+          invitee, the accept link lands them in the right workspace with the right role, and a stale or already-
+          accepted link shows a sensible state instead of an error. Notifications (receipts, shipping, alerts):
+          assert arrival and that dynamic fields rendered with real values — “Your order #1042 shipped” not “Your
+          order #undefined shipped.” Merge-field bugs are embarrassing precisely because they only appear in the
+          email body, which is exactly where untested suites never look.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>Unique-per-run addresses</h2>
+        <p>
+          The single biggest source of email-test flakiness is address reuse. If two runs read from
+          <code>test@example.com</code>, run B sees run A’s messages, filters get confused, and parallel workers
+          corrupt each other’s assertions. Give every run its own namespace instead — plus-addressing or a
+          wildcard catch-all domain both work:
+        </p>
+        <ul>
+          <li><code>run-{CI_JOB_ID}+signup@clone.test</code> — sortable, greppable, self-documenting.</li>
+          <li>Anything <code>@clone.test</code> is accepted by the mail clone, so you never provision addresses.</li>
+        </ul>
+        <p>
+          Unique addresses make assertions trivially race-free: “wait for exactly one message to this exact
+          address” has no cross-talk by construction. They also make cleanup honest — purge by prefix after the
+          run, and nothing leaks between jobs. This is standard
+          <a href="/blog/test-data-management-best-practices">test data hygiene</a> applied to the mailbox.
+        </p>
+        <div class="post-callout warn">
+          Never point automated tests at domains you don’t control. A typo’d recipient on a live provider is how
+          test traffic becomes accidental email to strangers — with your product’s name on it. Clones keep every
+          message inside the run sandbox; nothing leaves the machine.
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>Code extraction helpers</h2>
+        <p>
+          OTP emails vary in format — “Your code is 123456”, spaced digits, embedded buttons. Centralize parsing
+          in one helper so template changes break one place, not forty tests:
+        </p>
+        <pre><code>// helpers/mail.ts
+export function extractOtp(mail) {
+  const m = mail.text.match(/\b(\d[\s-]?){5}(\d)\b/g)?.[0];
+  if (!m) throw new Error(`No OTP found in: ${mail.subject}`);
+  return m.replace(/\D/g, '');
+}
+
+export async function latestCodeTo(clone, addr) {
+  const mail = await clone.waitForMessage({ to: addr, timeoutMs: 5_000 });
+  return extractOtp(mail);
+}</code></pre>
+        <p>
+          Beyond codes, expose two more primitives from the same helper: <code>linksFor(addr)</code> returning
+          parsed anchor hrefs (so link assertions stay one line), and <code>assertNoMessage(addr, subject)</code>
+          for the negative cases teams forget — password reset on an account that doesn’t exist must not send
+          anything, or you’ve built a user-enumeration oracle. Negative email assertions are impossible with real
+          inboxes (absence is indistinguishable from slow delivery) and trivial with a deterministic clone.
+        </p>
+        <p>
+          Two details worth stealing: fail loudly with the raw body in the error (debugging “why didn’t my regex
+          match” without the payload is misery), and prefer waiting on subject + recipient rather than sleep —
+          polling a deterministic clone returns in milliseconds anyway.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>No real inbox: safety and determinism by default</h2>
+        <p>
+          The clone approach removes the entire risk surface of real-mail testing: no sends to third parties, no
+          provider rate limits in CI, no deliverability lottery, no cost scaling with run count. Delivery is local
+          and synchronous-fast, which means an OTP step adds milliseconds, not minutes — keeping suites under the
+          latency budget where developers actually run them. It composes with the rest of your stack too: pair it
+          with the SMS side described in <a href="/blog/test-twilio-sms-otp-flows">Twilio OTP testing</a>, and run
+          the whole thing on a schedule against staging as part of your
+          <a href="/blog/regression-testing-strategies">regression strategy</a>.
+        </p>
+        <p>
+          Molar’s email clone ships as part of the platform’s clone set — alongside Stripe, Twilio, auth, S3, and
+          GitHub — with Trace capturing each message as evidence next to DOM snapshots and network logs. When an
+          invite flow fails, you see the exact email the system produced, not a screenshot of its absence.
+        </p>
+        <div class="post-cta">
+          <h2>Test the full email path, inbox included</h2>
+          <p>Molar’s email clone delivers instantly, accepts any address, and hands every code and link to your tests as data. No SMTP servers, no real recipients, no flakes.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/blog/test-twilio-sms-otp-flows">
+          <span class="rc-tag">Clones</span>
+          <span class="rc-title">Testing Twilio SMS and OTP flows without real numbers</span>
+        </a>
+        <a class="related-card" href="/blog/test-data-management-best-practices">
+          <span class="rc-tag">Data</span>
+          <span class="rc-title">Test data management best practices</span>
+        </a>
+        <a class="related-card" href="/blog/testing-third-party-apis-safely">
+          <span class="rc-tag">Integrations</span>
+          <span class="rc-title">Testing third-party APIs safely</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>

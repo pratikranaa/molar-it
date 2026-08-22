@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Mocking vs Stateful Service Clones | Molar</title>
+  <meta name="description" content="Mocks stub responses; clones run stateful vendor semantics — webhooks included. When each is right." />
+  <link rel="canonical" href="https://molar.it/blog/api-mocking-vs-service-clones" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="API Mocking vs Stateful Service Clones" />
+  <meta property="og:description" content="Mocks stub responses; clones run stateful vendor semantics — webhooks included. When each is right." />
+  <meta property="og:url" content="https://molar.it/blog/api-mocking-vs-service-clones" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="API Mocking vs Stateful Service Clones" />
+  <meta name="twitter:description" content="Fidelity, statefulness, webhooks, drift, blast radius — where mocks win and where clones win." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "API mocking vs service clones", "item": "https://molar.it/blog/api-mocking-vs-service-clones" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "API mocking vs stateful service clones",
+        "description": "Mocks stub responses; clones run stateful vendor semantics — webhooks included. When each is right.",
+        "url": "https://molar.it/blog/api-mocking-vs-service-clones",
+        "datePublished": "2026-07-16",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/api-mocking-vs-service-clones",
+        "keywords": "API mocking vs service virtualization, stateful mock server, Stripe testing clone, integration test doubles"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>API mocking vs service clones</span>
+    </nav>
+
+    <div class="post-kicker">Clones</div>
+    <h1 class="post-title">API mocking vs stateful service clones</h1>
+    <p class="post-lede">
+      Both replace a third-party API in tests. They are not interchangeable. A mock returns what you told it to;
+      a clone behaves the way the vendor does. Knowing which problem you’re solving decides which one you need.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-07-16">July 16, 2026</time>
+      <span class="dot"></span>
+      <span>9 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>Two tools that look similar and aren’t</h2>
+        <p>
+          An HTTP mock (WireMock, MSW, a stubbed fetch) intercepts requests and plays back canned responses.
+          It’s fast, cheap, and perfectly suited to unit-level work. A stateful service clone is a different
+          animal: it re-implements a vendor’s actual behavior — resource lifecycle, ID conventions, error codes,
+          webhook delivery, signature schemes — behind the same endpoints, so your application can run against it
+          unmodified for entire end-to-end flows.
+        </p>
+        <p>
+          The confusion happens because both show up as “the Stripe call didn’t hit real Stripe.” The differences
+          show up in what your tests can assert. Five dimensions matter: fidelity, statefulness, webhooks,
+          maintenance cost, and blast radius.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>Fidelity</h2>
+        <p>
+          A mock’s fidelity is exactly one response deep. You recorded
+          <code>{ "id": "pi_123", "status": "succeeded" }</code>, so every payment succeeds — until you need the
+          failure path, then you record another fixture. Real vendors have combinatorial behavior: idempotency-key
+          replays return the original result, card errors arrive as structured declines with specific codes,
+          partial captures change subsequent refund semantics. Encoding all of that in fixtures means hand-writing
+          a simulator anyway, badly.
+        </p>
+        <p>
+          A clone encodes vendor semantics once, in code: request an idempotent charge twice and you get the same
+          payment intent; use a test decline card and you get the real decline payload shape. Your assertions stop
+          checking “our handler ran” and start checking “our handler handled the thing the vendor actually sends.”
+          That distinction is the whole difference between unit confidence and
+          <a href="/blog/e2e-testing-best-practices">end-to-end confidence</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>Statefulness</h2>
+        <p>
+          Mocks are amnesiac by design. Ask a mock “did the customer I created three steps ago already exist?” and
+          it shrugs — every request is answered from the script, with no memory between them. Multi-step flows
+          collapse under this: create customer → attach card → charge → refund requires either one giant canned
+          response or brittle sequencing logic layered on top of the mocker.
+        </p>
+        <pre><code>// Against a clone, state accumulates like the real service:
+const cust = await stripe.customers.create({ email });
+await stripe.paymentIntents.create({ customer: cust.id, amount: 4200, ... });
+const list = await stripe.paymentIntents.list({ customer: cust.id });
+expect(list.data).toHaveLength(1);   // true because the clone remembers
+
+// Against a mock, this assertion is fiction — you scripted the list response.</code></pre>
+        <p>
+          Statefulness also buys you deterministic IDs and snapshot/restore: seed a known world, run the flow,
+          reset between tests. That combination is what makes suites parallel-safe instead of
+          serial-and-hopeful — see <a href="/blog/test-data-management-best-practices">test data management</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>Webhooks and signatures</h2>
+        <p>
+          Half of a modern integration is inbound: Stripe webhooks firing on payment success, Twilio status
+          callbacks, GitHub delivery events. Mocks handle this awkwardly — most teams end up calling their own
+          webhook endpoint directly with a hand-built payload, which bypasses signature verification entirely and
+          tests a fantasy shape.
+        </p>
+        <p>
+          A clone emits webhooks as part of normal operation: the charge succeeds because your app created it,
+          the callback fires because the charge succeeded, and it arrives correctly signed so your verification
+          middleware runs for real. You can also inject edge events (retries, out-of-order deliveries) deliberately:
+        </p>
+        <div class="post-callout signal">
+          If your webhook handler has never been tested against a replayed event with a valid signature, you don’t
+          know whether your idempotency guard works. That single gap causes duplicate charges in production more
+          often than any UI bug.
+        </div>
+        <p>
+          This is also where clones beat even live sandboxes: real vendor sandboxes deliver webhooks when they feel
+          like it, through the public internet. A local clone delivers them deterministically, in-process.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Maintenance drift</h2>
+        <p>
+          Mocks rot silently. Vendors add fields, deprecate endpoints, and change error taxonomies; your fixtures
+          keep returning 2019-shaped responses and nothing tells you. The failure mode isn’t a red test — it’s a
+          green suite guarding code that no longer matches reality, discovered during an incident.
+        </p>
+        <p>
+          Clones drift too, but controllably: the divergence lives in one implementation per vendor, which you
+          update when the vendor changes — and a thin contract check against the live API (run weekly, manually
+          triggered) surfaces drift immediately. With mocks, the divergence is smeared across hundreds of fixture
+          files owned by nobody. For a deeper treatment of the safety question, see
+          <a href="/blog/testing-third-party-apis-safely">testing third-party APIs safely</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">06</span>Blast radius</h2>
+        <p>
+          Blast radius is about what breaks when the substitute is wrong. A wrong mock fails your unit test —
+          cheap, contained, fixable in seconds. But mocks used beyond their station fail outward: a checkout E2E
+          passing against scripted responses while the real integration is broken ships straight to production,
+          because everyone trusted the green build.
+        </p>
+        <p>
+          Clones invert this. Their blast radius is bounded by design — no money moves, no emails leave, no SMS
+          sends — while their behavior stays close enough to production that a green E2E suite actually means
+          something. That’s the trade worth making at the system boundary. Molar ships clones for Stripe, Twilio,
+          email, auth, S3, and GitHub as one coordinated set, wired into its
+          <a href="/blog/test-stripe-without-real-cards">payment-flow testing</a> and CI gating so the substitution
+          is automatic rather than per-project plumbing.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">07</span>The verdict: mocks for units, clones for paths</h2>
+        <p>
+          The honest answer is that these solve different problems, and mature teams use both:
+        </p>
+        <ul>
+          <li><strong>Use mocks</strong> for pure business logic: pricing rules, retry policies, form validation. Speed dominates; the dependency is incidental.</li>
+          <li><strong>Use clones</strong> anywhere the interaction itself matters: checkout, OTP verification, file storage, OAuth. Semantics dominate; a fake that doesn’t behave is worse than none.</li>
+          <li><strong>Keep one thin live-contract check</strong> against each vendor to catch drift — scheduled, not blocking, never in the hot PR loop.</li>
+        </ul>
+        <p>
+          If you’re evaluating substitutes for a specific tool, our comparisons of
+          <a href="/vs/wiremock">WireMock-style mockers</a> cover where static stubs top out. And if your flows
+          span several vendors at once — pay, notify, verify — a coordinated clone set beats stitching five mockers
+          together, as the recipes in <a href="/blog/test-twilio-sms-otp-flows">Twilio OTP testing</a> and
+          <a href="/blog/email-workflow-testing-otp">email workflow testing</a> demonstrate.
+        </p>
+        <div class="post-cta">
+          <h2>Stop choosing between fake and flaky</h2>
+          <p>Molar’s stateful clones speak real vendor APIs with deterministic behavior — payments, SMS, email, auth — so your E2E tests mean something without touching production services.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/blog/test-stripe-without-real-cards">
+          <span class="rc-tag">Clones</span>
+          <span class="rc-title">Test Stripe checkout without real cards</span>
+        </a>
+        <a class="related-card" href="/blog/test-twilio-sms-otp-flows">
+          <span class="rc-tag">Clones</span>
+          <span class="rc-title">Testing Twilio SMS and OTP flows without real numbers</span>
+        </a>
+        <a class="related-card" href="/blog/testing-third-party-apis-safely">
+          <span class="rc-tag">Integrations</span>
+          <span class="rc-title">Testing third-party APIs safely</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testing Twilio SMS + OTP Flows Safely | Molar</title>
+  <meta name="description" content="Real SMS is slow, costly, and flaky in CI. Stateful Twilio clones deliver OTPs instantly with deterministic codes." />
+  <link rel="canonical" href="https://molar.it/blog/test-twilio-sms-otp-flows" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Testing Twilio SMS and OTP Flows Without Real Numbers" />
+  <meta property="og:description" content="Real SMS is slow, costly, and flaky in CI. Stateful Twilio clones deliver OTPs instantly with deterministic codes." />
+  <meta property="og:url" content="https://molar.it/blog/test-twilio-sms-otp-flows" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Testing Twilio SMS and OTP Flows Without Real Numbers" />
+  <meta name="twitter:description" content="Stateful Twilio clones: same endpoints, deterministic codes, virtual clock for expiry, webhook parity." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Testing Twilio SMS and OTP flows", "item": "https://molar.it/blog/test-twilio-sms-otp-flows" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Testing Twilio SMS and OTP flows without real numbers",
+        "description": "Real SMS is slow, costly, and flaky in CI. Stateful Twilio clones deliver OTPs instantly with deterministic codes.",
+        "url": "https://molar.it/blog/test-twilio-sms-otp-flows",
+        "datePublished": "2026-07-22",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/test-twilio-sms-otp-flows",
+        "keywords": "Twilio test automation, SMS OTP testing, phone verification testing, Twilio mock service"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Testing Twilio SMS and OTP flows</span>
+    </nav>
+
+    <div class="post-kicker">Clones</div>
+    <h1 class="post-title">Testing Twilio SMS and OTP flows without real numbers</h1>
+    <p class="post-lede">
+      Phone verification is on the critical path of most signups — and it’s the flow teams skip testing because
+      real SMS feels untestable. It isn’t. A stateful clone gives you the same API surface with none of the pain.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-07-22">July 22, 2026</time>
+      <span class="dot"></span>
+      <span>8 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>Why real SMS breaks CI</h2>
+        <p>
+          Pointing your test suite at a live messaging provider fails in four predictable ways:
+        </p>
+        <ul>
+          <li><strong>Cost.</strong> Every verification sends a billable message. A suite that runs 200 times a day across PRs turns your test budget into an invoice line item.</li>
+          <li><strong>Latency.</strong> Real delivery takes seconds to minutes. A 30-second OTP wait inside a 90-second Playwright timeout is a coin flip.</li>
+          <li><strong>Carrier filtering.</strong> Carriers aggressively filter A2P traffic to short-code ranges and test-looking numbers. Messages silently vanish; your test can’t distinguish “code not sent” from “code lost.”</li>
+          <li><strong>Nondeterminism.</strong> Codes arrive out of order, retries collide, shared test numbers accumulate state from other runs. The result is exactly the kind of intermittent red described in our guide to <a href="/blog/flaky-tests-causes-and-fixes">flaky tests</a>.</li>
+        </ul>
+        <p>
+          Some teams buy dedicated test phone numbers or negotiate sandbox access. Both still route through carrier
+          networks, so latency and loss remain — you’ve paid for a faster coin flip, not determinism. Number pools
+          shared across CI jobs introduce a subtler failure: two pipelines verifying against the same number
+          concurrently, each consuming the other’s codes. The fix is removing the network from the loop entirely,
+          which is what service clones are for.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>Clone semantics: same endpoints, deterministic codes</h2>
+        <p>
+          A Twilio clone implements the provider’s API contract — message create, lookup, verification services,
+          the works — but keeps every message in a local, inspectable store. Your application doesn’t change: it
+          still POSTs to a base URL, still reads back status callbacks. Only the base URL points at the clone.
+        </p>
+        <pre><code># App code is unchanged except TWILIO_BASE_URL
+curl -X POST "$CLONE/2010-04-01/Accounts/ACxxx/Messages.json" \
+  -d To=+15550100042 -d From=+15550001111 \
+  -d Body="Your code is 491722"
+
+# The clone stores it deterministically — fetch it like the real API
+curl "$CLONE/2010-04-01/Accounts/ACxxx/Messages.json?To=%2B15550100042"
+# → {"messages":[{"body":"Your code is 491722","status":"delivered", ...}]}</code></pre>
+        <p>
+          Determinism is the point: for a given seed, the clone issues the same codes, in the same order, with the
+          same timestamps. Your assertions stop guessing and start knowing. And because nothing leaves the machine,
+          there’s no cost per run and no PII touching a third party — the same safety argument we make for
+          <a href="/blog/testing-third-party-apis-safely">third-party APIs in general</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>The virtual clock: testing expiry properly</h2>
+        <p>
+          OTP expiry is where hand-rolled tests give up. Nobody wants to wait five minutes for a code to lapse, so
+          expiry logic ships untested until it breaks. A clone with a virtual clock solves this cleanly: advance
+          simulated time, then act.
+        </p>
+        <pre><code>// Advance the clone's clock past expiry, then try the stale code
+await clock.advance({ seconds: 301 });
+await page.fill('#otp-input', codeFromClone);   // issued at t=0
+await page.click('text=Verify');
+await expect(page.getByText('Code expired')).toBeVisible();
+
+// Request again → new code, old code rejected even if typed correctly
+const fresh = await clone.getLatestCode('+15550100042');
+expect(fresh).not.toBe(codeFromClone);</code></pre>
+        <p>
+          This covers the whole family of time bugs: resend throttles, retry lockouts after N attempts,
+          “code valid for X minutes” copy drifting from server truth, and replay attempts. These are precisely
+          the behaviors attackers probe, which makes them worth automating rather than spot-checking by hand.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>Webhook parity</h2>
+        <p>
+          Most integrations don’t poll — they consume webhooks: delivery receipts, inbound replies (STOP/HELP),
+          verification status events. If your clone only fakes the REST API, you’ve tested half the surface. Look
+          for three things in any substitute:
+        </p>
+        <ul>
+          <li><strong>Lifecycle parity.</strong> queued → sent → delivered transitions fire in order, with realistic timing you control.</li>
+          <li><strong>Signature correctness.</strong> Callbacks carry valid request signatures so your verification middleware is exercised, not bypassed.</li>
+          <li><strong>Inbound simulation.</strong> You can inject an inbound “STOP” reply and assert your suppression logic fires.</li>
+        </ul>
+        <pre><code>// Simulate an inbound STOP and verify opt-out handling
+await clone.injectInboundSms({ from: '+15550100042', body: 'STOP' });
+await expect.poll(() => clone.suppressionList())
+  .toContain('+15550100042');</code></pre>
+        <p>
+          Webhook parity also changes what you can test about <em>ordering</em>. Real providers retry undelivered
+          callbacks and can deliver events out of order under load; a clone lets you replay those conditions on
+          demand instead of waiting for a bad day in production. Assert that a duplicate
+          <code>verification.completed</code> event is absorbed idempotently, that a status callback for a message
+          your app never sent is rejected, and that signature failures return 403 rather than 500 — small checks
+          that each map to a real outage class.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Wiring it into the suite</h2>
+        <p>
+          In practice the pattern is small: point your app’s provider credentials at the clone before boot, run
+          your flows, pull codes out of the clone when the UI asks for them.
+        </p>
+        <pre><code>// Playwright fixture
+export async function otpFor(phone) {
+  const msg = await clone.latestMessageTo(phone);
+  return msg.body.match(/\b(\d{6})\b/)[1];
+}
+test('signup verifies by phone', async ({ page }) => {
+  await signup(page, '+15550100042');
+  await page.fill('#otp', await otpFor('+15550100042'));
+  await expect(page.getByRole('heading', { name: 'Welcome' })).toBeVisible();
+});</code></pre>
+        <p>
+          Molar ships Twilio, email, Stripe, auth, and S3 clones as one system, so a single scenario can mix an
+          SMS code, a confirmation email, and a test-mode charge without real accounts anywhere. For the email side
+          of the same pattern, see <a href="/blog/email-workflow-testing-otp">email workflow testing</a>; for the
+          payments leg, <a href="/blog/test-stripe-without-real-cards">Stripe testing without real cards</a>.
+        </p>
+        <div class="post-callout">
+          Keep one smoke check against the live provider behind a manual trigger. Clones verify <em>your</em> logic;
+          a weekly manual pass confirms the vendor hasn’t changed their contract underneath you.
+        </div>
+        <div class="post-cta">
+          <h2>Run OTP flows in CI without a single real SMS</h2>
+          <p>Molar’s Twilio clone speaks the real API, issues deterministic codes, bends time for expiry tests, and fires signed webhooks. No numbers rented, no bills accrued.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/blog/email-workflow-testing-otp">
+          <span class="rc-tag">Clones</span>
+          <span class="rc-title">Email workflow testing: OTPs, invites, notifications</span>
+        </a>
+        <a class="related-card" href="/blog/test-stripe-without-real-cards">
+          <span class="rc-tag">Clones</span>
+          <span class="rc-title">Test Stripe checkout without real cards</span>
+        </a>
+        <a class="related-card" href="/blog/testing-third-party-apis-safely">
+          <span class="rc-tag">Integrations</span>
+          <span class="rc-title">Testing third-party APIs safely</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Continuous Testing in Your CI/CD Pipeline | Molar</title>
+  <meta name="description" content="Where tests belong across commit, PR, deploy, and production — and what to run at each stage without killing velocity." />
+  <link rel="canonical" href="https://molar.it/blog/continuous-testing-ci-cd-pipeline" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Continuous Testing in Your CI/CD Pipeline" />
+  <meta property="og:description" content="Where tests belong across commit, PR, deploy, and production — and what to run at each stage without killing velocity." />
+  <meta property="og:url" content="https://molar.it/blog/continuous-testing-ci-cd-pipeline" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Continuous Testing in Your CI/CD Pipeline" />
+  <meta name="twitter:description" content="A stage-by-stage policy for what to run at commit, PR, deploy, and production." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Continuous testing in your CI/CD pipeline", "item": "https://molar.it/blog/continuous-testing-ci-cd-pipeline" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Continuous testing in your CI/CD pipeline",
+        "description": "Where tests belong across commit, PR, deploy, and production — and what to run at each stage without killing velocity.",
+        "url": "https://molar.it/blog/continuous-testing-ci-cd-pipeline",
+        "datePublished": "2026-07-06",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/continuous-testing-ci-cd-pipeline",
+        "keywords": "continuous testing, CI/CD test strategy, smoke tests after deploy, production monitoring tests"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Continuous testing in your CI/CD pipeline</span>
+    </nav>
+
+    <div class="post-kicker">CI/CD</div>
+    <h1 class="post-title">Continuous testing in your CI/CD pipeline</h1>
+    <p class="post-lede">
+      “Run all the tests on every push” is not a strategy — it’s how pipelines end up taking forty minutes
+      and getting bypassed. Continuous testing works when every stage has a policy: what runs, what it may
+      cost, and what feedback it owes the developer.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-07-06">July 6, 2026</time>
+      <span class="dot"></span>
+      <span>9 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>The feedback budget comes first</h2>
+        <p>
+          Before deciding what to run where, decide what developers are allowed to wait for. A workable
+          budget for most teams:
+        </p>
+        <ul>
+          <li><strong>Pre-push / commit:</strong> under 2 minutes, or people stop running it locally.</li>
+          <li><strong>Pull request:</strong> under 10 minutes wall-clock for required checks, or reviewers context-switch and merges stall.</li>
+          <li><strong>Deploy:</strong> under 5 minutes for smoke, because it blocks the release itself.</li>
+          <li><strong>Scheduled (production):</strong> unbounded runtime is fine — nobody is waiting.</li>
+        </ul>
+        <p>
+          The budgets are the strategy. Anything that can’t fit a stage’s budget moves right — to a later
+          stage where waiting is acceptable — instead of slowing the earlier one. This is the core of the
+          shift-left discipline we describe in
+          <a href="/blog/shift-left-testing-explained">shift-left testing for shipping teams</a>: catch bugs
+          early, but only pay for early detection where it’s cheap.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>Commit stage: seconds, not minutes</h2>
+        <p>
+          What runs before code even reaches shared branches should be nearly free: lint, typecheck, unit
+          tests, maybe a fast subset of integration tests against containers. The goal is not coverage —
+          it’s a tight loop that catches the majority of mechanical mistakes.
+        </p>
+        <pre><code># package.json — the local loop stays under ~90s
+{
+  "scripts": {
+    "check": "npm run lint && npm run typecheck && vitest run --changed HEAD"
+  }
+}</code></pre>
+        <p>
+          Note <code>--changed</code>: running only tests affected by the diff keeps the loop honest as the
+          suite grows. If your “fast” stage regularly exceeds its budget, the fix is almost always sharding,
+          caching, or moving slow tests right — never asking developers to wait longer.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>PR stage: critical-path E2E behind required checks</h2>
+        <p>
+          The pull request is where behavior verification belongs. Run end-to-end tests over the critical
+          paths your change could plausibly affect — signup, login, checkout, the top three workflows by
+          traffic — plus targeted regression tests derived from the diff.
+        </p>
+        <p>
+          Two mechanisms make this stage real rather than decorative. First, the checks must be
+          <em>required</em>, so a red mark actually blocks merge — we walk through that configuration in
+          <a href="/blog/required-status-checks-merge-gate">required status checks as a merge gate</a>.
+          Second, flaky failures must be quarantined within hours, not weeks, because a gate that fails
+          randomly gets admin-overridden into oblivion. The Playwright plumbing itself is covered step by
+          step in <a href="/blog/github-actions-playwright-ci">Playwright in GitHub Actions</a>.
+        </p>
+        <pre><code># .github/workflows/pr-e2e.yml (excerpt)
+jobs:
+  critical-path:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx playwright install --with-deps
+      - run: npx playwright test e2e/critical --shard=${{ matrix.shard }}/4
+        env:
+          STRIPE_BASE_URL: http://localhost:12111   # clone, not sandbox
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with: { name: traces, path: e2e/test-results }</code></pre>
+        <div class="post-callout signal">
+          Track one number per week: median PR check time. If it creeps past your stated budget, move tests —
+          don’t add parallel runners and call it fixed. Hardware hides policy debt for about a quarter.
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>Deploy stage: smoke, then promote</h2>
+        <p>
+          After deploy to an environment, run a smoke suite: one pass through each critical flow against the
+          deployed artifact, using cloned third parties so it neither spends money nor sends email. Smoke
+          tests assert “the release can serve users,” not “every feature works.” Five minutes, hard limit;
+          anything deeper belongs to scheduled production testing.
+        </p>
+        <p>
+          Promote only on green. The value here isn’t catching logic bugs — those were caught at PR time —
+          it’s catching <em>deployment</em> bugs: missing env vars, wrong migrations, CDN misconfig, the
+          staging-parity gaps described in
+          <a href="/blog/staging-environment-alternatives">why staging lies to you</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Production stage: schedules, not releases</h2>
+        <p>
+          The last stage runs continuously against production with read-only or marked identities: synthetic
+          logins, search, checkout up to (but not through) payment, API contract probes. This is the safety
+          net for everything upstream can’t see — real data shapes, real CDN behavior, real vendor drift.
+          We cover the design in <a href="/blog/synthetic-monitoring-production">synthetic monitoring for
+          production</a>; the broader cadence map is in our guide to
+          <a href="/blog/regression-testing-strategies">regression testing strategies</a>.
+        </p>
+        <pre><code># Every 15 minutes, from three regions
+- name: login → dashboard loads &lt; 2s
+- name: search returns seeded result
+- name: api/v1/orders schema matches OpenAPI
+# Alert routing: page only on 2 consecutive failures, same region</code></pre>
+      </section>
+
+      <section>
+        <h2><span class="h-num">06</span>Artifacts close the loop</h2>
+        <p>
+          A failed check without evidence is a support ticket; a failed check with evidence is a diagnosis.
+          Attach trace links to the PR — video, DOM snapshots, network log, console output, and the exact
+          cloned third-party interactions — so the author debugs from the comment thread instead of
+          reproducing locally. Molar posts these artifacts automatically: Guard runs the suites as required
+          GitHub checks and attaches a Trace replay to every failure, which cuts most “can’t reproduce”
+          exchanges out of review entirely.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">07</span>The three ways pipelines rot</h2>
+        <ul>
+          <li><strong>Budget creep.</strong> Each new feature adds “just one more” PR test until median check time doubles and engineers start merging on red. Re-audit against the budget quarterly and move tests right.</li>
+          <li><strong>Flake debt.</strong> Retries hide flaky tests instead of fixing them; the retry count becomes your real reliability metric. Track first-run pass rate per suite and quarantine anything below it.</li>
+          <li><strong>Orphaned stages.</strong> Deploy smoke keeps running for an app whose flows changed months ago, asserting a UI that no longer exists. Every scheduled stage needs an owner who edits its scenarios as the product changes.</li>
+        </ul>
+        <p>
+          None of these are tooling problems; all three are policy problems with tooling symptoms. Write
+          the policy down — budgets, quarantine rules, stage owners — and revisit it whenever someone says
+          “CI is slow again.”
+        </p>
+        <div class="post-cta">
+          <h2>Pipeline checks your team will actually trust</h2>
+          <p>Molar gates PRs with critical-path tests backed by destruction-safe clones, then keeps watching production on a schedule — with trace evidence on every failure.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="post-related-grid">
+        <a class="related-card" href="/blog/github-actions-playwright-ci">
+          <span class="rc-tag">CI/CD</span>
+          <span class="rc-title">Playwright in GitHub Actions: PR gating that holds</span>
+        </a>
+        <a class="related-card" href="/blog/required-status-checks-merge-gate">
+          <span class="rc-tag">Process</span>
+          <span class="rc-title">Required status checks as a merge gate</span>
+        </a>
+        <a class="related-card" href="/blog/synthetic-monitoring-production">
+          <span class="rc-tag">Production</span>
+          <span class="rc-title">Synthetic monitoring for production apps</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>

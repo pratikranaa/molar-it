@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Regression Testing Strategies for Fast Teams | Molar</title>
+  <meta name="description" content="Full suites don't scale; skipping tests doesn't either. Risk-based selection, PR gates, and insurance runs that work." />
+  <link rel="canonical" href="https://molar.it/blog/regression-testing-strategies" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Regression Testing Strategies for Fast-Moving Teams" />
+  <meta property="og:description" content="Full suites don't scale; skipping tests doesn't either. Risk-based selection, PR gates, and insurance runs that work." />
+  <meta property="og:url" content="https://molar.it/blog/regression-testing-strategies" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Regression Testing Strategies for Fast-Moving Teams" />
+  <meta name="twitter:description" content="Risk-based selection from diffs, affected-flow analysis, nightly insurance, quarantine policy, escape rate." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Regression testing strategies", "item": "https://molar.it/blog/regression-testing-strategies" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Regression testing strategies for fast-moving teams",
+        "description": "Full suites don't scale; skipping tests doesn't either. Risk-based selection, PR gates, and insurance runs that work.",
+        "url": "https://molar.it/blog/regression-testing-strategies",
+        "datePublished": "2026-07-12",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/regression-testing-strategies",
+        "keywords": "regression testing strategy, risk-based test selection, test impact analysis, PR merge gate testing"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Regression testing strategies</span>
+    </nav>
+
+    <div class="post-kicker">Fundamentals</div>
+    <h1 class="post-title">Regression testing strategies for fast-moving teams</h1>
+    <p class="post-lede">
+      Run the whole suite on every PR and merges queue for an hour. Skip tests and regressions ship daily.
+      Teams that move fast without breaking things aren’t choosing between those poles — they’re running a
+      different system.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-07-12">July 12, 2026</time>
+      <span class="dot"></span>
+      <span>10 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>The scaling trap</h2>
+        <p>
+          Regression suites fail in a predictable way as teams grow. At five engineers, “run everything on every
+          push” works — a 10-minute suite is invisible. At fifty engineers with a 90-minute E2E suite, the math
+          stops working: ten concurrent PRs contend for runners, feedback latency kills flow state, and engineers
+          start batching changes to “make CI worth it,” which multiplies both merge conflicts and risk.
+        </p>
+        <p>
+          The standard responses are both wrong. Cutting the suite (“we’ll rely on code review”) trades known
+          costs for unknown ones — production incidents that a 30-second check would have caught. And brute-forcing
+          with more machines hits an economic wall: E2E suites grow superlinearly in runtime because flows share
+          setup and interact. The exit is not more hardware or fewer tests. It’s running the <em>right</em> tests,
+          at the right time, with full knowledge of what changed.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>Risk-based selection starts from the diff</h2>
+        <p>
+          A pull request is a hypothesis about what it affects. Selection should encode exactly that hypothesis:
+          map files to modules to user flows, then run the tests that exercise the touched surface plus everything
+          downstream of it.
+        </p>
+        <pre><code># .molar/policy.yaml - selection policy, versioned like code
+rules:
+  - touch: "src/checkout/**"
+    run_flows: [cart, checkout, order-confirmation, refunds]
+  - touch: ["src/auth/**"]
+    run_flows: [signup, login, password-reset, session-security]
+  - touch: "package-lock.json"
+    run_flows: all            # dependency bumps get everything
+always_run: [smoke]           # ~3 min, never skipped</code></pre>
+        <p>
+          The payoff is concrete: a PR that edits invoice rendering runs four flows (4 minutes) instead of sixty
+          (55 minutes), while a dependency bump still gets the world. Keep the mapping in the repo, reviewed like
+          code, because it <em>is</em> code — it encodes your beliefs about coupling, and stale mappings rot into
+          silent gaps. This is also where AI-authored suites change the economics: when
+          <a href="/blog/ai-playwright-test-generation">test generation is cheap</a>, covering every affected flow
+          stops being a headcount problem.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>Affected-flow analysis beats path matching</h2>
+        <p>
+          File-path rules are the floor, not the ceiling. A change to a shared component or an API response shape
+          touches flows its path never mentions. The stronger version builds an actual dependency graph: which
+          routes render this component, which flows traverse those routes, which API endpoints feed them.
+        </p>
+        <pre><code>$ molar affected --diff HEAD~3..HEAD
+→ src/components/PricingTable.tsx changed
+→ rendered on /pricing, /upgrade (2 routes)
+→ traversed by flows: upgrade-plan, checkout (shared step: plan-select)
+→ API deps: GET /api/plans (shape unchanged)
+✓ Selected 7 specs, estimated 6m12s (full suite: 54m)</code></pre>
+        <p>
+          Two failure modes to design against. Over-selection (everything depends on everything) usually means a
+          shared utility needs decoupling — treat it as architecture signal, not a tool bug. Under-selection is the
+          dangerous one, and you catch it with data: when a nightly run finds a regression your selection missed,
+          trace back which edge was absent from the graph and add it. Escape analysis feeds selection accuracy;
+          see the measurement section below.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>The nightly full suite is insurance, not gating</h2>
+        <p>
+          Even good selection has blind spots: interactions between flows, environment drift, vendor behavior
+          changes, cache poisoning that only manifests after hours of activity. The nightly full run exists to
+          catch exactly those. Treat it as insurance — nobody waits on it to merge — but take its failures
+          seriously: anything red at night that was green on merge is either a real cross-flow regression or a
+          flaky test, and triage decides which within the morning.
+        </p>
+        <ul>
+          <li><strong>Schedule it off-peak</strong> against production-like data, using clones for third-party side effects so the run is safe to repeat (<a href="/blog/staging-environment-alternatives">no dedicated staging needed</a>).</li>
+          <li><strong>Capture evidence per flow</strong> — traces, network logs, DOM snapshots — so morning triage is reading, not re-running.</li>
+          <li><strong>Track suite duration weekly.</strong> A nightly that creeps from 40 to 90 minutes is telling you something about test debt before the PR gate feels it.</li>
+        </ul>
+        <p>
+          Production schedules extend the same idea outward: Guard-style recurring checks against live environments
+          catch what no pre-merge suite can — CDN issues, cert expiry, vendor drift. That’s the complement to
+          <a href="/blog/synthetic-monitoring-production">synthetic monitoring</a>, not a replacement for the nightly.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Quarantine and snooze: policy, not vibes</h2>
+        <p>
+          Flaky tests are where regression programs die. Not because flakes are unfixable — most have diagnosable
+          causes (<a href="/blog/flaky-tests-causes-and-fixes">root causes and fixes here</a>) — but because teams
+          lack a shared policy, so every engineer improvises: mute it, delete it, retry-until-green, ignore red.
+          Write the policy down instead:
+        </p>
+        <ul>
+          <li><strong>Quarantine means tracked.</strong> A quarantined test moves out of the gate, gets an owner and a ticket, and shows up on a dashboard. It does not vanish.</li>
+          <li><strong>Time-boxed hard.</strong> Fourteen days default. Quarantine without expiry is how suites rot while dashboards stay green.</li>
+          <li><strong>Snooze ≠ quarantine.</strong> Snoozing a known-flaky test during a feature branch is fine; quarantining a failing test to ship a release requires the owner’s name next to it.</li>
+          <li><strong>Budget the rate.</strong> If more than ~1–2% of the suite is quarantined at steady state, stop merging features and fix reliability — the gate’s credibility is the product.</li>
+        </ul>
+        <div class="post-callout warn">
+          The graveyard pattern is the most common way regression suites die: tests get quarantined, the quarantine
+          list grows, nobody remembers why, and eventually the suite “passes” by testing nothing. Expiry dates and
+          named owners are the entire defense.
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">06</span>Measure escape rate, not vanity coverage</h2>
+        <p>
+          The only number that tells you whether any of this works is <strong>escape rate</strong>: regressions
+          that reached users divided by total regressions found, over time. Everything else — coverage percent,
+          test count, suite runtime — is an input metric that can look great while customers find bugs first.
+        </p>
+        <pre><code>escape_rate = bugs_found_in_production_with_regression_origin
+            / (same_numerator + regressions_caught_by_suite)
+
+# Track monthly, segment by area:
+2026-03   18%   (checkout 4, auth 2, billing UI 3)
+2026-06    9%   (checkout 1, auth 1)
+# Every escape → write the missing test + trace why selection missed it</code></pre>
+        <p>
+          Pair it with two operational metrics: <strong>time-to-feedback</strong> on the PR gate (target: under ten
+          minutes, or developers context-switch) and <strong>detection latency</strong> for production issues (how
+          long between a synthetic check failing and a human acting). Escapes going down while feedback stays fast
+          is the whole game. When escapes cluster in one area, that’s your selection graph missing edges — fix the
+          mapping, then let the <a href="/blog/self-healing-test-automation">self-healing layer</a> absorb the
+          locator churn those new tests will hit.
+        </p>
+        <p>
+          Finally, make the gate itself non-negotiable: required status checks turn “please run the tests” into
+          physics. The mechanics are in our guide to
+          <a href="/blog/required-status-checks-merge-gate">required checks as a merge gate</a>.
+        </p>
+        <div class="post-cta">
+          <h2>A regression system that scales with your team</h2>
+          <p>Molar maps your app’s flows once, selects the right tests per PR, runs nightly insurance with full evidence, and monitors production on schedules — so speed and safety stop trading off.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/blog/required-status-checks-merge-gate">
+          <span class="rc-tag">CI/CD</span>
+          <span class="rc-title">Required status checks: the merge gate that holds</span>
+        </a>
+        <a class="related-card" href="/blog/synthetic-monitoring-production">
+          <span class="rc-tag">Production</span>
+          <span class="rc-title">Synthetic monitoring for production, beyond uptime pings</span>
+        </a>
+        <a class="related-card" href="/blog/flaky-tests-causes-and-fixes">
+          <span class="rc-tag">Reliability</span>
+          <span class="rc-title">Flaky tests: root causes and durable fixes</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>
