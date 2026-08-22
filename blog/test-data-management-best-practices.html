@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Data Management Best Practices That Scale | Molar</title>
+  <meta name="description" content="Deterministic IDs, seeded state, synthetic identities, PII hygiene. Test data rules that kill cross-test interference." />
+  <link rel="canonical" href="https://molar.it/blog/test-data-management-best-practices" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Test data management best practices" />
+  <meta property="og:description" content="Deterministic IDs, seeded state, synthetic identities, PII hygiene — test data rules that kill cross-test interference." />
+  <meta property="og:url" content="https://molar.it/blog/test-data-management-best-practices" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Test data management best practices" />
+  <meta name="twitter:description" content="Unique-per-run data, deterministic factories, synthetic identities, PII hygiene." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Test data management", "item": "https://molar.it/blog/test-data-management-best-practices" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Test data management best practices",
+        "description": "Deterministic IDs, seeded state, synthetic identities, PII hygiene — test data rules that kill cross-test interference.",
+        "url": "https://molar.it/blog/test-data-management-best-practices",
+        "datePublished": "2026-06-18",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/test-data-management-best-practices",
+        "keywords": "test data management, test isolation best practices, synthetic test data, PII masking in test environments"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Test data management</span>
+    </nav>
+
+    <div class="post-kicker">Fundamentals</div>
+    <h1 class="post-title">Test data management best practices</h1>
+    <p class="post-lede">
+      Most suites labeled “flaky” are actually suffering from shared state: two tests quietly fighting over
+      the same rows, mailboxes, and accounts. Fix the data model and the flakes vanish. These five rules are
+      the whole discipline.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-06-18">June 18, 2026</time>
+      <span class="dot"></span>
+      <span>9 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>Shared state is where flakiness is born</h2>
+        <p>
+          The canonical failure: two tests both operate on <code>test@example.com</code>. Run alone, each
+          passes. Run together, one deletes the user the other is mid-session with. The suite becomes
+          order-dependent — it passes today because of alphabetical file naming, fails Tuesday when someone
+          renames a spec. Retries don’t fix this; they convert a deterministic bug into an intermittent one,
+          which is strictly worse to debug.
+        </p>
+        <p>
+          The diagnostic is simple: if you can’t run any subset of your suite in parallel against the same
+          environment, your tests share state. The fix is structural, not procedural — no amount of
+          “please clean up after yourselves” survives contact with real parallelism. Everything below exists
+          to make every test hermetic by construction.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>Rule 1: unique-per-run data beats cleanup</h2>
+        <p>
+          The cheapest isolation is collision-proof identifiers. Every user, org, project, and invoice a
+          test creates gets a unique suffix generated at runtime:
+        </p>
+        <pre><code>import { nanoid } from 'nanoid';
+
+export const newUser = (role: 'member' | 'admin' = 'member') => ({
+  email: `qa-${runId()}-${nanoid(8)}@example.test`, // .test is reserved, never routable
+  plan: 'free',
+  role,
+});</code></pre>
+        <p>
+          Note the tradeoff honestly: unique emails make local debugging harder (“which row was mine?”).
+          Mitigate with structure — a stable <code>qa-</code> prefix, the CI run id, then randomness — so a
+          DBA can find everything from one run with a single <code>LIKE 'qa-4812-%'</code>. Never share
+          accounts between tests, even sequentially; “it passed locally” is usually shared-state luck.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>Rule 2: deterministic seeds and factories</h2>
+        <p>
+          Randomness inside a test should be seeded or it’s a future flake. If your factory uses Faker,
+          seed it per run (<code>Faker.seed(42)</code>) so failures reproduce. Freeze anything time-shaped:
+          inject a clock rather than reading wall time, so “invoice due next month” means the same thing in
+          August and February.
+        </p>
+        <p>
+          Prefer factories over committed fixtures. A checked-in <code>users.json</code> drifts silently
+          from your schema until the night someone adds a <code>NOT NULL</code> column. Factories derive
+          data from current code, so schema migrations break loudly at build time instead of softly at 2am.
+          Keep seed scripts versioned alongside migrations — schema and baseline state move as one unit.
+          For deeper background on why order-dependent suites rot, see our
+          <a href="/blog/flaky-tests-causes-and-fixes">flaky-tests causes and fixes</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>Rule 3: synthetic identities that announce themselves</h2>
+        <p>
+          Test identities should be unmistakable at a glance and harmless in reality. Email plus-addressing
+          gives you both properties: <code>qa+signup-4812@yourdomain.test</code> routes into one monitored
+          inbox yet stays unique per flow and per run. Adopt a written policy for the rest:
+        </p>
+        <ul>
+          <li><strong>Names:</strong> obviously fake (“QA BOT”, “Test Runner”), never realistic personas.</li>
+          <li><strong>Phones:</strong> reserved/fictional ranges only, backed by an SMS clone — never a real SIM.</li>
+          <li><strong>Emails/SMS delivery:</strong> disposable inboxes and cloned providers, not employee mailboxes. We show the OTP pattern for <a href="/blog/email-workflow-testing-otp">email verification flows</a> and <a href="/blog/test-twilio-sms-otp-flows">Twilio-style SMS codes</a>.</li>
+          <li><strong>Never</strong> touch records belonging to real customers, domains, or employees — not even read-only “just to check.”</li>
+        </ul>
+        <p>
+          Marked identities pay off downstream: support can spot them instantly, analytics filters exclude
+          them by prefix, and incident triage never confuses a test storm with an outage.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Rule 4: PII minimization and masking</h2>
+        <p>
+          Don’t copy production data into staging wholesale — it’s the fastest way to turn a test
+          environment into an unmonitored data breach. Prefer generating synthetic data shaped like
+          production (same cardinalities, same edge cases) over masking real people. When masking is
+          unavoidable, do it deterministically: the same input always maps to the same surrogate, so joins,
+          foreign keys, and dedup logic keep working.
+        </p>
+        <p>
+          Extend hygiene to artifacts: traces, videos, and console logs capture whatever the page rendered.
+          Redact at capture time for anything user-shaped, and treat screenshot storage like production
+          storage, because it effectively is one.
+        </p>
+        <div class="post-callout warn">
+          A frozen snapshot of production data is still processing personal data. GDPR/CCPA erasure requests
+          don’t reach your staging bucket or old CI caches — which makes unmasked copies a compliance
+          liability, not just a security one.
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">06</span>Rule 5: cleanup vs snapshot/restore</h2>
+        <p>
+          Cleanup scripts are the polite fiction of test data management: under parallelism they race.
+          Two runs deleting “their” rows by prefix will eventually collide on a foreign key, a unique
+          index, or a cache. Deletion-based isolation scales poorly precisely when your suite gets fast
+          enough for it to matter.
+        </p>
+        <p>
+          The structural alternative is snapshot/restore: give each worker an ephemeral database, seed it
+          once from a golden image (schema + baseline data), and let the run trash it freely. Restore is
+          O(seconds), cleanup becomes irrelevant, and parallelism is bounded only by hardware. Costs to
+          weigh: image size, image drift (rebuild the golden snapshot whenever migrations land). The
+          pragmatic hybrid most teams converge on is an ephemeral database per worker, booted with
+          migrations plus a small deterministic seed. Third-party side effects get the same treatment via
+          service clones instead of shared vendor sandboxes — we compare the approaches in
+          <a href="/blog/api-mocking-vs-service-clones">API mocking vs service clones</a>, and the wider
+          environment question in <a href="/blog/staging-environment-alternatives">staging alternatives</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">07</span>The six rules, recapped</h2>
+        <ul>
+          <li><strong>Unique-per-run identifiers</strong> for everything a test creates — structured, searchable prefixes.</li>
+          <li><strong>Determinism everywhere:</strong> seeded generators, injected clocks, factories over frozen fixtures.</li>
+          <li><strong>Synthetic marked identities:</strong> plus-addressed email, fictional phones, clone-backed OTP.</li>
+          <li><strong>No raw production PII:</strong> synthesize where possible; mask deterministically when not.</li>
+          <li><strong>Snapshot/restore over cleanup scripts</strong> once the suite runs in parallel.</li>
+          <li><strong>Treat artifacts as data:</strong> redact traces and screenshots like the production systems they are.</li>
+        </ul>
+        <p>
+          Teams that adopt these rules report their “flaky test” backlog shrinking to near zero — because
+          most of it was never timing bad luck. It was two tests sharing a row.
+        </p>
+        <div class="post-cta">
+          <h2>Hermetic data without the infrastructure work</h2>
+          <p>Molar’s clones give every run its own Stripe, mailbox, and SMS numbers, and generated tests use unique identities by default.</p>
+          <p>Your suite stays parallel-safe as it grows — start free.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/blog/api-mocking-vs-service-clones">
+          <span class="rc-tag">Clones</span>
+          <span class="rc-title">API mocking vs stateful service clones</span>
+        </a>
+        <a class="related-card" href="/blog/flaky-tests-causes-and-fixes">
+          <span class="rc-tag">Reliability</span>
+          <span class="rc-title">Flaky tests: root causes and durable fixes</span>
+        </a>
+        <a class="related-card" href="/blog/staging-environment-alternatives">
+          <span class="rc-tag">Environments</span>
+          <span class="rc-title">Staging environment alternatives that hold up</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>

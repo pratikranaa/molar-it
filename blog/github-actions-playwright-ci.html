@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playwright in GitHub Actions: PR Gating Guide | Molar</title>
+  <meta name="description" content="Set up Playwright in GitHub Actions: caching, sharding, traces, required checks that block merges without drowning CI." />
+  <link rel="canonical" href="https://molar.it/blog/github-actions-playwright-ci" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Playwright in GitHub Actions: PR Gating That Holds" />
+  <meta property="og:description" content="Caching, sharding, traces, and required checks — a Playwright CI setup on GitHub Actions that blocks real regressions without drowning the team." />
+  <meta property="og:url" content="https://molar.it/blog/github-actions-playwright-ci" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Playwright in GitHub Actions: PR Gating That Holds" />
+  <meta name="twitter:description" content="Caching, sharding, traces, and required checks for Playwright CI that holds." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Playwright in GitHub Actions", "item": "https://molar.it/blog/github-actions-playwright-ci" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Playwright in GitHub Actions: PR gating that holds",
+        "description": "Set up Playwright in GitHub Actions: caching, sharding, traces, required checks that block merges without drowning CI.",
+        "url": "https://molar.it/blog/github-actions-playwright-ci",
+        "datePublished": "2026-07-30",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/github-actions-playwright-ci",
+        "keywords": "playwright github actions, playwright ci pipeline, pr gating, e2e test automation"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Playwright in GitHub Actions</span>
+    </nav>
+
+    <div class="post-kicker">CI/CD</div>
+    <h1 class="post-title">Playwright in GitHub Actions: PR gating that holds</h1>
+    <p class="post-lede">
+      A Playwright job that runs on every pull request is easy. One that merges fast, fails only for real
+      reasons, and hands you a debuggable trace when it does — that takes deliberate configuration. Here is
+      the setup: a baseline workflow, caching, sharding, failure artifacts, and the path to checks that
+      genuinely block merges.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-07-30">July 30, 2026</time>
+      <span class="dot"></span>
+      <span>10 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>The baseline workflow</h2>
+        <p>
+          Start with one workflow that runs on pull requests and on pushes to main. The version below already
+          includes the three decisions most teams retrofit later: matrix sharding, blob-report merging, and
+          artifact upload scoped to failures. We’ll unpack each in the following sections.
+        </p>
+        <pre><code>name: e2e
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run tests (shard)
+        run: npx playwright test --shard=${{ matrix.shard }}/4 --reporter=blob
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: blob-report-${{ matrix.shard }}
+          path: blob-report/
+          retention-days: 7
+
+  merge-reports:
+    if: ${{ always() }}
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          path: all-reports
+          merge-multiple: true
+      - run: npx playwright merge-reports --reporter=html ./all-reports
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: html-report
+          path: playwright-report/
+          retention-days: 7</code></pre>
+        <p>
+          Note <code>fail-fast: false</code>: with it unset, one flaky shard cancels the others mid-run and you
+          lose half your evidence. The tradeoff is paying for full execution even after an early failure — worth
+          it, because parallel evidence from the other shards often contains the trace that explains the first one.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>Cache what’s slow</h2>
+        <p>
+          Two things dominate cold-start time: dependency installation and browser binaries. The
+          <code>cache: npm</code> input above handles dependencies by hashing the lockfile. Browsers need explicit
+          handling — roughly 130MB per browser plus system deps, typically 30–60 seconds of install per run:
+        </p>
+        <pre><code>- uses: actions/cache@v4
+  with:
+    path: ~/.cache/ms-playwright
+    key: pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}</code></pre>
+        <p>
+          Keying on the lockfile works because Playwright versions are pinned there; bump the version, the key
+          changes, the cache rebuilds once, and every subsequent run restores instantly. Keep
+          <code>npx playwright install --with-deps chromium</code> in the workflow regardless — cache hits make
+          it near-instant, misses make it correct. Only install browsers you actually use; installing all three
+          engines triples download time for zero benefit.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>Shard until PRs wait minutes, not quarters of an hour</h2>
+        <p>
+          Sharding splits the suite across matrix jobs. Pick the target wall-clock time first, then derive shard
+          count: a 36-minute serial suite across 4 shards lands around 9–10 minutes including overhead.
+          Playwright balances shards by test count; if durations vary wildly, sort specs into size buckets or
+          split known-slow files so no single shard dominates. Watch for two scaling ceilings: shared backend
+          contention (parallel shards hammering one database turn into a different kind of red), and per-shard
+          fixed costs (checkout, install, boot) that set a floor around 3–5 minutes no matter how few tests each
+          shard holds.
+        </p>
+        <p>
+          If sharding exposes order dependence — tests failing only under some shard arrangements — fix the
+          dependence, not the arrangement. That class of bug is covered in the isolation section of our
+          <a href="/blog/e2e-testing-best-practices">E2E practices guide</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>Traces and artifacts on failure</h2>
+        <p>
+          Configure capture in <code>playwright.config.ts</code> so every CI failure arrives debuggable:
+        </p>
+        <pre><code>export default defineConfig({
+  retries: process.env.CI ? 1 : 0,
+  use: {
+    trace: 'retain-on-failure',
+    video: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+  },
+});</code></pre>
+        <p>
+          With <code>retries: 1</code>, a transient environmental hiccup absorbs itself while the trace records
+          both attempts — you keep velocity without losing signal, provided someone reviews what needed retrying
+          (see the flake policy below). Open any captured trace with
+          <code>npx playwright show-trace trace.zip</code> or upload it as an artifact as the baseline workflow
+          does. What separates a two-minute diagnosis from an hour-long one is usually just this: the DOM,
+          network waterfall, and console at the moment of failure. Molar extends the same idea with deterministic
+          replay — DOM, network, console, and clone state side by side — but the principle is identical; our
+          <a href="/vs/playwright-trace">Trace comparison</a> covers the differences. Keep
+          <code>retention-days</code> short (7) on high-churn PR artifacts; storage costs compound quietly.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Make the check required — carefully</h2>
+        <p>
+          A green-required gate starts with naming. Branch protection references check names exactly, and a
+          matrix job produces one check per shard named like <code>e2e / test (1)</code>, <code>(2)</code>,
+          and so on. Require either each shard explicitly or add a final aggregate job whose success means “all
+          shards passed” — the latter survives future shard-count changes without editing protection rules.
+          The exact configuration steps are in our
+          <a href="/blog/required-status-checks-merge-gate">required status checks guide</a>, and the
+          <a href="/integrations/github-actions">GitHub Actions integration page</a> shows how Guard reports its
+          own verdicts as native check runs.
+        </p>
+        <p>
+          Why gating discipline matters more every year: GitHub reported that 46% of code in enabled repositories
+          is now AI-generated (GitHub, 2026). When humans write less of the diff by hand, machine-verified gates
+          carry proportionally more of the safety burden — a gate that can be trained-around is a liability at
+          exactly the moment usage patterns are drifting that way.
+        </p>
+        <div class="post-callout">
+          Concurrency saves real money on busy repos. Add <code>concurrency: { group: e2e-${{ github.ref }},
+          cancel-in-progress: true }</code> so new pushes cancel superseded runs instead of queueing behind them.
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">06</span>Keep the gate honest as the suite grows</h2>
+        <p>
+          CI quality decays through retries, not failures. Cap retries at one in CI, review which tests consume
+          them weekly, and quarantine repeat offenders out of the blocking set with an owner and expiry — the
+          full policy lives in our <a href="/blog/flaky-tests-causes-and-fixes">flaky-tests guide</a>. Run the
+          complete suite nightly rather than forcing every edge case onto PRs; a fast required smoke on every PR
+          plus a thorough scheduled run catches more regressions per minute of engineer attention than a
+          monolithic blocking suite ever will. This tiered shape is the core of
+          <a href="/blog/continuous-testing-ci-cd-pipeline">continuous testing in the CI/CD pipeline</a>.
+        </p>
+        <p>
+          The end state to aim for: every pull request gets sub-10-minute E2E feedback it can trust, every
+          failure arrives with enough evidence to diagnose without a local reproduction, and the merge gate
+          stays green for exactly one reason — the app actually works.
+        </p>
+        <div class="post-cta">
+          <h2>Gates that hold, evidence that ships</h2>
+          <p>Molar runs your scenarios in hermetic clones, reports pass, fail, and flaky as distinct check states, and attaches full replay evidence to every failure.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/blog/required-status-checks-merge-gate">
+          <span class="rc-tag">CI/CD</span>
+          <span class="rc-title">Required status checks: a practical merge-gate guide</span>
+        </a>
+        <a class="related-card" href="/blog/e2e-testing-best-practices">
+          <span class="rc-tag">Fundamentals</span>
+          <span class="rc-title">E2E testing best practices that survive scale</span>
+        </a>
+        <a class="related-card" href="/blog/flaky-tests-causes-and-fixes">
+          <span class="rc-tag">Reliability</span>
+          <span class="rc-title">Flaky tests: root causes and durable fixes</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>

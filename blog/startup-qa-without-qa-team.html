@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Startup QA Without a QA Team | Molar</title>
+  <meta name="description" content="You can't hire QA before PMF. Critical-path automation, PR gates, production guard — a lean playbook for founders." />
+  <link rel="canonical" href="https://molar.it/blog/startup-qa-without-qa-team" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Startup QA without a QA team" />
+  <meta property="og:description" content="Critical-path automation, PR gates, and production guard — the lean QA playbook for founders who can't hire yet." />
+  <meta property="og:url" content="https://molar.it/blog/startup-qa-without-qa-team" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Startup QA without a QA team" />
+  <meta name="twitter:description" content="Automate the money paths, block merges on them, watch production — without hiring." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Startup QA without a QA team", "item": "https://molar.it/blog/startup-qa-without-qa-team" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Startup QA without a QA team",
+        "description": "Critical-path automation, PR gates, and production guard — the lean QA playbook for founders who can't hire yet.",
+        "url": "https://molar.it/blog/startup-qa-without-qa-team",
+        "datePublished": "2026-06-20",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/startup-qa-without-qa-team",
+        "keywords": "startup QA strategy, QA without QA team, critical path test automation, PR merge gate for startups"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Startup QA without a QA team</span>
+    </nav>
+
+    <div class="post-kicker">Startups</div>
+    <h1 class="post-title">Startup QA without a QA team</h1>
+    <p class="post-lede">
+      You will not hire QA before product-market fit, and you shouldn’t try. What you can do in an
+      afternoon is protect the few flows that generate revenue — with automation, a merge gate, and
+      scheduled production checks. Here’s the playbook we’d run.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-06-20">June 20, 2026</time>
+      <span class="dot"></span>
+      <span>8 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>The founder-time math nobody runs</h2>
+        <p>
+          Run the arithmetic you’d run for any other expense. Say you deploy daily and spend twenty minutes
+          manually clicking through signup and checkout before each deploy. That’s roughly eighty hours a
+          year of founder time doing what a script does in ninety seconds — but the hours aren’t even the
+          real cost. The real cost is the deploys where you skip the check because you’re shipping from a
+          cab, and one of those skipped checks is a broken checkout discovered by a customer.
+        </p>
+        <p>
+          The second hidden cost is velocity tax. When confidence is manual, engineers batch changes into
+          riskier releases (“one deploy, fewer checks”), which makes every failure bigger and slower to
+          bisect. Automation isn’t headcount substitution — it’s what lets a three-person team ship daily
+          without holding their breath. The principles in our
+          <a href="/blog/e2e-testing-best-practices">e2e best-practices guide</a> apply at every company
+          size; this post is about sequencing them when time is the scarcest resource.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>Find the money paths first</h2>
+        <p>
+          Draw your revenue graph as literally as you can on a whiteboard: anonymous visitor → signup →
+          activation (the action that makes someone stay) → upgrade → renewal. Every edge where “broken”
+          means “revenue lost” or “user churned” is a money path. For most SaaS that’s five edges or fewer:
+          signup with email verification, login plus password reset, the core value action, checkout, and
+          subscription changes or cancellation.
+        </p>
+        <p>
+          Everything else — settings pages, admin panels, nice-to-have filters — waits. Not forever, just
+          until the money paths are guarded. Sequencing by blast radius rather than by ease-of-automation is
+          the single highest-leverage decision in a small team’s test strategy.
+        </p>
+        <div class="post-callout warn">
+          Coverage theater is the classic startup mistake: automating theme toggles while checkout is
+          verified by vibes. A green suite that skips the money paths protects nothing worth protecting.
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>Automate the top five flows — nothing else yet</h2>
+        <p>
+          Write (or generate) one test per money path, end to end, against something that behaves like
+          production. Two details make or break this at startup scale. First, synthetic data: every run gets
+          its own identity so tests never collide — see
+          <a href="/blog/test-data-management-best-practices">test data rules that scale</a>. Second,
+          third-party safety: your checkout test must not hit live Stripe or a real mailbox. Stateful clones
+          speak Stripe’s API, accept <code>4242…</code>, and never move money —
+          <a href="/blog/test-stripe-without-real-cards">here’s how that works for cards</a>, and the same
+          pattern covers OTP email and SMS.
+        </p>
+        <pre><code>// e2e/money-paths.spec.ts — one guard per revenue edge
+test('signup → upgrade', async ({ page }) => {
+  const inbox = await clone.createMailbox();     // disposable, no real email
+  await page.goto('/signup');
+  await page.getByLabel('Work email').fill(inbox.address);
+  await page.getByRole('button', { name: 'Create account' }).click();
+  await inbox.waitForOtp();                      // verification code arrives via clone
+  await completeOtp(page, inbox);
+
+  await page.getByRole('button', { name: 'Upgrade to Pro' }).click();
+  await fillCard(page, '4242 4242 4242 4242');   // clone card, no real charge
+  await expect(page.getByTestId('plan-badge')).toHaveText('Pro');
+});</code></pre>
+        <p>
+          Five tests like this cover the majority of catastrophic-regression surface. Resist the urge to
+          build coverage breadth before you have depth on these five.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>Make them required checks</h2>
+        <p>
+          A suite that runs “when someone remembers” is documentation, not protection. Wire the money paths
+          into CI on every pull request and mark them as required status checks so GitHub blocks merge on
+          red — the exact setup is in
+          <a href="/blog/required-status-checks-merge-gate">required status checks as a merge gate</a>, with
+          the Playwright runner configuration in
+          <a href="/blog/github-actions-playwright-ci">our GitHub Actions guide</a>.
+        </p>
+        <p>
+          One policy matters more than tooling here: never disable a failing required check. If a test flakes,
+          quarantine it behind a label with a deadline, then fix the cause — retries hide disease, they don’t
+          cure it. Five reliable tests gating every merge beat fifty flaky ones everyone routes around.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Schedule production checks</h2>
+        <p>
+          PR gates verify code before it ships. They say nothing about DNS, certificates, deploy
+          configuration, environment variables, or a vendor API that changed shape overnight. That gap
+          belongs to scheduled production checks: run the same two or three money-path tests hourly against
+          your live site, alert into Slack on failure, and attach evidence so whoever is nearest can triage
+          in minutes. The pattern is standard synthetic monitoring —
+          <a href="/blog/synthetic-monitoring-production">we break down cadence, alerting, and ownership
+          here</a>.
+        </p>
+        <p>
+          Hourly is usually right at startup scale: fast enough to catch breakage before most customers do,
+          cheap enough that nobody argues about the bill. If a check fails twice in a row, page; once,
+          Slack.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">06</span>The lean stack, recapped</h2>
+        <ul>
+          <li><strong>Map the money paths.</strong> Signup, login, core action, checkout, plan changes. Nothing else yet.</li>
+          <li><strong>One hermetic test per path.</strong> Synthetic identities, cloned vendors, zero real side effects.</li>
+          <li><strong>Gate merges.</strong> Required checks on every PR; quarantine flakes, never delete gates.</li>
+          <li><strong>Guard production.</strong> Hourly checks on the same paths, alerts where your team actually lives.</li>
+          <li><strong>Expand only when it hurts.</strong> Add coverage after a bug escapes, targeting the class of bug, not the instance.</li>
+        </ul>
+        <p>
+          Revisit the founder-time math: eighty hours a year of manual checking becomes an afternoon of
+          setup plus reviewing failures that actually matter. This loop — generate from plain English, gate
+          PRs, monitor production — is exactly what Molar automates, and the
+          <a href="https://app.molar.it">free tier</a> covers running it on a small app today.
+        </p>
+        <div class="post-cta">
+          <h2>Guard your first money path tonight</h2>
+          <p>Describe the flow in plain English. Molar authors the Playwright-grade test, gates your PRs, and schedules production checks — no QA hire required.</p>
+          <p>Cards are cloned, emails are fake, and the free tier gets you started.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/blog/required-status-checks-merge-gate">
+          <span class="rc-tag">CI/CD</span>
+          <span class="rc-title">Required status checks as a merge gate</span>
+        </a>
+        <a class="related-card" href="/blog/synthetic-monitoring-production">
+          <span class="rc-tag">Monitoring</span>
+          <span class="rc-title">Synthetic monitoring for production apps</span>
+        </a>
+        <a class="related-card" href="/blog/test-stripe-without-real-cards">
+          <span class="rc-tag">Clones</span>
+          <span class="rc-title">Testing Stripe without real cards</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>

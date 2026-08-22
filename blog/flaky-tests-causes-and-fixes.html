@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flaky Tests: Root Causes and How to Fix Them | Molar</title>
+  <meta name="description" content="Why tests flake — timing, shared state, third parties, environments — and durable fixes for each. Stop re-running, start fixing." />
+  <link rel="canonical" href="https://molar.it/blog/flaky-tests-causes-and-fixes" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Flaky Tests: Root Causes and How to Fix Them" />
+  <meta property="og:description" content="Why tests flake — timing races, shared state, third parties, environment drift — and the durable fix for each cause." />
+  <meta property="og:url" content="https://molar.it/blog/flaky-tests-causes-and-fixes" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Flaky Tests: Root Causes and How to Fix Them" />
+  <meta name="twitter:description" content="Five root causes of test flakiness and the durable fix for each. Stop re-running, start fixing." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Flaky tests: root causes and fixes", "item": "https://molar.it/blog/flaky-tests-causes-and-fixes" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Flaky tests: root causes and durable fixes",
+        "description": "Why tests flake — timing, shared state, third parties, environments — and durable fixes for each.",
+        "url": "https://molar.it/blog/flaky-tests-causes-and-fixes",
+        "datePublished": "2026-08-08",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/flaky-tests-causes-and-fixes",
+        "keywords": "flaky tests, test reliability, fix flaky tests, playwright retries"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>Flaky tests</span>
+    </nav>
+
+    <div class="post-kicker">Reliability</div>
+    <h1 class="post-title">Flaky tests: root causes and durable fixes</h1>
+    <p class="post-lede">
+      A flaky test is a deterministic system producing a nondeterministic answer. That means every flake
+      has a physical cause. This guide walks the five causes behind nearly all intermittence — timing races,
+      shared state, environment drift, third-party failures, selector brittleness — and the fix that actually
+      eliminates each one, instead of burying it under retries.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-08-08">August 8, 2026</time>
+      <span class="dot"></span>
+      <span>10 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>Flake is a defect class, not bad luck</h2>
+        <p>
+          When the same commit passes on one run and fails on the next, teams learn the worst possible habit:
+          re-run until green. Once that habit forms, the suite stops being a gate and becomes weather — people
+          check it, nobody trusts it. The economic damage is quiet but compounding: engineers buffer their
+          estimates for “CI roulette”, real regressions hide among false ones, and eventually someone proposes
+          deleting the suite entirely.
+        </p>
+        <p>
+          The useful reframe is that flakiness is not random. Empirically, almost every intermittent failure
+          falls into one of five buckets: <strong>timing races</strong>, <strong>shared state</strong>,
+          <strong>environment drift</strong>, <strong>third-party failure</strong>, and
+          <strong>selector brittleness</strong>. Each bucket has a specific, permanent fix. Diagnose the bucket
+          first; reaching for <code>retry</code> before diagnosis just moves the problem from your failure
+          report into your blind spot.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>Timing races: sleeps are guesses</h2>
+        <p>
+          The classic flake: the test works on your fast laptop, fails in CI where eight containers share four
+          cores. The app takes 400ms to render instead of 200ms, and a fixed sleep that was tuned to “usually
+          work” now loses the race. Any test that waits a <em>duration</em> is really waiting for luck.
+        </p>
+        <pre><code>// Fragile: sleeps guess at timing
+await page.waitForTimeout(3000);
+await page.click('#submit');
+
+// Durable: act, then wait on observable state
+await page.getByRole('button', { name: 'Pay now' }).click();
+await expect(page.getByText('Payment confirmed')).toBeVisible();</code></pre>
+        <p>
+          Web-first assertions flip the model: instead of sleeping then checking once, they poll observable
+          state until it’s true or a timeout expires. Two companion rules close the gap entirely. First, treat
+          unhandled promise rejections and unexpected network errors as test failures rather than console noise —
+          they are tomorrow’s flakes announcing themselves today. Second, freeze sources of variance you don’t
+          need: animations off, fake clocks for anything time-based, deterministic IDs for anything paginated.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>Shared state: two tests, one row</h2>
+        <p>
+          The second bucket shows up when tests collide through something they both touch: the same seeded user,
+          the same database table, the same localStorage profile. Symptoms include assertions on counts (“cart
+          should have 3 items” seeing 7), duplicate-key errors that appear only under parallelism, and tests
+          that pass alone but fail in the full run. Parallel execution doesn’t create these bugs — it reveals
+          them.
+        </p>
+        <p>
+          Durable fixes, in order of preference: give every test its own data (factories that mint unique users
+          and orders per invocation, then clean up); scope expensive shared fixtures per worker rather than
+          globally; and where isolation must be absolute, roll back via transactions or run each worker against
+          its own schema or container. If a test needs a specific global to exist, that dependency belongs in
+          its setup — explicit, owned, and visible — never in the residue of whichever test ran last.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>Environment drift: it passed on my machine</h2>
+        <p>
+          Some flakes aren’t in your code at all. The staging server was mid-deploy. A feature flag flipped.
+          CI runs in a region where the page renders in another locale, or under a timezone that makes your
+          “end of month” invoice test compute a different month. These failures look mysterious precisely
+          because the cause lives outside the test.
+        </p>
+        <p>
+          Countermeasures are organizational more than technical. Pin everything your tests implicitly depend
+          on: timezone, locale, feature-flag state, seed data version. Prefer short-lived preview environments
+          created per pull request over a long-lived shared staging box that accumulates entropy — see our guide
+          to <a href="/blog/staging-environment-alternatives">staging environment alternatives</a>. And add a
+          pre-flight health check so a half-deployed app produces “environment unhealthy”, not forty misleading
+          test failures.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>Third-party failures: someone else’s uptime</h2>
+        <p>
+          Checkout tests that hit a live payment sandbox inherit its outage schedule. Email tests wait on real
+          SMTP relay latency. Rate limits turn a burst of parallel tests into intermittent 429s. None of this is
+          your product breaking, yet your build goes red and your team burns an afternoon proving it.
+        </p>
+        <p>
+          The durable fix is to stop sharing fate with third parties during routine runs. Stateful substitutes
+          that speak the vendor’s API — returning deterministic IDs, replaying webhooks, delivering email to an
+          inspectable inbox — remove the network, the latency, and the outages while exercising your real code
+          paths. We compare the options in <a href="/blog/api-mocking-vs-service-clones">API mocking versus service clones</a>,
+          and walk a payments example in <a href="/blog/test-stripe-without-real-cards">testing Stripe without real cards</a>.
+          Keep exactly one scheduled smoke against the real sandbox as a drift alarm, and you get hermetic daily
+          runs without blinding yourself to contract changes.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">06</span>Selector brittleness: the slow rot</h2>
+        <p>
+          The fifth bucket degrades gradually rather than intermittently, but it manufactures flakes all the
+          same: a selector like <code>div:nth-child(3) &gt; span.btn-primary</code> survives until a designer
+          wraps one node in a new div, and suddenly the locator matches nothing — or worse, matches a different
+          button. Ambiguous text selectors produce the intermittent flavor: they pass while unique, then silently
+          bind to a newly added element.
+        </p>
+        <p>
+          The fix ladder is well established: prefer role plus accessible name (<code>getByRole('button', { name: 'Checkout' })</code>),
+          then label associations, then purpose-built <code>data-testid</code>, then unique text, and treat
+          structural CSS as a code smell. When the UI legitimately changes, a disciplined
+          <a href="/blog/self-healing-test-automation">self-healing layer</a> can re-rank locators and propose
+          the update for review instead of failing the build — provided intent was captured at authoring time.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">07</span>Retries and quarantine: policy, not vibes</h2>
+        <p>
+          Retries deserve nuance. Used deliberately — one retry, both outcomes reported — they absorb genuine
+          environmental noise and generate a flake-rate metric you can manage down. Used silently, they convert
+          your suite into a lottery where the prize is ignorance. The difference is whether a retry that flips
+          red to green triggers <em>investigation</em> or celebration.
+        </p>
+        <div class="post-callout warn">
+          A retry that passes is a bug report, not a pass. If your green build contains three retried tests,
+          you shipped with three undiagnosed defects wearing a green badge.
+        </div>
+        <p>
+          A workable policy: cap retries at one or two; tag any test that ever needed one; move repeat offenders
+          to quarantine — still running and reported, but non-blocking, with a named owner and a hard expiry
+          date so quarantine stays a hospital rather than a cemetery. Budget flake rate explicitly (under 1% of
+          runs is achievable) and review it like any other SLO. Tooling should make this state visible: Molar
+          marks flaky as its own run status — distinct from passed or failed — so intermittent behavior surfaces
+          in dashboards without blocking merges. For the CI wiring that puts this policy into practice, see our
+          <a href="/blog/github-actions-playwright-ci">GitHub Actions setup guide</a>.
+        </p>
+        <div class="post-cta">
+          <h2>Stop re-running. Start diagnosing.</h2>
+          <p>Molar replays every failed run with full DOM, network, and clone evidence, and reports flaky separately from failed — so root causes surface instead of hiding behind retries.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/blog/self-healing-test-automation">
+          <span class="rc-tag">Maintenance</span>
+          <span class="rc-title">Self-healing test automation, done right</span>
+        </a>
+        <a class="related-card" href="/blog/e2e-testing-best-practices">
+          <span class="rc-tag">Fundamentals</span>
+          <span class="rc-title">E2E testing best practices that survive scale</span>
+        </a>
+        <a class="related-card" href="/blog/github-actions-playwright-ci">
+          <span class="rc-tag">CI/CD</span>
+          <span class="rc-title">Playwright in GitHub Actions: PR gating that holds</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>
