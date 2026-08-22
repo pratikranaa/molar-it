@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Playwright Test Generation: How It Works in 2026 | Molar</title>
+  <meta name="description" content="How AI Playwright test generation actually works — crawling, flow mapping, locator selection, self-healing, and CI export. A practical engineering guide with code." />
+  <link rel="canonical" href="https://molar.it/blog/ai-playwright-test-generation" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="AI Playwright Test Generation: How It Works in 2026" />
+  <meta property="og:description" content="Crawling, flow mapping, locator ranking, self-healing, and deterministic export — a practical guide to AI-generated Playwright tests." />
+  <meta property="og:url" content="https://molar.it/blog/ai-playwright-test-generation" />
+  <meta property="og:image" content="https://molar.it/og.png" />
+  <meta property="og:site_name" content="Molar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI Playwright Test Generation: How It Works in 2026" />
+  <meta name="twitter:description" content="A practical engineering guide to AI-generated Playwright tests — and how to keep them deterministic." />
+  <meta name="twitter:image" content="https://molar.it/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://molar.it/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://molar.it/blog" },
+          { "@type": "ListItem", "position": 3, "name": "AI Playwright Test Generation", "item": "https://molar.it/blog/ai-playwright-test-generation" }
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "AI Playwright Test Generation: How It Works in 2026",
+        "description": "How AI Playwright test generation works — crawling, flow mapping, locator selection, self-healing, and deterministic CI export.",
+        "url": "https://molar.it/blog/ai-playwright-test-generation",
+        "datePublished": "2026-08-10",
+        "dateModified": "2026-08-22",
+        "author": { "@type": "Person", "name": "Pratik Rana", "url": "https://molar.it" },
+        "publisher": { "@type": "Organization", "name": "Molar Labs", "url": "https://molar.it" },
+        "mainEntityOfPage": "https://molar.it/blog/ai-playwright-test-generation",
+        "keywords": "AI Playwright test generation, automated e2e testing, self-healing tests, autonomous QA agent"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-frames/frame-00.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..760&family=Instrument+Sans:ital,wght@0,400..640;1,400&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/home.css" />
+  <link rel="stylesheet" href="/seo-pages.css" />
+  <link rel="stylesheet" href="/waitlist-modal.css" />
+  <link rel="stylesheet" href="/blog.css" />
+</head>
+<body style="background:#faf9f6">
+  <div id="chrome-nav"></div>
+
+  <main class="post-wrap">
+    <nav class="post-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span>AI Playwright test generation</span>
+    </nav>
+
+    <div class="post-kicker">Test automation</div>
+    <h1 class="post-title">AI Playwright test generation: how it actually works in 2026</h1>
+    <p class="post-lede">
+      “AI writes your tests” is easy to say. This is what serious implementations do differently —
+      crawl mapping, locator ranking, assertion harvesting, and deterministic export — and how to
+      tell a tool you can trust in CI from a demo.
+    </p>
+    <div class="post-meta">
+      <strong>Pratik Rana</strong>
+      <span class="dot"></span>
+      <time datetime="2026-08-10">August 10, 2026</time>
+      <span class="dot"></span>
+      <span>11 min read</span>
+    </div>
+
+    <div class="post-body">
+      <section>
+        <h2><span class="h-num">01</span>The pipeline behind generated tests</h2>
+        <p>
+          Every credible AI test generator follows the same five-stage shape. The differences between
+          tools are almost entirely in stages two and three.
+        </p>
+        <ul>
+          <li><strong>Crawl &amp; map.</strong> Discover routes and states — links, forms, client-side navigation, authenticated areas.</li>
+          <li><strong>Flow extraction.</strong> Group interactions into named user flows (signup, checkout, invite).</li>
+          <li><strong>Grounding &amp; locators.</strong> Choose selectors that survive redesigns.</li>
+          <li><strong>Assertion synthesis.</strong> Decide what <em>should</em> be true after each step.</li>
+          <li><strong>Deterministic export.</strong> Emit runnable code, byte-stable for identical input.</li>
+        </ul>
+        <p>
+          Molar’s Cartographer follows exactly this shape: an exploration agent maps your app from a seed
+          URL, then an export pipeline produces Playwright specs you can read, diff, and run anywhere.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">02</span>Locator quality is the whole ballgame</h2>
+        <p>
+          A generated test is only as durable as its worst selector. Naive recorders emit CSS paths like
+          <code>div:nth-child(3) > span</code> that shatter on the next design change. A good generator ranks
+          candidate locators instead of taking the first match:
+        </p>
+        <pre><code># Ranking, simplified
+1. data-testid            (stable, purpose-built)
+2. accessible name        (role + name — survives styling changes)
+3. label text association (forms)
+4. text content           (unique, human-meaningful)
+5. structural CSS         (last resort)</code></pre>
+        <p>
+          The result reads like a careful engineer wrote it — and when the UI does shift, a
+          <a href="/blog/self-healing-test-automation">self-healing layer</a> can re-rank and propose a patch
+          instead of failing the build.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="h-num">03</span>Assertions: where AI earns or loses trust</h2>
+        <p>
+          Navigation without verification is theater. Each step should carry an oracle: the heading that must
+          appear, the row count that must change, the confirmation code that must arrive. LLMs help most here —
+          reading visible state and proposing <em>semantic</em> assertions (“order total shows $42.00”, “banner
+          says ‘Invite sent’”) rather than pixel snapshots that flake.
+        </p>
+        <div class="post-callout">
+          Rule of thumb: if a generated test has no assertion except “page loaded”, it isn’t a test. It’s a crawler
+          with extra steps.
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">04</span>Deterministic output, or it doesn’t belong in CI</h2>
+        <p>
+          Generation should be repeatable: same app state in, same spec out. Byte-stable export means code review
+          diffs show real changes, not LLM paraphrase noise. Molar compiles scenarios deterministically — the same
+          <code>.molar.md</code> source always produces the same Playwright file — so generated tests behave like
+          hand-written ones in git: reviewable, versioned, yours.
+        </p>
+        <pre><code>$ molar generate --url https://staging.example.com
+✓ Mapped 14 routes, 6 flows
+✓ Authored checkout.spec.ts, signup.spec.ts, invite.spec.ts
+✓ Assertions: 23 semantic, 0 visual-only
+→ Exported to ./e2e (playwright@1.49 compatible)</code></pre>
+      </section>
+
+      <section>
+        <h2><span class="h-num">05</span>The third-party problem nobody demos</h2>
+        <p>
+          Generated checkout tests die the moment they hit a live payment processor. Serious generation pairs with
+          <a href="/blog/testing-third-party-apis-safely">safe third-party substitutes</a>: stateful clones that
+          speak Stripe’s API but never move money. That’s the difference between a demo that works on a toy site
+          and tests that run hourly against production.
+        </p>
+        <div class="post-cta">
+          <h2>Generate your first suite in minutes</h2>
+          <p>Point Molar at any URL. It maps the flows, authors Playwright-grade tests, and guards them in production — no cards charged, no emails sent.</p>
+          <div class="row">
+            <a class="btn btn-primary" href="https://app.molar.it">Get started free<span class="arr"> →</span></a>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="h-num">06</span>Evaluation checklist before you adopt</h2>
+        <ul>
+          <li><strong>Readable output?</strong> You should want to commit what it generates.</li>
+          <li><strong>Locator strategy?</strong> testid/accessibility-first, not nth-child soup.</li>
+          <li><strong>Real assertions?</strong> Semantic oracles per step, not screenshots-only.</li>
+          <li><strong>Self-healing?</strong> Proposes fixes, never silently rewrites intent.</li>
+          <li><strong>Safe side effects?</strong> Clones for payments/email/SMS — see <a href="/blog/test-stripe-without-real-cards">Stripe testing without real cards</a>.</li>
+          <li><strong>CI-native?</strong> Required status checks, flake quarantine, traces on failure — <a href="/blog/github-actions-playwright-ci">GitHub Actions setup</a>.</li>
+        </ul>
+        <p>
+          Tools that clear this bar replace hours of maintenance work. Everything else is a recorder with an API key.
+        </p>
+      </section>
+    </div>
+
+    <aside class="post-related">
+      <h2>Keep reading</h2>
+      <div class="post-related-grid">
+        <a class="related-card" href="/blog/self-healing-test-automation">
+          <span class="rc-tag">Maintenance</span>
+          <span class="rc-title">Self-healing test automation, done right</span>
+        </a>
+        <a class="related-card" href="/blog/flaky-tests-causes-and-fixes">
+          <span class="rc-tag">Reliability</span>
+          <span class="rc-title">Flaky tests: root causes and durable fixes</span>
+        </a>
+        <a class="related-card" href="/blog/github-actions-playwright-ci">
+          <span class="rc-tag">CI/CD</span>
+          <span class="rc-title">Playwright in GitHub Actions: PR gating that holds</span>
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div id="chrome-footer"></div>
+
+  <script src="/site-config.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel" src="/marketing-chrome.jsx"></script>
+  <script type="text/babel" src="/blog-boot.jsx"></script>
+  <script src="/waitlist-modal.js"></script>
+</body>
+</html>

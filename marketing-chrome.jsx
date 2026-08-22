@@ -64,6 +64,7 @@
                 ))}
               </div>
             </div>
+            <a href="/blog">Blog</a>
             <a href="https://docs.molar.it">Docs</a>
             <a href="/changelog">Changelog</a>
           </nav>
@@ -80,6 +81,7 @@
             <a href="/#how" onClick={() => setMenuOpen(false)}>How it works</a>
             <span className="nv-menu-label">Products</span>
             {PRODUCTS.map((product) => <a key={product.name} href={product.href} onClick={() => setMenuOpen(false)}>{product.name}</a>)}
+            <a href="/blog" onClick={() => setMenuOpen(false)}>Blog</a>
             <a href="https://docs.molar.it" onClick={() => setMenuOpen(false)}>Docs</a>
             <a href="/changelog" onClick={() => setMenuOpen(false)}>Changelog</a>
             <a href={CALENDLY_URL} onClick={(event) => { setMenuOpen(false); openCalendly(event); }}>Book a demo</a>
