@@ -3,6 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test film.test.mjs"
+    "test": "node --test film.test.mjs",
+    "test:browser": "playwright test -c playwright.config.mjs",
+    "render": "node render-film.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1"
   }
 }

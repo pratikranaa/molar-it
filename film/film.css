@@ -1092,7 +1092,8 @@ body[data-aspect="vertical"] .film-caption {
     scroll-behavior: auto !important;
   }
 
-  .film-scene {
+  .film-scene,
+  .film-scene.is-active {
     transform: none;
   }
 }
