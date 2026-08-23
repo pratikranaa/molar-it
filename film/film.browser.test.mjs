@@ -63,16 +63,18 @@ test("cut and founder-frame controls change the rendered sequence", async ({ pag
   await expect(page.locator(".copy-beat__text")).toBeVisible();
 });
 
-test("launch playback creates no main-thread task longer than 50 ms", async ({ page }) => {
+test("the complete launch cut creates no main-thread task longer than 50 ms", async ({ page }) => {
+  test.setTimeout(90_000);
   await page.addInitScript(() => {
     window.__filmLongTasks = [];
     new PerformanceObserver((list) => {
       window.__filmLongTasks.push(...list.getEntries().map((entry) => entry.duration));
     }).observe({ type: "longtask", buffered: true });
   });
-  await page.goto("/film.html?cut=launch");
+  await page.goto("/film.html?cut=launch&mode=animated");
   await page.getByRole("button", { name: "Play film" }).click();
-  await page.waitForTimeout(10_000);
+  await expect(page.locator("#film-stage")).toHaveAttribute("data-scene", "launch-close", { timeout: 78_000 });
+  await expect(page.locator("#film-stage")).toHaveAttribute("data-playing", "false", { timeout: 5_000 });
   expect(await page.evaluate(() => window.__filmLongTasks.filter((duration) => duration > 50))).toEqual([]);
 });
 
@@ -103,3 +105,32 @@ test("launch close is identical in founder and animated modes", async ({ page })
     await expect(page.locator("#film-stage")).toHaveAttribute("data-scene", "launch-close");
   }
 });
+
+test("launch communicates the category by second twenty", async ({ page }) => {
+  await page.goto("/film.html?cut=launch&mode=animated&captureTime=16000");
+  await expect(page.locator("#film-caption")).toContainText("browser and the services behind them");
+  await expect(page.locator("#film-stage")).toHaveAttribute("data-scene", "launch-definition");
+});
+
+test("launch distinguishes browser success from service failure by second forty-eight", async ({ page }) => {
+  await page.goto("/film.html?cut=launch&captureTime=47000");
+  await expect(page.getByText("BROWSER · PRO")).toBeVisible();
+  await expect(page.getByText("SUBSCRIPTION · FREE")).toBeVisible();
+  await expect(page.locator(".film-connector")).toHaveText("≠");
+});
+
+for (const [aspect, viewport] of Object.entries({
+  landscape: { width: 1440, height: 900 },
+  square: { width: 1080, height: 1080 },
+  vertical: { width: 390, height: 844 },
+})) {
+  test(`${aspect} launch keeps captions clear of the product object`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto(`/film.html?cut=launch&aspect=${aspect}&captureTime=65000`);
+    const object = await page.locator(".film-object").boundingBox();
+    const caption = await page.locator("#film-caption").boundingBox();
+    expect(object).not.toBeNull();
+    expect(caption).not.toBeNull();
+    expect(object.y + object.height).toBeLessThan(caption.y);
+  });
+}
