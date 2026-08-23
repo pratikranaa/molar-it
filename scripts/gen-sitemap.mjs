@@ -20,6 +20,7 @@ const cloneIds = [...hostsBlock[1].matchAll(/^\s{2}(?:'([^']+)'|([a-z0-9-]+)):\s
 
 const staticPages = [
   { loc: "https://molar.it/", priority: "1.0", changefreq: "weekly" },
+  { loc: "https://molar.it/film", priority: "0.9", changefreq: "monthly" },
   { loc: "https://molar.it/qa-agent", priority: "0.9", changefreq: "monthly" },
   { loc: "https://molar.it/docs", priority: "0.85", changefreq: "weekly" },
   { loc: "https://molar.it/thesis", priority: "0.7", changefreq: "monthly" },

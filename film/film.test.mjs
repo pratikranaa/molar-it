@@ -101,3 +101,27 @@ test("failure semantics remain textual and relational in source", async () => {
   assert.match(source, /SUBSCRIPTION · FREE/);
   assert.match(source, /connector\("≠"\)/);
 });
+
+test("player handles reduced motion, visibility, capture, and animation frames", async () => {
+  const source = await readFile(new URL("./player.js", import.meta.url), "utf8");
+  assert.match(source, /prefers-reduced-motion/);
+  assert.match(source, /visibilitychange/);
+  assert.match(source, /captureTime/);
+  assert.match(source, /requestAnimationFrame/);
+  assert.match(source, /remove\("is-entering"\)/);
+});
+
+test("film page has one stage, captions, controls, and a transcript", async () => {
+  const html = await readFile(new URL("../film.html", import.meta.url), "utf8");
+  assert.match(html, /id="film-stage"/);
+  assert.match(html, /id="film-caption"/);
+  assert.match(html, /aria-label="Film playback"/);
+  assert.match(html, /<details[^>]*id="film-transcript"/);
+  assert.match(html, /type="module" src="\/film\/player\.js"/);
+  assert.match(html, /Ship the change\. Know the outcome\./);
+});
+
+test("public routing exposes the clean film URL", async () => {
+  const vercel = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
+  assert.ok(vercel.routes.some((rule) => rule.source === "/film" && rule.destination === "/film.html"));
+});

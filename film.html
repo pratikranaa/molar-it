@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Molar film · Ship the change. Know the outcome.</title>
+  <meta name="description" content="See how Molar verifies a browser journey and every connected-service outcome behind it.">
+  <meta property="og:title" content="Molar · Ship the change. Know the outcome.">
+  <meta property="og:description" content="One browser journey. Every service outcome. One evidence-backed verdict.">
+  <link rel="canonical" href="https://molar.it/film">
+  <link rel="icon" type="image/png" href="/assets/molar-mark-favicon.png">
+  <link rel="stylesheet" href="/film/film.css">
+</head>
+<body class="film-body">
+  <header class="film-nav">
+    <a class="film-brand" href="/" aria-label="Molar home">Molar<span>.</span></a>
+    <p>One release, start to finish.</p>
+  </header>
+
+  <main class="film-page">
+    <div class="film-heading">
+      <div>
+        <p class="film-eyebrow">THE MOLAR STORY</p>
+        <h1>Ship the change.<br>Know the outcome.</h1>
+      </div>
+      <p class="film-intro">A browser can say success while the business outcome fails underneath. Molar follows the whole journey.</p>
+    </div>
+
+    <section class="film-frame" aria-label="Molar cinematic explainer">
+      <div id="film-stage" class="film-stage" data-mode="animated"></div>
+      <p id="film-caption" class="film-caption"></p>
+    </section>
+
+    <nav class="film-controls" aria-label="Film playback">
+      <div class="film-controls__transport">
+        <button id="film-previous" type="button" aria-label="Previous scene">←</button>
+        <button id="film-play" class="film-play" type="button" aria-label="Play film">Play</button>
+        <button id="film-next" type="button" aria-label="Next scene">→</button>
+        <span id="film-time" class="film-time">0:00 / 0:00</span>
+      </div>
+      <input id="film-range" class="film-range" type="range" min="0" max="1" value="0" step="16" aria-label="Film position">
+      <div class="film-controls__options">
+        <label>Cut
+          <select id="film-cut">
+            <option value="animated">Fully animated</option>
+            <option value="founder">Founder film</option>
+            <option value="customer">Customer · 90 sec</option>
+            <option value="investor">Investor · 60 sec</option>
+            <option value="launch">Launch · 30 sec</option>
+          </select>
+        </label>
+        <label>Founder frames
+          <select id="film-mode">
+            <option value="animated">Minimal copy</option>
+            <option value="founder">Footage placeholders</option>
+          </select>
+        </label>
+      </div>
+    </nav>
+
+    <div class="film-after">
+      <p>Twenty minimal product tableaux. One evidence chain.</p>
+      <details id="film-transcript">
+        <summary>Read the full narration</summary>
+        <div id="film-transcript-copy" class="film-transcript-copy"></div>
+      </details>
+    </div>
+  </main>
+
+  <footer class="film-footer">
+    <span>Molar · QA for integration-heavy web apps</span>
+    <a href="/verify">Verify a URL →</a>
+  </footer>
+  <script type="module" src="/film/player.js"></script>
+</body>
+</html>

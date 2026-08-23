@@ -42,6 +42,10 @@
       "dest": "/trace/index.html"
     },
     {
+      "source": "/film",
+      "destination": "/film.html"
+    },
+    {
       "source": "/blog/ai-playwright-test-generation",
       "destination": "/blog/ai-playwright-test-generation.html"
     },
