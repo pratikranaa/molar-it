@@ -8,7 +8,46 @@ import {
   MASTER_NARRATION,
   PRODUCT_SCENES,
 } from "./scene-manifest.js";
-import { buildTimeline, locateBeat, parseCaptureTime } from "./timeline.js";
+import {
+  LAUNCH_CAPTION_CUES,
+  LAUNCH_CLOSE_BEAT,
+  LAUNCH_CUT,
+  LAUNCH_FOUNDER_BEATS,
+  LAUNCH_NARRATION,
+  LAUNCH_PRODUCT_BEATS,
+} from "./launch-manifest.js";
+import { buildTimeline, captionAt, locateBeat, parseCaptureTime } from "./timeline.js";
+
+test("the launch cut is exactly 75 seconds with nineteen product beats", () => {
+  const timeline = buildTimeline("launch");
+  assert.equal(timeline.at(-1).endMs, 75_000);
+  assert.equal(LAUNCH_PRODUCT_BEATS.length, 19);
+  assert.equal(LAUNCH_FOUNDER_BEATS.length, 7);
+  assert.equal(LAUNCH_CUT.at(-1), LAUNCH_CLOSE_BEAT.id);
+  assert.deepEqual(
+    timeline.map((beat) => beat.id),
+    LAUNCH_CUT,
+  );
+});
+
+test("launch copy establishes the category before second twenty", () => {
+  assert.equal(LAUNCH_NARRATION.trim().split(/\s+/).length, 171);
+  assert.match(LAUNCH_NARRATION, /Wayground, used by 15 million people/);
+  assert.match(LAUNCH_NARRATION, /browser and the services behind them/);
+  assert.match(LAUNCH_NARRATION, /Ship the change\. Know the outcome\./);
+  assert.equal(
+    captionAt(LAUNCH_CAPTION_CUES, 14_000).text,
+    "Molar verifies user journeys across the browser and the services behind them.",
+  );
+});
+
+test("launch caption cues are contiguous enough for a music-only review", () => {
+  assert.equal(LAUNCH_CAPTION_CUES[0].startMs, 0);
+  assert.equal(LAUNCH_CAPTION_CUES.at(-1).endMs, 75_000);
+  for (let index = 1; index < LAUNCH_CAPTION_CUES.length; index += 1) {
+    assert.equal(LAUNCH_CAPTION_CUES[index].startMs, LAUNCH_CAPTION_CUES[index - 1].endMs);
+  }
+});
 
 test("the master contains twenty reusable product scenes", () => {
   assert.equal(PRODUCT_SCENES.length, 20);
@@ -31,11 +70,21 @@ test("founder and animated cuts share all product tableaux in story order", () =
 });
 
 test("customer, investor, and launch edits reference real beats", () => {
-  const valid = new Set([...PRODUCT_SCENES.map((scene) => scene.id), ...FOUNDER_BEATS.map((beat) => beat.id)]);
-  for (const name of ["customer", "investor", "launch"]) {
+  const extended = new Set([
+    ...PRODUCT_SCENES.map((scene) => scene.id),
+    ...FOUNDER_BEATS.map((beat) => beat.id),
+  ]);
+  for (const name of ["customer", "investor"]) {
     assert.ok(CUTS[name].length >= 5);
-    assert.ok(CUTS[name].every((id) => valid.has(id)));
+    assert.ok(CUTS[name].every((id) => extended.has(id)));
   }
+
+  const launch = new Set([
+    ...LAUNCH_PRODUCT_BEATS.map((beat) => beat.id),
+    ...LAUNCH_FOUNDER_BEATS.map((beat) => beat.id),
+    LAUNCH_CLOSE_BEAT.id,
+  ]);
+  assert.ok(CUTS.launch.every((id) => launch.has(id)));
 });
 
 test("the approved claims and close remain in the narration", () => {

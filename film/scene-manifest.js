@@ -1,3 +1,5 @@
+import { LAUNCH_CUT } from "./launch-manifest.js";
+
 export const PRODUCT_SCENES = [
   ["01", "Scale becomes reliability", "But knowing it works is harder.", 5200, "15 million users; 500,000 daily operations; reliability improves from 92% to 99.8%."],
   ["02", "Two systems disagree", "The screen could look right.", 4300, "Browser passes while the LMS record disagrees."],
@@ -78,10 +80,7 @@ export const CUTS = {
     "founder-open", "scene-01", "scene-02", "scene-03", "scene-04", "scene-05",
     "scene-10", "scene-13", "scene-14", "scene-19", "scene-20", "founder-close",
   ],
-  launch: [
-    "scene-13", "scene-04", "scene-05", "scene-10", "scene-12", "scene-14",
-    "scene-18", "founder-close",
-  ],
+  launch: LAUNCH_CUT,
 };
 
 export const MASTER_NARRATION = `

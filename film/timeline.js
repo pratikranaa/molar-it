@@ -1,6 +1,18 @@
 import { CUTS, FOUNDER_BEATS, PRODUCT_SCENES } from "./scene-manifest.js";
+import {
+  LAUNCH_CAPTION_CUES,
+  LAUNCH_CLOSE_BEAT,
+  LAUNCH_FOUNDER_BEATS,
+  LAUNCH_PRODUCT_BEATS,
+} from "./launch-manifest.js";
 
-const beats = new Map([...PRODUCT_SCENES, ...FOUNDER_BEATS].map((beat) => [beat.id, beat]));
+const beats = new Map([
+  ...PRODUCT_SCENES,
+  ...FOUNDER_BEATS,
+  ...LAUNCH_PRODUCT_BEATS,
+  ...LAUNCH_FOUNDER_BEATS,
+  LAUNCH_CLOSE_BEAT,
+].map((beat) => [beat.id, beat]));
 
 export function buildTimeline(cutName = "animated") {
   const ids = CUTS[cutName] || CUTS.animated;
@@ -43,4 +55,19 @@ export function parseCaptureTime(value) {
   const text = String(value).trim();
   const amount = text.endsWith("s") ? Number.parseFloat(text) * 1000 : Number.parseInt(text, 10);
   return Number.isFinite(amount) ? Math.max(0, Math.round(amount)) : null;
+}
+
+export function captionAt(cues, elapsedMs) {
+  if (!cues.length) return null;
+  const safe = Math.max(0, Number.isFinite(elapsedMs) ? elapsedMs : 0);
+  return cues.find((cue) => safe >= cue.startMs && safe < cue.endMs) || cues.at(-1);
+}
+
+export function captionTrackForCut(cutName, timeline) {
+  if (cutName === "launch") return LAUNCH_CAPTION_CUES;
+  return timeline.map((beat) => ({
+    startMs: beat.startMs,
+    endMs: beat.endMs,
+    text: beat.caption || beat.copy,
+  }));
 }
