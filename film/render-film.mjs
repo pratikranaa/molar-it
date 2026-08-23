@@ -7,8 +7,9 @@ import { basename, dirname, extname, join, resolve } from "node:path";
 import process from "node:process";
 import { chromium } from "@playwright/test";
 
+import { renderSrt, renderWebVtt } from "./caption-export.js";
 import { CUTS } from "./scene-manifest.js";
-import { buildTimeline } from "./timeline.js";
+import { buildTimeline, captionTrackForCut } from "./timeline.js";
 
 const ASPECTS = {
   landscape: { width: 1920, height: 1080 },
@@ -23,26 +24,6 @@ function argumentValue(name, fallback = null) {
 
 function hasFlag(name) {
   return process.argv.includes(`--${name}`);
-}
-
-function formatVttTime(milliseconds) {
-  const safe = Math.max(0, Math.round(milliseconds));
-  const hours = Math.floor(safe / 3_600_000);
-  const minutes = Math.floor((safe % 3_600_000) / 60_000);
-  const seconds = Math.floor((safe % 60_000) / 1000);
-  const millis = safe % 1000;
-  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}.${String(millis).padStart(3, "0")}`;
-}
-
-function renderWebVtt(timeline, durationMs) {
-  const cues = timeline
-    .filter((beat) => beat.startMs < durationMs)
-    .map((beat, index) => {
-      const text = String(beat.caption || beat.copy || "").replaceAll("-->", "→");
-      const endMs = Math.min(beat.endMs, durationMs);
-      return `${index + 1}\n${formatVttTime(beat.startMs)} --> ${formatVttTime(endMs)}\n${text}`;
-    });
-  return `WEBVTT\n\n${cues.join("\n\n")}\n`;
 }
 
 function help() {
@@ -93,10 +74,14 @@ async function main() {
   const viewport = ASPECTS[aspect];
   const framesDirectory = await mkdtemp(join(tmpdir(), "molar-film-frames-"));
   const framePattern = join(framesDirectory, "frame-%06d.png");
-  const captionsPath = output.replace(new RegExp(`${extname(output)}$`), ".vtt");
+  const captionTrack = captionTrackForCut(cut, timeline);
+  const captionsBase = output.slice(0, -extname(output).length);
+  const captionsPath = `${captionsBase}.vtt`;
+  const srtPath = `${captionsBase}.srt`;
 
   await mkdir(dirname(output), { recursive: true });
-  await writeFile(captionsPath, renderWebVtt(timeline, durationMs));
+  await writeFile(captionsPath, renderWebVtt(captionTrack, durationMs));
+  await writeFile(srtPath, renderSrt(captionTrack, durationMs));
 
   let browser;
   try {
@@ -159,7 +144,8 @@ async function main() {
   }
 
   console.log(`Video: ${output}`);
-  console.log(`Captions: ${captionsPath}`);
+  console.log(`WebVTT: ${captionsPath}`);
+  console.log(`SRT: ${srtPath}`);
 }
 
 main().catch((error) => {

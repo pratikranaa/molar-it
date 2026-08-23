@@ -16,6 +16,7 @@ import {
   LAUNCH_NARRATION,
   LAUNCH_PRODUCT_BEATS,
 } from "./launch-manifest.js";
+import { renderSrt, renderWebVtt, validateCaptionCues } from "./caption-export.js";
 import { buildTimeline, captionAt, locateBeat, parseCaptureTime } from "./timeline.js";
 
 test("the launch cut is exactly 75 seconds with nineteen product beats", () => {
@@ -47,6 +48,24 @@ test("launch caption cues are contiguous enough for a music-only review", () => 
   for (let index = 1; index < LAUNCH_CAPTION_CUES.length; index += 1) {
     assert.equal(LAUNCH_CAPTION_CUES[index].startMs, LAUNCH_CAPTION_CUES[index - 1].endMs);
   }
+});
+
+test("launch captions validate and serialize to VTT and SRT", () => {
+  assert.deepEqual(validateCaptionCues(LAUNCH_CAPTION_CUES, 75_000), []);
+  const vtt = renderWebVtt(LAUNCH_CAPTION_CUES, 75_000);
+  const srt = renderSrt(LAUNCH_CAPTION_CUES, 75_000);
+  assert.match(vtt, /^WEBVTT\n/);
+  assert.match(vtt, /00:01:12\.000 --> 00:01:15\.000/);
+  assert.match(srt, /00:01:12,000 --> 00:01:15,000/);
+  assert.match(vtt, /Ship the change\. Know the outcome\./);
+  assert.match(renderWebVtt(LAUNCH_CAPTION_CUES, 200), /00:00:00\.000 --> 00:00:00\.200/);
+});
+
+test("caption validation rejects gaps, overlaps, and overflow", () => {
+  assert.deepEqual(
+    validateCaptionCues([{ startMs: 100, endMs: 80, text: "broken" }], 75),
+    ["cue 1 ends before it starts", "cue 1 exceeds duration"],
+  );
 });
 
 test("the master contains twenty reusable product scenes", () => {
@@ -208,11 +227,12 @@ test("public routing exposes the clean film URL", async () => {
   assert.ok(vercel.routes.some((rule) => rule.source === "/film" && rule.destination === "/film.html"));
 });
 
-test("renderer exports deterministic frames, MP4, and WebVTT captions", async () => {
+test("renderer exports deterministic frames, MP4, and caption sidecars", async () => {
   const source = await readFile(new URL("./render-film.mjs", import.meta.url), "utf8");
   assert.match(source, /captureTime/);
   assert.match(source, /frame-%06d\.png/);
   assert.match(source, /libx264/);
-  assert.match(source, /WEBVTT/);
+  assert.match(source, /renderWebVtt/);
+  assert.match(source, /renderSrt/);
   assert.match(source, /window\.MolarFilm\.seek/);
 });
