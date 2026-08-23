@@ -119,7 +119,7 @@ async function main() {
       html, body, .film-body, .film-page { width: 100%; height: 100%; min-height: 100%; }
       .film-nav, .film-heading, .film-controls, .film-after, .film-footer { display: none !important; }
       .film-page { margin: 0; }
-      .film-frame, .film-stage { width: 100%; height: 100%; border: 0; border-radius: 0; box-shadow: none; aspect-ratio: auto; }
+      .film-frame, .film-stage { width: 100% !important; height: 100% !important; border: 0; border-radius: 0; box-shadow: none; aspect-ratio: auto; }
     ` });
 
     const stage = page.locator("#film-stage");

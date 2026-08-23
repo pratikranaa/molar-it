@@ -1,5 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { spawnSync } from "node:child_process";
+import { rm } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { probeMedia } from "./media-evidence.mjs";
 import { buildTimeline } from "./timeline.js";
+
+const FILM_DIRECTORY = fileURLToPath(new URL(".", import.meta.url));
 
 function captureTimeFor(cut, sceneId, progress = 0.88) {
   const beat = buildTimeline(cut).find((entry) => entry.id === sceneId);
@@ -52,6 +58,36 @@ test("vertical layout keeps the primary object above the caption", async ({ page
   expect(object).not.toBeNull();
   expect(caption).not.toBeNull();
   expect(object.y + object.height).toBeLessThan(caption.y);
+});
+
+test("vertical export uses the full 1080 by 1920 delivery frame", async () => {
+  const output = "/tmp/molar-launch-vertical-export-test.mp4";
+  const sidecars = [
+    output,
+    `${output}.render.json`,
+    output.replace(/\.mp4$/, ".vtt"),
+    output.replace(/\.mp4$/, ".srt"),
+    output.replace(/\.mp4$/, ".contact-sheet.png"),
+  ];
+  const result = spawnSync(process.execPath, [
+    "render-film.mjs",
+    "--base-url", "http://127.0.0.1:8080",
+    "--cut", "launch",
+    "--mode", "animated",
+    "--aspect", "vertical",
+    "--resolution", "1080",
+    "--fps", "60",
+    "--max-seconds", "0.1",
+    "--output", output,
+  ], { cwd: FILM_DIRECTORY, encoding: "utf8" });
+
+  try {
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    const probe = await probeMedia(output);
+    expect({ width: probe.width, height: probe.height }).toEqual({ width: 1080, height: 1920 });
+  } finally {
+    await Promise.all(sidecars.map((path) => rm(path, { force: true })));
+  }
 });
 
 test("cut and founder-frame controls change the rendered sequence", async ({ page }) => {
