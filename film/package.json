@@ -5,6 +5,8 @@
   "scripts": {
     "test": "node --test film.test.mjs",
     "test:browser": "playwright test -c playwright.config.mjs",
+    "test:music": "node --test music.test.mjs",
+    "render:music": "node render-music.mjs --output music/molar-launch-bed.wav",
     "render": "node render-film.mjs"
   },
   "devDependencies": {

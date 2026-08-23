@@ -4,3 +4,4 @@ film/node_modules/
 film/playwright-report/
 film/test-results/
 film/renders/
+film/music/*.wav
