@@ -138,12 +138,15 @@ input {
 }
 
 .film-scene {
+  --enter-x: 0px;
+  --enter-y: 0px;
+  --enter-scale: .985;
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
   opacity: 0;
-  transform: scale(.975);
+  transform: translate3d(var(--enter-x), var(--enter-y), 0) scale(var(--enter-scale));
   transition:
     opacity var(--dissolve-ms) var(--ease-soft),
     transform var(--move-ms) var(--ease-settle);
@@ -156,8 +159,20 @@ input {
 
 .film-scene.is-active {
   opacity: 1;
-  transform: scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
 }
+
+.film-scene[data-motion="rise"] { --enter-y: 18px; }
+.film-scene[data-motion="drop"] { --enter-y: -18px; }
+.film-scene[data-motion="lateral"] { --enter-x: 18px; }
+.film-scene[data-motion="opposed"] { --enter-scale: .99; }
+.film-scene[data-motion="unfold"] { --enter-x: -12px; --enter-scale: .992; }
+.film-scene[data-motion="expand"] { --enter-y: 12px; --enter-scale: .992; }
+.film-scene[data-motion="converge"] { --enter-scale: 1.012; }
+.film-scene[data-motion="file"] { --enter-x: -16px; }
+.film-scene[data-motion="rerun"] { --enter-y: 14px; }
+.film-scene[data-motion="handoff"] { --enter-x: -14px; }
+.film-scene[data-motion="memory-agent"] { --enter-y: 16px; }
 
 .film-object {
   width: min(560px, 62vw);
@@ -781,6 +796,56 @@ input {
   color: #f2f6f3;
 }
 
+.launch-memory-agent .film-object {
+  width: min(780px, 76vw);
+}
+
+.launch-memory,
+.launch-agent-proof {
+  width: min(330px, 36vw);
+  padding: 22px;
+  border: 1px solid #dce0da;
+  border-radius: 13px;
+  background: var(--surface);
+  box-shadow: 0 20px 60px rgb(21 35 28 / 9%);
+}
+
+.launch-memory {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transform: translateY(calc((1 - var(--scene-progress)) * 22px));
+}
+
+.launch-memory__title {
+  font: 620 18px/1.2 "Instrument Sans", sans-serif;
+}
+
+.launch-memory__commit {
+  color: var(--muted);
+  font: 550 10px/1.2 "Geist Mono", monospace;
+}
+
+.launch-agent-proof {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: clamp(0, calc((var(--scene-progress) - .42) * 3), 1);
+  transform: translateX(calc((1 - var(--scene-progress)) * 26px));
+}
+
+.launch-close-lockup {
+  text-align: center;
+}
+
+.launch-close-copy {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font: 520 clamp(18px, 2.2vw, 26px)/1.35 "Instrument Sans", sans-serif;
+  opacity: clamp(0, calc((var(--scene-progress) - .24) * 3), 1);
+  transform: translateY(calc((1 - var(--scene-progress)) * 10px));
+}
+
 .founder-media {
   width: min(780px, 78vw);
   aspect-ratio: 16 / 9;
@@ -976,6 +1041,16 @@ body[data-aspect="vertical"] .film-stage {
 body[data-aspect="vertical"] .film-object {
   width: 82%;
   flex-wrap: wrap;
+}
+
+body[data-aspect="vertical"] .launch-memory-agent .film-object {
+  width: 78%;
+  flex-direction: column;
+}
+
+body[data-aspect="vertical"] .launch-memory,
+body[data-aspect="vertical"] .launch-agent-proof {
+  width: 100%;
 }
 
 body[data-aspect="vertical"] .film-caption {

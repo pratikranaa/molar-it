@@ -75,3 +75,13 @@ test("launch playback creates no main-thread task longer than 50 ms", async ({ p
   await page.waitForTimeout(10_000);
   expect(await page.evaluate(() => window.__filmLongTasks.filter((duration) => duration > 50))).toEqual([]);
 });
+
+test("launch scenes expose different semantic directions while keeping one active layer", async ({ page }) => {
+  await page.goto("/film.html?cut=launch&captureTime=5000");
+  await expect(page.locator(".film-scene.is-active")).toHaveAttribute("data-motion", "rise");
+  await page.evaluate(() => window.MolarFilm.seek(44_000));
+  await expect(page.locator(".film-scene.is-active")).toHaveAttribute("data-motion", "drop");
+  await page.evaluate(() => window.MolarFilm.seek(46_500));
+  await expect(page.locator(".film-scene.is-active")).toHaveAttribute("data-motion", "opposed");
+  await expect(page.locator(".film-scene.is-active")).toHaveCount(1);
+});

@@ -123,6 +123,19 @@ test("motion tokens encode the approved smoothness constraints", async () => {
   assert.doesNotMatch(css, /bounce|animation:\s*[^;]*infinite/i);
 });
 
+test("launch motion uses varied semantic directions without prohibited effects", async () => {
+  const motions = new Set(LAUNCH_PRODUCT_BEATS.map((beat) => beat.motion));
+  for (const required of ["rise", "drop", "lateral", "opposed", "converge", "handoff", "memory-agent"]) {
+    assert.ok(motions.has(required), `missing semantic motion: ${required}`);
+  }
+  const css = await readFile(new URL("./film.css", import.meta.url), "utf8");
+  assert.match(css, /data-motion="rise"/);
+  assert.match(css, /data-motion="drop"/);
+  assert.match(css, /--enter-x/);
+  assert.match(css, /--enter-y/);
+  assert.doesNotMatch(css, /bounce|elastic|infinite/i);
+});
+
 test("all twenty product renderers are exported", async () => {
   const first = await import("./scenes-01-10.js");
   const second = await import("./scenes-11-20.js");
