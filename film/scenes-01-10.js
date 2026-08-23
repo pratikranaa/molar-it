@@ -46,6 +46,7 @@ export function renderScene01(progress = 0) {
     el("div", "reliability__track"),
     el("div", "reliability__fill"),
   );
+  panel.prepend(pill("WAYGROUND · FOUNDER EXPERIENCE"));
   panel.append(scale, reliability);
   object.append(panel);
   return finish(shell, "scene-01", progress);

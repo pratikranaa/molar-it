@@ -143,6 +143,25 @@ test("founder and animated-copy renderers are exported", async () => {
   assert.equal(typeof founder.renderAnimatedCopyBeat, "function");
 });
 
+test("launch-only renderers expose the combined expansion and close", async () => {
+  const launch = await import("./launch-scenes.js");
+  assert.equal(typeof launch.renderLaunchMemoryAgent, "function");
+  assert.equal(typeof launch.renderLaunchClose, "function");
+});
+
+test("player consumes the launch caption track and narration", async () => {
+  const source = await readFile(new URL("./player.js", import.meta.url), "utf8");
+  assert.match(source, /captionTrackForCut/);
+  assert.match(source, /LAUNCH_NARRATION/);
+  assert.match(source, /renderLaunchMemoryAgent/);
+  assert.match(source, /dataset\.motion/);
+});
+
+test("the metric tableau attributes its numbers to Wayground", async () => {
+  const source = await readFile(new URL("./scenes-01-10.js", import.meta.url), "utf8");
+  assert.match(source, /WAYGROUND · FOUNDER EXPERIENCE/);
+});
+
 test("failure semantics remain textual and relational in source", async () => {
   const source = await readFile(new URL("./scenes-11-20.js", import.meta.url), "utf8");
   assert.match(source, /WEBHOOK · 500/);

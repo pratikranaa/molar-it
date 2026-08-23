@@ -1,12 +1,31 @@
 import { CUTS, FOUNDER_BEATS, MASTER_NARRATION, PRODUCT_SCENES } from "./scene-manifest.js";
-import { buildTimeline, locateBeat, parseCaptureTime } from "./timeline.js";
+import {
+  LAUNCH_CLOSE_BEAT,
+  LAUNCH_FOUNDER_BEATS,
+  LAUNCH_NARRATION,
+  LAUNCH_PRODUCT_BEATS,
+} from "./launch-manifest.js";
+import {
+  buildTimeline,
+  captionAt,
+  captionTrackForCut,
+  locateBeat,
+  parseCaptureTime,
+} from "./timeline.js";
 import * as firstScenes from "./scenes-01-10.js";
 import * as finalScenes from "./scenes-11-20.js";
 import { renderAnimatedCopyBeat, renderFounderBeat } from "./founder-scenes.js";
+import { renderLaunchClose, renderLaunchMemoryAgent } from "./launch-scenes.js";
 
-const rendererRegistry = { ...firstScenes, ...finalScenes };
-const productById = new Map(PRODUCT_SCENES.map((scene) => [scene.id, scene]));
-const founderIds = new Set(FOUNDER_BEATS.map((beat) => beat.id));
+const rendererRegistry = { ...firstScenes, ...finalScenes, renderLaunchMemoryAgent };
+const productById = new Map([
+  ...PRODUCT_SCENES,
+  ...LAUNCH_PRODUCT_BEATS,
+].map((scene) => [scene.id, scene]));
+const founderIds = new Set([
+  ...FOUNDER_BEATS,
+  ...LAUNCH_FOUNDER_BEATS,
+].map((beat) => beat.id));
 
 function formatClock(milliseconds) {
   const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
@@ -16,21 +35,28 @@ function formatClock(milliseconds) {
 }
 
 function renderBeat(beat, mode, progress) {
-  if (founderIds.has(beat.id)) {
-    return mode === "founder"
+  let node;
+  if (beat.id === LAUNCH_CLOSE_BEAT.id) {
+    node = renderLaunchClose(progress);
+  } else if (founderIds.has(beat.id)) {
+    node = mode === "founder"
       ? renderFounderBeat(beat, progress)
       : renderAnimatedCopyBeat(beat, progress);
+  } else {
+    const descriptor = productById.get(beat.id);
+    const renderer = rendererRegistry[descriptor.renderer];
+    if (!renderer) throw new Error(`Missing renderer: ${descriptor.renderer}`);
+    node = renderer(progress);
   }
-
-  const descriptor = productById.get(beat.id);
-  const renderer = rendererRegistry[descriptor.renderer];
-  if (!renderer) throw new Error(`Missing renderer: ${descriptor.renderer}`);
-  return renderer(progress);
+  node.dataset.motion = beat.motion || "settle";
+  node.dataset.beatKind = beat.kind || (founderIds.has(beat.id) ? "founder" : "product");
+  return node;
 }
 
 export function createFilmPlayer({
   stage,
   caption,
+  transcript,
   controls,
   cutName = "animated",
   mode = "animated",
@@ -40,6 +66,7 @@ export function createFilmPlayer({
   let cut = CUTS[cutName] ? cutName : "animated";
   let displayMode = mode === "founder" ? "founder" : "animated";
   let timeline = buildTimeline(cut);
+  let captionTrack = captionTrackForCut(cut, timeline);
   let elapsedMs = 0;
   let playing = false;
   let destroyed = false;
@@ -52,6 +79,17 @@ export function createFilmPlayer({
 
   function durationMs() {
     return timeline.at(-1)?.endMs || 0;
+  }
+
+  function renderTranscript() {
+    if (!transcript) return;
+    transcript.replaceChildren();
+    const copy = cut === "launch" ? LAUNCH_NARRATION : MASTER_NARRATION;
+    copy.split(/\n\s*\n/).forEach((paragraph) => {
+      const node = document.createElement("p");
+      node.textContent = paragraph;
+      transcript.append(node);
+    });
   }
 
   function updateControls() {
@@ -100,7 +138,7 @@ export function createFilmPlayer({
     if (located.index !== mountedIndex || !currentNode) mount(located.index, progress, immediate);
     else currentNode.style.setProperty("--scene-progress", String(progress));
 
-    caption.textContent = located.beat.caption || located.beat.copy;
+    caption.textContent = captionAt(captionTrack, elapsedMs)?.text || "";
     stage.dataset.scene = located.beat.id;
     stage.dataset.sceneIndex = String(located.index + 1);
     stage.dataset.sceneCount = String(timeline.length);
@@ -151,11 +189,13 @@ export function createFilmPlayer({
     pause();
     cut = nextCut;
     timeline = buildTimeline(cut);
+    captionTrack = captionTrackForCut(cut, timeline);
     if (nextCut === "founder") displayMode = "founder";
     if (nextCut === "animated") displayMode = "animated";
     mountedIndex = -1;
     currentNode?.remove();
     currentNode = null;
+    renderTranscript();
     renderAt(0, true);
   }
 
@@ -211,6 +251,7 @@ export function createFilmPlayer({
   stage.dataset.ready = "true";
   stage.dataset.playing = "false";
   stage.dataset.mode = displayMode;
+  renderTranscript();
 
   if (captureTime != null) {
     renderAt(captureTime, true);
@@ -254,17 +295,11 @@ function bootstrap() {
   const player = createFilmPlayer({
     stage,
     caption: document.querySelector("#film-caption"),
+    transcript: document.querySelector("#film-transcript-copy"),
     controls,
     cutName,
     mode,
     captureTime,
-  });
-
-  const transcript = document.querySelector("#film-transcript-copy");
-  MASTER_NARRATION.split(/\n\s*\n/).forEach((paragraph) => {
-    const node = document.createElement("p");
-    node.textContent = paragraph;
-    transcript.append(node);
   });
 
   window.MolarFilm = player;
