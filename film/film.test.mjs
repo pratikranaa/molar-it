@@ -73,3 +73,31 @@ test("motion tokens encode the approved smoothness constraints", async () => {
   assert.match(css, /\.is-entering[\s\S]*will-change:\s*transform, opacity/);
   assert.doesNotMatch(css, /bounce|animation:\s*[^;]*infinite/i);
 });
+
+test("all twenty product renderers are exported", async () => {
+  const first = await import("./scenes-01-10.js");
+  const second = await import("./scenes-11-20.js");
+  const renderers = { ...first, ...second };
+
+  for (let number = 1; number <= 20; number += 1) {
+    assert.equal(
+      typeof renderers[`renderScene${String(number).padStart(2, "0")}`],
+      "function",
+      `scene ${number} must have a renderer`,
+    );
+  }
+});
+
+test("founder and animated-copy renderers are exported", async () => {
+  const founder = await import("./founder-scenes.js");
+  assert.equal(typeof founder.renderFounderBeat, "function");
+  assert.equal(typeof founder.renderAnimatedCopyBeat, "function");
+});
+
+test("failure semantics remain textual and relational in source", async () => {
+  const source = await readFile(new URL("./scenes-11-20.js", import.meta.url), "utf8");
+  assert.match(source, /WEBHOOK · 500/);
+  assert.match(source, /BROWSER · PRO/);
+  assert.match(source, /SUBSCRIPTION · FREE/);
+  assert.match(source, /connector\("≠"\)/);
+});
