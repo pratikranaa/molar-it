@@ -119,6 +119,7 @@ test("film page has one stage, captions, controls, and a transcript", async () =
   assert.match(html, /<details[^>]*id="film-transcript"/);
   assert.match(html, /type="module" src="\/film\/player\.js"/);
   assert.match(html, /Ship the change\. Know the outcome\./);
+  assert.doesNotMatch(html, /(Customer|Investor|Launch) · \d+ sec/);
 });
 
 test("public routing exposes the clean film URL", async () => {
