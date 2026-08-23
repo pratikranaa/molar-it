@@ -4,6 +4,13 @@
   font-display: swap;
 }
 
+/*
+ * Presentation grammar adapted from Waybill's public YC launch film.
+ * Source: https://www.ycombinator.com/companies/waybill
+ * Visual reference only; this is an original implementation with no copied
+ * software, interface assets, or production footage.
+ */
+
 @font-face {
   font-family: "Geist Mono";
   src: url("/fonts/geist-mono-latin.woff2") format("woff2");
