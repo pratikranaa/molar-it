@@ -6,8 +6,11 @@
     "test": "node --test film.test.mjs",
     "test:browser": "playwright test -c playwright.config.mjs",
     "test:music": "node --test music.test.mjs",
+    "test:media": "node --test media.test.mjs",
     "render:music": "node render-music.mjs --output music/molar-launch-bed.wav",
-    "render": "node render-film.mjs"
+    "render": "node render-film.mjs",
+    "render:launch:review": "node render-film.mjs --cut launch --mode animated --aspect landscape --resolution 1080 --fps 60 --music music/molar-launch-bed.wav --output renders/molar-launch-animated-1080.mp4",
+    "render:launch:founder": "node render-film.mjs --cut launch --mode founder --aspect landscape --resolution 1080 --fps 60 --music music/molar-launch-bed.wav --output renders/molar-launch-founder-1080.mp4"
   },
   "devDependencies": {
     "@playwright/test": "1.61.1"

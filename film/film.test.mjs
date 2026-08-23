@@ -227,12 +227,12 @@ test("public routing exposes the clean film URL", async () => {
   assert.ok(vercel.routes.some((rule) => rule.source === "/film" && rule.destination === "/film.html"));
 });
 
-test("renderer exports deterministic frames, MP4, and caption sidecars", async () => {
+test("renderer streams deterministic frames and exports media sidecars", async () => {
   const source = await readFile(new URL("./render-film.mjs", import.meta.url), "utf8");
-  assert.match(source, /captureTime/);
-  assert.match(source, /frame-%06d\.png/);
-  assert.match(source, /libx264/);
+  assert.match(source, /createFrameEncoder/);
+  assert.match(source, /writeContactSheet/);
   assert.match(source, /renderWebVtt/);
   assert.match(source, /renderSrt/);
   assert.match(source, /window\.MolarFilm\.seek/);
+  assert.doesNotMatch(source, /frame-%06d\.png/);
 });
