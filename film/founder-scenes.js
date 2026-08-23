@@ -10,8 +10,10 @@ export function renderFounderBeat(beat, progress = 0) {
   const media = el("div", "founder-media");
   media.dataset.founderBeat = beat.id;
   media.append(
-    el("span", "founder-media__label", "FOUNDER FOOTAGE"),
-    el("span", "founder-media__direction", "Bright outdoor location · direct to camera"),
+    el("span", "founder-media__safe-area", ""),
+    el("span", "founder-media__eye-line", ""),
+    el("span", "founder-media__label", "FOUNDER FOOTAGE PLACEHOLDER"),
+    el("span", "founder-media__direction", "Bright outdoor location · medium shot · direct to camera"),
   );
   object.append(media);
   shell.style.setProperty("--scene-progress", progressValue(progress));

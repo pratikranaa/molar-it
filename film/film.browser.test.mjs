@@ -85,3 +85,21 @@ test("launch scenes expose different semantic directions while keeping one activ
   await expect(page.locator(".film-scene.is-active")).toHaveAttribute("data-motion", "opposed");
   await expect(page.locator(".film-scene.is-active")).toHaveCount(1);
 });
+
+test("launch founder mode uses honest guides and animated mode uses copy", async ({ page }) => {
+  await page.goto("/film.html?cut=launch&mode=founder&captureTime=1000");
+  await expect(page.getByText("FOUNDER FOOTAGE PLACEHOLDER")).toBeVisible();
+  await expect(page.locator(".founder-media__eye-line")).toBeVisible();
+  await expect(page.locator(".founder-media__safe-area")).toBeVisible();
+  await page.goto("/film.html?cut=launch&mode=animated&captureTime=1000");
+  await expect(page.locator(".copy-beat__text")).toContainText("Wayground");
+  await expect(page.locator(".founder-media")).toHaveCount(0);
+});
+
+test("launch close is identical in founder and animated modes", async ({ page }) => {
+  for (const mode of ["founder", "animated"]) {
+    await page.goto(`/film.html?cut=launch&mode=${mode}&captureTime=74000`);
+    await expect(page.locator(".launch-close-copy")).toHaveText("Ship the change. Know the outcome.");
+    await expect(page.locator("#film-stage")).toHaveAttribute("data-scene", "launch-close");
+  }
+});
