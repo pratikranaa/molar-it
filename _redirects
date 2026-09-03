@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects.
+# Do NOT 200-rewrite /path → /path.html — Pages already serves pretty URLs
+# (foo.html at /foo) and combining both causes a 308 loop.
+# Clone docs (/docs/clones/:slug) are served by functions/docs/clones/[[slug]].js.
+
+/cartographer https://cartographer.molar.it 301
+/clones https://clones.molar.it 301
+/guard https://guard.molar.it 301
+/trace https://trace.molar.it 301

@@ -31,18 +31,42 @@ python3 -m http.server 8080
 # open http://localhost:8080
 ```
 
-Deploy: `vercel --prod` (Vercel project `molar` → molar.it).
+Deploy (Cloudflare Pages; **not** Vercel):
+
+```bash
+# Auth (one of):
+npx wrangler login
+# or: export CLOUDFLARE_API_TOKEN='...'   # Dashboard → My Profile → API Tokens
+#      export CLOUDFLARE_ACCOUNT_ID='...' # 32-hex account id from the dashboard URL
+
+cd molar.it
+npx wrangler pages project create molar-it --production-branch main
+# Classic Pages walks the directory and does not honor .assetsignore.
+# Exclude local 25MiB+ artifacts (film/renders/*.mov) or the upload fails.
+npx wrangler pages deploy . --project-name molar-it --branch main
+# Expected URL: https://molar-it.pages.dev
+```
+
+Do **not** change GoDaddy DNS until `curl -I https://molar-it.pages.dev` returns 200. Apex is still `A 216.198.79.1` (Vercel) behind `ns81/ns82.domaincontrol.com`. After Pages is 200, add custom domain `molar.it` in the Pages dashboard and copy the CNAME/ALIAS target it prints (typically `molar-it.pages.dev`). Do not guess Cloudflare nameservers.
+
+Instant Proof / waitlist secrets (never commit):
+
+```bash
+npx wrangler pages secret put INSTANT_PROOF_PROXY_SECRET --project-name molar-it
+npx wrangler pages secret put MOLAR_CONTROL_PLANE_URL --project-name molar-it   # optional; default https://api.molar.it
+npx wrangler pages secret put WAITLIST_WEBHOOK_URL --project-name molar-it      # optional
+```
 
 ### Instant Proof (`/verify`)
 
-Public URL+claim verification before signup. Requires Vercel env on the `molar` project:
+Public URL+claim verification before signup. Requires Pages env on project `molar-it`:
 
 | Variable | Required | Notes |
 |----------|----------|-------|
 | `INSTANT_PROOF_PROXY_SECRET` | yes (≥32 chars) | HMAC for browser/network identity cookie; must match control-plane proxy verification if shared |
 | `MOLAR_CONTROL_PLANE_URL` | optional | Defaults to `https://api.molar.it` |
 
-Local: `python3 -m http.server` does **not** run `/api/instant-proof` — use `vercel dev` or deploy.
+Local: `python3 -m http.server` does **not** run `/api/instant-proof` — use `npx wrangler pages dev .` or deploy.
 
 **Clone docs:** per-clone tool tables are generated from `molar-clones` fixtures. After changing fixtures, run:
 
@@ -51,7 +75,7 @@ node scripts/gen-clone-routes.mjs
 node scripts/gen-sitemap.mjs
 ```
 
-Surface landings use subdomains (`cartographer.molar.it`, etc.). Add each as a domain on the Vercel project and point DNS (CNAME to `cname.vercel-dns.com`). Old paths (`/cartographer`, …) 301 to the subdomain.
+Surface landings use subdomains (`cartographer.molar.it`, etc.). Those hostnames are still on Vercel DNS (`*.vercel-dns-017.com`) and are **not** part of this Pages cutover. Old paths (`/cartographer`, …) 301 to the subdomain.
 
 **CTAs:** `https://app.molar.it` is live for the main Molar product. Product CTAs deep-link to `/dashboard/cartographer`, `/dashboard/clones`, `/dashboard/guard`, and `/dashboard/trace`. The waitlist popup (`waitlist-modal.js`) intercepts those links only when `MOLAR_SITE.appLive` is false.
 
@@ -65,9 +89,9 @@ Flow: visitor clicks CTA on e.g. `clones.molar.it` → popup form → `POST http
 2. **Extensions → Apps Script** → paste [`scripts/google-sheets-waitlist.gs`](scripts/google-sheets-waitlist.gs)
 3. **Deploy → New deployment → Web app** (Execute as: Me, Who has access: **Anyone**)
 4. Copy the deployment URL
-5. In **Vercel** → Project `molar` → Settings → Environment Variables:
+5. In **Cloudflare** → Pages → `molar-it` → Settings → Environment variables (or `wrangler pages secret put WAITLIST_WEBHOOK_URL --project-name molar-it`):
    - `WAITLIST_WEBHOOK_URL` = your Google Apps Script web app URL
-6. **Redeploy** (`vercel --prod`)
+6. **Redeploy** (`npx wrangler pages deploy . --project-name molar-it`)
 
 You get every signup as a spreadsheet row plus an email to `pratik@molar.it` (edit `NOTIFY_EMAIL` in the script). No Loops, Zapier, or paid form tools required.
 
