@@ -13,7 +13,7 @@
 - [x] Measurement: supplied GA4 ID, no requests before consent, aggregate events, preference changes, sanitized URLs and matching privacy copy.
 - [x] Customer entry: waitlist persistence, real anonymous check, separate visitor share, secure signup handoff and saving with an existing authenticated account verified. Fresh signup email and owner reporting access remain separate checks.
 - [x] Product proof: publish a genuinely autonomous multistep run with inspected recording and provenance; clearly distinguish examples from actual recordings.
-- [ ] Independent validation: unit/API security checks, real browser states, desktop/mobile renders, live release comparison; update README, STATUS and evidence.
+- [x] Independent validation: unit/API security checks, real browser states, desktop/mobile renders, live release comparison; update README, STATUS and evidence.
 
 ## File boundaries
 
@@ -27,3 +27,5 @@
 `node --test scripts/*.test.mjs`; `node scripts/build-site.mjs`; `python3 scripts/check-marketing.py`; browser test `/ask`, consent and signup with actual deployed APIs; existing 94-route responsive checks plus new routes; `scripts/check-live-marketing.py` against deployment and apex. A generated draft must survive source-link and schema validation and an editorial review before `publish-query.mjs` accepts it.
 
 Rank position, search indexing and AI citations are external outcomes, not a completion claim. Search Console access and live backend availability must be reported from evidence, not inferred from source code.
+
+Final follow-through: all 97 canonical routes and 229 published assets were compared with production; real Google collection, waitlist persistence, generated answers, proof sharing and existing-user retention were independently exercised. The last proof-link spacing correction passed six local renders across both landing pages at 390/833/1440px. Owner-only Google/Cloudflare settings and fresh-account email delivery remain explicitly separate from the verified website package. Parent evidence records the final deployed revisions.
