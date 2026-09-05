@@ -205,10 +205,10 @@ test('revoke stops future events and removes the known GA cookies', async () => 
   }
 });
 
-test('verify query strings and claim text never enter analytics payloads', async () => {
+test('parameterized URLs never load the Google tag, even after consent', async () => {
   const { browser, context, page, requests } = await newPage();
   try {
-    await page.goto(`${baseURL}verify?url=https%3A%2F%2Fprivate.example%2Freset%3Ftoken%3Dsecret&claim=private%20question`);
+    await page.goto(`${baseURL}ask?url=https%3A%2F%2Fprivate.example%2Freset%3Ftoken%3Dsecret&claim=private%20question`);
     await page.getByRole('button', { name: 'Accept analytics' }).click();
     await page.waitForTimeout(100);
     const serialized = await page.evaluate(() => JSON.stringify(window.dataLayer));
@@ -221,8 +221,11 @@ test('verify query strings and claim text never enter analytics payloads', async
     assert.equal(serialized.includes('token'), false);
     assert.equal(serialized.includes('private question'), false);
     assert.equal(serialized.includes('?url='), false);
-    const pageViews = await page.evaluate(() => window.dataLayer.filter(([command, name]) => command === 'event' && name === 'page_view'));
-    assert.equal(pageViews[0][2].page_location, `${baseURL.slice(0, -1)}/verify`);
+    assert.equal(requests.length, 0);
+    assert.equal(await page.locator('script[src*="googletagmanager"]').count(), 0);
+    await page.goto(`${baseURL}verify`);
+    await page.waitForTimeout(100);
+    assert.equal(requests.length, 0, 'Private proof views remain unmeasured after consent');
   } finally {
     await context.close();
     await browser.close();

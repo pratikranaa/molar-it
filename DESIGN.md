@@ -93,6 +93,18 @@ typography:
     fontSize: "12px"
     fontWeight: 400
     lineHeight: 1.65
+  ask-mobile-display:
+    fontFamily: "Hanken, ui-sans-serif, sans-serif"
+    fontSize: "43px"
+    fontWeight: 550
+    lineHeight: 1.05
+    letterSpacing: "-0.035em"
+  ask-mobile-title:
+    fontFamily: "Hanken, ui-sans-serif, sans-serif"
+    fontSize: "27px"
+    fontWeight: 550
+    lineHeight: 1.13
+    letterSpacing: "-0.02em"
 rounded:
   control: "6px"
   field: "7px"
@@ -162,12 +174,15 @@ Molar presents a customer journey as a working application map. Light green pape
 
 The typography-only `Molar.` wordmark uses the loaded `Hanken` CSS family, whose font asset is Hanken Grotesk. The attached navigation keeps Platform, Products, Solutions, and Resources as expandable groups. Authored scenes and controlled recordings use human-readable evidence language and are labeled as examples or controlled tests where appropriate.
 
+Ask Molar extends the same identity into a focused Operate/Read surface: the question form is the working left side, while a public-source rail gives the visitor a clear place to continue reading. Its answer states stay explicit about whether guidance was generated, sourced directly, or unavailable.
+
 **Key Characteristics:**
 
 - Pale sage workbenches hold the hero browser and observed result; green-black workspaces carry the service lab and developer tooling.
 - Coral identifies the active path or next action; green and red communicate labeled outcomes.
 - Hanken is the human voice; Geist Mono is reserved for commands, URLs, event rows, and structured evidence.
 - One browser and its service consequences form the signature visual device.
+- Ask Molar pairs a question workspace with a public source rail, keeping answers and their next reading paths visible together.
 - Molar. remains typography-only; no separate M icon or invented mark.
 
 ## Colors
@@ -200,6 +215,15 @@ The palette is an application state system: paper explains, sage holds the livin
 - **Light Workspace Ink** (`{colors.light}`): Text and controls on dark workspaces.
 - **Light Workspace Muted** (`{colors.light-muted}`): Supporting text on dark workspaces.
 - **Causal Route Signal** (`{colors.scene-signal}`): Active application-scene route stroke.
+- **Ask Field White** (`{colors.ask-field}`): Question textarea surface.
+- **Ask Field Border** (`{colors.ask-field-border}`): Textarea boundary on the paper canvas.
+- **Ask Focus Coral** (`{colors.ask-focus}`): Question-field and Ask surface focus outline.
+- **Ask Placeholder** (`{colors.ask-placeholder}`): Placeholder and quiet advisory copy inside the form.
+- **Ask Advisory** (`{colors.ask-advisory}`): Form note, source disclaimer, and supporting rail copy.
+- **Ask Link Hover** (`{colors.ask-link-hover}`): Hover response for example-question links.
+- **Ask Rail Line** (`{colors.ask-rail}`): Public-source connector stroke.
+- **Ask Error** (`{colors.ask-error}`): Error copy for failed or timed-out answers.
+- **Ask Error Wash** (`{colors.ask-error-wash}`): Error message background.
 
 **The State Signal Rule.** Coral means the path is active or available; green means the result is observed; red means the result failed. Never use status colors as decoration.
 
@@ -224,6 +248,8 @@ The CSS face is named `Hanken`; “Hanken Grotesk” describes the font file and
 
 **The Two Voices Rule.** Use Hanken for human explanation and interaction; use Geist Mono for code, data, URLs, event evidence, and service-lab labels.
 
+Ask Molar uses a `clamp(42px, 4.6vw, 64px)` route display, `19px` lead and question copy, `16px` field label, `29px` rail/result title, `18px` answer copy, and `12px` advisory copy. At the phone breakpoint these resolve to a `43px` intro title, `27px` rail title, and `17px` answer copy.
+
 ## Layout
 
 The shared content wrap is capped at `1320px` and uses `calc(100% - 96px)` before the cap, `calc(100% - 48px)` at `max-width: 900px`, and `calc(100% - 36px)` at `max-width: 640px`. The attached header is sticky at `76px` on desktop and `70px` on phones. General sections use `100px` vertical rhythm in the identity layer.
@@ -232,9 +258,13 @@ The homepage hero is a compact headline and action row followed by a full-width 
 
 The service lab is a five-tab dark workspace with a controls column and an example surface. Its tabs remain horizontally scrollable when needed. Product, proof, developer, and reading sections inherit the same wrap and use scene-specific compositions rather than a single repeated card grid.
 
+Ask Molar keeps the form and public-source rail in a `1.65fr 1fr` desktop grid with a `72px` gap. The route intro uses a `1.4fr 1fr` split with a `64px` gap; the question workspace begins at a hairline and the rail begins at a vertical hairline. Below `900px`, the form grid tightens and the submit row can wrap. At `640px` and below, the route becomes a single column with a `48px` gap: the complete question workspace, including any answer, comes first, then the source rail with a top rule. The shared wrap remains `calc(100% - 36px)` on phones and `calc(100% - 48px)` at tablet widths.
+
 ## Elevation & Depth
 
 Depth comes from tonal layering, one-pixel boundaries, and the separation between light workbenches and dark workspaces. The application-scene browser uses `0 14px 28px #263b2217`; the service-lab workbench uses `0 24px 48px #273a2914` and its inner surface uses `0 16px 30px #08120930`; the open desktop navigation dropdown uses `0 24px 36px #21321a16`. Ordinary reading panels stay flat.
+
+The optional analytics choice panel is the one additional floating surface on `/ask` and the shared site: it uses the dark workspace, a one-pixel dark hairline, a `12px` corner, and `0 24px 48px #273a2940` to separate it from the page while it is open. It is an `aside`, not a modal dialog, and does not dim or block the page.
 
 **The Working Surface Rule.** Establish hierarchy through the browser, service observations, causal route, and result state. Reserve shadows for scene separation, controlled proof captures, and genuinely floating navigation.
 
@@ -266,6 +296,8 @@ Components are quiet at rest and explicit when a state changes.
 
 Fields use paper or browser surfaces, one-pixel gray-green borders, `6px–7px` corners, and Hanken text. Focus uses the visible coral outline and the identity caret color. Disabled controls use the shared `.55` opacity; Failure Red is reserved for a negative state.
 
+Ask Molar’s textarea is white with a `1px #a2afa1` border, `12px` corners, `21px 23px` desktop padding, `19px` text, and a `2px #b84328` focus outline with `3px` offset. Its error wash uses `#f8e8e1`, error copy uses `#9e321b`, and form advisory copy uses `#536054`.
+
 ### Navigation
 
 The attached light header contains the typography-only `Molar.` wordmark and four expandable groups: Platform, Products, Solutions, and Resources. Desktop dropdowns use a pale sage feature panel and restrained shadow. Below `900px`, the menu becomes a keyboard-operable mobile panel; below `640px`, links use one column. Escape handling and focus return are preserved.
@@ -282,6 +314,22 @@ The lab has exactly five tabs: Payments, Email, SMS, Sign-in, and Storage. Each 
 
 The invitation proof uses captured admin and member images plus native video players from the controlled fixture page. The player markup uses `controls`, `playsinline`, and `preload="none"`; a wrapper preserves the poster and displays a loading label until the native `playing` event, with a retry label on error and direct downloads always available. It identifies the run as a controlled test and early-access capability, and keeps the recording scope explicit rather than implying customer proof or autonomous model decisions.
 
+### Ask Molar
+
+The `/ask` surface is a question form paired with a public-source rail. The form accepts a required `8–400` character question, shows three line-item starter questions, and uses a coral primary submit button. While the request is active, the progress line reads “Reading the relevant guides…” and a Cancel control is revealed; Cancel aborts the request and returns focus to the question field. The answer heading receives focus when a response is rendered.
+
+Answer copy is split into paragraphs and keeps its sources in a linked list. The mode label distinguishes `Generated from the linked sources`, `From the published guides` (the labeled source fallback), and `No matching guidance`. Request errors and timeouts use the red advisory block; the same submit action remains the retry path. Copy answer reports either “Copied with sources” or the selection fallback before restoring its label.
+
+The rail uses a coral origin dot and a thin branching connector in Ask Rail Line, followed by five text links: Payments & webhooks, Sign-in & access, Team invitations, Coding agent workflows, and All guides. Its privacy note says questions are used to produce the answer, are not published or added to analytics, and links to About your data.
+
+### Optional Analytics Choice
+
+The shared analytics layer starts with `analytics_storage` denied and keeps ad storage, ad user data, ad personalization, Google signals, and ad personalization signals denied. If no choice exists and GPC is off, the lower-right panel presents “Optional analytics” with Decline analytics and Accept analytics actions. On clean public URLs, a granted choice loads GA4 and sends sanitized page views and allowlisted CTA, navigation, and demo events; private proof views and URLs containing a query string or fragment keep the tag off because automatic measurement can inspect those values. Explicit clean form destinations prevent automatic form events from inheriting the document query; a denied choice clears Google cookies and sends nothing. The footer’s Privacy choices control reopens the same nonmodal panel and restores focus to the control after closing. When `navigator.globalPrivacyControl === true`, analytics remain off, cookies are cleared, and the panel explains that browser GPC keeps optional analytics off.
+
+### Route-specific Social Cards
+
+The full site’s canonical routes receive 1200×630 social cards generated by `scripts/build-social.py`. Cards reuse Hanken, the paper canvas, green-black framing, coral route signal, typography-only `Molar.` wordmark, and route path label; `/ask` uses `assets/social/ask.png`.
+
 ## Do's and Don'ts
 
 ### Do:
@@ -294,6 +342,9 @@ The invitation proof uses captured admin and member images plus native video pla
 - **Do** keep application scenes causal: a browser action should lead to service state and a changed result.
 - **Do** preserve semantic roles, keyboard focus, live announcements, reduced-motion behavior, and readable mobile controls.
 - **Do** label interactive examples, controlled recordings, and illustrative scenes accurately.
+- **Do** keep Ask Molar’s generated, published-guide fallback, and no-match labels visible with the answer.
+- **Do** keep the public-source rail beside the form on desktop and after the answer on mobile.
+- **Do** make analytics optional, nonmodal, keyboard reachable, and governed by GPC and Privacy choices.
 
 ### Don't:
 
@@ -304,3 +355,9 @@ The invitation proof uses captured admin and member images plus native video pla
 - **Don't** turn every section into a floating, shadowed card.
 - **Don't** imply that authored examples or controlled recordings are customer proof, a reliability benchmark, or an autonomous AI run.
 - **Don't** remove pause, replay, condition, evidence, focus, live-region, or reduced-motion behavior from interactive scenes.
+- **Don't** imply that Ask Molar’s source-grounded answer surface provides search ranking, account reporting, or an instant-proof backend capability.
+- **Don't** turn the analytics choice into a blocking consent wall or treat `/ask` questions as analytics events.
+
+### Shared browser checks
+
+`/verify` retains the shared header, footer, Hanken typography and coral primary action. A shared link uses a dedicated heading and two columns: captured browser frame and read-only result. At 960px it becomes one column. Images fit fully inside the viewport without cropping, including portrait captures. Expired links show a clear unavailable state; loading never presents a completed verdict. Verified, failed, missing and sharing states are driven by the API response, with no simulated result in the live instrument. Nine primary browser renders at 390, 833 and 1440px cover result, shared result and expired link; these use explicitly mocked API fixtures for layout review.

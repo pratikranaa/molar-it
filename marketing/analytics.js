@@ -97,6 +97,13 @@
     return navigator.globalPrivacyControl === true;
   }
 
+  // GA's automatic search/form events read the document URL independently of
+  // page_location. Keep the tag off parameterized URLs and private proof views.
+  function measurablePage() {
+    const proofPage = /^\/verify(?:\.html)?\/?$/.test(window.location.pathname);
+    return !proofPage && !window.location.search && !window.location.hash;
+  }
+
   function sanitizePath() {
     const path = window.location.pathname || '/';
     return (`/${path.replace(/^\/+/, '').replace(/[\u0000-\u001f\u007f]/g, '')}`).slice(0, 256) || '/';
@@ -152,7 +159,7 @@
   }
 
   function sendEvent(name, params = {}) {
-    if (state.consent !== 'granted' || state.gpc || typeof window.gtag !== 'function') return;
+    if (state.consent !== 'granted' || state.gpc || !measurablePage() || typeof window.gtag !== 'function') return;
     if (!state.scriptLoaded) {
       state.queuedEvents.push([name, params]);
       loadAnalytics();
@@ -173,7 +180,7 @@
   }
 
   function loadAnalytics() {
-    if (state.consent !== 'granted' || state.gpc) return Promise.resolve(false);
+    if (state.consent !== 'granted' || state.gpc || !measurablePage()) return Promise.resolve(false);
     if (state.scriptLoaded) return Promise.resolve(true);
     if (state.scriptLoading) return state.scriptLoading;
 

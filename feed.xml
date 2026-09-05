@@ -75,13 +75,8 @@
         <pre><code>$ molar verify "signup confirms with OTP" --url http://localhost:3000 --json
 {
   "verdict": "fail",
-  "step": 4,
-  "reason": "OTP email never arrived within 30s",
-  "evidence": {
-    "trace": "https://app.molar.it/t/run_8f21",
-    "cloned_calls": ["POST /v1/emails → 503 (mailbox quota)"]
-  },
-  "hint": "MailHole clone rejected send; check SMTP pool config"
+  "evidence": { "trace": "&lt;trace-url&gt;", "logs": "&lt;run-logs&gt;" },
+  "hint": "Inspect the OTP delivery path"
 }</code></pre>
         <p>
           Structured output with evidence links changes the economics of agent-driven development: the
@@ -137,9 +132,8 @@
           the problems automation genuinely can’t judge.
         </p>
         <p>
-          If you want to feel the loop before believing the essay, Molar is the shortest path: describe a
-          flow in English, get Playwright-grade tests, gate PRs with them, and let your coding agent call
-          the whole thing through MCP.
+          If you want to feel the loop before believing the essay, Molar’s beta workflow is intended to support this path: describe a flow in English, review Playwright-grade
+          tests, and connect the workflow through MCP where the relevant integrations are enabled.
         </p>]]></content:encoded>
     </item>
     <item>
@@ -163,8 +157,8 @@
           <li><strong>Deterministic export.</strong> Emit runnable code, byte-stable for identical input.</li>
         </ul>
         <p>
-          Molar’s Cartographer follows exactly this shape: an exploration agent maps your app from a seed
-          URL, then an export pipeline produces Playwright specs you can read, diff, and run anywhere.
+          Molar’s Cartographer is designed around this shape: an exploration agent maps an app from a seed URL,
+          then an export pipeline can produce Playwright specs for review and execution.
         </p>
       </section>
 
@@ -176,9 +170,9 @@
           candidate locators instead of taking the first match:
         </p>
         <pre><code># Ranking, simplified
-1. data-testid            (stable, purpose-built)
-2. accessible name        (role + name — survives styling changes)
-3. label text association (forms)
+1. accessible name        (role + name — follows how users find controls)
+2. label text association (forms)
+3. data-testid            (an explicit test contract when semantics are insufficient)
 4. text content           (unique, human-meaningful)
 5. structural CSS         (last resort)</code></pre>
         <p>
@@ -206,15 +200,10 @@
         <h2 id="deterministic-output-or-it-doesn-t-belong-in-ci">Deterministic output, or it doesn’t belong in CI</h2>
         <p>
           Generation should be repeatable: same app state in, same spec out. Byte-stable export means code review
-          diffs show real changes, not LLM paraphrase noise. Molar compiles scenarios deterministically — the same
-          <code>.molar.md</code> source always produces the same Playwright file — so generated tests behave like
-          hand-written ones in git: reviewable, versioned, yours.
+          diffs show real changes, not LLM paraphrase noise. Keep the reviewed Playwright files in version control. Run them from a clean application state before making them required checks; a generated file alone does not prove the flow works.
         </p>
-        <pre><code>$ molar generate --url https://staging.example.com
-✓ Mapped 14 routes, 6 flows
-✓ Authored checkout.spec.ts, signup.spec.ts, invite.spec.ts
-✓ Assertions: 23 semantic, 0 visual-only
-→ Exported to ./e2e (playwright@1.49 compatible)</code></pre>
+        <pre><code># After reviewing an exported spec, run it from a clean test state
+npx playwright test e2e/checkout.spec.ts --trace on</code></pre>
       </section>
 
       <section>
@@ -224,7 +213,7 @@
           <a href="https://molar.it/blog/testing-third-party-apis-safely">safe third-party substitutes</a>: stateful clones that
           speak Stripe’s API but never move money. That’s the difference between a demo that works on a toy site
           and tests that run hourly against production.
-        </p>]]></content:encoded>
+        </p><p>Reference: <a href="https://playwright.dev/docs/locators">Playwright locator guidance</a>.</p>]]></content:encoded>
     </item>
     <item>
       <title>API mocking vs stateful service clones</title>
@@ -341,10 +330,8 @@ expect(list.data).toHaveLength(1);   // true because the clone remembers
         <p>
           Clones invert this. Their blast radius is bounded by design — no money moves, no emails leave, no SMS
           sends — while their behavior stays close enough to production that a green E2E suite actually means
-          something. That’s the trade worth making at the system boundary. Molar ships clones for Stripe, Twilio,
-          email, auth, S3, and GitHub as one coordinated set, wired into its
-          <a href="https://molar.it/blog/test-stripe-without-real-cards">payment-flow testing</a> and CI gating so the substitution
-          is automatic rather than per-project plumbing.
+          something. That’s the trade worth making at the system boundary. Molar’s clone catalog covers Stripe, Twilio, email, auth, S3, and GitHub; use the documented integration
+          path for payment-flow testing and keep a thin project-level check so the substitution is explicit.
         </p>
       </section>
 
@@ -376,13 +363,13 @@ expect(list.data).toHaveLength(1);   // true because the clone remembers
       <content:encoded><![CDATA[<section>
         <h2 id="the-feedback-budget-comes-first">The feedback budget comes first</h2>
         <p>
-          Before deciding what to run where, decide what developers are allowed to wait for. A workable
-          budget for most teams:
+          Before deciding what to run where, decide what developers are allowed to wait for. A starting
+          budget teams can tune to their CI:
         </p>
         <ul>
-          <li><strong>Pre-push / commit:</strong> under 2 minutes, or people stop running it locally.</li>
-          <li><strong>Pull request:</strong> under 10 minutes wall-clock for required checks, or reviewers context-switch and merges stall.</li>
-          <li><strong>Deploy:</strong> under 5 minutes for smoke, because it blocks the release itself.</li>
+          <li><strong>Pre-push / commit:</strong> keep the loop short enough that people run it locally.</li>
+          <li><strong>Pull request:</strong> keep required checks within a review-friendly wall-clock budget.</li>
+          <li><strong>Deploy:</strong> keep smoke checks short because they block the release itself.</li>
           <li><strong>Scheduled (production):</strong> unbounded runtime is fine — nobody is waiting.</li>
         </ul>
         <p>
@@ -487,9 +474,7 @@ jobs:
           A failed check without evidence is a support ticket; a failed check with evidence is a diagnosis.
           Attach trace links to the PR — video, DOM snapshots, network log, console output, and the exact
           cloned third-party interactions — so the author debugs from the comment thread instead of
-          reproducing locally. Molar posts these artifacts automatically: Guard runs the suites as required
-          GitHub checks and attaches a Trace replay to every failure, which cuts most “can’t reproduce”
-          exchanges out of review entirely.
+          reproducing locally. Molar’s Guard and Trace surfaces are designed around this evidence bundle; verify the configured beta integration before relying on automatic publication.
         </p>
       </section>
 
@@ -522,9 +507,9 @@ jobs:
           refund, password reset. Those flows get coverage first, deepest, and best maintenance.
         </p>
         <p>
-          A concrete allocation that works for most SaaS products: identify the 15–25 flows that generate or
+          A concrete allocation: identify the flows that generate or
           protect revenue, write one clean test per flow plus variants only where risk justifies it, and hold
-          that set to a strict runtime budget (under 10 minutes on every pull request). Everything beyond the
+          that set to a strict runtime budget appropriate for your pull request gate. Everything beyond the
           critical path belongs in lower-cost layers — component tests, API tests — or in scheduled runs rather
           than PR gating. If you’re building this foundation deliberately, our guide to
           <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a> shows how to layer
@@ -617,8 +602,8 @@ jobs:
       <section>
         <h2 id="artifacts-on-failure-always">Artifacts on failure, always</h2>
         <div>
-          An E2E failure without artifacts costs 30–60 minutes of archaeology: reproduce, guess, instrument,
-          repeat. The same failure with a trace usually costs two — open the timeline, read the network waterfall,
+          An E2E failure without artifacts costs a round of archaeology: reproduce, guess, instrument,
+          repeat. A trace shortens the investigation — open the timeline, read the network waterfall,
           watch the DOM at the failing step. Configure artifact capture before you need it, because you will
           need it.
         </div>
@@ -635,8 +620,8 @@ jobs:
           stable; sharding keeps them fast; artifacts make failures diagnosable. Drop any pillar and the others
           degrade — especially stability, since unresolved flakiness poisons trust in everything else
           (<a href="https://molar.it/blog/flaky-tests-causes-and-fixes">causes and fixes here</a>). Teams that want generation
-          to enforce these defaults automatically can point Molar’s agent at their app and get Playwright-grade
-          specs built on exactly these conventions.
+          to enforce these defaults automatically can use Molar’s documented agent workflow to target an app and request Playwright-grade
+          specs built on these conventions.
         </p>]]></content:encoded>
     </item>
     <item>
@@ -768,8 +753,8 @@ export async function latestCodeTo(clone, addr) {
           <a href="https://molar.it/blog/regression-testing-strategies">regression strategy</a>.
         </p>
         <p>
-          Molar’s email clone ships as part of the platform’s clone set — alongside Stripe, Twilio, auth, S3, and
-          GitHub — with Trace capturing each message as evidence next to DOM snapshots and network logs. When an
+          Molar’s clone catalog includes email alongside Stripe, Twilio, auth, S3, and GitHub; Trace is designed to
+          capture each message as evidence next to DOM snapshots and network logs. When an
           invite flow fails, you see the exact email the system produced, not a screenshot of its absence.
         </p>]]></content:encoded>
     </item>
@@ -909,10 +894,8 @@ await expect(page.getByText('Payment confirmed')).toBeVisible();</code></pre>
         <p>
           A workable policy: cap retries at one or two; tag any test that ever needed one; move repeat offenders
           to quarantine — still running and reported, but non-blocking, with a named owner and a hard expiry
-          date so quarantine stays a hospital rather than a cemetery. Budget flake rate explicitly (under 1% of
-          runs is achievable) and review it like any other SLO. Tooling should make this state visible: Molar
-          marks flaky as its own run status — distinct from passed or failed — so intermittent behavior surfaces
-          in dashboards without blocking merges. For the CI wiring that puts this policy into practice, see our
+          date so quarantine stays a hospital rather than a cemetery. Budget flake rate explicitly and review it like any other SLO. Tooling should make this state visible: where Molar’s beta integration is enabled, flaky runs can remain
+          distinct from passed or failed so intermittent behavior surfaces without silently turning green. For the CI wiring that puts this policy into practice, see our
           <a href="https://molar.it/blog/github-actions-playwright-ci">GitHub Actions setup guide</a>.
         </p>]]></content:encoded>
     </item>
@@ -979,6 +962,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: all-reports
+          pattern: blob-report-*
           merge-multiple: true
       - run: npx playwright merge-reports --reporter=html ./all-reports
       - uses: actions/upload-artifact@v4
@@ -999,7 +983,7 @@ jobs:
         <p>
           Two things dominate cold-start time: dependency installation and browser binaries. The
           <code>cache: npm</code> input above handles dependencies by hashing the lockfile. Browsers need explicit
-          handling — roughly 130MB per browser plus system deps, typically 30–60 seconds of install per run:
+          handling — browser binaries and system dependencies can make cold starts expensive:
         </p>
         <pre><code>- uses: actions/cache@v4
   with:
@@ -1018,12 +1002,11 @@ jobs:
         <h2 id="shard-until-prs-wait-minutes-not-quarters-of-an-hour">Shard until PRs wait minutes, not quarters of an hour</h2>
         <p>
           Sharding splits the suite across matrix jobs. Pick the target wall-clock time first, then derive shard
-          count: a 36-minute serial suite across 4 shards lands around 9–10 minutes including overhead.
+          count: a serial suite split across four shards can still be limited by balance and setup overhead.
           Playwright balances shards by test count; if durations vary wildly, sort specs into size buckets or
           split known-slow files so no single shard dominates. Watch for two scaling ceilings: shared backend
           contention (parallel shards hammering one database turn into a different kind of red), and per-shard
-          fixed costs (checkout, install, boot) that set a floor around 3–5 minutes no matter how few tests each
-          shard holds.
+          fixed costs for checkout, install, and browser boot can dominate once shards are small.
         </p>
         <p>
           If sharding exposes order dependence — tests failing only under some shard arrangements — fix the
@@ -1067,12 +1050,11 @@ jobs:
           shards passed” — the latter survives future shard-count changes without editing protection rules.
           The exact configuration steps are in our
           <a href="https://molar.it/blog/required-status-checks-merge-gate">required status checks guide</a>, and the
-          <a href="https://molar.it/integrations/github-actions">GitHub Actions integration page</a> shows how Guard reports its
-          own verdicts as native check runs.
+          <a href="https://molar.it/integrations/github-actions">GitHub Actions integration page</a> documents the configured Guard path for
+          reporting verdicts as native check runs.
         </p>
         <p>
-          Why gating discipline matters more every year: GitHub reported that 46% of code in enabled repositories
-          is now AI-generated (GitHub, 2026). When humans write less of the diff by hand, machine-verified gates
+          As more code is generated, machine-verified gates
           carry proportionally more of the safety burden — a gate that can be trained-around is a liability at
           exactly the moment usage patterns are drifting that way.
         </p>
@@ -1097,7 +1079,7 @@ jobs:
           The end state to aim for: every pull request gets sub-10-minute E2E feedback it can trust, every
           failure arrives with enough evidence to diagnose without a local reproduction, and the merge gate
           stays green for exactly one reason — the app actually works.
-        </p>]]></content:encoded>
+        </p><p>Reference: <a href="https://playwright.dev/docs/test-sharding">Playwright’s CI sharding and report-merging guide</a>.</p>]]></content:encoded>
     </item>
     <item>
       <title>Playwright vs Cypress in 2026: an honest comparison</title>
@@ -1146,29 +1128,28 @@ await expect(checkout.getByTestId('order-total')).toHaveText('$42.00');</code></
         <p>
           An honest caveat cuts the other way too: Playwright’s WebKit is a close proxy for Safari, not
           literal Safari on macOS and iOS. Treat it as high-confidence coverage, and keep a single
-          real-device smoke lane if mobile Safari touches revenue. For most teams, though, “WebKit in CI
-          for free” quietly eliminates an entire class of late-discovered layout and API bugs.
+          real-device smoke lane if mobile Safari touches revenue. For most teams, though, “WebKit in CI” quietly eliminates an entire class of late-discovered layout and API bugs.
         </p>
       </section>
 
       <section>
         <h2 id="parallelism-and-sharding-at-ci-scale">Parallelism and sharding at CI scale</h2>
         <p>
-          Playwright parallelizes two ways at zero marginal cost: multiple workers within a machine and
-          shards across machines. A twelve-minute suite split four ways finishes in roughly three, with a
+          Playwright parallelizes two ways: multiple workers within a machine and
+          shards across machines. A suite split across four shards can reduce wall-clock time when the work balances well, with a
           built-in flag:
         </p>
-        <pre><code>npx playwright test --shard=1/4 --shard=2/4 ...
+        <pre><code>npx playwright test --shard=1/4
 
-# or declarative, in playwright.config.ts
+# worker settings, in playwright.config.ts
 export default defineConfig({
   fullyParallel: true,
   workers: process.env.CI ? 4 : unset value,
 });</code></pre>
         <p>
-          Cypress runs serially per machine out of the box. Cross-machine orchestration has historically
-          centered on its paid cloud offering; community splitters exist if you’d rather assemble your own.
-          At small suite sizes none of this matters. Past roughly ten minutes of runtime, this section
+          Cypress can distribute recorded specs across multiple CI machines with Cypress Cloud’s <code>--record --parallel</code>
+          flow; its balancing is spec-file based.
+          At small suite sizes none of this matters. As runtime grows, this section
           determines both your CI bill and your feedback latency — and feedback latency decides whether
           engineers wait for the gate or merge around it. Our <a href="https://molar.it/blog/github-actions-playwright-ci">GitHub
           Actions walkthrough</a> shows the sharded setup end to end.
@@ -1199,10 +1180,8 @@ export default defineConfig({
         <p>
           On classic codegen, Playwright leads: <code>npx playwright codegen</code> emits runnable TypeScript
           with role-based locators by default, while Cypress Studio remains experimental-flavored. But the
-          larger 2026 force is AI-generated suites. GitHub reported that 46% of code in enabled repositories
-          is now AI-written (GitHub, 2026), and test code is not exempt. Agents overwhelmingly target
-          Playwright: a code-first API, deterministic export, and the largest training corpus of any browser
-          automation interface — models simply write Playwright better than anything else.
+          AI-generated suites make a reviewable, code-first API especially useful. Agents often target Playwright: its
+          recognizable syntax and deterministic export keep generated tests readable and easy to review.
         </p>
         <div>
           Choosing a framework in 2026 is partly choosing which API your future coding agents will emit.
@@ -1247,12 +1226,12 @@ export default defineConfig({
         </ul>
         <p>
           For teams adopting AI-generated suites, the verdict isn’t close: generated output lands in
-          Playwright, which brings reviewability, sharding, and traces along for free. Teams with deep
+          Playwright, which keeps reviewability, sharding, and traces in the workflow. Teams with deep
           Cypress investment, component-heavy frontends, and budget for cloud conveniences are rational to
           stay put. Greenfield in 2026 starts on Playwright. Deeper dives live on our
           <a href="https://molar.it/vs/cypress">Cypress comparison</a> and <a href="https://molar.it/vs/playwright">Playwright platform</a>
           pages.
-        </p>]]></content:encoded>
+        </p><p>References: <a href="https://playwright.dev/docs/test-sharding">Playwright sharding</a> and <a href="https://docs.cypress.io/cloud/features/smart-orchestration/parallelization">Cypress Cloud parallelization</a>.</p>]]></content:encoded>
     </item>
     <item>
       <title>Regression testing strategies for fast-moving teams</title>
@@ -1293,10 +1272,10 @@ rules:
     run_flows: [signup, login, password-reset, session-security]
   - touch: "package-lock.json"
     run_flows: all            # dependency bumps get everything
-always_run: [smoke]           # ~3 min, never skipped</code></pre>
+always_run: [smoke]           # never skipped</code></pre>
         <p>
-          The payoff is concrete: a PR that edits invoice rendering runs four flows (4 minutes) instead of sixty
-          (55 minutes), while a dependency bump still gets the world. Keep the mapping in the repo, reviewed like
+          The payoff is concrete: a PR that edits invoice rendering runs only the affected flows, while a dependency
+          bump still gets the world. Keep the mapping in the repo, reviewed like
           code, because it is code — it encodes your beliefs about coupling, and stale mappings rot into
           silent gaps. This is also where AI-authored suites change the economics: when
           <a href="https://molar.it/blog/ai-playwright-test-generation">test generation is cheap</a>, covering every affected flow
@@ -1338,7 +1317,7 @@ always_run: [smoke]           # ~3 min, never skipped</code></pre>
         <ul>
           <li><strong>Schedule it off-peak</strong> against production-like data, using clones for third-party side effects so the run is safe to repeat (<a href="https://molar.it/blog/staging-environment-alternatives">no dedicated staging needed</a>).</li>
           <li><strong>Capture evidence per flow</strong> — traces, network logs, DOM snapshots — so morning triage is reading, not re-running.</li>
-          <li><strong>Track suite duration weekly.</strong> A nightly that creeps from 40 to 90 minutes is telling you something about test debt before the PR gate feels it.</li>
+          <li><strong>Track suite duration weekly.</strong> A nightly that grows steadily is telling you something about test debt before the PR gate feels it.</li>
         </ul>
         <p>
           Production schedules extend the same idea outward: Guard-style recurring checks against live environments
@@ -1359,7 +1338,7 @@ always_run: [smoke]           # ~3 min, never skipped</code></pre>
           <li><strong>Quarantine means tracked.</strong> A quarantined test moves out of the gate, gets an owner and a ticket, and shows up on a dashboard. It does not vanish.</li>
           <li><strong>Time-boxed hard.</strong> Fourteen days default. Quarantine without expiry is how suites rot while dashboards stay green.</li>
           <li><strong>Snooze ≠ quarantine.</strong> Snoozing a known-flaky test during a feature branch is fine; quarantining a failing test to ship a release requires the owner’s name next to it.</li>
-          <li><strong>Budget the rate.</strong> If more than ~1–2% of the suite is quarantined at steady state, stop merging features and fix reliability — the gate’s credibility is the product.</li>
+          <li><strong>Budget the rate.</strong> If a substantial share of the suite is quarantined at steady state, stop merging features and fix reliability — the gate’s credibility is the product.</li>
         </ul>
         <div>
           The graveyard pattern is the most common way regression suites die: tests get quarantined, the quarantine
@@ -1378,9 +1357,7 @@ always_run: [smoke]           # ~3 min, never skipped</code></pre>
         <pre><code>escape_rate = bugs_found_in_production_with_regression_origin
             / (same_numerator + regressions_caught_by_suite)
 
-# Track monthly, segment by area:
-2026-03   18%   (checkout 4, auth 2, billing UI 3)
-2026-06    9%   (checkout 1, auth 1)
+# Track monthly, segment by area, and review every escape
 # Every escape → write the missing test + trace why selection missed it</code></pre>
         <p>
           Pair it with two operational metrics: <strong>time-to-feedback</strong> on the PR gate (target: under ten
@@ -1498,14 +1475,14 @@ JSON</code></pre>
       <section>
         <h2 id="a-gate-is-only-as-strong-as-its-flake-rate">A gate is only as strong as its flake rate</h2>
         <div>
-          A required check that fails randomly 10–20% of the time doesn’t reduce risk — it trains bypass.
+          A required check that fails randomly often enough doesn’t reduce risk — it trains bypass.
           Engineers learn that red usually means “roll the dice again”, and within a quarter the team is
           merging through admin override reflexively. Flake budget is gate security.
         </div>
         <p>
           Before making a suite required, earn it: cap retries at one, track which tests consume them, and move
           repeat offenders to a quarantine lane that still runs and reports but doesn’t block, with a named owner
-          and expiry date. Review flake rate weekly like an SLO; under 1% is a realistic target. Diagnosis comes
+          and expiry date. Review flake rate weekly like an SLO; set a target your team can defend from observed history. Diagnosis comes
           before policy — timing races, shared state, third-party outages, and environment drift each need their
           own fix, laid out in <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">our flaky-tests guide</a>. A merge
           queue pairs well here: with strict mode plus a queue, each PR is validated against the true tip of
@@ -1529,8 +1506,8 @@ JSON</code></pre>
           your suite got slower, your flake rate climbed, or your process stopped fitting reality — all worth
           knowing within days rather than quarters. And when the required E2E verdict itself needs richer
           evidence than a checkmark, deterministic replay with full DOM, network, and clone state turns “why did
-          the gate go red?” from a meeting into a link. That’s the model Molar is built around: gates that stay
-          honest because every failure arrives with its evidence attached. For the broader rollout sequence,
+          the gate go red?” from a meeting into a link. That’s the model Molar’s design centers on: gates that stay
+          honest when each failure arrives with its evidence attached. For the broader rollout sequence,
           see <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a>.
         </p>]]></content:encoded>
     </item>
@@ -1709,8 +1686,8 @@ Scenario: Duplicate submit
         <p>
           Plain-English scenarios work at this stage because every stakeholder can read them — product,
           engineering, and support argue about edge cases while changing them costs a keystroke. It’s the
-          same format Molar compiles into executable Playwright tests, so the artifact you argued over in
-          design review becomes the artifact that gates the merge later. For teams without dedicated QA,
+          same format Molar is designed to compile into executable Playwright tests, so the artifact you argued over
+          in design review can become the artifact that gates the merge later. For teams without dedicated QA,
           this habit alone closes most of the gap described in
           <a href="https://molar.it/blog/startup-qa-without-qa-team">running QA without a QA team</a>.
         </p>
@@ -1741,7 +1718,7 @@ Scenario: Duplicate submit
           Shift-left fails socially when it becomes ceremony. The working distinction:
         </p>
         <ul>
-          <li><strong>Budgets.</strong> Required checks must finish inside the PR feedback budget (ten minutes is a good ceiling) or they will be bypassed — the stage-by-stage policy is in <a href="https://molar.it/blog/continuous-testing-ci-cd-pipeline">continuous testing in your CI/CD pipeline</a>.</li>
+          <li><strong>Budgets.</strong> Required checks must finish inside the PR feedback budget your team sets or they will be bypassed — the stage-by-stage policy is in <a href="https://molar.it/blog/continuous-testing-ci-cd-pipeline">continuous testing in your CI/CD pipeline</a>.</li>
           <li><strong>Scope.</strong> Gate on critical paths only; long-tail coverage belongs to scheduled runs, not every developer’s every push.</li>
           <li><strong>Flake policy.</strong> Quarantine flaky checks same-day. One random failure costs more goodwill than twenty true catches earn back — root causes are catalogued in our piece on <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flaky tests</a>.</li>
           <li><strong>Escape hatch with receipts.</strong> Admin-override stays possible but logged and reviewed weekly. Trust with accountability beats either extreme.</li>
@@ -1767,10 +1744,9 @@ Scenario: Duplicate submit
           the phase in which defects die.
         </p>
         <p>
-          Molar exists to make that program boring: plain-English scenarios compile to Playwright-grade
-          tests, Guard runs them as required GitHub checks against destruction-safe clones of Stripe,
-          email, SMS, S3 and auth, and Trace attaches deterministic replays to every failure. Shift-left
-          without the maintenance tax that historically killed it.
+          Molar is designed to make that program boring: plain-English scenarios can compile to Playwright-grade
+          tests, while Guard and Trace are intended to connect checks, safe dependencies, and failure evidence.
+          Verify the configured beta integration before relying on automatic publication.
         </p>]]></content:encoded>
     </item>
     <item>
@@ -1854,8 +1830,8 @@ S3_ENDPOINT=http://s3-clone.internal:9000            # real API, throwaway bucke
           Now every property staging promised — isolated data, safe third parties, disposable state — holds
           per pull request instead of approximately-once-per-quarter. Deterministic IDs and snapshot/restore
           make runs reproducible; webhook-signing clones let your handlers execute their real verification
-          path. This is the architecture Molar’s Clones product implements directly, and Guard wires into
-          every PR as required checks.
+          path. This is the architecture Molar’s Clones product is designed around; Guard can wire it into
+          required checks where the configured integration supports that path.
         </p>
       </section>
 
@@ -2019,9 +1995,8 @@ test('signup → upgrade', async ({ page }) => {
         </ul>
         <p>
           Revisit the founder-time math: eighty hours a year of manual checking becomes an afternoon of
-          setup plus reviewing failures that actually matter. This loop — generate from plain English, gate
-          PRs, monitor production — is exactly what Molar automates, and the
-          <a href="https://app.molar.it">beta access</a> covers running it on a small app today.
+          setup plus reviewing failures that actually matter. This loop — generate from plain English, gate PRs, and monitor production — is the workflow Molar is building toward;
+          see <a href="https://app.molar.it">beta access</a> for the currently supported paths.
         </p>]]></content:encoded>
     </item>
     <item>
@@ -2084,17 +2059,16 @@ assert_timeout_s: 30</code></pre>
           Run things hourly and your mean time to detection is an hour. Calibrate by blast radius:
         </p>
         <ul>
-          <li><strong>Revenue path (checkout, paywall):</strong> every 1–5 minutes, from multiple regions.</li>
-          <li><strong>Auth path (login, SSO):</strong> every 5–10 minutes. Auth breakage blocks everything else.</li>
-          <li><strong>Core UX (search, profile, upload):</strong> every 15–30 minutes is usually fine.</li>
+          <li><strong>Revenue path (checkout, paywall):</strong> frequently, from multiple regions.</li>
+          <li><strong>Auth path (login, SSO):</strong> on a shorter cadence. Auth breakage blocks everything else.</li>
+          <li><strong>Core UX (search, profile, upload):</strong> on a longer cadence when the path is lower risk.</li>
           <li><strong>Long-tail pages:</strong> daily crawl-style sweeps instead of dedicated checks.</li>
         </ul>
         <p>
           Regions matter for two reasons: CDNs and edge functions fail regionally, and latency-based routing can
           serve different backends. Two or three regions for revenue-critical checks is a sane default; one region
-          everywhere else. Guard schedules in Molar work this way — you attach a cadence and region set to a flow,
-          and the platform handles the run distribution, evidence capture, and alert routing so you’re not gluing
-          cron to Playwright by hand.
+          everywhere else. Guard schedules in Molar are designed for this model — attach a cadence and region set to a flow,
+          then verify the configured beta integration for run distribution, evidence capture, and alert routing.
         </p>
         <div>
           Don’t point production synthetics at load-test-sized intervals. A checkout flow running once a minute
@@ -2125,8 +2099,7 @@ assert_timeout_s: 30</code></pre>
       <section>
         <h2 id="alert-dedup-the-difference-between-signal-and-noise">Alert dedup: the difference between signal and noise</h2>
         <p>
-          A single broken deployment fails every scheduled run until someone fixes it. At 5-minute cadence across
-          three regions, one incident generates hundreds of failures. Naive paging on each failure trains everyone
+          A single broken deployment fails every scheduled run until someone fixes it. At a short cadence across multiple regions, one incident can generate a large number of failures. Naive paging on each failure trains everyone
           to ignore the channel within a week. Dedup before notifying:
         </p>
         <pre><code># Grouping rule (pseudo-config)
@@ -2298,8 +2271,7 @@ export const newUser = (role: 'member' | 'admin' = 'member') => ({
           <li><strong>Treat artifacts as data:</strong> redact traces and screenshots like the production systems they are.</li>
         </ul>
         <p>
-          Teams that adopt these rules report their “flaky test” backlog shrinking to near zero — because
-          most of it was never timing bad luck. It was two tests sharing a row.
+          Many apparent flakes are shared-state failures: two tests sharing a row can look like timing bad luck.
         </p>]]></content:encoded>
     </item>
     <item>
@@ -2339,8 +2311,8 @@ await expect(receipt.total).toBe(9900);</code></pre>
       <section>
         <h2 id="how-molar-runs-checkout-tests">How Molar runs checkout tests</h2>
         <p>
-          Molar points an autonomous agent at your staging or production URL, authors a critical-path
-          checkout scenario in plain English, and runs it against cloned Stripe plus email and auth
+          Molar’s beta workflow targets an agent pointed at a staging URL, authoring a critical-path
+          checkout scenario in plain English and running it against cloned Stripe plus email and auth
           dependencies — see <a href="https://molar.it/blog/testing-third-party-apis-safely">safe third-party testing</a>.
           Failures capture a full replayable trace; regressions gate PRs through
           <a href="https://molar.it/blog/github-actions-playwright-ci">required GitHub checks</a>.
@@ -2482,8 +2454,8 @@ test('signup verifies by phone', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Welcome' })).toBeVisible();
 });</code></pre>
         <p>
-          Molar ships Twilio, email, Stripe, auth, and S3 clones as one system, so a single scenario can mix an
-          SMS code, a confirmation email, and a test-mode charge without real accounts anywhere. For the email side
+          Molar’s clone catalog covers Twilio, email, Stripe, auth, and S3; when those integrations are enabled, a
+          single scenario can mix an SMS code, a confirmation email, and a test-mode charge without real accounts. For the email side
           of the same pattern, see <a href="https://molar.it/blog/email-workflow-testing-otp">email workflow testing</a>; for the
           payments leg, <a href="https://molar.it/blog/test-stripe-without-real-cards">Stripe testing without real cards</a>.
         </p>
@@ -2634,9 +2606,9 @@ if (event.type === 'charge.refunded') { ... }</code></pre>
           <li><strong>Prove</strong> webhook handling with signed cloned events, including replays and bad signatures.</li>
         </ul>
         <p>
-          Molar ships destruction-safe clones of Stripe, Twilio, email, S3, auth, and GitHub behind this exact
-          model — deterministic IDs, virtual clock for expiry-sensitive logic, snapshot/restore per run — and
-          Trace records every cloned interaction as evidence next to DOM and network captures. If you want the
+          Molar’s clone catalog is designed around destruction-safe substitutes for Stripe, Twilio, email, S3, auth, and
+          GitHub — deterministic IDs, virtual clock for expiry-sensitive logic, snapshot/restore per run — while
+          Trace can record cloned interactions as evidence next to DOM and network captures. If you want the
           deeper walkthrough for one vendor, start with
           <a href="https://molar.it/blog/test-stripe-without-real-cards">Stripe without real cards</a>.
         </p>]]></content:encoded>
@@ -2723,9 +2695,8 @@ await expect(page).toHaveScreenshot('dashboard.png', {
         <h2 id="thresholds-that-respect-antialiasing">Thresholds that respect antialiasing</h2>
         <p>
           A zero-tolerance threshold will eventually fail because two CI runners rasterized a font two
-          subpixels apart. Cross-machine antialiasing variance is a fact of life; budget for it. In
-          practice, full-page shots tolerate roughly 0.5–2% differing pixels depending on how dynamic the
-          surface is, while component shots can run tighter — fractions of a percent.
+          subpixels apart. Cross-machine antialiasing variance is a fact of life; budget for it. Set thresholds empirically per surface: full-page shots need tolerance for known rendering variance, while
+          component shots can run tighter. Start from a recorded baseline and adjust only after reviewing real diffs.
         </p>
         <p>
           Two thresholds beat one: a hard limit that fails the build, and a softer watch level that flags

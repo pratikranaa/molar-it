@@ -3,7 +3,7 @@
  * Ported from Vercel api/instant-proof.js (same HMAC cookie contract).
  *
  * Env:
- *   MOLAR_CONTROL_PLANE_URL / CONTROL_PLANE_URL  (default https://api.molar.it)
+ *   MOLAR_CONTROL_PLANE_URL / CONTROL_PLANE_URL  (default https://api.molar.it/plumbing-api)
  *   INSTANT_PROOF_PROXY_SECRET                   (≥32 chars; required in production)
  */
 
@@ -104,10 +104,13 @@ async function proxyClientIdentity(request, secret) {
 
 function controlPlaneBase(env) {
   const base =
-    env.MOLAR_CONTROL_PLANE_URL || env.CONTROL_PLANE_URL || "https://api.molar.it";
+    env.MOLAR_CONTROL_PLANE_URL || env.CONTROL_PLANE_URL || "https://api.molar.it/plumbing-api";
   const parsed = new URL(base);
   if (parsed.protocol !== "https:") {
     throw new Error("Molar control plane must use HTTPS in production");
+  }
+  if (parsed.username || parsed.password || parsed.search || parsed.hash) {
+    throw new Error("Molar control plane URL must not include credentials, query, or hash");
   }
   return parsed.toString().replace(/\/$/, "");
 }
@@ -165,10 +168,7 @@ async function handle(context) {
 
     const base = controlPlaneBase(env);
     const source = new URL(request.url);
-    const target = new URL(
-      `/api/v1/instant-proof${validated ? `/${validated}` : ""}`,
-      `${base}/`,
-    );
+    const target = new URL(`${base}/api/v1/instant-proof${validated ? `/${validated}` : ""}`);
     if (segments[1] === "frame") {
       const step = source.searchParams.get("step") || "";
       if (!/^\d{1,4}$/.test(step) || Number(step) > 1000) {
@@ -247,7 +247,7 @@ async function handle(context) {
         hint:
           status === 413
             ? "Send a smaller JSON body."
-            : "Configure INSTANT_PROOF_PROXY_SECRET and MOLAR_CONTROL_PLANE_URL on the Cloudflare Pages project, then retry.",
+            : "Try again in a moment.",
       }),
       {
         status,

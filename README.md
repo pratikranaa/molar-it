@@ -57,7 +57,6 @@ Instant Proof / waitlist secrets (never commit):
 
 ```bash
 npx wrangler pages secret put INSTANT_PROOF_PROXY_SECRET --project-name molar-it
-npx wrangler pages secret put MOLAR_CONTROL_PLANE_URL --project-name molar-it   # optional; default https://api.molar.it
 npx wrangler pages secret put WAITLIST_WEBHOOK_URL --project-name molar-it      # optional
 ```
 
@@ -68,7 +67,9 @@ Public URL+claim verification before signup. Requires Pages env on project `mola
 | Variable | Required | Notes |
 |----------|----------|-------|
 | `INSTANT_PROOF_PROXY_SECRET` | yes (≥32 chars) | HMAC for browser/network identity cookie; must match control-plane proxy verification if shared |
-| `MOLAR_CONTROL_PLANE_URL` | optional | Defaults to `https://api.molar.it` |
+| `MOLAR_CONTROL_PLANE_URL` | configured in `wrangler.jsonc` | `https://api.molar.it/plumbing-api`; preserves the public path prefix |
+
+The browser reads captured step frames while polling, waits for the final frame before the verdict, and offers actual token-based read-only sharing at `/verify#…`. Tokens are removed from the address bar and kept in memory. Only server terminal results expose saving/sharing; expired and unavailable runs show a recovery message. Private proof views do not load Google Analytics.
 
 Local: `python3 -m http.server` does **not** run `/api/instant-proof` — use `npx wrangler pages dev .site-dist` or deploy.
 
@@ -84,9 +85,9 @@ Product pages on the main site live at `/products/cartographer`, `/products/clon
 
 ### Waitlist — receive signups for $0
 
-Flow: visitor clicks CTA on e.g. `clones.molar.it` → popup form → `POST https://molar.it/api/waitlist` → your webhook stores the row.
+The deployed `/waitlist` form posts to `/api/waitlist` and stores a deduplicated record in `WEBSITE_DB`. The database is the production destination; the integrations below are optional fallbacks for environments without D1.
 
-**Recommended (free): Google Sheets + email alert**
+**Optional fallback: Google Sheets + email alert**
 
 1. Create a Google Sheet with tab **Waitlist** and headers: `Timestamp | Email | Company | Role | Source`
 2. **Extensions → Apps Script** → paste [`scripts/google-sheets-waitlist.gs`](scripts/google-sheets-waitlist.gs)
@@ -143,9 +144,9 @@ The waitlist now saves to `WEBSITE_DB` without requiring a paid email provider. 
 
 ## Analytics
 
-The supplied GA4 measurement ID is `G-2YL3J3PX8R`. `marketing/analytics.js` loads the Google tag only after analytics consent, keeps advertising consent denied, respects Global Privacy Control and exposes **Privacy choices** in the footer. Withdrawal clears Google cookies and disables future hits. Page URLs omit query strings and fragments; event properties use fixed names, not user-entered data.
+The supplied GA4 measurement ID is `G-2YL3J3PX8R`. `marketing/analytics.js` loads the Google tag only after analytics consent, keeps advertising consent denied, respects Global Privacy Control and exposes **Privacy choices** in the footer. Withdrawal clears Google cookies and disables future hits. The tag stays off the private `/verify` instrument and URLs containing query strings or fragments because Google’s automatic search events can inspect those independently of `page_location`. Clean public pages send sanitized page views and fixed-label interactions after consent. Form destinations are explicit clean paths; input values are never passed to analytics.
 
-The browser contract tests exercise consent, withdrawal, GPC and sensitive query handling. GA4 reporting, Enhanced Measurement settings and Search Console submission require access to the owner's Google account. Confirm the data-stream settings before treating aggregate reporting as verified; the tag itself does not prove account-side configuration or indexing.
+The browser contract tests exercise consent, withdrawal, GPC and sensitive query handling. `python3 scripts/check-live-analytics.py` also exercises the real Google tag and collection requests with synthetic canaries. GA4 reporting, Enhanced Measurement settings and Search Console submission require access to the owner's Google account. Confirm the data-stream settings before treating aggregate reporting as verified; the tag itself does not prove account-side configuration or indexing.
 
 **Docs architecture:** The full product documentation is the Next.js site at **`https://docs.molar.it`** (source: `apps/docs-site` in the Molar monorepo). It has its own sitemap and JSON-LD, and its `Organization` node shares the same `@id` (`https://molar.it/#org`) so the two properties resolve to one entity. `docs.molar.it` is in this site's schema `sameAs` and is cross-linked from `llms.txt`. Do **not** list another domain's URLs in `molar.it/sitemap.xml` — each host serves its own sitemap.
 

@@ -7,9 +7,9 @@
 ## Completion checks
 
 - [x] QA homepage, general platform, products, solutions, editorial, policies, examples, sticky navigation and responsive interactions: retain verified founder release.
-- [ ] Source-grounded `/ask`: answer, supporting links, no-match, loading, cancellation, retry and accessible keyboard/mobile flow. No secrets or prompts sent to analytics, no query pages indexed.
-- [ ] Query publishing: generate a structured draft with citations from approved public sources; review and publish it into the existing article template, blog index, sitemap and feed. Reject invalid or unreviewed drafts.
-- [ ] Search: coherent entity/page/article/breadcrumb metadata, per-page sharing images, feed, crawlable source maps, accurate bot policy; live checks on all generated routes.
+- [x] Source-grounded `/ask`: answer, supporting links, no-match, loading, cancellation, retry and accessible keyboard/mobile flow. No secrets or prompts sent to analytics, no query pages indexed.
+- [x] Query publishing: generate a structured draft with citations from approved public sources; review and publish it into the existing article template, blog index, sitemap and feed. Reject invalid or unreviewed drafts.
+- [x] Search: coherent entity/page/article/breadcrumb metadata, per-page sharing images, feed, crawlable source maps, accurate bot policy; live checks on all generated routes.
 - [ ] Measurement: supplied GA4 ID, no requests before consent, aggregate events, preference changes, sanitized URLs and matching privacy copy.
 - [ ] Customer entry: waitlist submission persists and first-run Instant Proof performs a real check, or its precise external dependency is resolved with the product owner.
 - [ ] Product proof: publish a genuinely autonomous multistep run with inspected recording and provenance; clearly distinguish examples from actual recordings.
