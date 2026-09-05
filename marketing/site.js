@@ -89,6 +89,18 @@
     const link=document.createElement('a');link.href=href;link.click();
     $('.form-status',form).textContent='Your email draft is ready. Send it from your mail app, or email pratik@molar.it directly.';
   });
+  // Retain the actual captured poster until playback starts, including on a slow connection.
+  $$('[data-recording]').forEach(root=>{
+    const video=$('video',root), button=$('[data-recording-start]',root), label=$('[data-recording-label]',root);
+    button.hidden=false;video.controls=false;
+    video.addEventListener('playing',()=>{button.hidden=true;video.controls=true;video.tabIndex=0;video.focus({preventScroll:true})});
+    button.addEventListener('click',async()=>{
+      button.disabled=true;button.setAttribute('aria-busy','true');label.textContent='Loading recording…';
+      try{if(video.error)video.load();await video.play()}
+      catch{label.textContent='Try playback again';button.setAttribute('aria-label','Try playback again')}
+      finally{button.disabled=false;button.removeAttribute('aria-busy')}
+    });
+  });
   const search=$('[data-blog-search]');
   const filterButtons=$$('[data-blog-filter]');
   let category='all';

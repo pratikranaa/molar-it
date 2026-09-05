@@ -453,3 +453,6 @@
  .feature-visual .fv-branch-note,.feature-visual .fv-identity-callout{position:relative;right:auto;bottom:auto;flex-wrap:wrap;margin:18px 0 0}
  .feature-visual .fv-geometry{opacity:.18}
 }
+
+/* Coral remains a path signal; document lettering needs stronger text contrast. */
+.feature-visual .fv-document-mark{color:#a33827}

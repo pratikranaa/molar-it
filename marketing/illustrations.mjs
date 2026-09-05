@@ -37,7 +37,7 @@ function checkout() {
     <article class="fv-node fv-browser-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Browser</span><span class="fv-node-mark">01</span></header><div class="fv-node-content">${windowBar('checkout.northstar.test')}<strong>Northstar Pro plan</strong><span class="fv-price">$24 <small>/ month</small></span><a class="fv-scene-link" href="/solutions/checkout-testing">Explore checkout tests ${icon('arrow')}</a></div></article>
     <article class="fv-node fv-service-node" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Payment provider</span><span class="fv-node-mark">02</span></header><div class="fv-node-content"><div class="fv-event-icon">${icon('trace')}</div><strong>Payment accepted</strong><code>payment_intent.succeeded</code><span class="fv-result">${check} state changed</span></div></article>
     <article class="fv-node fv-result-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Your application</span><span class="fv-node-mark">03</span></header><div class="fv-node-content"><div class="fv-event-icon">${check}</div><strong>Order confirmed</strong><span>Receipt sent to test inbox</span><code>order_1042</code></div></article>
-  </div><div class="fv-branch-note" data-motion-item style="--i:3"><span>${icon('mail')}</span><strong>Signed callback</strong><span>Webhook received and verified</span></div></div>`));
+  </div><div class="fv-branch-note" data-motion-item style="--i:3"><span>${icon('mail')}</span><strong>Signed callback</strong><span>Webhook received and verified</span></div>`));
 }
 
 function identity() {

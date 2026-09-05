@@ -1,43 +1,42 @@
 {
-  "title": "An invitation across two browser sessions",
-  "recorded_at": "2026-08-02T19:29:14Z",
-  "environment": "Molar controlled test application",
+  "recorded_at": "2026-09-05T19:32:24.397Z",
   "result": "passed",
-  "roles": {
-    "admin": "Desktop browser, 1440 \u00d7 900",
-    "member": "Mobile browser, 390 \u00d7 844"
-  },
-  "observations": {
+  "environment": "Controlled test application with synthetic accounts",
+  "execution": "Molar scenario runtime and Playwright with Auth and Email Clones. This run did not use autonomous model decisions.",
+  "checks": {
     "separate_browser_sessions": true,
-    "email_clone_messages_delivered": 1,
-    "invitation_link_matched": true,
-    "final_invitation_status": "accepted"
+    "invitation_status": "accepted",
+    "messages_delivered": 1,
+    "invitation_link_matched": true
+  },
+  "viewports": {
+    "admin": {
+      "width": 1440,
+      "height": 900
+    },
+    "member": {
+      "width": 390,
+      "height": 844
+    }
   },
   "artifacts": [
     {
-      "type": "Screenshot",
-      "sha256": "33820eeb9920d93a7e8179fc31339ccb36fbe750d4433e22588fd50c3018e45f"
+      "path": "/assets/invitation/admin-final.png",
+      "sha256": "411f1cfa4577053406219b7df4a63127f38792706cb2f7dbcac7a589df96195c",
+      "source_sha256": "b5fb066a72fa50a099928a2764c6297d929479b84c9eb4bfb723ce2be615d8a5"
     },
     {
-      "type": "Playwright trace",
-      "sha256": "099438aa213ff74c710770fa21781188c38e187c32132e627d7129bbe812bb73"
+      "path": "/assets/invitation/admin.webm",
+      "sha256": "d70d5be52934eab992e29b031aa0a484297d4470ab95bef1da779eaea69d57dd"
     },
     {
-      "type": "Browser recording",
-      "sha256": "08ae86839f90739468919d51ef94de0442a06657993a53056d9f9f49a7f739aa"
+      "path": "/assets/invitation/member-final.png",
+      "sha256": "419e3be7a6e257d5f5145564639478dc6315fea882d703a86f822ce1877cdca1",
+      "source_sha256": "59f526420c40b3a4ece7cc9f589a24a6bc2599548890df9f47e68ad6b3e9b29e"
     },
     {
-      "type": "Screenshot",
-      "sha256": "d11a20c8da1431c7e869b732c30fa71b6d0b095db88c829ba03c56ad5aec13c3"
-    },
-    {
-      "type": "Playwright trace",
-      "sha256": "d8ee084eabe533c7321233ad9a08c49c9fbaed273f1975531c5e134aab464ddb"
-    },
-    {
-      "type": "Browser recording",
-      "sha256": "11dc487415107e581954115d78baf6eeeb52b94895516c64a9ec828c4abefcbd"
+      "path": "/assets/invitation/member.webm",
+      "sha256": "281f883c6e146ccacbad919b896d2e19f6f13d4b5faca9e8cd5a094d6a89b3b3"
     }
-  ],
-  "scope": "A recorded test of a controlled invitation flow. It is not a customer case study or a measure of general reliability."
+  ]
 }

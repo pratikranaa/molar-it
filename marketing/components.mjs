@@ -18,6 +18,7 @@ export const icon = (name, cls='') => {
     file:'<path d="M14 2H5v20h14V7Zm0 0v6h5M8 12h8m-8 4h8"/>',
     copy:'<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/>',
     search:'<circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/>', terminal:'<path d="m4 6 6 6-6 6m10 0h6"/>',
+    replay:'<path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/>', download:'<path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>',
     play:'<path d="m8 4 12 8-12 8Z"/>', pause:'<path d="M8 5v14m8-14v14"/>', x:'<path d="m6 6 12 12M6 18 18 6"/>',
     menu:'<path d="M4 6h16M4 12h16M4 18h16"/>', users:'<circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M17 4a3 3 0 0 1 0 6m1 4c3 0 4 2 4 5v2"/>',
   };

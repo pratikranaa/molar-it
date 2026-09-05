@@ -4,53 +4,97 @@
   "title": "Design System: Molar Marketing Site",
   "extensions": {
     "colorMeta": {
-      "paper": {"role":"neutral","displayName":"Living Paper","canonical":"#f7f8f2","tonalRamp":["#202b23","#3e4b3d","#596655","#74806d","#909a87","#adb6a5","#d1d8cb","#f7f8f2"]},
-      "ink": {"role":"neutral","displayName":"Working Ink","canonical":"#202b23","tonalRamp":["#202b23","#38453a","#526052","#6c796b","#879187","#a2aca1","#c1c9bd","#f7f8f2"]},
-      "muted": {"role":"neutral","displayName":"Quiet Wash","canonical":"#e8eddf","tonalRamp":["#263027","#435044","#5d6b5b","#778474","#929e90","#adb8aa","#cbd4c6","#e8eddf"]},
-      "dark": {"role":"secondary","displayName":"Execution Green","canonical":"#1c2521","tonalRamp":["#1c2521","#2d3930","#3e4d40","#506151","#687968","#829181","#aab5a7","#f5f7ef"]},
-      "dark-2": {"role":"neutral","displayName":"Execution Surface","canonical":"#2b382d","tonalRamp":["#2b382d","#3e4c40","#526254","#687968","#7f8d7e","#99a698","#bac5b8","#e9eee5"]},
-      "accent": {"role":"primary","displayName":"Signal Coral","canonical":"#f26342","tonalRamp":["#4d1b11","#722a1b","#963d29","#b84e34","#d85f43","#e97757","#f9987d","#ffd1c4"]},
-      "green": {"role":"semantic-success","displayName":"Observed Green","canonical":"#22664c","tonalRamp":["#102b20","#194633","#22664c","#397d61","#57977a","#78b18f","#a6cbb4","#d4e8c5"]},
-      "danger": {"role":"semantic-failure","displayName":"Failure Red","canonical":"#a33827","tonalRamp":["#43140d","#631d14","#81261b","#a33827","#ba5647","#d07a6e","#e6aaa0","#f5d2cc"]}
+      "paper": {"role": "neutral", "displayName": "Living Paper", "canonical": "#f7f8f2"},
+      "ink": {"role": "neutral", "displayName": "Working Ink", "canonical": "#202b23"},
+      "ink-soft": {"role": "neutral", "displayName": "Soft Ink", "canonical": "#56614f"},
+      "muted": {"role": "neutral", "displayName": "Pale Sage", "canonical": "#e8eddf"},
+      "line": {"role": "neutral", "displayName": "Hairline Green", "canonical": "#cdd5c5"},
+      "dark": {"role": "secondary", "displayName": "Execution Green", "canonical": "#1c2521"},
+      "dark-2": {"role": "neutral", "displayName": "Execution Surface", "canonical": "#2b382d"},
+      "dark-line": {"role": "neutral", "displayName": "Execution Hairline", "canonical": "#4f5c4b"},
+      "light": {"role": "neutral", "displayName": "Light Workspace Ink", "canonical": "#f5f7ef"},
+      "light-muted": {"role": "neutral", "displayName": "Light Workspace Muted", "canonical": "#cad2c0"},
+      "accent": {"role": "primary", "displayName": "Signal Coral", "canonical": "#f26342"},
+      "accent-hover": {"role": "primary", "displayName": "Signal Coral Hover", "canonical": "#ff8868"},
+      "green": {"role": "semantic-success", "displayName": "Observed Green", "canonical": "#22664c"},
+      "green-light": {"role": "semantic-success", "displayName": "Observed Green Wash", "canonical": "#d4e8c5"},
+      "danger": {"role": "semantic-failure", "displayName": "Failure Red", "canonical": "#a33827"},
+      "scene-signal": {"role": "primary", "displayName": "Causal Route Signal", "canonical": "#df593a"}
     },
     "typographyMeta": {
-      "display": {"displayName":"Outcome Display","purpose":"Hero statements and page-level customer outcomes."},
-      "headline": {"displayName":"Chapter Headline","purpose":"Section claims and mechanism statements."},
-      "body": {"displayName":"Working Text","purpose":"Readable product explanation."},
-      "label": {"displayName":"Interface Label","purpose":"Buttons and interactive controls."},
-      "technical": {"displayName":"Evidence Mono","purpose":"Commands, URLs, event rows, and structured data."}
+      "display": {"displayName": "Outcome Display", "purpose": "Homepage and platform hero outcomes.", "cssFamily": "Hanken", "typefaceExplanation": "Hanken Grotesk font asset"},
+      "headline": {"displayName": "Chapter Headline", "purpose": "Section claims and mechanism statements.", "cssFamily": "Hanken"},
+      "title": {"displayName": "Scene Title", "purpose": "Product names, cards, and compact explanatory blocks.", "cssFamily": "Hanken"},
+      "body": {"displayName": "Working Text", "purpose": "Readable customer explanation.", "cssFamily": "Hanken", "typefaceExplanation": "Hanken Grotesk font asset"},
+      "label": {"displayName": "Interface Label", "purpose": "Buttons and interactive controls.", "cssFamily": "Hanken"},
+      "technical": {"displayName": "Evidence Mono", "purpose": "Commands, URLs, event rows, and structured data.", "cssFamily": "Geist Mono"}
     },
     "shadows": [
-      {"name":"application-stage","value":"0 24px 48px #273a2914","purpose":"Separates the dark application scene from the paper canvas."},
-      {"name":"scene-browser","value":"0 16px 30px #08120930","purpose":"Separates the browser surface inside the application scene."},
-      {"name":"navigation-dropdown","value":"0 24px 36px #21321a16","purpose":"Separates an open desktop navigation dropdown."}
+      {"name": "application-scene-browser", "value": "0 14px 28px #263b2217", "purpose": "Separates the browser surface inside the pale sage application scene."},
+      {"name": "service-lab-workbench", "value": "0 24px 48px #273a2914", "purpose": "Separates the dark service-lab workspace from the page canvas."},
+      {"name": "service-lab-surface", "value": "0 16px 30px #08120930", "purpose": "Separates the example surface inside the service lab."},
+      {"name": "navigation-dropdown", "value": "0 24px 36px #21321a16", "purpose": "Separates an open desktop navigation dropdown."}
     ],
     "motion": [
-      {"name":"state-transition","value":".2s ease","purpose":"Button, link, border, and navigation state changes."},
-      {"name":"scene-state","value":".65s cubic-bezier(.16,1,.3,1)","purpose":"Agent cursor and browser state transitions in the living application scene."},
-      {"name":"scene-route","value":"3s linear infinite","purpose":"Active causal path while the scene is playing."},
-      {"name":"menu-entry","value":".24s cubic-bezier(.16,1,.3,1)","purpose":"Desktop dropdown entry."}
+      {"name": "state-transition", "value": ".2s ease", "purpose": "Button, link, border, toggle, and navigation state changes."},
+      {"name": "application-route", "value": "2.8s linear infinite", "purpose": "Animated active causal route while the application scene is playing."},
+      {"name": "application-track-fade", "value": ".5s", "purpose": "Application-scene route activation."},
+      {"name": "service-surface-state", "value": "220ms ease-out", "purpose": "Service-lab surface change after a tab or condition selection."},
+      {"name": "scene-step", "value": "3000ms per step; 6200ms on final step", "purpose": "Deterministic application-scene autoplay timing."}
     ],
     "breakpoints": [
-      {"name":"desktop","value":"min-width: 901px"},
-      {"name":"tablet","value":"max-width: 900px"},
-      {"name":"mobile","value":"max-width: 640px"},
-      {"name":"small-mobile","value":"max-width: 420px"}
+      {"name": "wide", "value": "min-width: 1550px"},
+      {"name": "medium", "value": "max-width: 1150px"},
+      {"name": "tablet", "value": "max-width: 900px"},
+      {"name": "mobile", "value": "max-width: 640px"},
+      {"name": "small-mobile", "value": "max-width: 420px"}
+    ],
+    "scene": {
+      "surface": "#e8eddf",
+      "signal": "#df593a",
+      "trackOrigin": "#d95b3c",
+      "desktopStage": {"columns": "minmax(0,1.2fr) 90px minmax(0,.85fr)", "padding": "28px 32px", "minHeight": "355px"},
+      "tabletStage": {"columns": "minmax(0,1.1fr) 45px minmax(0,1fr)", "padding": "22px", "minHeight": "345px"},
+      "mobileStage": {"layout": "single column", "gap": "21px", "observationsOrder": "first", "browserOrder": "second"},
+      "viewportEvidence": "At the approved 833px view, browser, service states, and customer result remain in the opening viewport.",
+      "initialQA": {"frame": 0, "outcome": "working", "delayed": true, "plan": "Free", "access": "Basic access", "payment": "Ready to charge", "webhook": "Waiting for payment", "evidence": ["Not checked yet", "Not checked yet", "Not checked yet"]},
+      "initialPlatform": {"frame": 0, "outcome": "working", "task": "Find September’s invoice and download the PDF.", "document": "Looking for September", "download": "Waiting for invoice", "result": "Molar opens the billing page."}
+    },
+    "controls": {
+      "applicationScene": [
+        {"name": "playback", "label": "Play/Pause example", "behavior": "Autoplay advances the deterministic four-frame scene only while visible and the document is visible; manual pause persists."},
+        {"name": "replay", "label": "Replay example", "behavior": "Returns to frame 0 and announces the current result."},
+        {"name": "condition", "label": "Delay the webhook", "attribute": "aria-pressed", "behavior": "QA-only condition sets the delayed state, stops autoplay, and renders the failed outcome at frame 3."},
+        {"name": "advance", "label": "Advance scene", "behavior": "Moves one frame and stops autoplay."},
+        {"name": "evidence", "label": "Inspect result", "element": "details", "behavior": "Discloses payment/webhook/outcome evidence and pauses the scene while open."}
+      ],
+      "serviceLab": {"tabs": ["Payments", "Email", "SMS", "Sign-in", "Storage"], "condition": {"label": "Set the condition", "attribute": "aria-pressed", "behavior": "Toggles the selected service’s edge case and updates the observed result."}, "resultLabel": "Observed result", "exampleLabel": "Interactive example"}
+    },
+    "accessibility": [
+      "Global focus is a 3px coral outline with 5px offset; service-lab tabs and condition toggle use 4px offset.",
+      "Application and service scenes use semantic tablists, tabpanels, aria-selected, roving tab indexes, and keyboard Arrow/Home/End navigation.",
+      "Scene condition controls use aria-pressed; scene announcements and service-lab changes use polite role=status live regions.",
+      "Application autoplay stops for manual pause, offscreen state, hidden document, and prefers-reduced-motion; reduced motion removes scene, tab, toggle, and proof transitions.",
+      "Recorded proof keeps the poster visible behind a keyboard-accessible start button until native playing; loading and retry states are announced by the button label, and direct downloads remain available."
     ]
   },
   "components": [
-    {"name":"Primary Button","kind":"button","refersTo":"button-primary","description":"Coral action for signup and the next customer step.","html":"<button class=\"ds-btn-primary\">Get started <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12h15m-6-6 6 6-6 6\"/></svg></button>","css":".ds-btn-primary{min-height:50px;display:inline-flex;align-items:center;justify-content:center;gap:22px;border:1px solid transparent;border-radius:6px;padding:11px 21px;background:#f26342;color:#202b23;font:600 15px/1.3 Hanken Grotesk,ui-sans-serif,sans-serif;transition:background .2s,transform .2s}.ds-btn-primary svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.ds-btn-primary:hover{background:#ff8868}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:3px solid #f26342;outline-offset:5px}"},
-    {"name":"Outline Button","kind":"button","refersTo":"button-outline","description":"Quiet secondary action that leaves the surrounding surface visible.","html":"<button class=\"ds-btn-outline\">Talk to the team</button>","css":".ds-btn-outline{min-height:50px;display:inline-flex;align-items:center;justify-content:center;gap:22px;border:1px solid #9eac92;border-radius:6px;padding:11px 21px;background:transparent;color:#202b23;font:600 15px/1.3 Hanken Grotesk,ui-sans-serif,sans-serif;transition:background .2s,border-color .2s}.ds-btn-outline:hover{background:#e4e9d9;border-color:#596f49}.ds-btn-outline:focus-visible{outline:3px solid #f26342;outline-offset:5px}"},
-    {"name":"Attached Navigation","kind":"nav","refersTo":"navigation","description":"Light attached header with four expandable product groups and typography-only wordmark.","html":"<nav class=\"ds-nav\"><strong class=\"ds-brand\">Molar<span>.</span></strong><a href=\"#\">Platform</a><a href=\"#\">Products</a><a href=\"#\">Solutions</a><a href=\"#\">Resources</a></nav>","css":".ds-nav{display:flex;align-items:center;gap:28px;min-height:76px;padding:0 24px;background:#f7f8f2;color:#44523e;border-bottom:1px solid #cdd5c5;font:400 14px/1.4 Hanken Grotesk,ui-sans-serif,sans-serif}.ds-brand{margin-right:auto;color:#202b23;font-size:32px;letter-spacing:-.04em}.ds-brand span{color:#f26342}.ds-nav a{position:relative;padding:28px 0}.ds-nav a:hover{color:#202b23}.ds-nav a:hover:after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:#f26342}.ds-nav a:focus-visible{outline:3px solid #f26342;outline-offset:5px}"},
-    {"name":"Application Scene","kind":"custom","refersTo":"execution-scene","description":"Open browser, service consequences, causal route, result state, and inspectable controls.","html":"<section class=\"ds-scene\"><div class=\"ds-scene-browser\">Checkout <span>Account: Free</span></div><div class=\"ds-scene-service\">Payment <strong>Captured</strong></div><div class=\"ds-scene-service\">Callback <strong>Delayed</strong></div><button class=\"ds-scene-control\">Replay</button></section>","css":".ds-scene{position:relative;min-height:330px;overflow:hidden;border-radius:16px;background:#1c2521;color:#f5f7ef;font:400 13px/1.5 Hanken Grotesk,ui-sans-serif,sans-serif}.ds-scene-browser{position:absolute;left:6%;top:11%;width:66%;padding:24px;background:#fbfaf5;color:#202b23;border-radius:12px;box-shadow:0 16px 30px #08120930}.ds-scene-browser span{display:block;margin-top:8px;color:#56614f}.ds-scene-service{position:absolute;bottom:7%;width:41%;padding:15px;background:#344136;border-radius:9px;color:#cad2c0}.ds-scene-service:first-of-type{left:5%}.ds-scene-service:nth-of-type(2){right:4%}.ds-scene-service strong{display:block;margin-top:5px;color:#f5f7ef}.ds-scene-control{position:absolute;right:5%;bottom:4%;border:1px solid #4f5c4b;border-radius:6px;background:transparent;color:#f5f7ef;padding:8px 12px}.ds-scene-control:hover{background:#2b382d}.ds-scene-control:focus-visible{outline:3px solid #f26342;outline-offset:5px}"},
-    {"name":"Text Field","kind":"input","refersTo":"input-field","description":"Warm browser-white field for search and form entry.","html":"<label class=\"ds-field\"><span>Email</span><input type=\"email\" placeholder=\"you@example.com\"></label>","css":".ds-field{display:flex;flex-direction:column;gap:6px;color:#56614f;font:400 13px/1.5 Hanken Grotesk,ui-sans-serif,sans-serif}.ds-field input{border:1px solid #9eac92;border-radius:6px;background:#fbfaf5;color:#202b23;padding:11px 12px;font:400 16px/1.4 Hanken Grotesk,ui-sans-serif,sans-serif;caret-color:#a93c22}.ds-field input:hover{border-color:#596f49}.ds-field input:focus-visible{outline:3px solid #f26342;outline-offset:5px}"}
+    {"name": "Primary Button", "kind": "button", "refersTo": "button-primary", "description": "Coral action for signup and the next customer step.", "html": "<button class=\"ds-btn-primary\">Get started <svg aria-hidden=\"true\"></svg></button>", "css": ".ds-btn-primary{min-height:50px;border:1px solid transparent;border-radius:6px;padding:11px 21px;background:#f26342;color:#1f291d;font:600 15px/1.3 Hanken,ui-sans-serif,sans-serif;transition:background .2s,transform .2s}.ds-btn-primary:hover{background:#ff8868}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:3px solid #f26342;outline-offset:5px}"},
+    {"name": "Attached Navigation", "kind": "nav", "description": "Light sticky header with four expandable groups and typography-only wordmark.", "html": "<nav class=\"ds-nav\"><strong class=\"ds-brand\">Molar<span>.</span></strong><a href=\"#\">Platform</a><a href=\"#\">Products</a><a href=\"#\">Solutions</a><a href=\"#\">Resources</a></nav>", "css": ".ds-nav{display:flex;align-items:center;min-height:76px;padding:0 24px;background:#f7f8f2;color:#44523e;border-bottom:1px solid #d9dfd1;font:400 14px/1.4 Hanken,ui-sans-serif,sans-serif}.ds-brand{margin-right:auto;color:#202b23;font-size:32px;letter-spacing:-.04em}.ds-brand span{color:#ba462c}"},
+    {"name": "Application Scene", "kind": "custom", "refersTo": "application-scene", "description": "Pale sage browser workbench with service consequences, causal route, result, progress, and inspectable controls.", "html": "<section class=\"ds-scene\"><div class=\"ds-scene-browser\">Checkout <span>Account: Free</span></div><div class=\"ds-scene-service\">Payment <strong>Ready to charge</strong></div><button class=\"ds-scene-control\" aria-pressed=\"true\">Delay the webhook</button></section>", "css": ".ds-scene{position:relative;overflow:hidden;background:#e8eddf;color:#202b23;--scene-signal:#df593a}.ds-scene-browser{background:#fbfaf5;border-radius:10px;box-shadow:0 14px 28px #263b2217}.ds-scene-service{border-bottom:1px solid #c4ceb9}.ds-scene-control{border:0;background:transparent;color:#394f2f}.ds-scene-control:focus-visible{outline:3px solid #f26342;outline-offset:5px}"},
+    {"name": "Service Lab Workbench", "kind": "custom", "refersTo": "service-lab-workbench", "description": "Five service-clone tabs, an Interactive example control column, a condition toggle, and an observed result band.", "html": "<section class=\"ds-service-lab\"><div role=\"tablist\"><button role=\"tab\" aria-selected=\"true\">Payments</button><button role=\"tab\">Email</button><button role=\"tab\">SMS</button><button role=\"tab\">Sign-in</button><button role=\"tab\">Storage</button></div><button aria-pressed=\"false\">Decline the payment</button><span>Observed result</span></section>", "css": ".ds-service-lab{border-radius:16px;background:#1c2521;color:#f5f7ef;box-shadow:0 24px 48px #273a2914}.ds-service-lab [role=tab][aria-selected=true]{border-bottom:2px solid #f26342}.ds-service-lab button:focus-visible{outline:3px solid #f26342;outline-offset:4px}"},
+    {"name": "Recorded Proof Player", "kind": "media", "description": "Controlled-fixture browser recording with poster-preserving start overlay, native playback, retry state, and direct download.", "html": "<div class=\"recording-player\"><video controls playsinline preload=\"none\" poster=\"/assets/invitation/admin-final.png\"></video><button data-recording-start><span>Play admin recording</span></button></div>", "css": ".recording-player{position:relative;overflow:hidden;border-radius:8px}.recording-start{position:absolute;inset:0;background:#fff;color:#f5f7ef;border:1px solid #cdd5c5;border-radius:8px}.recording-start>span{position:absolute;bottom:0;left:0;right:0;padding:15px;background:#263a28}.recording-start:focus-visible{outline-offset:-4px}"}
   ],
   "narrative": {
     "northStar": "The Living Application",
-    "overview": "Molar's identity makes a browser journey feel alive. A light green paper canvas carries the explanation; a green-black execution stage carries the browser, independent services, agent cursor, event paths, and changed outcome. The visual proof is causal: a customer action moves through payment and callback state, then the account outcome visibly changes.\n\nThe wordmark is typography-only: `Molar.` in Hanken Grotesk, with a coral period. The attached navigation groups Platform, Products, Solutions, and Resources and gives each group enough explanatory context to orient a buyer. Product scenes, role maps, service controls, and result panels reuse the same human-readable evidence language. Illustrations are authored application scenes and are labeled as examples when they are not live runs.",
-    "keyCharacteristics": ["Light green paper for reading; green-black execution canvases for working state.","Coral identifies the active path, action, or next choice; green and red communicate labeled outcomes.","Hanken Grotesk is the human voice; Geist Mono is reserved for commands, URLs, event rows, and structured evidence.","One large browser and its service consequences form the signature visual device.","Typography-only Molar. identity; no separate M icon or invented mark."],
-    "rules": [{"name":"The State Signal Rule","body":"Coral means the path is active or available; green means the result is observed; red means the result failed. Never use status colors as decoration.","section":"colors"},{"name":"The Two Voices Rule","body":"Use Hanken for human explanation and interaction; use Geist Mono for code, data, URLs, and event evidence.","section":"typography"},{"name":"The Working Surface Rule","body":"Use dark green to establish an execution stage, then use a browser, service states, and causal paths to create hierarchy inside it. Avoid persistent shadow on ordinary reading panels.","section":"elevation"}],
-    "dos": ["Do let the paper canvas carry explanation and the dark green stage carry execution.","Do use coral for an active path or next action and green/red for clearly labeled outcomes.","Do keep the Molar. wordmark typography-only and preserve the four attached navigation groups.","Do use Geist Mono for commands, URLs, event timelines, and structured evidence.","Do keep application scenes causal: a user action should lead to service state and a changed result.","Do preserve semantic HTML, keyboard focus, reduced-motion support, and readable mobile controls.","Do label examples and illustrative demos so they are not mistaken for live product evidence."],
-    "donts": ["Don't introduce a separate M icon, decorative logo mark, or second display typeface.","Don't use green as a generic accent or coral as a success signal.","Don't flatten the identity into a text-only page or hide the application scene behind ornamental art.","Don't turn every section into a floating, shadowed card.","Don't imply that authored examples are customer proof or live run results.","Don't remove pause, replay, evidence, focus, or reduced-motion behavior from interactive scenes."]
+    "overview": "Molar presents a customer journey as a working application map. Light green paper carries the explanation, while the homepage opens with a full-width pale sage workbench containing the browser, independent service observations, a result, and controls that change or inspect the example. The causal path is the visual proof: a browser action moves through service state and the customer-facing outcome changes.\n\nThe typography-only Molar. wordmark uses the loaded Hanken CSS family, whose font asset is Hanken Grotesk. Authored scenes and controlled recordings are labeled so they are not mistaken for live customer proof.",
+    "keyCharacteristics": ["Pale sage hero workbench for browser and observed result; green-black workspaces for service lab and developer tooling.", "Coral identifies active paths and next actions; green and red communicate labeled outcomes.", "Hanken is the human voice; Geist Mono marks commands, URLs, event rows, and structured evidence.", "The browser and its service consequences form the signature visual device."],
+    "rules": [
+      {"name": "The State Signal Rule", "body": "Coral means the path is active or available; green means the result is observed; red means the result failed. Never use status colors as decoration.", "section": "colors"},
+      {"name": "The Two Voices Rule", "body": "Use Hanken for human explanation and interaction; use Geist Mono for code, data, URLs, event evidence, and service-lab labels.", "section": "typography"},
+      {"name": "The Working Surface Rule", "body": "Establish hierarchy through the browser, service observations, causal route, and result state. Reserve shadows for scene separation, controlled proof captures, and genuinely floating navigation.", "section": "elevation"}
+    ],
+    "dos": ["Do let the pale sage hero workbench show the browser, service states, controls, and result in the first view.", "Do use the green-black workspace for the five-tab service lab and developer tooling.", "Do use coral for an active path or next action and green/red for clearly labeled outcomes.", "Do preserve semantic roles, keyboard focus, live announcements, reduced-motion behavior, and readable mobile controls.", "Do label interactive examples, controlled recordings, and illustrative scenes accurately."],
+    "donts": ["Don't place the homepage browser in a separate side column; the final hero puts the compact headline/action row above the full-width workbench.", "Don't substitute another CSS family for Hanken; Hanken Grotesk names the font asset behind the loaded family.", "Don't introduce a separate M icon, decorative logo mark, or second display typeface.", "Don't imply that authored examples or controlled recordings are customer proof, a reliability benchmark, or an autonomous AI run.", "Don't remove pause, replay, condition, evidence, focus, live-region, or reduced-motion behavior from interactive scenes."]
   }
 }

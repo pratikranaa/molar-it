@@ -14,9 +14,9 @@ Challengers: theater lighting declined (less audience recognition and clarity; r
 
 ## Visual contract
 
-- First viewport: a short bold headline at left, a large open application map at right; the stage has independent browser, payment and account states connected by animated paths. No nested browser chrome or multi-tab dashboard in the hero.
+- Founder pass first viewport: a compact headline/action row above a full-width workbench. The browser, payment and account states connect through animated causal paths. The result is visible at the user’s 833px width; on phones observations precede browser detail.
 - Preserve exact QA headline: Your users shouldn’t be your QA team. Typography-only Molar. identity. No separate M mark.
-- Strong ink typography on warm light surfaces; dark canvas belongs to execution scenes. Saturated coral identifies the active path. Green/red convey labeled results. A purposeful large curved path becomes a repeated brand device.
+- Strong ink typography on light green paper; the hero is a pale sage workbench while the service lab and developer section use green-black canvas. Saturated coral identifies the active path. Green/red convey labeled results. A purposeful large curved path becomes a repeated brand device.
 - One authored autoplay story; one meaningful control changes the callback condition; pause/replay and evidence inspection remain keyboard accessible. Persist manual pause and honor reduced motion and offscreen visibility.
 - Secondary sections are application scenes, role interactions, service control and failure comparison. At least half of the major story area carries informative graphics, not prose.
 - Header stays attached. Platform / Products / Solutions / Resources remain, with a clear first action and readable grouped links.
@@ -26,4 +26,8 @@ Challengers: theater lighting declined (less audience recognition and clarity; r
 
 ## Verification and completion
 
-Rebuild all 95 HTML pages, check links/headings/schema/assets, validate the demo state machine and keyboard/manual pause behavior, inspect desktop/mobile plus representative page types in one batch, run one detector, fix observed issues, and obtain a fresh independent finish review. Update design documentation, STATUS.md and relevant marketing limitations. Commit/push marketing main, deploy existing Cloudflare Pages project, verify canonical files and routes, then commit the parent submodule pointer and marketing status only. Preserve unrelated dirty work.
+Rebuild all 96 HTML pages, check links/headings/schema/assets, validate the demo state machine and keyboard/manual pause behavior, inspect desktop/mobile plus representative page types in one batch, run one detector, fix observed issues, and obtain a fresh independent finish review. Update design documentation, STATUS.md and relevant marketing limitations. Commit/push marketing main, deploy existing Cloudflare Pages project, verify canonical files and routes, then commit the parent submodule pointer and marketing status only. Preserve unrelated dirty work.
+
+## Founder-pass evidence
+
+The user’s honest assessment supersedes the earlier split-column composition: the site felt generic and like text printed on a page. This pass moves the product into the first viewport, removes repeated hero/payment/role illustrations, adds five meaningful service controls, and publishes real unmodified browser recordings. The controlled invitation evidence uses Molar runtime and Playwright, not autonomous model decisions. Further backend and SEO work remains outside this design-first milestone.

@@ -12,7 +12,7 @@ export function sceneFrame(mode, step, delayed=false) {
   first:paid?'Payment succeeded':'Ready to charge',
   second:callback?(delayed?'Delivery delayed':'Delivered to the app'):'Waiting for payment',
   result:failed?'Payment received. Upgrade missing.':complete?'The payment works. So does the upgrade.':callback?'The app received the payment update.':paid?'The payment passed. There’s more to check.':'Molar starts where your customer does.',
-  description:failed?'Molar catches the gap between a successful charge and the access your customer gets.':complete?'Payment, webhook and account access checked together.':callback?'Now check that the customer can use the plan they paid for.':paid?'A successful charge does not prove the account was upgraded.':'A browser, a test account, and a real user goal.',
+  description:failed?'Molar catches the gap between a successful charge and the access your customer gets.':complete?'Payment, webhook and account access checked together.':callback?'Now check that the customer can use the plan they paid for.':paid?'A successful charge does not prove the account was upgraded.':'Follow the customer from checkout to their new plan.',
   agent:failed?'Gap found':complete?'Check complete':callback?'Check access':paid?'Follow payment':'Open checkout',
   action:complete?'Run it again':callback?'Check account access':paid?'Follow payment update':'Upgrade workspace',
   outcome:failed?'failed':complete?'passed':'working',
@@ -25,13 +25,14 @@ export function sceneFrame(mode, step, delayed=false) {
 if(typeof document!=='undefined') document.querySelectorAll('[data-app-scene]').forEach(root=>{
  const $=s=>root.querySelector(s), mode=root.dataset.appScene;
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
- let step=0, delayed=false, userPaused=motion.matches, visible=false, playing=false, timer;
+ let step=0, delayed=mode==='qa', userPaused=motion.matches, visible=false, playing=false, timer;
  const canPlay=()=>visible&&!document.hidden&&!userPaused;
  const render=(announce=false)=>{
   const frame=sceneFrame(mode,step,delayed);
-  root.dataset.frame=String(step);root.dataset.outcome=frame.outcome;
+  root.dataset.frame=String(step);root.dataset.outcome=frame.outcome;root.dataset.delayed=String(delayed);
+  root.querySelectorAll('[data-scene-phase]').forEach((el,i)=>{if(i===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');el.classList.toggle('is-complete',i<step)});
   for(const [key,selector] of Object.entries({first:'[data-scene-first]',second:'[data-scene-second]',result:'[data-scene-result]',description:'[data-scene-description]',agent:'[data-scene-agent]',plan:'[data-scene-plan]',access:'[data-scene-access]'})) if($(selector))$(selector).textContent=frame[key];
-  $('[data-scene-advance]').innerHTML=frame.action+' <span aria-hidden="true">→</span>';
+  $('[data-scene-advance]').innerHTML=frame.action+' <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
   ['first','second','outcome'].forEach((name,i)=>$('[data-evidence-'+name+']').textContent=frame.evidence[i]);
   if(mode==='platform')$('[data-invoice-status]').textContent=step>1?'Downloaded':step?'Selected':'Available';
   $('[data-result-icon]').innerHTML='<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(frame.outcome==='passed'?'<path d="m5 12 4 4L19 6"/>':frame.outcome==='failed'?'<path d="M12 5v9m0 4v1"/>':'<path d="m5 3 14 10-7 1-4 7Z"/>')+'</svg>';

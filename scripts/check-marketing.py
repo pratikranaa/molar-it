@@ -15,7 +15,7 @@ class Page(HTMLParser):
   if tag=='h1':self.h1+=1
   if 'id' in a:self.ids.append(a['id'])
   if tag=='a' and a.get('href'):self.links.append(a['href'])
-  if tag in ('img','script','source') and a.get('src'):self.assets.append(a['src'])
+  if tag in ('img','script','source','video') and a.get('src'):self.assets.append(a['src'])
   if tag=='link' and a.get('rel') in ('stylesheet','preload','icon','apple-touch-icon'):self.assets.append(a.get('href',''))
 def resolve_route(route):
  path=STAGE/route.lstrip('/')
