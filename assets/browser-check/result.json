@@ -1,0 +1,58 @@
+{
+  "title": "An autonomous add-and-remove browser check",
+  "run_id": "bf51caf0-8c86-4271-b6e9-d4a2de761665",
+  "recorded_at": "2026-09-05T21:32:45.045284Z",
+  "target_url": "https://the-internet.herokuapp.com/add_remove_elements/",
+  "task": "Stay on the Add/Remove Elements page. Click Add Element once, verify the new Delete button appears, click that Delete button, and verify it is absent. Finish the complete add-and-remove journey without adding a second element.",
+  "result": "passed",
+  "actions": [
+    {
+      "step_id": "1",
+      "kind": "click",
+      "summary": "Add Element button",
+      "status": "passed",
+      "duration_ms": 2912,
+      "error": null
+    },
+    {
+      "step_id": "2",
+      "kind": "assert",
+      "summary": "The element with text 'Delete' is present",
+      "status": "passed",
+      "duration_ms": 4976,
+      "error": null
+    },
+    {
+      "step_id": "3",
+      "kind": "click",
+      "summary": "the Delete button that just appeared",
+      "status": "passed",
+      "duration_ms": 2840,
+      "error": null
+    },
+    {
+      "step_id": "4",
+      "kind": "assert",
+      "summary": "No button with text 'Delete' exists",
+      "status": "passed",
+      "duration_ms": 5326,
+      "error": null
+    }
+  ],
+  "scope": "Autonomous browser execution on a public test page. Generated Playwright export and clean replay were not completed in this run. This is not a customer case study or reliability benchmark.",
+  "media": [
+    {
+      "name": "video.webm",
+      "media_type": "video/webm",
+      "size_bytes": 749123,
+      "sha256": "85ee00e5ef10465aaf93d5bcfda78672294e86bb663563aea827af81ea2d0685"
+    },
+    {
+      "name": "final.jpg",
+      "media_type": "image/jpeg",
+      "size_bytes": 21677,
+      "sha256": "6e0390e926aeb27d828df438396c591d2cf098d1714b1c188172c7dab0435c58"
+    }
+  ],
+  "recording_seconds": 43.36
+}

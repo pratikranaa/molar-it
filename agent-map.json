@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-09-05T21:41:11.437Z",
-  "pageCount": 96,
+  "generatedAt": "2026-09-05T22:00:13.763Z",
+  "pageCount": 97,
   "pages": [
     {
       "path": "/",
@@ -939,6 +939,18 @@
         "Available tools",
         "Surface",
         "Notes"
+      ]
+    },
+    {
+      "path": "/examples/autonomous-browser-check",
+      "url": "https://molar.it/examples/autonomous-browser-check",
+      "title": "An autonomous browser check | Molar",
+      "description": "Watch a recorded Molar browser check add and remove an element on a public test page, with each observed result.",
+      "headings": [
+        "Describe the check. Watch Molar run it.",
+        "One instruction. Four observed steps.",
+        "What this run shows",
+        "What does your app need to get right?"
       ]
     },
     {

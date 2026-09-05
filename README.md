@@ -158,3 +158,6 @@ The browser contract tests exercise consent, withdrawal, GPC and sensitive query
 - [LinkedIn](https://www.linkedin.com/in/ranapratik/)
 
 © 2026 Molar Labs · Bengaluru
+
+
+A real autonomous four-step browser recording is published at `/examples/autonomous-browser-check`. Its unedited video, final screenshot and minimal public result (with checksums) live in `assets/browser-check/`. Source run `bf51caf0-8c86-4271-b6e9-d4a2de761665` completed Add → presence → Delete → absence on the public Heroku fixture. Primary independently reviewed the recording and checksums. The page explicitly does not claim generated Playwright export/replay, customer results or a reliability benchmark. It is separate from the scripted multi-user invitation example.

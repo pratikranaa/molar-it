@@ -12,6 +12,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 - [Molar Changelog — Product & Platform Updates](https://molar.it/changelog) — Follow updates to Molar browser execution, verification, test environments, and the platform.
 - [About Molar — Test the Whole Customer Journey](https://molar.it/company) — Molar brings browser testing, stateful service clones, and evidence together around the customer journeys that cross your systems.
 - [Talk to the Molar Team](https://molar.it/contact) — Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.
+- [An autonomous browser check | Molar](https://molar.it/examples/autonomous-browser-check) — Watch a recorded Molar browser check add and remove an element on a public test page, with each observed result.
 - [A recorded multi-user invitation test | Molar](https://molar.it/examples/team-invitation) — See what Molar verified in a controlled invitation test across two browser sessions and an Email Clone.
 - [Pricing & Beta Access | Molar](https://molar.it/pricing) — Discuss Molar beta access and pricing for your web app journeys, third-party services, and release workflow.
 - [Privacy Policy | Molar](https://molar.it/privacy) — How Molar Labs collects, uses, and protects personal information on molar.it and the Molar autonomous QA platform.

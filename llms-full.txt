@@ -1,6 +1,6 @@
 # Molar — canonical page map
 
-Generated from rendered, indexable canonical HTML. 96 pages are included.
+Generated from rendered, indexable canonical HTML. 97 pages are included.
 
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
@@ -318,6 +318,11 @@ Headings: Webflow clone | Molar Docs · Connect and test · What it covers · Av
 URL: https://molar.it/docs/clones/woocommerce
 Description: Test WooCommerce store flows against a REST clone — orders, products, and customers without a live WordPress store.
 Headings: Woocommerce clone | Molar Docs · Connect and test · What it covers · Available tools · Surface · Notes
+
+## An autonomous browser check | Molar
+URL: https://molar.it/examples/autonomous-browser-check
+Description: Watch a recorded Molar browser check add and remove an element on a public test page, with each observed result.
+Headings: Describe the check. Watch Molar run it. · One instruction. Four observed steps. · What this run shows · What does your app need to get right?
 
 ## A recorded multi-user invitation test | Molar
 URL: https://molar.it/examples/team-invitation

@@ -10,9 +10,9 @@
 - [x] Source-grounded `/ask`: answer, supporting links, no-match, loading, cancellation, retry and accessible keyboard/mobile flow. No secrets or prompts sent to analytics, no query pages indexed.
 - [x] Query publishing: generate a structured draft with citations from approved public sources; review and publish it into the existing article template, blog index, sitemap and feed. Reject invalid or unreviewed drafts.
 - [x] Search: coherent entity/page/article/breadcrumb metadata, per-page sharing images, feed, crawlable source maps, accurate bot policy; live checks on all generated routes.
-- [ ] Measurement: supplied GA4 ID, no requests before consent, aggregate events, preference changes, sanitized URLs and matching privacy copy.
-- [ ] Customer entry: waitlist submission persists and first-run Instant Proof performs a real check, or its precise external dependency is resolved with the product owner.
-- [ ] Product proof: publish a genuinely autonomous multistep run with inspected recording and provenance; clearly distinguish examples from actual recordings.
+- [x] Measurement: supplied GA4 ID, no requests before consent, aggregate events, preference changes, sanitized URLs and matching privacy copy.
+- [x] Customer entry: waitlist persistence, real anonymous check, separate visitor share, secure signup handoff and saving with an existing authenticated account verified. Fresh signup email and owner reporting access remain separate checks.
+- [x] Product proof: publish a genuinely autonomous multistep run with inspected recording and provenance; clearly distinguish examples from actual recordings.
 - [ ] Independent validation: unit/API security checks, real browser states, desktop/mobile renders, live release comparison; update README, STATUS and evidence.
 
 ## File boundaries
