@@ -13,6 +13,8 @@ Tech stack: semantic HTML, authored SVG/CSS, small JavaScript modules, Python bu
 - [x] Inspect trustworthy controlled-run evidence in parent docs/evidence before adding any actual-run artifact. If a source does not support a claim, keep the example labeled and disclose the missing proof in completion notes.
 - [x] Build with node scripts/build-site.mjs and validate using python3 scripts/check-marketing.py. Run syntax and scene tests. Browser-inspect QA, platform, product, solution, resources/article, pricing/contact and mobile navigation with desktop/mobile captures.
 - [x] Run Impeccable detector once on the built target. Fix mechanical issues from the combined inspection. Fresh finish reviewer evaluates the contract and screenshots; resolve its material findings in a bounded batch.
-- [ ] Document the resulting system in DESIGN.md and .impeccable/design.json, update README and parent STATUS.md, commit and push only scoped marketing changes, deploy .site-dist to existing molar-it Pages project, verify with scripts/check-live-marketing.py, then commit the parent pointer and scoped status.
+- [x] Document the resulting system in DESIGN.md and .impeccable/design.json, update README and parent STATUS.md, commit and push only scoped marketing changes, deploy .site-dist to existing molar-it Pages project, verify with scripts/check-live-marketing.py, then commit the parent pointer and scoped status.
 
 Authorization: user approved the full critique on 2026-09-06 and asked to fix every issue deeply. Earlier user instructions authorize direct-main commits, deployment and bounded disjoint Luna implementation agents. Proceed without another execution-choice question.
+
+Release: runtime source bdb9959, Pages f003bd59. All 114 deployed pages/assets matched; live browser checks passed. Parent STATUS.md and docs/evidence/molar-marketing-2026-09-06 contain the release record.
