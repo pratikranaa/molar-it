@@ -1,0 +1,2774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Molar guides</title>
+    <link>https://molar.it/blog</link>
+    <description>Practical engineering guides on browser QA, integrations, release confidence, and agent workflows.</description>
+    <language>en</language>
+    <atom:link href="https://molar.it/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Payment succeeded. Why is the account still locked?</title>
+      <link>https://molar.it/blog/testing-delayed-payment-webhooks-and-account-access</link>
+      <guid isPermaLink="true">https://molar.it/blog/testing-delayed-payment-webhooks-and-account-access</guid>
+      <description>A practical test plan for delayed payment webhooks, duplicate deliveries and the account access a paying customer expects.</description>
+      <pubDate>Sat, 05 Sep 2026 00:00:00 GMT</pubDate>
+      <category>Integrations</category>
+      <dc:creator>Molar editorial</dc:creator>
+      <content:encoded><![CDATA[<section><h2 id="define-the-outcome-your-customer-paid-for">Define the outcome your customer paid for</h2><p>A checkout can show a success screen while the application still treats the customer as unpaid. That gap is easy to miss when a test ends at the payment response. Start with a more useful outcome: the intended customer can use the feature they purchased, and the application records the correct order or subscription state.</p><p>Write down the separate observations before automating anything. You need the browser result, the payment record, delivery of the relevant event and the entitlement or order created by your application. Decide what the customer should see while processing is incomplete. A pending message can be correct behavior; an unexplained locked account needs investigation.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="control-the-delay-then-watch-both-sides">Control the delay, then watch both sides</h2><p>Use a dedicated test account and a controlled test environment. Complete the browser checkout, then hold back the payment notification using a test fixture or delivery mechanism you control. At this point, inspect the payment state and the application state independently. Do not make the test pass merely because the browser reached a thank-you page.</p><p>Release the event and wait for the specific expected change in the application. Check the order or entitlement, then return to the browser and verify that the customer can actually use it. The test should explain whether the failure occurred before delivery, during event handling or when presenting the updated state. Repeat from clean initial data so a previous successful purchase cannot hide a broken path.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="a-repeated-event-must-not-repeat-the-business-action">A repeated event must not repeat the business action</h2><p>Stripe documents that webhook events can be retried, duplicated and delivered without an ordering guarantee. Include these cases in your handler tests. Deliver the same event again and assert that it does not create another order, grant duplicate credits or trigger the same business action twice. Signature verification establishes the sender; it does not itself make processing idempotent.</p><p>For out-of-order delivery, test the handler’s actual recovery path and inspect the resulting business state. Keep signature verification in the tested path, using the raw body and the correct test endpoint secret. Avoid treating an HTTP success response as proof that all downstream work finished.</p><p class="article-source">Sources: <a href="https://docs.stripe.com/webhooks">Stripe: handle webhook events</a> · <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="check-access-as-the-intended-customer">Check access as the intended customer</h2><p>Run the access assertion in the customer’s own browser session. Confirm the protected feature and expected role, rather than checking only that authentication succeeded. An administrator account can have permissions that bypass the defect entirely. A fresh customer account makes the test closer to the experience you want to protect.</p><p>Add a second account as a negative case: purchasing access for one customer must not grant it to another. Revisit the original session after the delayed event, and check whether refreshing or signing in again changes the observed result. Those observations help separate an entitlement problem from a stale browser session without guessing at the cause.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/authentication-testing">Check sign-in and account access</a> · <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="use-controlled-services-and-keep-a-contract-check">Use controlled services and keep a contract check</h2><p>Molar Clones provides controlled state for supported payment behavior. It can make repeatable integration testing easier when a journey depends on external services. Keep the setup explicit: configure the test environment for the supported clone endpoints and verify which operations your scenario needs. Do not assume a test clone reproduces every part of a vendor’s service.</p><p>Finish with a small vendor-sandbox contract check for the real APIs and events your application relies on. The controlled test answers whether your application handles a chosen sequence correctly; the sandbox check helps confirm that the sequence still matches the vendor contract. Together, these checks provide a clearer explanation of a failure than a single green checkout screen.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="about-this-guide">About this guide</h2><p>Prepared with AI assistance from the cited material and reviewed by Molar editorial before publication. Product availability can change during beta.</p><p><a href="https://molar.it/ask">Ask a related testing question</a> or <a href="https://molar.it/blog">browse all guides</a>.</p></section>]]></content:encoded>
+    </item>
+    <item>
+      <title>AI agents and the future of software testing</title>
+      <link>https://molar.it/blog/ai-agents-future-software-testing</link>
+      <guid isPermaLink="true">https://molar.it/blog/ai-agents-future-software-testing</guid>
+      <description>Agents write half the code now. Who verifies it? Autonomous QA agents close the loop — determinism still decides trust.</description>
+      <pubDate>Mon, 29 Jun 2026 00:00:00 GMT</pubDate>
+      <category>Agents</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="the-asymmetry-nobody-planned-for">The asymmetry nobody planned for</h2>
+        <p>
+          Code generation got cheap. Code verification didn’t. A coding agent can emit a thousand-line diff
+          in minutes; a human reviewer needs an hour to read it properly, and a test suite that predates the
+          agent can only check what someone thought to specify. The result is an asymmetry: throughput of
+          change is exploding while confidence per change is flat or falling.
+        </p>
+        <p>
+          Traditional test automation doesn’t fix this, because it shares the bottleneck — tests are also
+          written by people, one scenario at a time. When the authoring side is machine-speed, the checking
+          side has to be too. That’s the actual meaning of “autonomous QA”: not AI-flavored assertions, but
+          a closed loop where generation and verification run at the same tempo.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="llms-at-authoring-time-determinism-at-runtime">LLMs at authoring time; determinism at runtime</h2>
+        <p>
+          The design choice that separates serious systems from demos is where the model sits. LLMs are
+          excellent at the parts of testing that benefit from judgment: reading an unfamiliar app, mapping
+          flows, proposing assertions, diagnosing why a selector broke. They are terrible at the parts that
+          need repeatability: deciding pass/fail on Tuesday the same way they did on Monday.
+        </p>
+        <p>
+          So put the model at authoring and healing time, never in the runtime path:
+        </p>
+        <ul>
+          <li><strong>Authoring:</strong> an exploration agent crawls your app and emits real Playwright specs from plain-English scenarios — the mechanics we detailed in <a href="https://molar.it/blog/ai-playwright-test-generation">AI Playwright test generation</a>.</li>
+          <li><strong>Healing:</strong> when a locator breaks, the model proposes a patch against the new DOM; a human or policy layer approves it — the discipline described in <a href="https://molar.it/blog/self-healing-test-automation">self-healing test automation</a>.</li>
+          <li><strong>Runtime:</strong> the emitted spec executes deterministically. Same input, same verdict. No inference call decides whether your checkout test passes.</li>
+        </ul>
+        <pre><code># Runtime path contains zero LLM calls:
+#   spec (committed) → browser → assertions → pass/fail
+# Model touches only:
+#   crawl → generate → propose heal → human review → commit</code></pre>
+        <div>
+          Trust rule: any system where a probabilistic component decides pass/fail at runtime cannot be a
+          merge gate. Determinism isn’t a nicety here — it’s what makes a red check mean something.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="coding-agents-should-verify-their-own-work">Coding agents should verify their own work</h2>
+        <p>
+          The most underrated shift is protocol-shaped. Via MCP, a coding agent doesn’t just write the
+          feature — it invokes the QA platform itself, gets structured results back, reads the failure
+          evidence, fixes the code, and re-runs. No human relay in between:
+        </p>
+        <pre><code>$ molar verify "signup confirms with OTP" --url http://localhost:3000 --json
+{
+  "verdict": "fail",
+  "step": 4,
+  "reason": "OTP email never arrived within 30s",
+  "evidence": {
+    "trace": "https://app.molar.it/t/run_8f21",
+    "cloned_calls": ["POST /v1/emails → 503 (mailbox quota)"]
+  },
+  "hint": "MailHole clone rejected send; check SMTP pool config"
+}</code></pre>
+        <p>
+          Structured output with evidence links changes the economics of agent-driven development: the
+          agent self-corrects from the trace instead of a developer pasting screenshots into a chat.
+          This is why we built Molar’s MCP server as a first-class interface — the coding agent becomes
+          the primary consumer of QA, and the QA platform becomes part of its toolbelt rather than a
+          downstream department.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="what-stays-stubbornly-human">What stays stubbornly human</h2>
+        <p>
+          Agents are converging on execution. Three things remain yours:
+        </p>
+        <ul>
+          <li><strong>Intent.</strong> What should be true? Which flows matter enough to gate a merge on? An agent can discover flows, but only you know which ones would end your business if they broke.</li>
+          <li><strong>Judgment calls.</strong> Is this pixel drift acceptable? Is this edge case a bug or a feature? These are product decisions wearing engineering costumes.</li>
+          <li><strong>Review of proposed changes.</strong> Including proposed test changes — a healing patch that quietly weakens an assertion is a vulnerability, not a convenience.</li>
+        </ul>
+        <p>
+          The role shift is real but familiar: less time authoring steps, more time specifying outcomes
+          and auditing what the machines proposed. It mirrors what happened to compilers — nobody misses
+          hand-writing assembly, and nobody reviews the machine code either.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-failure-mode-worth-designing-against">The failure mode worth designing against</h2>
+        <p>
+          Every automation wave in testing has produced the same pathology: tests that pass while the
+          product breaks, because the suite was optimized for green rather than truth. Agent-driven QA can
+          amplify this dramatically — an agent that both writes and heals its own tests can, without any
+          malice, converge on assertions that match whatever the app currently does.
+        </p>
+        <p>
+          Three structural defenses: keep runtime verdicts deterministic so healing requires a reviewable
+          diff; version scenarios as source files so weakening an assertion shows up like any other change;
+          and sample agent-modified suites against known-broken builds periodically to confirm they still
+          catch what they claim to catch. Mutation-style spot checks are cheap insurance here — break the
+          checkout total on purpose once a month and confirm something red appears within one run.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="where-this-lands">Where this lands</h2>
+        <p>
+          Our working prediction for the next few years: plain-English scenarios become the interface for
+          specifying behavior (reviewed like code, versioned like code); autonomous agents author, heal,
+          and execute the suites; deterministic replay makes every verdict auditable; and required checks
+          become negotiations between two machines, with humans reading summaries instead of triaging
+          failures. The teams that get there first won’t hire fewer QA engineers — they’ll point them at
+          the problems automation genuinely can’t judge.
+        </p>
+        <p>
+          If you want to feel the loop before believing the essay, Molar is the shortest path: describe a
+          flow in English, get Playwright-grade tests, gate PRs with them, and let your coding agent call
+          the whole thing through MCP.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>AI Playwright test generation: how it actually works in 2026</title>
+      <link>https://molar.it/blog/ai-playwright-test-generation</link>
+      <guid isPermaLink="true">https://molar.it/blog/ai-playwright-test-generation</guid>
+      <description>How AI Playwright test generation actually works — crawling, flow mapping, locator selection, self-healing, and CI export. A practical engineering guide with code.</description>
+      <pubDate>Mon, 10 Aug 2026 00:00:00 GMT</pubDate>
+      <category>Agents</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="the-pipeline-behind-generated-tests">The pipeline behind generated tests</h2>
+        <p>
+          Every credible AI test generator follows the same five-stage shape. The differences between
+          tools are almost entirely in stages two and three.
+        </p>
+        <ul>
+          <li><strong>Crawl & map.</strong> Discover routes and states — links, forms, client-side navigation, authenticated areas.</li>
+          <li><strong>Flow extraction.</strong> Group interactions into named user flows (signup, checkout, invite).</li>
+          <li><strong>Grounding & locators.</strong> Choose selectors that survive redesigns.</li>
+          <li><strong>Assertion synthesis.</strong> Decide what should be true after each step.</li>
+          <li><strong>Deterministic export.</strong> Emit runnable code, byte-stable for identical input.</li>
+        </ul>
+        <p>
+          Molar’s Cartographer follows exactly this shape: an exploration agent maps your app from a seed
+          URL, then an export pipeline produces Playwright specs you can read, diff, and run anywhere.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="locator-quality-is-the-whole-ballgame">Locator quality is the whole ballgame</h2>
+        <p>
+          A generated test is only as durable as its worst selector. Naive recorders emit CSS paths like
+          <code>div:nth-child(3) > span</code> that shatter on the next design change. A good generator ranks
+          candidate locators instead of taking the first match:
+        </p>
+        <pre><code># Ranking, simplified
+1. data-testid            (stable, purpose-built)
+2. accessible name        (role + name — survives styling changes)
+3. label text association (forms)
+4. text content           (unique, human-meaningful)
+5. structural CSS         (last resort)</code></pre>
+        <p>
+          The result reads like a careful engineer wrote it — and when the UI does shift, a
+          <a href="https://molar.it/blog/self-healing-test-automation">self-healing layer</a> can re-rank and propose a patch
+          instead of failing the build.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="assertions-where-ai-earns-or-loses-trust">Assertions: where AI earns or loses trust</h2>
+        <p>
+          Navigation without verification is theater. Each step should carry an oracle: the heading that must
+          appear, the row count that must change, the confirmation code that must arrive. LLMs help most here —
+          reading visible state and proposing semantic assertions (“order total shows $42.00”, “banner
+          says ‘Invite sent’”) rather than pixel snapshots that flake.
+        </p>
+        <div>
+          Rule of thumb: if a generated test has no assertion except “page loaded”, it isn’t a test. It’s a crawler
+          with extra steps.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="deterministic-output-or-it-doesn-t-belong-in-ci">Deterministic output, or it doesn’t belong in CI</h2>
+        <p>
+          Generation should be repeatable: same app state in, same spec out. Byte-stable export means code review
+          diffs show real changes, not LLM paraphrase noise. Molar compiles scenarios deterministically — the same
+          <code>.molar.md</code> source always produces the same Playwright file — so generated tests behave like
+          hand-written ones in git: reviewable, versioned, yours.
+        </p>
+        <pre><code>$ molar generate --url https://staging.example.com
+✓ Mapped 14 routes, 6 flows
+✓ Authored checkout.spec.ts, signup.spec.ts, invite.spec.ts
+✓ Assertions: 23 semantic, 0 visual-only
+→ Exported to ./e2e (playwright@1.49 compatible)</code></pre>
+      </section>
+
+      <section>
+        <h2 id="the-third-party-problem-nobody-demos">The third-party problem nobody demos</h2>
+        <p>
+          Generated checkout tests die the moment they hit a live payment processor. Serious generation pairs with
+          <a href="https://molar.it/blog/testing-third-party-apis-safely">safe third-party substitutes</a>: stateful clones that
+          speak Stripe’s API but never move money. That’s the difference between a demo that works on a toy site
+          and tests that run hourly against production.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>API mocking vs stateful service clones</title>
+      <link>https://molar.it/blog/api-mocking-vs-service-clones</link>
+      <guid isPermaLink="true">https://molar.it/blog/api-mocking-vs-service-clones</guid>
+      <description>Mocks stub responses; clones run stateful vendor semantics — webhooks included. When each is right.</description>
+      <pubDate>Thu, 16 Jul 2026 00:00:00 GMT</pubDate>
+      <category>Integrations</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="two-tools-that-look-similar-and-aren-t">Two tools that look similar and aren’t</h2>
+        <p>
+          An HTTP mock (WireMock, MSW, a stubbed fetch) intercepts requests and plays back canned responses.
+          It’s fast, cheap, and perfectly suited to unit-level work. A stateful service clone is a different
+          animal: it re-implements a vendor’s actual behavior — resource lifecycle, ID conventions, error codes,
+          webhook delivery, signature schemes — behind the same endpoints, so your application can run against it
+          unmodified for entire end-to-end flows.
+        </p>
+        <p>
+          The confusion happens because both show up as “the Stripe call didn’t hit real Stripe.” The differences
+          show up in what your tests can assert. Five dimensions matter: fidelity, statefulness, webhooks,
+          maintenance cost, and blast radius.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="fidelity">Fidelity</h2>
+        <p>
+          A mock’s fidelity is exactly one response deep. You recorded
+          <code>{ "id": "pi_123", "status": "succeeded" }</code>, so every payment succeeds — until you need the
+          failure path, then you record another fixture. Real vendors have combinatorial behavior: idempotency-key
+          replays return the original result, card errors arrive as structured declines with specific codes,
+          partial captures change subsequent refund semantics. Encoding all of that in fixtures means hand-writing
+          a simulator anyway, badly.
+        </p>
+        <p>
+          A clone encodes vendor semantics once, in code: request an idempotent charge twice and you get the same
+          payment intent; use a test decline card and you get the real decline payload shape. Your assertions stop
+          checking “our handler ran” and start checking “our handler handled the thing the vendor actually sends.”
+          That distinction is the whole difference between unit confidence and
+          <a href="https://molar.it/blog/e2e-testing-best-practices">end-to-end confidence</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="statefulness">Statefulness</h2>
+        <p>
+          Mocks are amnesiac by design. Ask a mock “did the customer I created three steps ago already exist?” and
+          it shrugs — every request is answered from the script, with no memory between them. Multi-step flows
+          collapse under this: create customer → attach card → charge → refund requires either one giant canned
+          response or brittle sequencing logic layered on top of the mocker.
+        </p>
+        <pre><code>// Against a clone, state accumulates like the real service:
+const cust = await stripe.customers.create({ email });
+await stripe.paymentIntents.create({ customer: cust.id, amount: 4200, ... });
+const list = await stripe.paymentIntents.list({ customer: cust.id });
+expect(list.data).toHaveLength(1);   // true because the clone remembers
+
+// Against a mock, this assertion is fiction — you scripted the list response.</code></pre>
+        <p>
+          Statefulness also buys you deterministic IDs and snapshot/restore: seed a known world, run the flow,
+          reset between tests. That combination is what makes suites parallel-safe instead of
+          serial-and-hopeful — see <a href="https://molar.it/blog/test-data-management-best-practices">test data management</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="webhooks-and-signatures">Webhooks and signatures</h2>
+        <p>
+          Half of a modern integration is inbound: Stripe webhooks firing on payment success, Twilio status
+          callbacks, GitHub delivery events. Mocks handle this awkwardly — most teams end up calling their own
+          webhook endpoint directly with a hand-built payload, which bypasses signature verification entirely and
+          tests a fantasy shape.
+        </p>
+        <p>
+          A clone emits webhooks as part of normal operation: the charge succeeds because your app created it,
+          the callback fires because the charge succeeded, and it arrives correctly signed so your verification
+          middleware runs for real. You can also inject edge events (retries, out-of-order deliveries) deliberately:
+        </p>
+        <div>
+          If your webhook handler has never been tested against a replayed event with a valid signature, you don’t
+          know whether your idempotency guard works. That single gap causes duplicate charges in production more
+          often than any UI bug.
+        </div>
+        <p>
+          This is also where clones beat even live sandboxes: real vendor sandboxes deliver webhooks when they feel
+          like it, through the public internet. A local clone delivers them deterministically, in-process.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="maintenance-drift">Maintenance drift</h2>
+        <p>
+          Mocks rot silently. Vendors add fields, deprecate endpoints, and change error taxonomies; your fixtures
+          keep returning 2019-shaped responses and nothing tells you. The failure mode isn’t a red test — it’s a
+          green suite guarding code that no longer matches reality, discovered during an incident.
+        </p>
+        <p>
+          Clones drift too, but controllably: the divergence lives in one implementation per vendor, which you
+          update when the vendor changes — and a thin contract check against the live API (run weekly, manually
+          triggered) surfaces drift immediately. With mocks, the divergence is smeared across hundreds of fixture
+          files owned by nobody. For a deeper treatment of the safety question, see
+          <a href="https://molar.it/blog/testing-third-party-apis-safely">testing third-party APIs safely</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="blast-radius">Blast radius</h2>
+        <p>
+          Blast radius is about what breaks when the substitute is wrong. A wrong mock fails your unit test —
+          cheap, contained, fixable in seconds. But mocks used beyond their station fail outward: a checkout E2E
+          passing against scripted responses while the real integration is broken ships straight to production,
+          because everyone trusted the green build.
+        </p>
+        <p>
+          Clones invert this. Their blast radius is bounded by design — no money moves, no emails leave, no SMS
+          sends — while their behavior stays close enough to production that a green E2E suite actually means
+          something. That’s the trade worth making at the system boundary. Molar ships clones for Stripe, Twilio,
+          email, auth, S3, and GitHub as one coordinated set, wired into its
+          <a href="https://molar.it/blog/test-stripe-without-real-cards">payment-flow testing</a> and CI gating so the substitution
+          is automatic rather than per-project plumbing.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-verdict-mocks-for-units-clones-for-paths">The verdict: mocks for units, clones for paths</h2>
+        <p>
+          The honest answer is that these solve different problems, and mature teams use both:
+        </p>
+        <ul>
+          <li><strong>Use mocks</strong> for pure business logic: pricing rules, retry policies, form validation. Speed dominates; the dependency is incidental.</li>
+          <li><strong>Use clones</strong> anywhere the interaction itself matters: checkout, OTP verification, file storage, OAuth. Semantics dominate; a fake that doesn’t behave is worse than none.</li>
+          <li><strong>Keep one thin live-contract check</strong> against each vendor to catch drift — scheduled, not blocking, never in the hot PR loop.</li>
+        </ul>
+        <p>
+          If you’re evaluating substitutes for a specific tool, our comparisons of
+          <a href="https://molar.it/vs/wiremock">WireMock-style mockers</a> cover where static stubs top out. And if your flows
+          span several vendors at once — pay, notify, verify — a coordinated clone set beats stitching five mockers
+          together, as the recipes in <a href="https://molar.it/blog/test-twilio-sms-otp-flows">Twilio OTP testing</a> and
+          <a href="https://molar.it/blog/email-workflow-testing-otp">email workflow testing</a> demonstrate.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Continuous testing in your CI/CD pipeline</title>
+      <link>https://molar.it/blog/continuous-testing-ci-cd-pipeline</link>
+      <guid isPermaLink="true">https://molar.it/blog/continuous-testing-ci-cd-pipeline</guid>
+      <description>Where tests belong across commit, PR, deploy, and production — and what to run at each stage without killing velocity.</description>
+      <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="the-feedback-budget-comes-first">The feedback budget comes first</h2>
+        <p>
+          Before deciding what to run where, decide what developers are allowed to wait for. A workable
+          budget for most teams:
+        </p>
+        <ul>
+          <li><strong>Pre-push / commit:</strong> under 2 minutes, or people stop running it locally.</li>
+          <li><strong>Pull request:</strong> under 10 minutes wall-clock for required checks, or reviewers context-switch and merges stall.</li>
+          <li><strong>Deploy:</strong> under 5 minutes for smoke, because it blocks the release itself.</li>
+          <li><strong>Scheduled (production):</strong> unbounded runtime is fine — nobody is waiting.</li>
+        </ul>
+        <p>
+          The budgets are the strategy. Anything that can’t fit a stage’s budget moves right — to a later
+          stage where waiting is acceptable — instead of slowing the earlier one. This is the core of the
+          shift-left discipline we describe in
+          <a href="https://molar.it/blog/shift-left-testing-explained">shift-left testing for shipping teams</a>: catch bugs
+          early, but only pay for early detection where it’s cheap.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="commit-stage-seconds-not-minutes">Commit stage: seconds, not minutes</h2>
+        <p>
+          What runs before code even reaches shared branches should be nearly free: lint, typecheck, unit
+          tests, maybe a fast subset of integration tests against containers. The goal is not coverage —
+          it’s a tight loop that catches the majority of mechanical mistakes.
+        </p>
+        <pre><code># package.json — the local loop stays under ~90s
+{
+  "scripts": {
+    "check": "npm run lint && npm run typecheck && vitest run --changed HEAD"
+  }
+}</code></pre>
+        <p>
+          Note <code>--changed</code>: running only tests affected by the diff keeps the loop honest as the
+          suite grows. If your “fast” stage regularly exceeds its budget, the fix is almost always sharding,
+          caching, or moving slow tests right — never asking developers to wait longer.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="pr-stage-critical-path-e2e-behind-required-checks">PR stage: critical-path E2E behind required checks</h2>
+        <p>
+          The pull request is where behavior verification belongs. Run end-to-end tests over the critical
+          paths your change could plausibly affect — signup, login, checkout, the top three workflows by
+          traffic — plus targeted regression tests derived from the diff.
+        </p>
+        <p>
+          Two mechanisms make this stage real rather than decorative. First, the checks must be
+          required, so a red mark actually blocks merge — we walk through that configuration in
+          <a href="https://molar.it/blog/required-status-checks-merge-gate">required status checks as a merge gate</a>.
+          Second, flaky failures must be quarantined within hours, not weeks, because a gate that fails
+          randomly gets admin-overridden into oblivion. The Playwright plumbing itself is covered step by
+          step in <a href="https://molar.it/blog/github-actions-playwright-ci">Playwright in GitHub Actions</a>.
+        </p>
+        <pre><code># .github/workflows/pr-e2e.yml (excerpt)
+jobs:
+  critical-path:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx playwright install --with-deps
+      - run: npx playwright test e2e/critical --shard=${{ matrix.shard }}/4
+        env:
+          STRIPE_BASE_URL: http://localhost:12111   # clone, not sandbox
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with: { name: traces, path: e2e/test-results }</code></pre>
+        <div>
+          Track one number per week: median PR check time. If it creeps past your stated budget, move tests —
+          don’t add parallel runners and call it fixed. Hardware hides policy debt for about a quarter.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="deploy-stage-smoke-then-promote">Deploy stage: smoke, then promote</h2>
+        <p>
+          After deploy to an environment, run a smoke suite: one pass through each critical flow against the
+          deployed artifact, using cloned third parties so it neither spends money nor sends email. Smoke
+          tests assert “the release can serve users,” not “every feature works.” Five minutes, hard limit;
+          anything deeper belongs to scheduled production testing.
+        </p>
+        <p>
+          Promote only on green. The value here isn’t catching logic bugs — those were caught at PR time —
+          it’s catching deployment bugs: missing env vars, wrong migrations, CDN misconfig, the
+          staging-parity gaps described in
+          <a href="https://molar.it/blog/staging-environment-alternatives">why staging lies to you</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="production-stage-schedules-not-releases">Production stage: schedules, not releases</h2>
+        <p>
+          The last stage runs continuously against production with read-only or marked identities: synthetic
+          logins, search, checkout up to (but not through) payment, API contract probes. This is the safety
+          net for everything upstream can’t see — real data shapes, real CDN behavior, real vendor drift.
+          We cover the design in <a href="https://molar.it/blog/synthetic-monitoring-production">synthetic monitoring for
+          production</a>; the broader cadence map is in our guide to
+          <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a>.
+        </p>
+        <pre><code># Every 15 minutes, from three regions
+- name: login → dashboard loads < 2s
+- name: search returns seeded result
+- name: api/v1/orders schema matches OpenAPI
+# Alert routing: page only on 2 consecutive failures, same region</code></pre>
+      </section>
+
+      <section>
+        <h2 id="artifacts-close-the-loop">Artifacts close the loop</h2>
+        <p>
+          A failed check without evidence is a support ticket; a failed check with evidence is a diagnosis.
+          Attach trace links to the PR — video, DOM snapshots, network log, console output, and the exact
+          cloned third-party interactions — so the author debugs from the comment thread instead of
+          reproducing locally. Molar posts these artifacts automatically: Guard runs the suites as required
+          GitHub checks and attaches a Trace replay to every failure, which cuts most “can’t reproduce”
+          exchanges out of review entirely.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-three-ways-pipelines-rot">The three ways pipelines rot</h2>
+        <ul>
+          <li><strong>Budget creep.</strong> Each new feature adds “just one more” PR test until median check time doubles and engineers start merging on red. Re-audit against the budget quarterly and move tests right.</li>
+          <li><strong>Flake debt.</strong> Retries hide flaky tests instead of fixing them; the retry count becomes your real reliability metric. Track first-run pass rate per suite and quarantine anything below it.</li>
+          <li><strong>Orphaned stages.</strong> Deploy smoke keeps running for an app whose flows changed months ago, asserting a UI that no longer exists. Every scheduled stage needs an owner who edits its scenarios as the product changes.</li>
+        </ul>
+        <p>
+          None of these are tooling problems; all three are policy problems with tooling symptoms. Write
+          the policy down — budgets, quarantine rules, stage owners — and revisit it whenever someone says
+          “CI is slow again.”
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>E2E testing best practices that survive scale</title>
+      <link>https://molar.it/blog/e2e-testing-best-practices</link>
+      <guid isPermaLink="true">https://molar.it/blog/e2e-testing-best-practices</guid>
+      <description>A practical E2E playbook: test the critical path, user-visible selectors, deterministic data, fast feedback.</description>
+      <pubDate>Sat, 01 Aug 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="prioritize-the-critical-path-ruthlessly">Prioritize the critical path ruthlessly</h2>
+        <p>
+          E2E tests are the most expensive tests you own — slow to run, slower to debug, sensitive to every
+          layer of the stack. Spending that budget on a settings toggle while signup-to-checkout goes untested
+          is malpractice. Start by mapping your revenue and trust funnel: signup, login, search, cart, checkout,
+          refund, password reset. Those flows get coverage first, deepest, and best maintenance.
+        </p>
+        <p>
+          A concrete allocation that works for most SaaS products: identify the 15–25 flows that generate or
+          protect revenue, write one clean test per flow plus variants only where risk justifies it, and hold
+          that set to a strict runtime budget (under 10 minutes on every pull request). Everything beyond the
+          critical path belongs in lower-cost layers — component tests, API tests — or in scheduled runs rather
+          than PR gating. If you’re building this foundation deliberately, our guide to
+          <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a> shows how to layer
+          suites by cost without leaving gaps.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="select-users-can-see">Select users can see</h2>
+        <p>
+          The single highest-leverage habit in browser automation is selecting elements the way a user perceives
+          them: by role and accessible name, not by DOM coordinates. A locator like
+          <code>getByRole('button', { name: 'Pay now' })</code> survives redesigns, refactors, and CSS
+          rewrites; <code>#checkout-form > div:nth-child(3) > button</code> survives nothing.
+        </p>
+        <pre><code>test('guest can check out with a saved card', async ({ page }) => {
+  const user = await makeUser();            // factory: unique, disposable
+  await login(page, user);
+  await page.getByRole('link', { name: 'Cart' }).click();
+  await page.getByRole('button', { name: 'Checkout' }).click();
+  await expect(page.getByText('Payment confirmed')).toBeVisible();
+});</code></pre>
+        <p>
+          Role-based selection has a second payoff people underrate: it continuously audits accessibility.
+          A test that can’t find a button by accessible name often means screen readers can’t either. When UIs
+          change legitimately, ranked locators also give self-healing systems something principled to work with —
+          see <a href="https://molar.it/blog/self-healing-test-automation">how that re-ranking works</a>. And when a failure is
+          about how something looks rather than behaves, route it to dedicated visual checks as described in our
+          <a href="https://molar.it/blog/visual-regression-testing-guide">visual regression guide</a>, instead of bolting pixel
+          assertions onto functional flows.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="every-test-stands-alone">Every test stands alone</h2>
+        <p>
+          Order dependence is the quiet killer. The suite passes when run alphabetically on Monday and fails
+          when sharded across four runners on Tuesday, because test 47 assumed test 12 created its account.
+          Each fix buys down future flakiness: every test creates its own data through factories; no test reads
+          state another test wrote; cleanup removes what setup created. As a forcing function, shuffle execution
+          order locally — if the suite breaks under shuffling, it was already broken, just quietly.
+        </p>
+        <p>
+          Independence isn’t free: per-test setup costs seconds, and shared fixtures are tempting. Take them,
+          but scope them correctly — a worker-scoped database container is fine; a worker-scoped user
+          silently reintroduces coupling. The reward compounds elsewhere: independent tests are safe to retry
+          individually, safe to shard arbitrarily, and safe to skip selectively when debugging. They’re also the
+          prerequisite for the parallelization math in the next section.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="deterministic-data-beats-cleaned-up-data">Deterministic data beats cleaned-up data</h2>
+        <p>
+          Most “flaky” data problems are really non-determinism: tests that depend on whatever rows previous
+          runs left behind, timestamps computed at runtime, counters asserted against unbounded tables. The fix
+          is to make every input explicit. Factories mint fresh records with unique suffixes per test; fixed
+          seeds replace random generators; clocks freeze where time matters. Assert against data you created —
+          never against global counts like “the orders table has N rows”, which any parallel test can invalidate.
+        </p>
+        <p>
+          Side-effecting third parties deserve special treatment, because their state is both nondeterministic
+          and expensive: real cards decline randomly on test numbers, real email arrives late, real SMS gets rate-limited.
+          Stateful clones that speak the vendor’s API deterministically solve all three — the full pattern is in
+          <a href="https://molar.it/blog/test-stripe-without-real-cards">Stripe testing without real cards</a>, and the broader
+          strategy (factories, seeds, cleanup policies, clone lifecycles) is covered in
+          <a href="https://molar.it/blog/test-data-management-best-practices">test data management best practices</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="parallelize-deliberately">Parallelize deliberately</h2>
+        <p>
+          Serial suites die by wall-clock arithmetic. A 40-minute serial suite is not a quality gate, it’s a
+          context-switch generator. Sharding divides the work across machines, and the math is simple:
+          shards = ceil(total_runtime / target_runtime), so 40 minutes across 4 runners lands near 10 minutes —
+          assuming balanced shards. Balance matters more than count: group by measured duration, not file size,
+          or one runner inherits the two slowest specs while three finish early.
+        </p>
+        <p>
+          Two caveats keep parallelism honest. First, contention is real — parallel workers hammering one
+          database turn logical races into physical ones, which is why the isolation practices above come first;
+          give each worker its own schema or use row-level uniqueness aggressively. Second, diminishing returns
+          kick in around setup costs and license-constrained resources; going from 4 to 16 shards helps far less
+          than going from 0 to 4. The complete CI configuration — caching, matrix sharding, merged reports — is
+          walked through in our <a href="https://molar.it/blog/github-actions-playwright-ci">GitHub Actions guide</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="artifacts-on-failure-always">Artifacts on failure, always</h2>
+        <div>
+          An E2E failure without artifacts costs 30–60 minutes of archaeology: reproduce, guess, instrument,
+          repeat. The same failure with a trace usually costs two — open the timeline, read the network waterfall,
+          watch the DOM at the failing step. Configure artifact capture before you need it, because you will
+          need it.
+        </div>
+        <p>
+          The minimum viable set: trace (DOM snapshots, network, console, action log), screenshots at failure,
+          video on retry, and server logs correlated by request ID. Retain them long enough to debug — a week is
+          plenty for PR artifacts — and link them directly in the failure report so nobody hunts through CI logs.
+          Deterministic replay goes one step further than capture: being able to re-run the exact scenario against
+          recorded third-party responses converts “couldn’t reproduce” into a routine morning task.
+        </p>
+        <p>
+          Finally, treat these practices as a system, not a checklist. Critical-path focus tells you what to
+          test; visible selectors and independence make tests cheap to maintain; deterministic data makes them
+          stable; sharding keeps them fast; artifacts make failures diagnosable. Drop any pillar and the others
+          degrade — especially stability, since unresolved flakiness poisons trust in everything else
+          (<a href="https://molar.it/blog/flaky-tests-causes-and-fixes">causes and fixes here</a>). Teams that want generation
+          to enforce these defaults automatically can point Molar’s agent at their app and get Playwright-grade
+          specs built on exactly these conventions.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Email workflow testing: OTPs, invites, notifications</title>
+      <link>https://molar.it/blog/email-workflow-testing-otp</link>
+      <guid isPermaLink="true">https://molar.it/blog/email-workflow-testing-otp</guid>
+      <description>Verify the whole email path in tests — delivery, links, codes — without SMTP or real inboxes. Deterministic and instant.</description>
+      <pubDate>Sun, 19 Jul 2026 00:00:00 GMT</pubDate>
+      <category>Integrations</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="the-inbox-is-part-of-your-app-surface">The inbox is part of your app surface</h2>
+        <p>
+          Consider a normal B2B signup: user submits the form → receives a verification code → confirms → gets a
+          team invite → clicks a link → lands in the app. Three of five steps happen outside your UI, over email.
+          A test suite that mocks the mailer with “assume sent” verifies nothing: broken templates, wrong merge
+          fields, dead links, expired tokens, and missing emails all ship to production looking green.
+        </p>
+        <p>
+          Teams avoid asserting on email because the traditional options are bad. Real SMTP through a provider is
+          slow (seconds to minutes per message), costs money at CI volume, risks sending actual mail to actual
+          people, and gives you no clean programmatic inbox to assert against. Shared Gmail test inboxes accumulate
+          state across runs and trip spam filters. What you need instead is a mail system built for machines —
+          which is exactly what an <a href="https://molar.it/blog/testing-third-party-apis-safely">email clone</a> provides:
+          SMTP/API compatible, instantly delivered, fully inspectable.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="what-to-actually-assert">What to actually assert</h2>
+        <p>
+          For every transactional email your app sends, three properties are worth verifying in E2E tests:
+        </p>
+        <ul>
+          <li><strong>Arrival.</strong> The right email reaches the right address within your SLA window — one assertion catches the entire broken-template / crashed-worker class of bugs.</li>
+          <li><strong>Links.</strong> Every actionable URL resolves: extract it from the message, request or navigate it, assert the destination state (“reset confirmed”, not a 404). This catches token-expiry misconfigurations and base-URL drift between environments.</li>
+          <li><strong>Codes.</strong> For OTP flows, extract the code and drive the UI with it — proving the full loop works, not just that something was rendered.</li>
+        </ul>
+        <pre><code>test('password reset completes via emailed link', async ({ page }) => {
+  await requestReset(page, 'ci-run-a7f3+user@mail.clone');
+  const mail = await clone.waitForMessage({
+    to: 'ci-run-a7f3+user@mail.clone',
+    subjectContains: 'Reset your password',
+    timeoutMs: 5_000,
+  });
+  const link = mail.links.find(l => l.href.includes('/reset/'));
+  await page.goto(link.href);
+  await page.fill('#new-password', 'correct-horse-battery');
+  await expect(page.getByText('Password updated')).toBeVisible();
+});</code></pre>
+        <p>
+          Notice what’s not asserted here: pixel-perfect rendering of the template. That belongs in a
+          separate, slower template-snapshot job, not in the critical path of each run.
+        </p>
+        <p>
+          Apply the same three-part lens to the other transactional types. Invites: assert the email reaches the
+          invitee, the accept link lands them in the right workspace with the right role, and a stale or already-
+          accepted link shows a sensible state instead of an error. Notifications (receipts, shipping, alerts):
+          assert arrival and that dynamic fields rendered with real values — “Your order #1042 shipped” not “Your
+          order #unset value shipped.” Merge-field bugs are embarrassing precisely because they only appear in the
+          email body, which is exactly where untested suites never look.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="unique-per-run-addresses">Unique-per-run addresses</h2>
+        <p>
+          The single biggest source of email-test flakiness is address reuse. If two runs read from
+          <code>test@example.com</code>, run B sees run A’s messages, filters get confused, and parallel workers
+          corrupt each other’s assertions. Give each run its own namespace instead — plus-addressing or a
+          wildcard catch-all domain both work:
+        </p>
+        <ul>
+          <li><code>run-{CI_JOB_ID}+signup@clone.test</code> — sortable, greppable, self-documenting.</li>
+          <li>Anything <code>@clone.test</code> is accepted by the mail clone, so you never provision addresses.</li>
+        </ul>
+        <p>
+          Unique addresses make assertions trivially race-free: “wait for exactly one message to this exact
+          address” has no cross-talk by construction. They also make cleanup honest — purge by prefix after the
+          run, and nothing leaks between jobs. This is standard
+          <a href="https://molar.it/blog/test-data-management-best-practices">test data hygiene</a> applied to the mailbox.
+        </p>
+        <div>
+          Never point automated tests at domains you don’t control. A typo’d recipient on a live provider is how
+          test traffic becomes accidental email to strangers — with your product’s name on it. Clones keep every
+          message inside the run sandbox; nothing leaves the machine.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="code-extraction-helpers">Code extraction helpers</h2>
+        <p>
+          OTP emails vary in format — “Your code is 123456”, spaced digits, embedded buttons. Centralize parsing
+          in one helper so template changes break one place, not forty tests:
+        </p>
+        <pre><code>// helpers/mail.ts
+export function extractOtp(mail) {
+  const m = mail.text.match(/\b(\d[\s-]?){5}(\d)\b/g)?.[0];
+  if (!m) throw new Error(`No OTP found in: ${mail.subject}`);
+  return m.replace(/\D/g, '');
+}
+
+export async function latestCodeTo(clone, addr) {
+  const mail = await clone.waitForMessage({ to: addr, timeoutMs: 5_000 });
+  return extractOtp(mail);
+}</code></pre>
+        <p>
+          Beyond codes, expose two more primitives from the same helper: <code>linksFor(addr)</code> returning
+          parsed anchor hrefs (so link assertions stay one line), and <code>assertNoMessage(addr, subject)</code>
+          for the negative cases teams forget — password reset on an account that doesn’t exist must not send
+          anything, or you’ve built a user-enumeration oracle. Negative email assertions are impossible with real
+          inboxes (absence is indistinguishable from slow delivery) and trivial with a deterministic clone.
+        </p>
+        <p>
+          Two details worth stealing: fail loudly with the raw body in the error (debugging “why didn’t my regex
+          match” without the payload is misery), and prefer waiting on subject + recipient rather than sleep —
+          polling a deterministic clone returns in milliseconds anyway.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="no-real-inbox-safety-and-determinism-by-default">No real inbox: safety and determinism by default</h2>
+        <p>
+          The clone approach removes the entire risk surface of real-mail testing: no sends to third parties, no
+          provider rate limits in CI, no deliverability lottery, no cost scaling with run count. Delivery is local
+          and synchronous-fast, which means an OTP step adds milliseconds, not minutes — keeping suites under the
+          latency budget where developers actually run them. It composes with the rest of your stack too: pair it
+          with the SMS side described in <a href="https://molar.it/blog/test-twilio-sms-otp-flows">Twilio OTP testing</a>, and run
+          the whole thing on a schedule against staging as part of your
+          <a href="https://molar.it/blog/regression-testing-strategies">regression strategy</a>.
+        </p>
+        <p>
+          Molar’s email clone ships as part of the platform’s clone set — alongside Stripe, Twilio, auth, S3, and
+          GitHub — with Trace capturing each message as evidence next to DOM snapshots and network logs. When an
+          invite flow fails, you see the exact email the system produced, not a screenshot of its absence.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Flaky tests: root causes and durable fixes</title>
+      <link>https://molar.it/blog/flaky-tests-causes-and-fixes</link>
+      <guid isPermaLink="true">https://molar.it/blog/flaky-tests-causes-and-fixes</guid>
+      <description>Why tests flake — timing, shared state, third parties, environments — and durable fixes for each. Stop re-running, start fixing.</description>
+      <pubDate>Sat, 08 Aug 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="flake-is-a-defect-class-not-bad-luck">Flake is a defect class, not bad luck</h2>
+        <p>
+          When the same commit passes on one run and fails on the next, teams learn the worst possible habit:
+          re-run until green. Once that habit forms, the suite stops being a gate and becomes weather — people
+          check it, nobody trusts it. The economic damage is quiet but compounding: engineers buffer their
+          estimates for “CI roulette”, real regressions hide among false ones, and eventually someone proposes
+          deleting the suite entirely.
+        </p>
+        <p>
+          The useful reframe is that flakiness is not random. Empirically, almost every intermittent failure
+          falls into one of five buckets: <strong>timing races</strong>, <strong>shared state</strong>,
+          <strong>environment drift</strong>, <strong>third-party failure</strong>, and
+          <strong>selector brittleness</strong>. Each bucket has a specific, permanent fix. Diagnose the bucket
+          first; reaching for <code>retry</code> before diagnosis just moves the problem from your failure
+          report into your blind spot.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="timing-races-sleeps-are-guesses">Timing races: sleeps are guesses</h2>
+        <p>
+          The classic flake: the test works on your fast laptop, fails in CI where eight containers share four
+          cores. The app takes 400ms to render instead of 200ms, and a fixed sleep that was tuned to “usually
+          work” now loses the race. Any test that waits a duration is really waiting for luck.
+        </p>
+        <pre><code>// Fragile: sleeps guess at timing
+await page.waitForTimeout(3000);
+await page.click('#submit');
+
+// Durable: act, then wait on observable state
+await page.getByRole('button', { name: 'Pay now' }).click();
+await expect(page.getByText('Payment confirmed')).toBeVisible();</code></pre>
+        <p>
+          Web-first assertions flip the model: instead of sleeping then checking once, they poll observable
+          state until it’s true or a timeout expires. Two companion rules close the gap entirely. First, treat
+          unhandled promise rejections and unexpected network errors as test failures rather than console noise —
+          they are tomorrow’s flakes announcing themselves today. Second, freeze sources of variance you don’t
+          need: animations off, fake clocks for anything time-based, deterministic IDs for anything paginated.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="shared-state-two-tests-one-row">Shared state: two tests, one row</h2>
+        <p>
+          The second bucket shows up when tests collide through something they both touch: the same seeded user,
+          the same database table, the same localStorage profile. Symptoms include assertions on counts (“cart
+          should have 3 items” seeing 7), duplicate-key errors that appear only under parallelism, and tests
+          that pass alone but fail in the full run. Parallel execution doesn’t create these bugs — it reveals
+          them.
+        </p>
+        <p>
+          Durable fixes, in order of preference: give every test its own data (factories that mint unique users
+          and orders per invocation, then clean up); scope expensive shared fixtures per worker rather than
+          globally; and where isolation must be absolute, roll back via transactions or run each worker against
+          its own schema or container. If a test needs a specific global to exist, that dependency belongs in
+          its setup — explicit, owned, and visible — never in the residue of whichever test ran last.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="environment-drift-it-passed-on-my-machine">Environment drift: it passed on my machine</h2>
+        <p>
+          Some flakes aren’t in your code at all. The staging server was mid-deploy. A feature flag flipped.
+          CI runs in a region where the page renders in another locale, or under a timezone that makes your
+          “end of month” invoice test compute a different month. These failures look mysterious precisely
+          because the cause lives outside the test.
+        </p>
+        <p>
+          Countermeasures are organizational more than technical. Pin everything your tests implicitly depend
+          on: timezone, locale, feature-flag state, seed data version. Prefer short-lived preview environments
+          created per pull request over a long-lived shared staging box that accumulates entropy — see our guide
+          to <a href="https://molar.it/blog/staging-environment-alternatives">staging environment alternatives</a>. And add a
+          pre-flight health check so a half-deployed app produces “environment unhealthy”, not forty misleading
+          test failures.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="third-party-failures-someone-else-s-uptime">Third-party failures: someone else’s uptime</h2>
+        <p>
+          Checkout tests that hit a live payment sandbox inherit its outage schedule. Email tests wait on real
+          SMTP relay latency. Rate limits turn a burst of parallel tests into intermittent 429s. None of this is
+          your product breaking, yet your build goes red and your team burns an afternoon proving it.
+        </p>
+        <p>
+          The durable fix is to stop sharing fate with third parties during routine runs. Stateful substitutes
+          that speak the vendor’s API — returning deterministic IDs, replaying webhooks, delivering email to an
+          inspectable inbox — remove the network, the latency, and the outages while exercising your real code
+          paths. We compare the options in <a href="https://molar.it/blog/api-mocking-vs-service-clones">API mocking versus service clones</a>,
+          and walk a payments example in <a href="https://molar.it/blog/test-stripe-without-real-cards">testing Stripe without real cards</a>.
+          Keep exactly one scheduled smoke against the real sandbox as a drift alarm, and you get hermetic daily
+          runs without blinding yourself to contract changes.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="selector-brittleness-the-slow-rot">Selector brittleness: the slow rot</h2>
+        <p>
+          The fifth bucket degrades gradually rather than intermittently, but it manufactures flakes all the
+          same: a selector like <code>div:nth-child(3) > span.btn-primary</code> survives until a designer
+          wraps one node in a new div, and suddenly the locator matches nothing — or worse, matches a different
+          button. Ambiguous text selectors produce the intermittent flavor: they pass while unique, then silently
+          bind to a newly added element.
+        </p>
+        <p>
+          The fix ladder is well established: prefer role plus accessible name (<code>getByRole('button', { name: 'Checkout' })</code>),
+          then label associations, then purpose-built <code>data-testid</code>, then unique text, and treat
+          structural CSS as a code smell. When the UI legitimately changes, a disciplined
+          <a href="https://molar.it/blog/self-healing-test-automation">self-healing layer</a> can re-rank locators and propose
+          the update for review instead of failing the build — provided intent was captured at authoring time.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="retries-and-quarantine-policy-not-vibes">Retries and quarantine: policy, not vibes</h2>
+        <p>
+          Retries deserve nuance. Used deliberately — one retry, both outcomes reported — they absorb genuine
+          environmental noise and generate a flake-rate metric you can manage down. Used silently, they convert
+          your suite into a lottery where the prize is ignorance. The difference is whether a retry that flips
+          red to green triggers investigation or celebration.
+        </p>
+        <div>
+          A retry that passes is a bug report, not a pass. If your green build contains three retried tests,
+          you shipped with three undiagnosed defects wearing a green badge.
+        </div>
+        <p>
+          A workable policy: cap retries at one or two; tag any test that ever needed one; move repeat offenders
+          to quarantine — still running and reported, but non-blocking, with a named owner and a hard expiry
+          date so quarantine stays a hospital rather than a cemetery. Budget flake rate explicitly (under 1% of
+          runs is achievable) and review it like any other SLO. Tooling should make this state visible: Molar
+          marks flaky as its own run status — distinct from passed or failed — so intermittent behavior surfaces
+          in dashboards without blocking merges. For the CI wiring that puts this policy into practice, see our
+          <a href="https://molar.it/blog/github-actions-playwright-ci">GitHub Actions setup guide</a>.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Playwright in GitHub Actions: PR gating that holds</title>
+      <link>https://molar.it/blog/github-actions-playwright-ci</link>
+      <guid isPermaLink="true">https://molar.it/blog/github-actions-playwright-ci</guid>
+      <description>Set up Playwright in GitHub Actions: caching, sharding, traces, required checks that block merges without drowning CI.</description>
+      <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="the-baseline-workflow">The baseline workflow</h2>
+        <p>
+          Start with one workflow that runs on pull requests and on pushes to main. The version below already
+          includes the three decisions most teams retrofit later: matrix sharding, blob-report merging, and
+          artifact upload scoped to failures. We’ll unpack each in the following sections.
+        </p>
+        <pre><code>name: e2e
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run tests (shard)
+        run: npx playwright test --shard=${{ matrix.shard }}/4 --reporter=blob
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: blob-report-${{ matrix.shard }}
+          path: blob-report/
+          retention-days: 7
+
+  merge-reports:
+    if: ${{ always() }}
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          path: all-reports
+          merge-multiple: true
+      - run: npx playwright merge-reports --reporter=html ./all-reports
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: html-report
+          path: playwright-report/
+          retention-days: 7</code></pre>
+        <p>
+          Note <code>fail-fast: false</code>: with it unset, one flaky shard cancels the others mid-run and you
+          lose half your evidence. The tradeoff is paying for full execution even after an early failure — worth
+          it, because parallel evidence from the other shards often contains the trace that explains the first one.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="cache-what-s-slow">Cache what’s slow</h2>
+        <p>
+          Two things dominate cold-start time: dependency installation and browser binaries. The
+          <code>cache: npm</code> input above handles dependencies by hashing the lockfile. Browsers need explicit
+          handling — roughly 130MB per browser plus system deps, typically 30–60 seconds of install per run:
+        </p>
+        <pre><code>- uses: actions/cache@v4
+  with:
+    path: ~/.cache/ms-playwright
+    key: pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}</code></pre>
+        <p>
+          Keying on the lockfile works because Playwright versions are pinned there; bump the version, the key
+          changes, the cache rebuilds once, and every subsequent run restores instantly. Keep
+          <code>npx playwright install --with-deps chromium</code> in the workflow regardless — cache hits make
+          it near-instant, misses make it correct. Only install browsers you actually use; installing all three
+          engines triples download time for zero benefit.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="shard-until-prs-wait-minutes-not-quarters-of-an-hour">Shard until PRs wait minutes, not quarters of an hour</h2>
+        <p>
+          Sharding splits the suite across matrix jobs. Pick the target wall-clock time first, then derive shard
+          count: a 36-minute serial suite across 4 shards lands around 9–10 minutes including overhead.
+          Playwright balances shards by test count; if durations vary wildly, sort specs into size buckets or
+          split known-slow files so no single shard dominates. Watch for two scaling ceilings: shared backend
+          contention (parallel shards hammering one database turn into a different kind of red), and per-shard
+          fixed costs (checkout, install, boot) that set a floor around 3–5 minutes no matter how few tests each
+          shard holds.
+        </p>
+        <p>
+          If sharding exposes order dependence — tests failing only under some shard arrangements — fix the
+          dependence, not the arrangement. That class of bug is covered in the isolation section of our
+          <a href="https://molar.it/blog/e2e-testing-best-practices">E2E practices guide</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="traces-and-artifacts-on-failure">Traces and artifacts on failure</h2>
+        <p>
+          Configure capture in <code>playwright.config.ts</code> so every CI failure arrives debuggable:
+        </p>
+        <pre><code>export default defineConfig({
+  retries: process.env.CI ? 1 : 0,
+  use: {
+    trace: 'retain-on-failure',
+    video: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+  },
+});</code></pre>
+        <p>
+          With <code>retries: 1</code>, a transient environmental hiccup absorbs itself while the trace records
+          both attempts — you keep velocity without losing signal, provided someone reviews what needed retrying
+          (see the flake policy below). Open any captured trace with
+          <code>npx playwright show-trace trace.zip</code> or upload it as an artifact as the baseline workflow
+          does. What separates a two-minute diagnosis from an hour-long one is usually just this: the DOM,
+          network waterfall, and console at the moment of failure. Molar extends the same idea with deterministic
+          replay — DOM, network, console, and clone state side by side — but the principle is identical; our
+          <a href="https://molar.it/vs/playwright-trace">Trace comparison</a> covers the differences. Keep
+          <code>retention-days</code> short (7) on high-churn PR artifacts; storage costs compound quietly.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="make-the-check-required-carefully">Make the check required — carefully</h2>
+        <p>
+          A green-required gate starts with naming. Branch protection references check names exactly, and a
+          matrix job produces one check per shard named like <code>e2e / test (1)</code>, <code>(2)</code>,
+          and so on. Require either each shard explicitly or add a final aggregate job whose success means “all
+          shards passed” — the latter survives future shard-count changes without editing protection rules.
+          The exact configuration steps are in our
+          <a href="https://molar.it/blog/required-status-checks-merge-gate">required status checks guide</a>, and the
+          <a href="https://molar.it/integrations/github-actions">GitHub Actions integration page</a> shows how Guard reports its
+          own verdicts as native check runs.
+        </p>
+        <p>
+          Why gating discipline matters more every year: GitHub reported that 46% of code in enabled repositories
+          is now AI-generated (GitHub, 2026). When humans write less of the diff by hand, machine-verified gates
+          carry proportionally more of the safety burden — a gate that can be trained-around is a liability at
+          exactly the moment usage patterns are drifting that way.
+        </p>
+        <div>
+          Concurrency saves real money on busy repos. Add <code>concurrency: { group: e2e-${{ github.ref }},
+          cancel-in-progress: true }</code> so new pushes cancel superseded runs instead of queueing behind them.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="keep-the-gate-honest-as-the-suite-grows">Keep the gate honest as the suite grows</h2>
+        <p>
+          CI quality decays through retries, not failures. Cap retries at one in CI, review which tests consume
+          them weekly, and quarantine repeat offenders out of the blocking set with an owner and expiry — the
+          full policy lives in our <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flaky-tests guide</a>. Run the
+          complete suite nightly rather than forcing every edge case onto PRs; a fast required smoke on every PR
+          plus a thorough scheduled run catches more regressions per minute of engineer attention than a
+          monolithic blocking suite ever will. This tiered shape is the core of
+          <a href="https://molar.it/blog/continuous-testing-ci-cd-pipeline">continuous testing in the CI/CD pipeline</a>.
+        </p>
+        <p>
+          The end state to aim for: every pull request gets sub-10-minute E2E feedback it can trust, every
+          failure arrives with enough evidence to diagnose without a local reproduction, and the merge gate
+          stays green for exactly one reason — the app actually works.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Playwright vs Cypress in 2026: an honest comparison</title>
+      <link>https://molar.it/blog/playwright-vs-cypress-comparison</link>
+      <guid isPermaLink="true">https://molar.it/blog/playwright-vs-cypress-comparison</guid>
+      <description>Architecture, multi-tab, iframes, debugging, CI scale, ecosystem. Where each wins — and how generated Playwright changes the math.</description>
+      <pubDate>Mon, 22 Jun 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="two-architectures-two-sets-of-limits">Two architectures, two sets of limits</h2>
+        <p>
+          Cypress executes your test code inside the browser, in the same event loop as your
+          application. That design grants unusual powers — stub timers, spy on app internals, assert on
+          network calls without leaving the test body — and imposes unusual constraints, because
+          page-context JavaScript can only do what a web page can do. Driving multiple tabs, multiple
+          origins in a single test, or certain popup flows requires workarounds like <code>cy.origin()</code>,
+          which partition a test into sequential session-like segments rather than letting you hold several
+          pages open at once.
+        </p>
+        <p>
+          Playwright is the opposite bet: an out-of-process driver speaking CDP (and equivalents) to
+          instrumented browsers, with your tests running in Node. Multi-tab is a first-class primitive:
+        </p>
+        <pre><code>// Hold the opener and the new page simultaneously
+const [checkout] = await Promise.all([
+  page.waitForEvent('popup'),
+  page.getByRole('button', { name: 'Open checkout' }).click(),
+]);
+await checkout.getByRole('heading', { name: 'Payment' }).waitFor();
+await expect(checkout.getByTestId('order-total')).toHaveText('$42.00');</code></pre>
+        <p>
+          The same physics applies to iframes: in Playwright they’re addressed with <code>frameLocator()</code>
+          like any other container, not special machinery. Neither architecture is broken. Choose based on
+          whether you need browser-context superpowers or OS-level control over the whole browser.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="browser-support-and-the-webkit-question">Browser support and the WebKit question</h2>
+        <p>
+          Playwright ships three first-party builds — Chromium, Firefox, and WebKit — patched for
+          deterministic automation, so Safari-adjacent coverage is present in CI by default. Cypress covers
+          Chromium-family and Firefox stably; its WebKit support remains experimental. If your analytics show
+          meaningful iOS/Safari share, that gap outweighs nearly every other line item in this comparison.
+        </p>
+        <p>
+          An honest caveat cuts the other way too: Playwright’s WebKit is a close proxy for Safari, not
+          literal Safari on macOS and iOS. Treat it as high-confidence coverage, and keep a single
+          real-device smoke lane if mobile Safari touches revenue. For most teams, though, “WebKit in CI
+          for free” quietly eliminates an entire class of late-discovered layout and API bugs.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="parallelism-and-sharding-at-ci-scale">Parallelism and sharding at CI scale</h2>
+        <p>
+          Playwright parallelizes two ways at zero marginal cost: multiple workers within a machine and
+          shards across machines. A twelve-minute suite split four ways finishes in roughly three, with a
+          built-in flag:
+        </p>
+        <pre><code>npx playwright test --shard=1/4 --shard=2/4 ...
+
+# or declarative, in playwright.config.ts
+export default defineConfig({
+  fullyParallel: true,
+  workers: process.env.CI ? 4 : unset value,
+});</code></pre>
+        <p>
+          Cypress runs serially per machine out of the box. Cross-machine orchestration has historically
+          centered on its paid cloud offering; community splitters exist if you’d rather assemble your own.
+          At small suite sizes none of this matters. Past roughly ten minutes of runtime, this section
+          determines both your CI bill and your feedback latency — and feedback latency decides whether
+          engineers wait for the gate or merge around it. Our <a href="https://molar.it/blog/github-actions-playwright-ci">GitHub
+          Actions walkthrough</a> shows the sharded setup end to end.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="debugging-who-finds-the-failure-first">Debugging: who finds the failure first</h2>
+        <p>
+          A test that fails only in CI is a tax collected on every merge. Playwright’s answer is the trace
+          viewer: each run can record a self-contained artifact with screenshots, DOM snapshots for every
+          action, network traffic, and console output — so you replay a failure that happened on a runner,
+          from your laptop, with full state at step N. We compared trace workflows in depth in
+          <a href="https://molar.it/vs/playwright-trace">our Trace overview</a>.
+        </p>
+        <p>
+          Cypress’s command log with per-command snapshots is genuinely excellent inside the interactive
+          runner; replaying a failed cloud run afterward sits behind the paid tier. Both produce video.
+          Only DOM-preserving traces let you inspect the exact accessibility tree the selector saw — which
+          is usually where the answer lives. Whichever you pick, pair it with root-cause discipline from
+          <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">our flaky-tests guide</a>; debuggers don’t fix flakes,
+          they just make the cause undeniable.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="codegen-and-the-ai-generation-pull">Codegen and the AI-generation pull</h2>
+        <p>
+          On classic codegen, Playwright leads: <code>npx playwright codegen</code> emits runnable TypeScript
+          with role-based locators by default, while Cypress Studio remains experimental-flavored. But the
+          larger 2026 force is AI-generated suites. GitHub reported that 46% of code in enabled repositories
+          is now AI-written (GitHub, 2026), and test code is not exempt. Agents overwhelmingly target
+          Playwright: a code-first API, deterministic export, and the largest training corpus of any browser
+          automation interface — models simply write Playwright better than anything else.
+        </p>
+        <div>
+          Choosing a framework in 2026 is partly choosing which API your future coding agents will emit.
+          Pick the one generators and models target, not merely the one your current team knows best.
+        </div>
+        <p>
+          If generated suites are anywhere on your roadmap, read how the pipeline works in
+          <a href="https://molar.it/blog/ai-playwright-test-generation">AI Playwright test generation</a>, and how
+          <a href="https://molar.it/blog/self-healing-test-automation">self-healing locators</a> keep generated selectors
+          alive through redesigns.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="lock-in-and-exit-cost">Lock-in and exit cost</h2>
+        <p>
+          Both tools install from npm, speak TypeScript, and leave your application runtime untouched.
+          The lock-in lives entirely in spec files. Cypress specs are chained <code>cy.*</code> commands with
+          bespoke retry-and-queue semantics — pleasant to write, awkward to port; migration means rewriting
+          structure, not swapping assertion libraries. Playwright specs are plain async functions awaiting
+          ordinary calls — closer to raw browser automation, so refactors, migrations, and code generators
+          have less ceremony to fight through.
+        </p>
+        <p>
+          Component testing is the one column where Cypress’s heritage shows: it matured years earlier and
+          remains slightly smoother for mount-and-interact workflows against frameworks like React and Vue.
+          Playwright CT is capable but younger. If component testing is 80% of your suite, weight this
+          heavily.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-verdict">The verdict</h2>
+        <ul>
+          <li><strong>Multi-tab, popups, iframes:</strong> Playwright, by architecture.</li>
+          <li><strong>In-browser powers</strong> (clock stubbing, internal spies): Cypress.</li>
+          <li><strong>Default WebKit in CI:</strong> Playwright.</li>
+          <li><strong>Free parallelism and sharding:</strong> Playwright.</li>
+          <li><strong>Failure debugging artifacts:</strong> Playwright traces edge the command log.</li>
+          <li><strong>Component testing heritage:</strong> Cypress.</li>
+          <li><strong>AI-generation ecosystem gravity:</strong> Playwright, decisively.</li>
+        </ul>
+        <p>
+          For teams adopting AI-generated suites, the verdict isn’t close: generated output lands in
+          Playwright, which brings reviewability, sharding, and traces along for free. Teams with deep
+          Cypress investment, component-heavy frontends, and budget for cloud conveniences are rational to
+          stay put. Greenfield in 2026 starts on Playwright. Deeper dives live on our
+          <a href="https://molar.it/vs/cypress">Cypress comparison</a> and <a href="https://molar.it/vs/playwright">Playwright platform</a>
+          pages.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Regression testing strategies for fast-moving teams</title>
+      <link>https://molar.it/blog/regression-testing-strategies</link>
+      <guid isPermaLink="true">https://molar.it/blog/regression-testing-strategies</guid>
+      <description>Full suites don&apos;t scale; skipping tests doesn&apos;t either. Risk-based selection, PR gates, and insurance runs that work.</description>
+      <pubDate>Sun, 12 Jul 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="the-scaling-trap">The scaling trap</h2>
+        <p>
+          Regression suites fail in a predictable way as teams grow. At five engineers, “run everything on every
+          push” works — a 10-minute suite is invisible. At fifty engineers with a 90-minute E2E suite, the math
+          stops working: ten concurrent PRs contend for runners, feedback latency kills flow state, and engineers
+          start batching changes to “make CI worth it,” which multiplies both merge conflicts and risk.
+        </p>
+        <p>
+          The standard responses are both wrong. Cutting the suite (“we’ll rely on code review”) trades known
+          costs for unknown ones — production incidents that a 30-second check would have caught. And brute-forcing
+          with more machines hits an economic wall: E2E suites grow superlinearly in runtime because flows share
+          setup and interact. The exit is not more hardware or fewer tests. It’s running the right tests,
+          at the right time, with full knowledge of what changed.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="risk-based-selection-starts-from-the-diff">Risk-based selection starts from the diff</h2>
+        <p>
+          A pull request is a hypothesis about what it affects. Selection should encode exactly that hypothesis:
+          map files to modules to user flows, then run the tests that exercise the touched surface plus everything
+          downstream of it.
+        </p>
+        <pre><code># .molar/policy.yaml - selection policy, versioned like code
+rules:
+  - touch: "src/checkout/**"
+    run_flows: [cart, checkout, order-confirmation, refunds]
+  - touch: ["src/auth/**"]
+    run_flows: [signup, login, password-reset, session-security]
+  - touch: "package-lock.json"
+    run_flows: all            # dependency bumps get everything
+always_run: [smoke]           # ~3 min, never skipped</code></pre>
+        <p>
+          The payoff is concrete: a PR that edits invoice rendering runs four flows (4 minutes) instead of sixty
+          (55 minutes), while a dependency bump still gets the world. Keep the mapping in the repo, reviewed like
+          code, because it is code — it encodes your beliefs about coupling, and stale mappings rot into
+          silent gaps. This is also where AI-authored suites change the economics: when
+          <a href="https://molar.it/blog/ai-playwright-test-generation">test generation is cheap</a>, covering every affected flow
+          stops being a headcount problem.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="affected-flow-analysis-beats-path-matching">Affected-flow analysis beats path matching</h2>
+        <p>
+          File-path rules are the floor, not the ceiling. A change to a shared component or an API response shape
+          touches flows its path never mentions. The stronger version builds an actual dependency graph: which
+          routes render this component, which flows traverse those routes, which API endpoints feed them.
+        </p>
+        <pre><code>$ molar affected --diff HEAD~3..HEAD
+→ src/components/PricingTable.tsx changed
+→ rendered on /pricing, /upgrade (2 routes)
+→ traversed by flows: upgrade-plan, checkout (shared step: plan-select)
+→ API deps: GET /api/plans (shape unchanged)
+✓ Selected 7 specs, estimated 6m12s (full suite: 54m)</code></pre>
+        <p>
+          Two failure modes to design against. Over-selection (everything depends on everything) usually means a
+          shared utility needs decoupling — treat it as architecture signal, not a tool bug. Under-selection is the
+          dangerous one, and you catch it with data: when a nightly run finds a regression your selection missed,
+          trace back which edge was absent from the graph and add it. Escape analysis feeds selection accuracy;
+          see the measurement section below.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-nightly-full-suite-is-insurance-not-gating">The nightly full suite is insurance, not gating</h2>
+        <p>
+          Even good selection has blind spots: interactions between flows, environment drift, vendor behavior
+          changes, cache poisoning that only manifests after hours of activity. The nightly full run exists to
+          catch exactly those. Treat it as insurance — nobody waits on it to merge — but take its failures
+          seriously: anything red at night that was green on merge is either a real cross-flow regression or a
+          flaky test, and triage decides which within the morning.
+        </p>
+        <ul>
+          <li><strong>Schedule it off-peak</strong> against production-like data, using clones for third-party side effects so the run is safe to repeat (<a href="https://molar.it/blog/staging-environment-alternatives">no dedicated staging needed</a>).</li>
+          <li><strong>Capture evidence per flow</strong> — traces, network logs, DOM snapshots — so morning triage is reading, not re-running.</li>
+          <li><strong>Track suite duration weekly.</strong> A nightly that creeps from 40 to 90 minutes is telling you something about test debt before the PR gate feels it.</li>
+        </ul>
+        <p>
+          Production schedules extend the same idea outward: Guard-style recurring checks against live environments
+          catch what no pre-merge suite can — CDN issues, cert expiry, vendor drift. That’s the complement to
+          <a href="https://molar.it/blog/synthetic-monitoring-production">synthetic monitoring</a>, not a replacement for the nightly.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="quarantine-and-snooze-policy-not-vibes">Quarantine and snooze: policy, not vibes</h2>
+        <p>
+          Flaky tests are where regression programs die. Not because flakes are unfixable — most have diagnosable
+          causes (<a href="https://molar.it/blog/flaky-tests-causes-and-fixes">root causes and fixes here</a>) — but because teams
+          lack a shared policy, so every engineer improvises: mute it, delete it, retry-until-green, ignore red.
+          Write the policy down instead:
+        </p>
+        <ul>
+          <li><strong>Quarantine means tracked.</strong> A quarantined test moves out of the gate, gets an owner and a ticket, and shows up on a dashboard. It does not vanish.</li>
+          <li><strong>Time-boxed hard.</strong> Fourteen days default. Quarantine without expiry is how suites rot while dashboards stay green.</li>
+          <li><strong>Snooze ≠ quarantine.</strong> Snoozing a known-flaky test during a feature branch is fine; quarantining a failing test to ship a release requires the owner’s name next to it.</li>
+          <li><strong>Budget the rate.</strong> If more than ~1–2% of the suite is quarantined at steady state, stop merging features and fix reliability — the gate’s credibility is the product.</li>
+        </ul>
+        <div>
+          The graveyard pattern is the most common way regression suites die: tests get quarantined, the quarantine
+          list grows, nobody remembers why, and eventually the suite “passes” by testing nothing. Expiry dates and
+          named owners are the entire defense.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="measure-escape-rate-not-vanity-coverage">Measure escape rate, not vanity coverage</h2>
+        <p>
+          The only number that tells you whether any of this works is <strong>escape rate</strong>: regressions
+          that reached users divided by total regressions found, over time. Everything else — coverage percent,
+          test count, suite runtime — is an input metric that can look great while customers find bugs first.
+        </p>
+        <pre><code>escape_rate = bugs_found_in_production_with_regression_origin
+            / (same_numerator + regressions_caught_by_suite)
+
+# Track monthly, segment by area:
+2026-03   18%   (checkout 4, auth 2, billing UI 3)
+2026-06    9%   (checkout 1, auth 1)
+# Every escape → write the missing test + trace why selection missed it</code></pre>
+        <p>
+          Pair it with two operational metrics: <strong>time-to-feedback</strong> on the PR gate (target: under ten
+          minutes, or developers context-switch) and <strong>detection latency</strong> for production issues (how
+          long between a synthetic check failing and a human acting). Escapes going down while feedback stays fast
+          is the whole game. When escapes cluster in one area, that’s your selection graph missing edges — fix the
+          mapping, then let the <a href="https://molar.it/blog/self-healing-test-automation">self-healing layer</a> absorb the
+          locator churn those new tests will hit.
+        </p>
+        <p>
+          Finally, make the gate itself non-negotiable: required status checks turn “please run the tests” into
+          physics. The mechanics are in our guide to
+          <a href="https://molar.it/blog/required-status-checks-merge-gate">required checks as a merge gate</a>.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Required status checks: a practical merge-gate guide</title>
+      <link>https://molar.it/blog/required-status-checks-merge-gate</link>
+      <guid isPermaLink="true">https://molar.it/blog/required-status-checks-merge-gate</guid>
+      <description>How to make failing checks actually block merges: branch protection, required checks, advisory vs required modes, escape hatches.</description>
+      <pubDate>Tue, 28 Jul 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="a-green-pipeline-nobody-waits-for">A green pipeline nobody waits for</h2>
+        <p>
+          The failure mode is always the same story. CI runs on every pull request and posts its little green
+          checkmark. But nothing enforces it: someone merges while the run is still in progress, someone else
+          clicks through a red X because “it’s probably flaky”, and main drifts into a state no commit ever
+          tested. The pipeline exists; the gate doesn’t. Advisory checks measure quality culture — required
+          checks enforce it.
+        </p>
+        <p>
+          The distinction lives in branch protection, not in your workflow file. GitHub Actions can only report
+          results; whether those results block anything is decided by rules attached to the branch.
+          That separation confuses people once and then costs them years of false confidence, so let’s make the
+          enforcement layer explicit. If you haven’t built the underlying test job yet, start with our
+          <a href="https://molar.it/blog/github-actions-playwright-ci">Playwright on GitHub Actions guide</a>, then come back
+          and make it binding.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="branch-protection-in-five-minutes">Branch protection in five minutes</h2>
+        <p>
+          In repository settings, under Branches (or Rules → Rulesets on newer plans), create a rule targeting
+          <code>main</code>. Three switches matter most: require a pull request before merging, require status
+          checks to pass, and select which checks are required from the list of checks that have recently run.
+          Via CLI, the same configuration is one API call:
+        </p>
+        <pre><code>gh api repos/{owner}/{repo}/branches/main/protection -X PUT \
+  --input - <<'JSON'
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": ["e2e / verdict", "lint"]
+  },
+  "enforce_admins": true,
+  "required_pull_request_reviews": {
+    "required_approving_review_count": 1
+  },
+  "restrictions": null,
+  "allow_force_pushes": false,
+  "allow_deletions": false
+}
+JSON</code></pre>
+        <p>
+          Two settings deserve explanation. <code>"strict": true</code> requires the branch to be up to date
+          with main before merging — it closes the “tested against stale base” hole where two compatible-looking
+          PRs merge independently and only their combination is broken. <code>"enforce_admins": true</code>
+          applies the rules to administrators too; leave it off and you’ve built a gate with a permanent,
+          temptation-shaped hole in it. Note the contexts list: required checks must be registered
+          by exact name, which is where most gates quietly fail — more on that below.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="advisory-versus-required-precisely">Advisory versus required, precisely</h2>
+        <p>
+          An advisory check runs and reports. Anyone with write access can merge past a failing advisory check;
+          depending on settings they may even merge before it finishes. Nothing about this is visible in the UI
+          as dangerous — the red X looks identical whether or not it has teeth. A required check, by contrast,
+          changes what the merge button does: the PR cannot merge until every required context reaches success.
+          Not “completed” — succeeded. Skipped jobs count as neither, which is why a required job
+          guarded by <code>if:</code> conditions can leave a gate permanently stuck rather than safely passing.
+        </p>
+        <p>
+          Choose per check, not globally. Require what verifies correctness of the diff: build, lint, unit
+          tests, critical-path E2E. Keep long-tail suites advisory or scheduled — a 40-minute exhaustive run
+          as a hard requirement converts every typo fix into a coffee break and teaches the team to hate the
+          gate. Tiering by cost is exactly the strategy behind
+          <a href="https://molar.it/blog/continuous-testing-ci-cd-pipeline">continuous testing across the pipeline</a>: fast
+          blocking feedback on PRs, deep coverage on schedule.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-naming-trap">The naming trap</h2>
+        <p>
+          Required contexts match check-run names byte-for-byte, and several common patterns change names
+          invisibly. Matrix jobs append their matrix values: a job <code>test</code> sharded four ways produces
+          <code>e2e / test (1)</code> through <code>(4)</code> — requiring plain <code>e2e / test</code> protects
+          nothing. Renaming a workflow file changes names. Display-name edits change names. Each rename leaves
+          the old required context pointing at a check that will never run again, which means the gate either
+          wedges every PR or — if someone “fixes” it by removing the requirement — stops existing.
+        </p>
+        <p>
+          The robust pattern is an aggregator: a final job that runs after all shards and succeeds only if every
+          shard succeeded. Require the aggregator’s single stable name, and future shard-count changes never
+          touch branch protection again. External systems integrate the same way — Guard, for instance, posts
+          its pass/fail/flaky verdict as a native check run precisely so it can occupy a slot in the required
+          list like any first-class job (see the <a href="https://molar.it/integrations/github-actions">GitHub Actions integration</a>).
+        </p>
+      </section>
+
+      <section>
+        <h2 id="a-gate-is-only-as-strong-as-its-flake-rate">A gate is only as strong as its flake rate</h2>
+        <div>
+          A required check that fails randomly 10–20% of the time doesn’t reduce risk — it trains bypass.
+          Engineers learn that red usually means “roll the dice again”, and within a quarter the team is
+          merging through admin override reflexively. Flake budget is gate security.
+        </div>
+        <p>
+          Before making a suite required, earn it: cap retries at one, track which tests consume them, and move
+          repeat offenders to a quarantine lane that still runs and reports but doesn’t block, with a named owner
+          and expiry date. Review flake rate weekly like an SLO; under 1% is a realistic target. Diagnosis comes
+          before policy — timing races, shared state, third-party outages, and environment drift each need their
+          own fix, laid out in <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">our flaky-tests guide</a>. A merge
+          queue pairs well here: with strict mode plus a queue, each PR is validated against the true tip of
+          main, serializing the small window where independent branches would otherwise conflict untested.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="escape-hatches-you-design-on-day-one">Escape hatches you design on day one</h2>
+        <p>
+          Hard gates meet reality at the worst time — production is down, the fix is three lines, and CI takes
+          twelve minutes you don’t have. Decide the protocol now, calmly, instead of improvising during an
+          incident. The standard toolkit: an admin-override path that works but logs loudly (audit entries are
+          reviewable later); a small, named bypass list for on-call rotations rather than “everyone”; and a
+          written rule that any bypass triggers an immediate follow-up — revert forward, land the green fix
+          behind it, and post the incident note. Some teams invert the pressure entirely: allow bypass only via
+          a dedicated hotfix branch whose protection is slightly softer, keeping main’s gate absolute.
+        </p>
+        <p>
+          Whatever you choose, measure it. Bypass frequency is a leading indicator: rising overrides mean either
+          your suite got slower, your flake rate climbed, or your process stopped fitting reality — all worth
+          knowing within days rather than quarters. And when the required E2E verdict itself needs richer
+          evidence than a checkmark, deterministic replay with full DOM, network, and clone state turns “why did
+          the gate go red?” from a meeting into a link. That’s the model Molar is built around: gates that stay
+          honest because every failure arrives with its evidence attached. For the broader rollout sequence,
+          see <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a>.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Self-healing test automation, done right</title>
+      <link>https://molar.it/blog/self-healing-test-automation</link>
+      <guid isPermaLink="true">https://molar.it/blog/self-healing-test-automation</guid>
+      <description>How self-healing really works: locator re-ranking, intent capture, approval gates — and why silent rewrites mask real regressions.</description>
+      <pubDate>Wed, 05 Aug 2026 00:00:00 GMT</pubDate>
+      <category>Agents</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="what-self-healing-is-and-isn-t">What self-healing is — and isn’t</h2>
+        <p>
+          Strip away the marketing and self-healing is one operation: when an element a test targets can no
+          longer be found, the system re-identifies it from context and updates the locator. That’s it. Done
+          well, it compresses hours of mechanical repair after every redesign into a reviewable diff. Done
+          badly, it quietly re-points assertions at whatever element looks closest — including brand-new,
+          half-built UI — and your suite reports green while the product regresses underneath it.
+        </p>
+        <p>
+          The scope boundary matters as much as the mechanism. Self-healing addresses locator drift:
+          the element still exists, still serves the same user purpose, but its DOM coordinates changed.
+          It does not address changed behavior, changed copy semantics, or broken flows. A tool that claims
+          to “heal” failing assertions by rewriting them is not maintaining your tests; it is deleting your
+          safety net one rewrite at a time.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="locator-ranking-is-most-of-the-battle">Locator ranking is most of the battle</h2>
+        <p>
+          The amount of healing a suite needs is largely decided at authoring time. A recorder that grabs the
+          first matching CSS path creates maximal future damage; a generator that ranks candidates creates
+          almost none. Every serious implementation converges on roughly the same ladder:
+        </p>
+        <pre><code># Locator ranking, best to worst
+1. data-testid             (purpose-built, stable across redesigns)
+2. role + accessible name  (getByRole('button', { name: 'Checkout' }))
+3. label association       (getByLabel('Email') for form fields)
+4. unique text content     (human-meaningful, survives restyling)
+5. structural CSS / XPath  (last resort — breaks on any DOM change)</code></pre>
+        <p>
+          Roles and accessible names survive styling overhauls because they describe what the element
+          is, not where it sits in the tree. If your current stack makes this ranking awkward, our
+          <a href="https://molar.it/blog/playwright-vs-cypress-comparison">Playwright vs Cypress comparison</a> covers how their
+          selector engines differ. Healing then becomes narrow: re-run this same ranking when the primary
+          candidate fails, constrained by what the step is supposed to accomplish.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="capture-intent-at-authoring-time">Capture intent at authoring time</h2>
+        <p>
+          Here is the part most tools skip. To re-identify an element safely, you must know what it was
+          for — not just what it looked like. “Click the third button” contains no recoverable intent;
+          “click ‘Pay now’ to submit the order” contains plenty. When authoring (or generating) a test, record
+          alongside each step: the semantic action, the target’s accessible identity, the assertion expected
+          afterward, and a screenshot or accessibility snapshot at that point.
+        </p>
+        <p>
+          This metadata is cheap to store and priceless later. With it, healing is a verification problem:
+          find candidate elements, keep the ones whose role, name, and position satisfy the recorded intent,
+          propose the strongest one. Without it, healing degenerates into fuzzy text matching against pixels,
+          which is exactly how suites get silently re-pointed at the wrong controls. AI-generated tests have an
+          advantage here — <a href="https://molar.it/blog/ai-playwright-test-generation">generation pipelines that map flows first</a>
+          naturally produce steps with semantic labels attached — but hand-written suites benefit equally from
+          disciplined naming and comments. The same authoring-time discipline underpins everything in our
+          <a href="https://molar.it/blog/e2e-testing-best-practices">E2E practices guide</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-heal-loop-propose-review-approve">The heal loop: propose, review, approve</h2>
+        <p>
+          A production-grade heal loop has five stages: detect the breakage, re-rank candidates against stored
+          intent, verify the proposal (the new element must satisfy every recorded constraint), emit a diff with
+          evidence, and wait for human approval before anything lands. The output should look like code review,
+          because it is code review:
+        </p>
+        <pre><code>- // Checkout: submit order
+- await page.click('div.checkout > form > button:nth-child(4)');
++ await page.getByRole('button', { name: 'Pay now' }).click();
+  # Evidence: redesign commit moved checkout into a modal.
+  # Candidate matched: role=button, name="Pay now", visible, enabled.
+  # Post-step assertion held: confirmation banner appeared.</code></pre>
+        <p>
+          Two properties distinguish this from auto-patching. First, the change travels through the same PR
+          workflow as any other code — nothing mutates your suite out-of-band. Second, approval is a semantic
+          decision only a human can make: did we move this button, or did we replace it? The
+          system can prove the candidate fits the recorded intent; only the team knows whether the intent itself
+          survived the redesign. Tools like Molar make the gate explicit — heals are proposed with trace evidence,
+          applied on approval, never silently.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="audit-trails-make-healing-defensible">Audit trails make healing defensible</h2>
+        <p>
+          The moment software starts editing your tests, “trust me” stops being acceptable. Every heal should be
+          logged as a queryable record: which test, which step, old locator, new locator, match confidence, the
+          run evidence that justified it, who approved it, and when. That record turns disputes (“did this test
+          ever cover the old flow?”) into database lookups instead of archaeology, and it gives you the aggregate
+          numbers that tell you whether healing is working: proposals per week, acceptance rate, mean time-to-heal,
+          and — critically — heals later reverted, which are your false-positive signal.
+        </p>
+        <p>
+          Auditability also changes team behavior. Engineers accept machine-proposed diffs far more readily when
+          rejection is one click and fully reversible; they resist anything that feels like it edits behind their
+          back. Deterministic replay closes the loop — being able to replay the exact run that motivated a heal,
+          with full DOM and network state, makes the evidence checkable rather than anecdotal.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-line-heal-mechanics-never-semantics">The line: heal mechanics, never semantics</h2>
+        <div>
+          Silent auto-patching converts a regression detector into a compliance mechanism. If the “Buy” button
+          becomes “Subscribe” and the heal silently follows it, your payment-flow test stays green while your
+          revenue model changed. A green badge produced by an unreviewed rewrite is worth less than no test
+          at all.
+        </div>
+        <p>
+          Draw the line explicitly in policy, not just in code. Locators are mechanics — safe to re-rank with
+          review. Assertions, step order, and coverage boundaries are semantics — never touched by automation.
+          And diagnose before healing: if the same test fails intermittently rather than after a specific UI
+          commit, you’re looking at flakiness, not drift, and healing will just paper over a race condition.
+          Our <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flaky-tests field guide</a> covers that diagnosis path,
+          and the CI wiring that surfaces both failure classes is in the
+          <a href="https://molar.it/blog/github-actions-playwright-ci">GitHub Actions guide</a>.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Shift-left testing, explained for shipping teams</title>
+      <link>https://molar.it/blog/shift-left-testing-explained</link>
+      <guid isPermaLink="true">https://molar.it/blog/shift-left-testing-explained</guid>
+      <description>Catch bugs where they&apos;re cheapest — design and PR, not production. Practical shift-left without slowing reviews.</description>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="the-cost-curve-stated-honestly">The cost curve, stated honestly</h2>
+        <p>
+          The classic diagrams show cost rising an order of magnitude per phase — design → code → test →
+          production. Exact multiples vary by study and by team; what never varies is the direction. The
+          mechanism is concrete:
+        </p>
+        <ul>
+          <li><strong>Found in review:</strong> one comment thread. Fix touches one file.</li>
+          <li><strong>Found in CI:</strong> a red check plus a trace. Fix touches a few files; re-review is cheap.</li>
+          <li><strong>Found after release:</strong> incident channel, customer reports, hotfix under pressure, backport, postmortem — and regression tests written after the context has already evaporated.</li>
+        </ul>
+        <p>
+          Note what the curve does not say: that everything should run earlier regardless of cost.
+          A production synthetic probe is cheap and irreplaceable for certain bug classes; a full browser
+          suite on every local save is expensive and useless. Shift-left means placing each check at the
+          earliest point where it’s reliable and affordable.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-leftmost-shift-ambiguity-caught-in-design">The leftmost shift: ambiguity, caught in design</h2>
+        <p>
+          The most expensive bugs are specification bugs wearing implementation costumes. “What happens to
+          a half-completed subscription when the card expires?” is free to answer in a design doc and
+          ruinous to discover from a support ticket. So the cheapest test artifact is a written scenario
+          list produced before code exists:
+        </p>
+        <pre><code># checkout.molar.md — reviewed like code, before any code exists
+Scenario: Expired saved card
+  When I pay with an expired saved card
+  Then I see the retry form
+  And no charge attempt is stored
+
+Scenario: Duplicate submit
+  When I double-click "Pay"
+  Then exactly one charge exists for this order</code></pre>
+        <p>
+          Plain-English scenarios work at this stage because every stakeholder can read them — product,
+          engineering, and support argue about edge cases while changing them costs a keystroke. It’s the
+          same format Molar compiles into executable Playwright tests, so the artifact you argued over in
+          design review becomes the artifact that gates the merge later. For teams without dedicated QA,
+          this habit alone closes most of the gap described in
+          <a href="https://molar.it/blog/startup-qa-without-qa-team">running QA without a QA team</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-pr-shift-verification-inside-the-review-window">The PR shift: verification inside the review window</h2>
+        <p>
+          The second shift moves behavioral verification from “after merge, eventually” to “inside the PR,
+          automatically.” Concretely: every pull request runs the critical-path scenarios against an
+          ephemeral environment with safe third-party substitutes, posts results with trace evidence as
+          comments, and blocks merge via required checks when core flows break.
+        </p>
+        <p>
+          The mechanics are covered elsewhere in depth — making checks mandatory in
+          <a href="https://molar.it/blog/required-status-checks-merge-gate">required status checks as a merge gate</a>, and
+          wiring the runners in <a href="https://molar.it/blog/github-actions-playwright-ci">Playwright in GitHub
+          Actions</a>. The shift-left framing adds one rule: evidence belongs in the PR itself. A
+          reviewer who can watch a failing replay — DOM state, network calls, console errors, the cloned
+          third-party responses — without leaving the thread reviews in minutes instead of hours. That’s
+          the difference between shift-left speeding up reviews and slowing them.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="guardrails-not-gatekeeping">Guardrails, not gatekeeping</h2>
+        <p>
+          Shift-left fails socially when it becomes ceremony. The working distinction:
+        </p>
+        <ul>
+          <li><strong>Budgets.</strong> Required checks must finish inside the PR feedback budget (ten minutes is a good ceiling) or they will be bypassed — the stage-by-stage policy is in <a href="https://molar.it/blog/continuous-testing-ci-cd-pipeline">continuous testing in your CI/CD pipeline</a>.</li>
+          <li><strong>Scope.</strong> Gate on critical paths only; long-tail coverage belongs to scheduled runs, not every developer’s every push.</li>
+          <li><strong>Flake policy.</strong> Quarantine flaky checks same-day. One random failure costs more goodwill than twenty true catches earn back — root causes are catalogued in our piece on <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flaky tests</a>.</li>
+          <li><strong>Escape hatch with receipts.</strong> Admin-override stays possible but logged and reviewed weekly. Trust with accountability beats either extreme.</li>
+        </ul>
+        <div>
+          If required checks fail routinely for non-code reasons, developers learn to override them
+          reflexively — and then the one check that catches the real outage gets overridden too. Flake
+          hygiene isn’t polish for a shift-left program; it’s the load-bearing wall.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="a-minimum-viable-program">A minimum viable program</h2>
+        <ul>
+          <li><strong>This week:</strong> write scenario lists for your top three revenue-critical flows; get product sign-off on the edge cases.</li>
+          <li><strong>This sprint:</strong> make those scenarios executable and run them on every PR against ephemeral environments with cloned third parties — no shared staging bottleneck, no real charges.</li>
+          <li><strong>This quarter:</strong> promote the suites to required checks, add trace-evidence comments on failure, and schedule long-tail regression coverage so nothing silently rots — see our <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a>.</li>
+        </ul>
+        <p>
+          Measure the program by where bugs surface, not by coverage percentages. If after a quarter your
+          post-release incident count hasn’t moved, the checks are running at the wrong depth or guarding
+          the wrong flows — shift-left is a direction, not a destination, and the metric that matters is
+          the phase in which defects die.
+        </p>
+        <p>
+          Molar exists to make that program boring: plain-English scenarios compile to Playwright-grade
+          tests, Guard runs them as required GitHub checks against destruction-safe clones of Stripe,
+          email, SMS, S3 and auth, and Trace attaches deterministic replays to every failure. Shift-left
+          without the maintenance tax that historically killed it.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Staging environments are lying to you</title>
+      <link>https://molar.it/blog/staging-environment-alternatives</link>
+      <guid isPermaLink="true">https://molar.it/blog/staging-environment-alternatives</guid>
+      <description>Drift, dirty data, fake integrations. Why staging fails to predict production — and what to run against instead.</description>
+      <pubDate>Thu, 02 Jul 2026 00:00:00 GMT</pubDate>
+      <category>Integrations</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="where-drift-comes-from">Where drift comes from</h2>
+        <p>
+          Staging drifts from production through a hundred small, individually reasonable decisions:
+        </p>
+        <ul>
+          <li><strong>Manual hotfixes.</strong> Someone fixes prod by hand during an incident and never backports the config change.</li>
+          <li><strong>Scale-shaped differences.</strong> One small instance vs. an autoscaling fleet; queue limits, connection pools, and timeout behavior all change with them.</li>
+          <li><strong>Cheaper substitutes.</strong> Real CDN replaced by direct serving, real WAF disabled, feature flags defaulted differently.</li>
+          <li><strong>Infrequent deploys.</strong> Prod gets daily releases; staging gets them weekly, so even the code diverges.</li>
+        </ul>
+        <p>
+          Each gap is invisible until exactly the wrong moment — and the gaps compound. A config difference
+          that’s harmless alone (feature flags defaulted off) becomes the reason nobody notices a data-shape
+          difference for weeks, because the code path that reads it never runs in either environment the
+          same way twice. The industry’s honest answer is not “try harder to maintain staging” but to shrink
+          what staging is asked to prove.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="data-divergence-is-worse-than-config-divergence">Data divergence is worse than config divergence</h2>
+        <p>
+          Config you can diff. Data you can’t. Staging databases hold either a stale restore (yesterday’s
+          shape, last month’s cardinality), synthetic seed rows (uniform, clean, unrealistically joined),
+          or months of accumulated test junk (duplicate emails, half-deleted records, colliding slugs).
+          None of these behave like production data:
+        </p>
+        <ul>
+          <li>Queries that plan fine on 10k rows fall over on 10M — N+1s hide until cardinality betrays them.</li>
+          <li>Unique-constraint races never fire against seed data because nothing collides.</li>
+          <li>Migration lock times are unmeasurable on a table that takes milliseconds to scan.</li>
+        </ul>
+        <p>
+          The discipline that helps — masking, subsetting, seeding deterministically — lives in our guide to
+          <a href="https://molar.it/blog/test-data-management-best-practices">test data management</a>. But it treats symptoms;
+          the deeper fix is needing less shared environment at all.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-third-party-lie">The third-party lie</h2>
+        <p>
+          Most “staging” setups fake out vendors in the least honest way possible: sandbox accounts shared
+          across every environment, stub servers that only know happy paths, or — worst — live keys with a
+          test card. So the flows that fail loudest in production (payments, OTP, email deliverability,
+          storage lifecycle rules) are precisely the ones staging validates least. We documented the
+          payments version of this in <a href="https://molar.it/blog/test-stripe-without-real-cards">testing Stripe without
+          real cards</a>, and the general pattern — mocks vs. stateful clones — in
+          <a href="https://molar.it/blog/api-mocking-vs-service-clones">API mocking vs. service clones</a>.
+        </p>
+        <div>
+          The most dangerous staging bug is config divergence: staging points at the vendor sandbox while
+          production points at live, and no test ever exercises the production wiring itself. When you do run
+          against real infrastructure, make it explicit, allow-listed, and read-only — never accidental.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="the-alternative-ephemeral-apps-cloned-dependencies">The alternative: ephemeral apps + cloned dependencies</h2>
+        <p>
+          Modern stacks invert the model. Instead of maintaining one long-lived staging replica, you spin up
+          an ephemeral full stack per PR — preview URL included — and point its third-party dependencies at
+          stateful clones:
+        </p>
+        <pre><code># ephemerous-but-deterministic: env for a PR preview
+DATABASE_URL=postgres://ci:${TOKEN}@db-pr-4821.internal/app
+STRIPE_BASE_URL=http://stripe-clone.internal:12111   # stateful, signed webhooks
+EMAIL_BASE_URL=http://mailhole.internal:9025         # capture inbox, no delivery
+S3_ENDPOINT=http://s3-clone.internal:9000            # real API, throwaway bucket</code></pre>
+        <p>
+          Now every property staging promised — isolated data, safe third parties, disposable state — holds
+          per pull request instead of approximately-once-per-quarter. Deterministic IDs and snapshot/restore
+          make runs reproducible; webhook-signing clones let your handlers execute their real verification
+          path. This is the architecture Molar’s Clones product implements directly, and Guard wires into
+          every PR as required checks.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="when-you-must-test-against-production-mark-everything">When you must test against production, mark everything</h2>
+        <p>
+          Some classes of bug only reproduce against production: CDN cache behavior, geo-routing, real
+          vendor rate limits, data-volume effects. For those, run scheduled tests against production using
+          strictly marked identities rather than pretending staging would have caught them:
+        </p>
+        <ul>
+          <li>Dedicated accounts like <code>qa-probe-7@yourdomain.com</code>, flagged in the users table.</li>
+          <li>Request headers (<code>X-Molar-Probe: true</code>) your app logs for easy exclusion from analytics.</li>
+          <li>Read-only assertions wherever possible; side effects confined to probe-owned objects.</li>
+          <li>Alerting on two consecutive failures to avoid paging on one-off blips — the cadence details are
+              in <a href="https://molar.it/blog/synthetic-monitoring-production">synthetic monitoring for production</a>.</li>
+        </ul>
+        <p>
+          The marked-identity discipline matters even when everything works, because the worst outcome of a
+          probe is not a false alarm but a true event nobody can distinguish from customer traffic:
+          support sees a strange signup, deletes it, and your probe starts failing mysteriously. Flagged
+          identities turn that archaeology into a filter query. Combined with the pipeline placement rules
+          in <a href="https://molar.it/blog/continuous-testing-ci-cd-pipeline">continuous testing in CI/CD</a>, this replaces
+          “staging said it was fine” with evidence from the environment that actually matters.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="a-pragmatic-migration-path">A pragmatic migration path</h2>
+        <ul>
+          <li><strong>Week 1:</strong> audit staging’s actual divergence — config diff, data age, vendor wiring. Write down what each check in staging can truly catch.</li>
+          <li><strong>Week 2:</strong> move critical-path E2E off shared staging onto per-PR ephemeral stacks with cloned dependencies.</li>
+          <li><strong>Week 3:</strong> add marked-identity production probes for the bugs only production reveals.</li>
+          <li><strong>Ongoing:</strong> demote staging to what it’s genuinely good for — stakeholder demos and long-lived integration experiments.</li>
+        </ul>
+        <p>
+          Teams rarely delete staging after this. They just stop asking it to predict production — which is
+          the only promise it was never able to keep.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Startup QA without a QA team</title>
+      <link>https://molar.it/blog/startup-qa-without-qa-team</link>
+      <guid isPermaLink="true">https://molar.it/blog/startup-qa-without-qa-team</guid>
+      <description>You can&apos;t hire QA before PMF. Critical-path automation, PR gates, production guard — a lean playbook for founders.</description>
+      <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="the-founder-time-math-nobody-runs">The founder-time math nobody runs</h2>
+        <p>
+          Run the arithmetic you’d run for any other expense. Say you deploy daily and spend twenty minutes
+          manually clicking through signup and checkout before each deploy. That’s roughly eighty hours a
+          year of founder time doing what a script does in ninety seconds — but the hours aren’t even the
+          real cost. The real cost is the deploys where you skip the check because you’re shipping from a
+          cab, and one of those skipped checks is a broken checkout discovered by a customer.
+        </p>
+        <p>
+          The second hidden cost is velocity tax. When confidence is manual, engineers batch changes into
+          riskier releases (“one deploy, fewer checks”), which makes every failure bigger and slower to
+          bisect. Automation isn’t headcount substitution — it’s what lets a three-person team ship daily
+          without holding their breath. The principles in our
+          <a href="https://molar.it/blog/e2e-testing-best-practices">e2e best-practices guide</a> apply at every company
+          size; this post is about sequencing them when time is the scarcest resource.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="find-the-money-paths-first">Find the money paths first</h2>
+        <p>
+          Draw your revenue graph as literally as you can on a whiteboard: anonymous visitor → signup →
+          activation (the action that makes someone stay) → upgrade → renewal. Every edge where “broken”
+          means “revenue lost” or “user churned” is a money path. For most SaaS that’s five edges or fewer:
+          signup with email verification, login plus password reset, the core value action, checkout, and
+          subscription changes or cancellation.
+        </p>
+        <p>
+          Everything else — settings pages, admin panels, nice-to-have filters — waits. Not forever, just
+          until the money paths are guarded. Sequencing by blast radius rather than by ease-of-automation is
+          the single highest-leverage decision in a small team’s test strategy.
+        </p>
+        <div>
+          Coverage theater is the classic startup mistake: automating theme toggles while checkout is
+          verified by vibes. A green suite that skips the money paths protects nothing worth protecting.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="automate-the-top-five-flows-nothing-else-yet">Automate the top five flows — nothing else yet</h2>
+        <p>
+          Write (or generate) one test per money path, end to end, against something that behaves like
+          production. Two details make or break this at startup scale. First, synthetic data: each run gets
+          its own identity so tests never collide — see
+          <a href="https://molar.it/blog/test-data-management-best-practices">test data rules that scale</a>. Second,
+          third-party safety: your checkout test must not hit live Stripe or a real mailbox. Stateful clones
+          speak Stripe’s API, accept <code>4242…</code>, and never move money —
+          <a href="https://molar.it/blog/test-stripe-without-real-cards">here’s how that works for cards</a>, and the same
+          pattern covers OTP email and SMS.
+        </p>
+        <pre><code>// e2e/money-paths.spec.ts — one guard per revenue edge
+test('signup → upgrade', async ({ page }) => {
+  const inbox = await clone.createMailbox();     // disposable, no real email
+  await page.goto('/signup');
+  await page.getByLabel('Work email').fill(inbox.address);
+  await page.getByRole('button', { name: 'Create account' }).click();
+  await inbox.waitForOtp();                      // verification code arrives via clone
+  await completeOtp(page, inbox);
+
+  await page.getByRole('button', { name: 'Upgrade to Pro' }).click();
+  await fillCard(page, '4242 4242 4242 4242');   // clone card, no real charge
+  await expect(page.getByTestId('plan-badge')).toHaveText('Pro');
+});</code></pre>
+        <p>
+          Five tests like this cover the majority of catastrophic-regression surface. Resist the urge to
+          build coverage breadth before you have depth on these five.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="make-them-required-checks">Make them required checks</h2>
+        <p>
+          A suite that runs “when someone remembers” is documentation, not protection. Wire the money paths
+          into CI on every pull request and mark them as required status checks so GitHub blocks merge on
+          red — the exact setup is in
+          <a href="https://molar.it/blog/required-status-checks-merge-gate">required status checks as a merge gate</a>, with
+          the Playwright runner configuration in
+          <a href="https://molar.it/blog/github-actions-playwright-ci">our GitHub Actions guide</a>.
+        </p>
+        <p>
+          One policy matters more than tooling here: never disable a failing required check. If a test flakes,
+          quarantine it behind a label with a deadline, then fix the cause — retries hide disease, they don’t
+          cure it. Five reliable tests gating every merge beat fifty flaky ones everyone routes around.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="schedule-production-checks">Schedule production checks</h2>
+        <p>
+          PR gates verify code before it ships. They say nothing about DNS, certificates, deploy
+          configuration, environment variables, or a vendor API that changed shape overnight. That gap
+          belongs to scheduled production checks: run the same two or three money-path tests hourly against
+          your live site, alert into Slack on failure, and attach evidence so whoever is nearest can triage
+          in minutes. The pattern is standard synthetic monitoring —
+          <a href="https://molar.it/blog/synthetic-monitoring-production">we break down cadence, alerting, and ownership
+          here</a>.
+        </p>
+        <p>
+          Hourly is usually right at startup scale: fast enough to catch breakage before most customers do,
+          cheap enough that nobody argues about the bill. If a check fails twice in a row, page; once,
+          Slack.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-lean-stack-recapped">The lean stack, recapped</h2>
+        <ul>
+          <li><strong>Map the money paths.</strong> Signup, login, core action, checkout, plan changes. Nothing else yet.</li>
+          <li><strong>One hermetic test per path.</strong> Synthetic identities, cloned vendors, zero real side effects.</li>
+          <li><strong>Gate merges.</strong> Required checks on every PR; quarantine flakes, never delete gates.</li>
+          <li><strong>Guard production.</strong> Hourly checks on the same paths, alerts where your team actually lives.</li>
+          <li><strong>Expand only when it hurts.</strong> Add coverage after a bug escapes, targeting the class of bug, not the instance.</li>
+        </ul>
+        <p>
+          Revisit the founder-time math: eighty hours a year of manual checking becomes an afternoon of
+          setup plus reviewing failures that actually matter. This loop — generate from plain English, gate
+          PRs, monitor production — is exactly what Molar automates, and the
+          <a href="https://app.molar.it">beta access</a> covers running it on a small app today.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Synthetic monitoring for production, beyond uptime pings</title>
+      <link>https://molar.it/blog/synthetic-monitoring-production</link>
+      <guid isPermaLink="true">https://molar.it/blog/synthetic-monitoring-production</guid>
+      <description>Uptime pings miss broken flows. Synthetic checks walk critical paths every few minutes and catch what pings can&apos;t.</description>
+      <pubDate>Sat, 25 Jul 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="pings-measure-liveness-not-correctness">Pings measure liveness, not correctness</h2>
+        <p>
+          Every outage postmortem has a version of the same line: “monitoring was green.” Uptime pings answer one
+          narrow question — did the server return an HTTP success code within N milliseconds? They don’t exercise
+          the code path your revenue depends on. A broken signup form behind a bad JS bundle, an expired OAuth client
+          secret, a payment provider whose schema changed silently, a feature flag that renders an empty dashboard —
+          all invisible to a ping, all catastrophic for users.
+        </p>
+        <p>
+          The industry’s answer is synthetic monitoring: scripted checks that behave like real users,
+          running continuously against production. Done right, this is just
+          <a href="https://molar.it/blog/e2e-testing-best-practices">end-to-end testing</a> executed on a schedule against live
+          infrastructure. Done badly, it’s a pile of flaky checks that page you at 3am because a CDN hiccuped.
+          The difference is entirely in the design decisions below.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="what-a-good-synthetic-check-looks-like">What a good synthetic check looks like</h2>
+        <p>
+          A flow-level check walks one critical user path end to end, asserts on outcomes (not pixels), and cleans
+          up after itself. Model each check on a named business flow rather than a URL list:
+        </p>
+        <pre><code># synthetic-checks/signup.yaml
+flow: signup-and-first-login
+schedule: "*/5 * * * *"        # every 5 minutes
+regions: [us-east, eu-west]
+steps:
+  - open: /signup
+  - fill_email: "{{ synthetic.identity }}@mail.example.com"
+  - fill_password: "{{ synthetic.password }}"
+  - click: Create account
+  - expect_text: "Check your inbox"
+  - extract_code_from_email: inbox={{ synthetic.inbox }}   # via mail clone
+  - submit_code
+  - expect_url: /dashboard
+assert_timeout_s: 30</code></pre>
+        <p>
+          Three properties matter more than coverage breadth. First, every check has an owner — unowned alerts get
+          ignored. Second, assertions are semantic (“dashboard heading renders”) not visual-only, which keeps them
+          out of <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flake territory</a>. Third, the check is hermetic:
+          its email, SMS, and payment interactions hit clones, not live vendors, so runs cost nothing side-effect-wise.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="frequency-and-regions-match-cadence-to-blast-radius">Frequency and regions: match cadence to blast radius</h2>
+        <p>
+          Run everything every minute and you’ll spend real money generating load and drown yourself in noise.
+          Run things hourly and your mean time to detection is an hour. Calibrate by blast radius:
+        </p>
+        <ul>
+          <li><strong>Revenue path (checkout, paywall):</strong> every 1–5 minutes, from multiple regions.</li>
+          <li><strong>Auth path (login, SSO):</strong> every 5–10 minutes. Auth breakage blocks everything else.</li>
+          <li><strong>Core UX (search, profile, upload):</strong> every 15–30 minutes is usually fine.</li>
+          <li><strong>Long-tail pages:</strong> daily crawl-style sweeps instead of dedicated checks.</li>
+        </ul>
+        <p>
+          Regions matter for two reasons: CDNs and edge functions fail regionally, and latency-based routing can
+          serve different backends. Two or three regions for revenue-critical checks is a sane default; one region
+          everywhere else. Guard schedules in Molar work this way — you attach a cadence and region set to a flow,
+          and the platform handles the run distribution, evidence capture, and alert routing so you’re not gluing
+          cron to Playwright by hand.
+        </p>
+        <div>
+          Don’t point production synthetics at load-test-sized intervals. A checkout flow running once a minute
+          creates ~43k sessions a month. If your checks create orders, make sure downstream systems (finance,
+          fulfillment, support tooling) know which ones are synthetic — see the next section.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="marked-synthetic-identities-always">Marked synthetic identities, always</h2>
+        <p>
+          Every synthetic run should act through clearly labeled identities: emails like
+          <code>+synth-</code>-tagged addresses, accounts flagged in your database, order notes marking automation.
+          This pays off repeatedly:
+        </p>
+        <ul>
+          <li>Analytics stay clean — dashboards exclude synthetic traffic instead of showing phantom conversion dips.</li>
+          <li>Support can recognize synthetic orders instead of investigating “customers” who never respond.</li>
+          <li>You can audit check behavior after the fact: every artifact ties back to a known identity.</li>
+        </ul>
+        <p>
+          Unmarked synthetic data is how you end up emailing a fake customer a real invoice. If your checks need
+          OTP codes or magic links, route them through a controlled mail system rather than a shared inbox — the
+          same mechanics described in our guide to <a href="https://molar.it/blog/email-workflow-testing-otp">testing email workflows</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="alert-dedup-the-difference-between-signal-and-noise">Alert dedup: the difference between signal and noise</h2>
+        <p>
+          A single broken deployment fails every scheduled run until someone fixes it. At 5-minute cadence across
+          three regions, one incident generates hundreds of failures. Naive paging on each failure trains everyone
+          to ignore the channel within a week. Dedup before notifying:
+        </p>
+        <pre><code># Grouping rule (pseudo-config)
+group_by: flow_id
+window: 15m
+notify_when: first_failure_in_group
+escalate_when: failures >= 3 consecutive   # ~15 min sustained
+resolve_when: 2 consecutive passes
+suppress_during_deploy_window: true          # known-change quieting</code></pre>
+        <p>
+          The key ideas: notify on group-open, not every failure; require sustained failure before paging
+          humans (transient network blips self-heal); auto-resolve on consecutive passes; and suppress alerts during
+          an active deploy window when a change is already being rolled back. Route sustained failures into the same
+          channel your engineers already watch — for most teams that means opening a GitHub issue or firing the
+          on-call webhook, not yet another dashboard nobody has open. This pairs naturally with
+          <a href="https://molar.it/blog/github-actions-playwright-ci">PR-gated E2E in CI</a>: if a change was going to break the
+          flow, the gate should catch it before production ever sees it.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="tie-failures-to-diffs-not-mysteries">Tie failures to diffs, not mysteries</h2>
+        <p>
+          An alert that says “signup flow failed” starts an investigation. An alert that says “signup flow started
+          failing at 14:32 UTC, first failing run followed deploy <code>a71f0e3</code> by 90 seconds; trace shows
+          the submit button no longer enables” starts a fix. Correlating check failures with recent deploys and
+          attaching full execution evidence — DOM snapshot, network log, console output — turns production incidents
+          into ten-minute fixes.
+        </p>
+        <p>
+          This deploy-correlation habit also feeds your broader
+          <a href="https://molar.it/blog/regression-testing-strategies">regression strategy</a>: flows that keep breaking in
+          production are telling you your pre-merge suite has a gap at exactly that spot. Treat every synthetic
+          escape as a missing test case, write it, and add it to the PR gate.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Test data management best practices</title>
+      <link>https://molar.it/blog/test-data-management-best-practices</link>
+      <guid isPermaLink="true">https://molar.it/blog/test-data-management-best-practices</guid>
+      <description>Deterministic IDs, seeded state, synthetic identities, PII hygiene. Test data rules that kill cross-test interference.</description>
+      <pubDate>Thu, 18 Jun 2026 00:00:00 GMT</pubDate>
+      <category>Integrations</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="shared-state-is-where-flakiness-is-born">Shared state is where flakiness is born</h2>
+        <p>
+          The canonical failure: two tests both operate on <code>test@example.com</code>. Run alone, each
+          passes. Run together, one deletes the user the other is mid-session with. The suite becomes
+          order-dependent — it passes today because of alphabetical file naming, fails Tuesday when someone
+          renames a spec. Retries don’t fix this; they convert a deterministic bug into an intermittent one,
+          which is strictly worse to debug.
+        </p>
+        <p>
+          The diagnostic is simple: if you can’t run any subset of your suite in parallel against the same
+          environment, your tests share state. The fix is structural, not procedural — no amount of
+          “please clean up after yourselves” survives contact with real parallelism. Everything below exists
+          to make every test hermetic by construction.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="rule-1-unique-per-run-data-beats-cleanup">Rule 1: unique-per-run data beats cleanup</h2>
+        <p>
+          The cheapest isolation is collision-proof identifiers. Every user, org, project, and invoice a
+          test creates gets a unique suffix generated at runtime:
+        </p>
+        <pre><code>import { nanoid } from 'nanoid';
+
+export const newUser = (role: 'member' | 'admin' = 'member') => ({
+  email: `qa-${runId()}-${nanoid(8)}@example.test`, // .test is reserved, never routable
+  plan: 'free',
+  role,
+});</code></pre>
+        <p>
+          Note the tradeoff honestly: unique emails make local debugging harder (“which row was mine?”).
+          Mitigate with structure — a stable <code>qa-</code> prefix, the CI run id, then randomness — so a
+          DBA can find everything from one run with a single <code>LIKE 'qa-4812-%'</code>. Never share
+          accounts between tests, even sequentially; “it passed locally” is usually shared-state luck.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="rule-2-deterministic-seeds-and-factories">Rule 2: deterministic seeds and factories</h2>
+        <p>
+          Randomness inside a test should be seeded or it’s a future flake. If your factory uses Faker,
+          seed it per run (<code>Faker.seed(42)</code>) so failures reproduce. Freeze anything time-shaped:
+          inject a clock rather than reading wall time, so “invoice due next month” means the same thing in
+          August and February.
+        </p>
+        <p>
+          Prefer factories over committed fixtures. A checked-in <code>users.json</code> drifts silently
+          from your schema until the night someone adds a <code>NOT NULL</code> column. Factories derive
+          data from current code, so schema migrations break loudly at build time instead of softly at 2am.
+          Keep seed scripts versioned alongside migrations — schema and baseline state move as one unit.
+          For deeper background on why order-dependent suites rot, see our
+          <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flaky-tests causes and fixes</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="rule-3-synthetic-identities-that-announce-themselves">Rule 3: synthetic identities that announce themselves</h2>
+        <p>
+          Test identities should be unmistakable at a glance and harmless in reality. Email plus-addressing
+          gives you both properties: <code>qa+signup-4812@yourdomain.test</code> routes into one monitored
+          inbox yet stays unique per flow and per run. Adopt a written policy for the rest:
+        </p>
+        <ul>
+          <li><strong>Names:</strong> obviously fake (“QA BOT”, “Test Runner”), never realistic personas.</li>
+          <li><strong>Phones:</strong> reserved/fictional ranges only, backed by an SMS clone — never a real SIM.</li>
+          <li><strong>Emails/SMS delivery:</strong> disposable inboxes and cloned providers, not employee mailboxes. We show the OTP pattern for <a href="https://molar.it/blog/email-workflow-testing-otp">email verification flows</a> and <a href="https://molar.it/blog/test-twilio-sms-otp-flows">Twilio-style SMS codes</a>.</li>
+          <li><strong>Never</strong> touch records belonging to real customers, domains, or employees — not even read-only “just to check.”</li>
+        </ul>
+        <p>
+          Marked identities pay off downstream: support can spot them instantly, analytics filters exclude
+          them by prefix, and incident triage never confuses a test storm with an outage.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="rule-4-pii-minimization-and-masking">Rule 4: PII minimization and masking</h2>
+        <p>
+          Don’t copy production data into staging wholesale — it’s the fastest way to turn a test
+          environment into an unmonitored data breach. Prefer generating synthetic data shaped like
+          production (same cardinalities, same edge cases) over masking real people. When masking is
+          unavoidable, do it deterministically: the same input always maps to the same surrogate, so joins,
+          foreign keys, and dedup logic keep working.
+        </p>
+        <p>
+          Extend hygiene to artifacts: traces, videos, and console logs capture whatever the page rendered.
+          Redact at capture time for anything user-shaped, and treat screenshot storage like production
+          storage, because it effectively is one.
+        </p>
+        <div>
+          A frozen snapshot of production data is still processing personal data. GDPR/CCPA erasure requests
+          don’t reach your staging bucket or old CI caches — which makes unmasked copies a compliance
+          liability, not just a security one.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="rule-5-cleanup-vs-snapshot-restore">Rule 5: cleanup vs snapshot/restore</h2>
+        <p>
+          Cleanup scripts are the polite fiction of test data management: under parallelism they race.
+          Two runs deleting “their” rows by prefix will eventually collide on a foreign key, a unique
+          index, or a cache. Deletion-based isolation scales poorly precisely when your suite gets fast
+          enough for it to matter.
+        </p>
+        <p>
+          The structural alternative is snapshot/restore: give each worker an ephemeral database, seed it
+          once from a golden image (schema + baseline data), and let the run trash it freely. Restore is
+          O(seconds), cleanup becomes irrelevant, and parallelism is bounded only by hardware. Costs to
+          weigh: image size, image drift (rebuild the golden snapshot whenever migrations land). The
+          pragmatic hybrid most teams converge on is an ephemeral database per worker, booted with
+          migrations plus a small deterministic seed. Third-party side effects get the same treatment via
+          service clones instead of shared vendor sandboxes — we compare the approaches in
+          <a href="https://molar.it/blog/api-mocking-vs-service-clones">API mocking vs service clones</a>, and the wider
+          environment question in <a href="https://molar.it/blog/staging-environment-alternatives">staging alternatives</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-six-rules-recapped">The six rules, recapped</h2>
+        <ul>
+          <li><strong>Unique-per-run identifiers</strong> for everything a test creates — structured, searchable prefixes.</li>
+          <li><strong>Determinism everywhere:</strong> seeded generators, injected clocks, factories over frozen fixtures.</li>
+          <li><strong>Synthetic marked identities:</strong> plus-addressed email, fictional phones, clone-backed OTP.</li>
+          <li><strong>No raw production PII:</strong> synthesize where possible; mask deterministically when not.</li>
+          <li><strong>Snapshot/restore over cleanup scripts</strong> once the suite runs in parallel.</li>
+          <li><strong>Treat artifacts as data:</strong> redact traces and screenshots like the production systems they are.</li>
+        </ul>
+        <p>
+          Teams that adopt these rules report their “flaky test” backlog shrinking to near zero — because
+          most of it was never timing bad luck. It was two tests sharing a row.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Test Stripe checkout without charging a real card</title>
+      <link>https://molar.it/blog/test-stripe-without-real-cards</link>
+      <guid isPermaLink="true">https://molar.it/blog/test-stripe-without-real-cards</guid>
+      <description>Test Stripe checkout and billing flows safely using stateful API clones. Isolated test charges, fewer test-mode gaps — deterministic Stripe clones in CI and production guard.</description>
+      <pubDate>Sat, 27 Jun 2026 00:00:00 GMT</pubDate>
+      <category>Integrations</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="why-stripe-test-mode-isn-t-enough">Why Stripe test mode isn't enough</h2>
+        <p>
+          Test keys prevent real charges, but teams still skip end-to-end checkout in CI because webhooks,
+          Connect accounts, and cross-service state are hard to reproduce. So suites drift toward
+          “click the pay button” happy paths while production breaks on edge cases: declined cards,
+          proration rounding, idempotency replays.
+        </p>
+        <div>
+          The most expensive bugs live in the gap between “the button works” and “the ledger is right”.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="stateful-clones-vs-static-mocks">Stateful clones vs static mocks</h2>
+        <p>
+          A static mock returns canned JSON. A <strong>stateful clone</strong> maintains session state:
+          customers, payment intents, failures, and signed webhook payloads — so your app behaves as it
+          would against real Stripe, with no network egress to Stripe's API. See
+          <a href="https://molar.it/blog/api-mocking-vs-service-clones">mocking vs clones</a> for the full comparison.
+        </p>
+        <pre><code>// your app calls the clone exactly like production
+const intent = await stripe.paymentIntents.create({ amount: 9900 });
+// clone records state + emits a correctly-signed webhook
+await expect(receipt.total).toBe(9900);</code></pre>
+      </section>
+
+      <section>
+        <h2 id="how-molar-runs-checkout-tests">How Molar runs checkout tests</h2>
+        <p>
+          Molar points an autonomous agent at your staging or production URL, authors a critical-path
+          checkout scenario in plain English, and runs it against cloned Stripe plus email and auth
+          dependencies — see <a href="https://molar.it/blog/testing-third-party-apis-safely">safe third-party testing</a>.
+          Failures capture a full replayable trace; regressions gate PRs through
+          <a href="https://molar.it/blog/github-actions-playwright-ci">required GitHub checks</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="what-you-get-on-each-run">What you get on each run</h2>
+        <ul>
+          <li>Deterministic charge state you can assert against (amounts, currency, metadata).</li>
+          <li>Correctly signed webhooks your handlers actually accept.</li>
+          <li>Error semantics that match production (declines, timeouts) on demand.</li>
+          <li>Synthetic identities marked <code>qa+</code> so keeps test identities isolated.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="keep-reading">Keep reading</h2>
+        <p>
+          Compare <a href="https://molar.it/vs/wiremock">Molar Clones vs WireMock</a>, browse the
+          <a href="https://docs.molar.it">documentation</a>, or read
+          <a href="https://molar.it/blog/email-workflow-testing-otp">email workflow testing</a> to cover the receipt side.
+        </p>
+      </section>]]></content:encoded>
+    </item>
+    <item>
+      <title>Testing Twilio SMS and OTP flows without real numbers</title>
+      <link>https://molar.it/blog/test-twilio-sms-otp-flows</link>
+      <guid isPermaLink="true">https://molar.it/blog/test-twilio-sms-otp-flows</guid>
+      <description>Real SMS is slow, costly, and flaky in CI. Stateful Twilio clones deliver OTPs instantly with deterministic codes.</description>
+      <pubDate>Wed, 22 Jul 2026 00:00:00 GMT</pubDate>
+      <category>Integrations</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="why-real-sms-breaks-ci">Why real SMS breaks CI</h2>
+        <p>
+          Pointing your test suite at a live messaging provider fails in four predictable ways:
+        </p>
+        <ul>
+          <li><strong>Cost.</strong> Every verification sends a billable message. A suite that runs 200 times a day across PRs turns your test budget into an invoice line item.</li>
+          <li><strong>Latency.</strong> Real delivery takes seconds to minutes. A 30-second OTP wait inside a 90-second Playwright timeout is a coin flip.</li>
+          <li><strong>Carrier filtering.</strong> Carriers aggressively filter A2P traffic to short-code ranges and test-looking numbers. Messages silently vanish; your test can’t distinguish “code not sent” from “code lost.”</li>
+          <li><strong>Nondeterminism.</strong> Codes arrive out of order, retries collide, shared test numbers accumulate state from other runs. The result is exactly the kind of intermittent red described in our guide to <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flaky tests</a>.</li>
+        </ul>
+        <p>
+          Some teams buy dedicated test phone numbers or negotiate sandbox access. Both still route through carrier
+          networks, so latency and loss remain — you’ve paid for a faster coin flip, not determinism. Number pools
+          shared across CI jobs introduce a subtler failure: two pipelines verifying against the same number
+          concurrently, each consuming the other’s codes. The fix is removing the network from the loop entirely,
+          which is what service clones are for.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="clone-semantics-same-endpoints-deterministic-codes">Clone semantics: same endpoints, deterministic codes</h2>
+        <p>
+          A Twilio clone implements the provider’s API contract — message create, lookup, verification services,
+          the works — but keeps every message in a local, inspectable store. Your application doesn’t change: it
+          still POSTs to a base URL, still reads back status callbacks. Only the base URL points at the clone.
+        </p>
+        <pre><code># App code is unchanged except TWILIO_BASE_URL
+curl -X POST "$CLONE/2010-04-01/Accounts/ACxxx/Messages.json" \
+  -d To=+15550100042 -d From=+15550001111 \
+  -d Body="Your code is 491722"
+
+# The clone stores it deterministically — fetch it like the real API
+curl "$CLONE/2010-04-01/Accounts/ACxxx/Messages.json?To=%2B15550100042"
+# → {"messages":[{"body":"Your code is 491722","status":"delivered", ...}]}</code></pre>
+        <p>
+          Determinism is the point: for a given seed, the clone issues the same codes, in the same order, with the
+          same timestamps. Your assertions stop guessing and start knowing. And because nothing leaves the machine,
+          there’s no cost per run and no PII touching a third party — the same safety argument we make for
+          <a href="https://molar.it/blog/testing-third-party-apis-safely">third-party APIs in general</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-virtual-clock-testing-expiry-properly">The virtual clock: testing expiry properly</h2>
+        <p>
+          OTP expiry is where hand-rolled tests give up. Nobody wants to wait five minutes for a code to lapse, so
+          expiry logic ships untested until it breaks. A clone with a virtual clock solves this cleanly: advance
+          simulated time, then act.
+        </p>
+        <pre><code>// Advance the clone's clock past expiry, then try the stale code
+await clock.advance({ seconds: 301 });
+await page.fill('#otp-input', codeFromClone);   // issued at t=0
+await page.click('text=Verify');
+await expect(page.getByText('Code expired')).toBeVisible();
+
+// Request again → new code, old code rejected even if typed correctly
+const fresh = await clone.getLatestCode('+15550100042');
+expect(fresh).not.toBe(codeFromClone);</code></pre>
+        <p>
+          This covers the whole family of time bugs: resend throttles, retry lockouts after N attempts,
+          “code valid for X minutes” copy drifting from server truth, and replay attempts. These are precisely
+          the behaviors attackers probe, which makes them worth automating rather than spot-checking by hand.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="webhook-parity">Webhook parity</h2>
+        <p>
+          Most integrations don’t poll — they consume webhooks: delivery receipts, inbound replies (STOP/HELP),
+          verification status events. If your clone only fakes the REST API, you’ve tested half the surface. Look
+          for three things in any substitute:
+        </p>
+        <ul>
+          <li><strong>Lifecycle parity.</strong> queued → sent → delivered transitions fire in order, with realistic timing you control.</li>
+          <li><strong>Signature correctness.</strong> Callbacks carry valid request signatures so your verification middleware is exercised, not bypassed.</li>
+          <li><strong>Inbound simulation.</strong> You can inject an inbound “STOP” reply and assert your suppression logic fires.</li>
+        </ul>
+        <pre><code>// Simulate an inbound STOP and verify opt-out handling
+await clone.injectInboundSms({ from: '+15550100042', body: 'STOP' });
+await expect.poll(() => clone.suppressionList())
+  .toContain('+15550100042');</code></pre>
+        <p>
+          Webhook parity also changes what you can test about ordering. Real providers retry undelivered
+          callbacks and can deliver events out of order under load; a clone lets you replay those conditions on
+          demand instead of waiting for a bad day in production. Assert that a duplicate
+          <code>verification.completed</code> event is absorbed idempotently, that a status callback for a message
+          your app never sent is rejected, and that signature failures return 403 rather than 500 — small checks
+          that each map to a real outage class.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="wiring-it-into-the-suite">Wiring it into the suite</h2>
+        <p>
+          In practice the pattern is small: point your app’s provider credentials at the clone before boot, run
+          your flows, pull codes out of the clone when the UI asks for them.
+        </p>
+        <pre><code>// Playwright fixture
+export async function otpFor(phone) {
+  const msg = await clone.latestMessageTo(phone);
+  return msg.body.match(/\b(\d{6})\b/)[1];
+}
+test('signup verifies by phone', async ({ page }) => {
+  await signup(page, '+15550100042');
+  await page.fill('#otp', await otpFor('+15550100042'));
+  await expect(page.getByRole('heading', { name: 'Welcome' })).toBeVisible();
+});</code></pre>
+        <p>
+          Molar ships Twilio, email, Stripe, auth, and S3 clones as one system, so a single scenario can mix an
+          SMS code, a confirmation email, and a test-mode charge without real accounts anywhere. For the email side
+          of the same pattern, see <a href="https://molar.it/blog/email-workflow-testing-otp">email workflow testing</a>; for the
+          payments leg, <a href="https://molar.it/blog/test-stripe-without-real-cards">Stripe testing without real cards</a>.
+        </p>
+        <div>
+          Keep one smoke check against the live provider behind a manual trigger. Clones verify your logic;
+          a weekly manual pass confirms the vendor hasn’t changed their contract underneath you.
+        </div>]]></content:encoded>
+    </item>
+    <item>
+      <title>Testing third-party APIs safely: Stripe, SendGrid, S3</title>
+      <link>https://molar.it/blog/testing-third-party-apis-safely</link>
+      <guid isPermaLink="true">https://molar.it/blog/testing-third-party-apis-safely</guid>
+      <description>Sandbox limitations, rate limits, fake-data drift. Destruction-safe clones give tests real API semantics with zero blast radius.</description>
+      <pubDate>Thu, 09 Jul 2026 00:00:00 GMT</pubDate>
+      <category>Integrations</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="sandboxes-aren-t-production-and-that-s-the-problem">Sandboxes aren’t production, and that’s the problem</h2>
+        <p>
+          Vendor sandboxes exist to help you integrate, not to absorb thousands of automated test runs
+          a day. Three failure modes show up on nearly every team we talk to:
+        </p>
+        <ul>
+          <li>
+            <strong>No behavioral parity.</strong> Test mode happily accepts the magic test card, but it won’t
+            decline based on velocity, won’t surface 3DS challenges the same way, and rarely fires the dispute
+            or refund webhooks your code actually has to handle. You pass in the sandbox and fail in production.
+          </li>
+          <li>
+            <strong>Shared rate limits.</strong> Your CI queue isn’t the only tenant hammering a sandbox. When a
+            vendor throttles test traffic globally, your pipeline turns red for reasons that have nothing to do
+            with your code — a special circle of flaky-test hell documented at length in our piece on
+            <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flaky tests and their fixes</a>.
+          </li>
+          <li>
+            <strong>Fake-data drift.</strong> Sandboxes accumulate months of other integrators’ test objects.
+            Search endpoints return strangers’ records, idempotency keys collide, and list responses grow until
+            pagination assumptions quietly break. We cover the cleanup side of this in
+            <a href="https://molar.it/blog/test-data-management-best-practices">test data management</a>.
+          </li>
+        </ul>
+        <p>
+          None of this means sandboxes are bad — they’re just not designed as test infrastructure. Treating them
+          like infrastructure is how teams end up with suites that are simultaneously slow, flaky, and shallow.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="the-live-key-rules-that-keep-you-safe">The live-key rules that keep you safe</h2>
+        <p>
+          Some teams skip the sandbox entirely and point tests at production APIs with real keys. Don’t — unless
+          you enforce hard guardrails. The minimum set:
+        </p>
+        <ul>
+          <li><strong>Refuse live credentials in CI.</strong> Fail the build at startup if any configured key matches a live prefix (<code>sk_live_</code>, a production Twilio SID, a bucket without <code>-test</code>).</li>
+          <li><strong>Allow-list test cards and numbers.</strong> Only known-inert values may appear in fixtures.</li>
+          <li><strong>Cap spend and side effects.</strong> Hard ceilings per run, checked before each call.</li>
+          <li><strong>Separate accounts entirely.</strong> A dedicated sub-account for tests, so even a mistake can’t touch customer data.</li>
+        </ul>
+        <div>
+          Make the live-key check a hard startup assertion, not a lint rule: read every credential your test
+          config can see, and abort the run if any of them looks production-shaped. A lint rule gets disabled
+          during a “quick fix”; an assertion that crashes CI at 3 a.m. does not.
+        </div>
+      </section>
+
+      <section>
+        <h2 id="mocks-are-fast-clones-are-honest">Mocks are fast; clones are honest</h2>
+        <p>
+          The usual fix is to mock the third party. HTTP-level mocks (WireMock, MSW, stub servers) are fast and
+          deterministic, but they only know what you taught them — which is usually the happy path from the docs.
+          They can’t tell you that your retry loop breaks on Stripe’s real <code>idempotency_error</code> shape,
+          or that your webhook handler chokes on event ordering.
+        </p>
+        <p>
+          A stateful clone sits between the extremes: it speaks the vendor’s API contract and keeps
+          state across calls. Create a customer, charge them, refund them — each step sees the effects of the
+          last, with deterministic IDs and realistic error semantics, but no money moves and no email leaves.
+          We compare the tradeoffs in detail in
+          <a href="https://molar.it/blog/api-mocking-vs-service-clones">API mocking vs. service clones</a>, and walk through
+          payments specifically in <a href="https://molar.it/blog/test-stripe-without-real-cards">testing Stripe without real cards</a>.
+        </p>
+        <p>
+          The practical split we recommend: mocks for edge-case status codes you want to simulate on demand,
+          clones for any flow where state accumulates — checkout, subscription lifecycle, OTP delivery, file
+          upload then download. For SMS and email verification flows, clones pair naturally with inbox
+          capture; see <a href="https://molar.it/blog/test-twilio-sms-otp-flows">Twilio SMS/OTP testing</a> and
+          <a href="https://molar.it/blog/email-workflow-testing-otp">email workflow testing</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="world-snapshot-restore">World snapshot / restore</h2>
+        <p>
+          Once your dependencies hold state, tests start interfering with each other: one run’s refund becomes
+          another run’s unexpected balance. The fix borrowed from database testing is snapshot and restore —
+          capture the entire simulated world before a scenario, restore it after, or fork it per worker:
+        </p>
+        <pre><code># Fork an isolated world per parallel worker,
+# seeded from a known-good baseline
+world := clones.Fork("checkout-baseline@v14")
+defer world.Discard()
+
+stripe := world.Stripe()
+cust, _ := stripe.Customers.Create(...)
+charge, _ := stripe.Charges.Create(cust.ID, 4200, "usd")
+
+// assert, mutate, break things — nothing leaks
+refund, _ := stripe.Refunds.Create(charge.ID)
+if cust.Balance != -4200 { t.Fatal("balance not updated") }</code></pre>
+        <p>
+          Two properties matter more than the mechanism. First, restore must be cheap — sub-second — or
+          teams will batch scenarios and lose isolation anyway. Second, snapshots should be named and versioned
+          like fixtures, so a test failure can say “reproducible against <code>baseline@v14</code>” instead of
+          “works on my machine.”
+        </p>
+      </section>
+
+      <section>
+        <h2 id="webhooks-signature-parity-or-it-didn-t-happen">Webhooks: signature parity or it didn’t happen</h2>
+        <p>
+          Most third-party integrations have two halves: the API you call, and the webhooks that call you.
+          Mocks usually skip the second half entirely, which is why webhook handlers are chronically untested.
+          A clone that emits events must also sign them exactly as the vendor does — same header format, same
+          timestamp tolerance, same HMAC scheme — so your verification code runs for real:
+        </p>
+        <pre><code>// Your existing handler, unchanged, verifying a cloned event
+const event = stripe.webhooks.constructEvent(
+  rawBody,                       // exact bytes the clone sent
+  req.headers['stripe-signature'],
+  process.env.STRIPE_WEBHOOK_SECRET
+);
+if (event.type === 'charge.refunded') { ... }</code></pre>
+        <p>
+          Test the unhappy paths too: replayed events (same ID, second delivery), stale timestamps outside the
+          tolerance window, and signatures computed with the wrong secret. Those three cases cause most real
+          webhook incidents, and none of them are reachable through a sandbox UI.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="a-rollout-checklist">A rollout checklist</h2>
+        <ul>
+          <li><strong>Inventory</strong> every third-party call in critical flows: payments, email, SMS, storage, auth.</li>
+          <li><strong>Classify</strong>: read-only (safe-ish), stateful (needs clones), side-effecting (never live).</li>
+          <li><strong>Swap</strong> stateful dependencies to clones via env-based base URLs — no code changes.</li>
+          <li><strong>Add</strong> the live-key refusal assertion to CI startup.</li>
+          <li><strong>Seed</strong> named world snapshots for each critical flow; version them with the app.</li>
+          <li><strong>Prove</strong> webhook handling with signed cloned events, including replays and bad signatures.</li>
+        </ul>
+        <p>
+          Molar ships destruction-safe clones of Stripe, Twilio, email, S3, auth, and GitHub behind this exact
+          model — deterministic IDs, virtual clock for expiry-sensitive logic, snapshot/restore per run — and
+          Trace records every cloned interaction as evidence next to DOM and network captures. If you want the
+          deeper walkthrough for one vendor, start with
+          <a href="https://molar.it/blog/test-stripe-without-real-cards">Stripe without real cards</a>.
+        </p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Visual regression testing: a pragmatic guide</title>
+      <link>https://molar.it/blog/visual-regression-testing-guide</link>
+      <guid isPermaLink="true">https://molar.it/blog/visual-regression-testing-guide</guid>
+      <description>Screenshot diffs that don&apos;t drown you in noise: scope, thresholds, baselines, and why semantic assertions come first.</description>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 GMT</pubDate>
+      <category>Engineering</category>
+      <content:encoded><![CDATA[<section>
+        <h2 id="visual-comes-last-not-first">Visual comes last, not first</h2>
+        <p>
+          Start with functional coverage: does signup work, is the total correct, did the row get created.
+          Semantic assertions are cheap to maintain and directly encode product intent. Visual checks earn
+          their place only after that layer exists — they catch the regressions semantics can’t see:
+          broken layouts, overlapping text, missing icons, collapsed sidebars.
+        </p>
+        <div>
+          A passing screenshot asserts nothing about behavior. Pixel-perfect pages can still compute the
+          wrong total, drop the webhook, or save an empty form. Visual checks complement oracles; they are
+          never a replacement for them.
+        </div>
+        <p>
+          The inverse failure mode is real too: teams whose only assertions are screenshots end up reviewing
+          images instead of reviewing intent. When someone updates a baseline because “the diff looked
+          fine,” with no behavioral oracle underneath, nobody can say whether the change was a fix or a
+          regression. Generated suites handle this well precisely because agents author semantic assertions
+          per step first — see how in <a href="https://molar.it/blog/ai-playwright-test-generation">AI Playwright test
+          generation</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="scope-full-page-vs-component-snapshots">Scope: full-page vs component snapshots</h2>
+        <p>
+          Full-page snapshots maximize recall and minimize signal-to-noise: one stray “Recommended for you”
+          banner fails every shot it appears in, and baseline storage balloons into tens of megabytes per
+          screen. Component-scoped (element) snapshots invert the tradeoff — tight blast radius, small
+          diffs, but they only see what you aimed at.
+        </p>
+        <p>
+          The pragmatic split most teams land on: element-level shots for design-system components (buttons,
+          cards, forms, empty states), where changes should be intentional and reviewable; full-page shots
+          reserved for a handful of money screens — landing, pricing, checkout — reviewed on a slower cadence.
+          Name snapshots by surface and state (<code>checkout/error-state.png</code>), not by test id, so a
+          failing diff tells you where to look before you open anything.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="anti-flaking-fonts-animations-viewport-locks">Anti-flaking: fonts, animations, viewport locks</h2>
+        <p>
+          Every visual suite dies by flake before it dies by value. Kill the classic sources explicitly:
+          web fonts that load late (await <code>document.fonts.ready</code> or fail the render), CSS
+          animations and transitions mid-flight, blinking carets, live clocks, avatars fetched from a
+          random-image service. Lock the viewport so scrollbar appearance and responsive breakpoints don’t
+          vary between machines — 1440×900 is a good default desktop target, matching common laptop
+          resolution and what browser-agent tooling assumes.
+        </p>
+        <pre><code>// playwright.config.ts
+use: { viewport: { width: 1440, height: 900 } };
+
+// dashboard.spec.ts
+await page.evaluate(() => document.fonts.ready);
+await clock.install({ time: new Date('2026-06-16T10:00:00Z') }); // freeze time
+
+await expect(page).toHaveScreenshot('dashboard.png', {
+  animations: 'disabled',
+  caret: 'hide',
+  mask: [page.getByTestId('live-ticker')], // dynamic regions opt out
+  maxDiffPixelRatio: 0.01,
+});</code></pre>
+        <p>
+          Stub the network for anything non-deterministic rather than masking blindly — a masked region is a
+          blind spot forever, while a stubbed response is still rendered and reviewed. More general
+          de-flaking technique lives in our <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flaky-tests root
+          causes guide</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="thresholds-that-respect-antialiasing">Thresholds that respect antialiasing</h2>
+        <p>
+          A zero-tolerance threshold will eventually fail because two CI runners rasterized a font two
+          subpixels apart. Cross-machine antialiasing variance is a fact of life; budget for it. In
+          practice, full-page shots tolerate roughly 0.5–2% differing pixels depending on how dynamic the
+          surface is, while component shots can run tighter — fractions of a percent.
+        </p>
+        <p>
+          Two thresholds beat one: a hard limit that fails the build, and a softer watch level that flags
+          drift for review without blocking. Watch for distribution shifts too — many small diffs across a
+          page usually mean a layout shift or font substitution, which no pixel ratio correctly prices. And
+          if your team ships across browsers, expect WebKit to be the pickiest renderer; budget its
+          thresholds separately rather than averaging.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="baselines-deserve-code-review-ux">Baselines deserve code-review UX</h2>
+        <p>
+          Baseline images are code. Treat their changes like code: updating a baseline happens through a
+          dedicated command (<code>--update-snapshots</code> locally), lands as a PR, and requires a human
+          who can articulate why the pixels changed — “marketing header redesign,” not “it looked
+          different.” If nobody can explain a diff, that’s exactly when you want to stop the line.
+        </p>
+        <p>
+          Make the review ergonomic: render expected vs actual vs diff side by side in the PR, not as three
+          opaque PNG attachments. Small teams store baselines next to specs in git — simple, versioned,
+          reviewable. Past a few thousand images or multiple browser matrices, move blobs to object storage
+          keyed by commit and keep only pointers in the repo; the workflow stays identical. Whatever the
+          storage, keep one rule absolute: the pipeline never auto-accepts a baseline. Automation proposes;
+          humans dispose. That’s what keeps visual suites trusted months later, and it’s the same principle
+          behind <a href="https://molar.it/blog/self-healing-test-automation">self-healing tests done right</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 id="a-pragmatic-workflow">A pragmatic workflow</h2>
+        <ul>
+          <li><strong>Step 1.</strong> Functional/semantic suite green first. No screenshots until intent is asserted.</li>
+          <li><strong>Step 2.</strong> Lock determinism: viewport 1440×900, fonts awaited, animations disabled, clocks frozen, network stubbed.</li>
+          <li><strong>Step 3.</strong> Element shots for design-system components, tight thresholds.</li>
+          <li><strong>Step 4.</strong> Full-page shots for money screens, looser thresholds, PR-gated.</li>
+          <li><strong>Step 5.</strong> Review every baseline change like a code change; never auto-update.</li>
+          <li><strong>Step 6.</strong> Fold visual checks into your broader cadence per our <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a>.</li>
+        </ul>
+        <p>
+          Built this way, visual regression adds the layer it’s uniquely good at — catching what assertions
+          miss — without taxing every merge with noise.
+        </p>]]></content:encoded>
+    </item>
+  </channel>
+</rss>

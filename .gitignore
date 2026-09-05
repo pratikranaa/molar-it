@@ -8,3 +8,5 @@ film/music/*.wav
 
 .site-dist/
 .impeccable/review/
+.content-drafts/
+.wrangler/

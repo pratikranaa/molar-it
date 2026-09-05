@@ -1,0 +1,1499 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "rendered canonical HTML",
+  "site": "https://molar.it",
+  "generatedAt": "2026-09-05T20:38:10.740Z",
+  "pageCount": 96,
+  "pages": [
+    {
+      "path": "/",
+      "url": "https://molar.it/",
+      "title": "Molar — AI QA for Web Apps & Third-Party Integrations",
+      "description": "AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.",
+      "headings": [
+        "Your users shouldn’t be your QA team.",
+        "Make the hard cases easy to test.",
+        "Two people. One connected test.",
+        "From the first click to the next release.",
+        "Your agent wrote it. Let Molar test it.",
+        "Start with the flow you can’t afford to break.",
+        "A few things you might be wondering.",
+        "Your next test starts with a URL."
+      ]
+    },
+    {
+      "path": "/ask",
+      "url": "https://molar.it/ask",
+      "title": "Ask Molar — Practical Answers About Browser Testing",
+      "description": "Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.",
+      "headings": [
+        "What do you want to test?",
+        "Your answer",
+        "A useful answer. A place to go deeper."
+      ]
+    },
+    {
+      "path": "/blog",
+      "url": "https://molar.it/blog",
+      "title": "Molar Guides — Browser QA, Integrations & Agents",
+      "description": "Practical engineering guides on browser QA, third-party integrations, release confidence, and agent workflows.",
+      "headings": [
+        "Practical notes for software that works.",
+        "Test Stripe checkout without charging a real card",
+        "Payment succeeded. Why is the account still locked?",
+        "AI agents and the future of software testing",
+        "AI Playwright test generation: how it actually works in 2026",
+        "API mocking vs stateful service clones",
+        "Continuous testing in your CI/CD pipeline",
+        "E2E testing best practices that survive scale",
+        "Email workflow testing: OTPs, invites, notifications",
+        "Flaky tests: root causes and durable fixes",
+        "Playwright in GitHub Actions: PR gating that holds",
+        "Playwright vs Cypress in 2026: an honest comparison",
+        "Regression testing strategies for fast-moving teams",
+        "Required status checks: a practical merge-gate guide",
+        "Self-healing test automation, done right",
+        "Shift-left testing, explained for shipping teams",
+        "Staging environments are lying to you",
+        "Startup QA without a QA team",
+        "Synthetic monitoring for production, beyond uptime pings",
+        "Test data management best practices",
+        "Test Stripe checkout without charging a real card",
+        "Testing Twilio SMS and OTP flows without real numbers",
+        "Testing third-party APIs safely: Stripe, SendGrid, S3",
+        "Visual regression testing: a pragmatic guide",
+        "No guides found",
+        "A useful first run beats a long setup."
+      ]
+    },
+    {
+      "path": "/blog/ai-agents-future-software-testing",
+      "url": "https://molar.it/blog/ai-agents-future-software-testing",
+      "title": "AI agents and the future of software testing | Molar",
+      "description": "A practical guide to verification loops for coding agents, with deterministic checks where judgment matters.",
+      "headings": [
+        "AI agents and the future of software testing",
+        "The asymmetry nobody planned for",
+        "LLMs at authoring time; determinism at runtime",
+        "Coding agents should verify their own work",
+        "What stays stubbornly human",
+        "The failure mode worth designing against",
+        "Where this lands",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-06-29",
+      "category": "Agents"
+    },
+    {
+      "path": "/blog/ai-playwright-test-generation",
+      "url": "https://molar.it/blog/ai-playwright-test-generation",
+      "title": "AI Playwright test generation: how it actually works in 2026 | Molar",
+      "description": "How AI Playwright test generation actually works — crawling, flow mapping, locator selection, self-healing, and CI export. A practical engineering guide with code.",
+      "headings": [
+        "AI Playwright test generation: how it actually works in 2026",
+        "The pipeline behind generated tests",
+        "Locator quality is the whole ballgame",
+        "Assertions: where AI earns or loses trust",
+        "Deterministic output, or it doesn’t belong in CI",
+        "The third-party problem nobody demos",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-08-10",
+      "category": "Agents"
+    },
+    {
+      "path": "/blog/api-mocking-vs-service-clones",
+      "url": "https://molar.it/blog/api-mocking-vs-service-clones",
+      "title": "API mocking vs stateful service clones | Molar",
+      "description": "Mocks stub responses; clones run stateful vendor semantics — webhooks included. When each is right.",
+      "headings": [
+        "API mocking vs stateful service clones",
+        "Two tools that look similar and aren’t",
+        "Fidelity",
+        "Statefulness",
+        "Webhooks and signatures",
+        "Maintenance drift",
+        "Blast radius",
+        "The verdict: mocks for units, clones for paths",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-07-16",
+      "category": "Integrations"
+    },
+    {
+      "path": "/blog/continuous-testing-ci-cd-pipeline",
+      "url": "https://molar.it/blog/continuous-testing-ci-cd-pipeline",
+      "title": "Continuous testing in your CI/CD pipeline | Molar",
+      "description": "Where tests belong across commit, PR, deploy, and production — and what to run at each stage without killing velocity.",
+      "headings": [
+        "Continuous testing in your CI/CD pipeline",
+        "The feedback budget comes first",
+        "Commit stage: seconds, not minutes",
+        "PR stage: critical-path E2E behind required checks",
+        "Deploy stage: smoke, then promote",
+        "Production stage: schedules, not releases",
+        "Artifacts close the loop",
+        "The three ways pipelines rot",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-07-06",
+      "category": "Engineering"
+    },
+    {
+      "path": "/blog/e2e-testing-best-practices",
+      "url": "https://molar.it/blog/e2e-testing-best-practices",
+      "title": "E2E testing best practices that survive scale | Molar",
+      "description": "A practical E2E playbook: test the critical path, user-visible selectors, deterministic data, fast feedback.",
+      "headings": [
+        "E2E testing best practices that survive scale",
+        "Prioritize the critical path ruthlessly",
+        "Select users can see",
+        "Every test stands alone",
+        "Deterministic data beats cleaned-up data",
+        "Parallelize deliberately",
+        "Artifacts on failure, always",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-08-01",
+      "category": "Engineering"
+    },
+    {
+      "path": "/blog/email-workflow-testing-otp",
+      "url": "https://molar.it/blog/email-workflow-testing-otp",
+      "title": "Email workflow testing: OTPs, invites, notifications | Molar",
+      "description": "Verify the whole email path in tests — delivery, links, codes — without SMTP or real inboxes. Deterministic and instant.",
+      "headings": [
+        "Email workflow testing: OTPs, invites, notifications",
+        "The inbox is part of your app surface",
+        "What to actually assert",
+        "Unique-per-run addresses",
+        "Code extraction helpers",
+        "No real inbox: safety and determinism by default",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-07-19",
+      "category": "Integrations"
+    },
+    {
+      "path": "/blog/flaky-tests-causes-and-fixes",
+      "url": "https://molar.it/blog/flaky-tests-causes-and-fixes",
+      "title": "Flaky tests: root causes and durable fixes | Molar",
+      "description": "Why tests flake — timing, shared state, third parties, environments — and durable fixes for each. Stop re-running, start fixing.",
+      "headings": [
+        "Flaky tests: root causes and durable fixes",
+        "Flake is a defect class, not bad luck",
+        "Timing races: sleeps are guesses",
+        "Shared state: two tests, one row",
+        "Environment drift: it passed on my machine",
+        "Third-party failures: someone else’s uptime",
+        "Selector brittleness: the slow rot",
+        "Retries and quarantine: policy, not vibes",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-08-08",
+      "category": "Engineering"
+    },
+    {
+      "path": "/blog/github-actions-playwright-ci",
+      "url": "https://molar.it/blog/github-actions-playwright-ci",
+      "title": "Playwright in GitHub Actions: PR gating that holds | Molar",
+      "description": "Set up Playwright in GitHub Actions: caching, sharding, traces, required checks that block merges without drowning CI.",
+      "headings": [
+        "Playwright in GitHub Actions: PR gating that holds",
+        "The baseline workflow",
+        "Cache what’s slow",
+        "Shard until PRs wait minutes, not quarters of an hour",
+        "Traces and artifacts on failure",
+        "Make the check required — carefully",
+        "Keep the gate honest as the suite grows",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-07-30",
+      "category": "Engineering"
+    },
+    {
+      "path": "/blog/playwright-vs-cypress-comparison",
+      "url": "https://molar.it/blog/playwright-vs-cypress-comparison",
+      "title": "Playwright vs Cypress in 2026: an honest comparison | Molar",
+      "description": "Architecture, multi-tab, iframes, debugging, CI scale, ecosystem. Where each wins — and how generated Playwright changes the math.",
+      "headings": [
+        "Playwright vs Cypress in 2026: an honest comparison",
+        "Two architectures, two sets of limits",
+        "Browser support and the WebKit question",
+        "Parallelism and sharding at CI scale",
+        "Debugging: who finds the failure first",
+        "Codegen and the AI-generation pull",
+        "Lock-in and exit cost",
+        "The verdict",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-06-22",
+      "category": "Engineering"
+    },
+    {
+      "path": "/blog/regression-testing-strategies",
+      "url": "https://molar.it/blog/regression-testing-strategies",
+      "title": "Regression testing strategies for fast-moving teams | Molar",
+      "description": "Full suites don't scale; skipping tests doesn't either. Risk-based selection, PR gates, and insurance runs that work.",
+      "headings": [
+        "Regression testing strategies for fast-moving teams",
+        "The scaling trap",
+        "Risk-based selection starts from the diff",
+        "Affected-flow analysis beats path matching",
+        "The nightly full suite is insurance, not gating",
+        "Quarantine and snooze: policy, not vibes",
+        "Measure escape rate, not vanity coverage",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-07-12",
+      "category": "Engineering"
+    },
+    {
+      "path": "/blog/required-status-checks-merge-gate",
+      "url": "https://molar.it/blog/required-status-checks-merge-gate",
+      "title": "Required status checks: a practical merge-gate guide | Molar",
+      "description": "How to make failing checks actually block merges: branch protection, required checks, advisory vs required modes, escape hatches.",
+      "headings": [
+        "Required status checks: a practical merge-gate guide",
+        "A green pipeline nobody waits for",
+        "Branch protection in five minutes",
+        "Advisory versus required, precisely",
+        "The naming trap",
+        "A gate is only as strong as its flake rate",
+        "Escape hatches you design on day one",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-07-28",
+      "category": "Engineering"
+    },
+    {
+      "path": "/blog/self-healing-test-automation",
+      "url": "https://molar.it/blog/self-healing-test-automation",
+      "title": "Self-healing test automation, done right | Molar",
+      "description": "How self-healing really works: locator re-ranking, intent capture, approval gates — and why silent rewrites mask real regressions.",
+      "headings": [
+        "Self-healing test automation, done right",
+        "What self-healing is — and isn’t",
+        "Locator ranking is most of the battle",
+        "Capture intent at authoring time",
+        "The heal loop: propose, review, approve",
+        "Audit trails make healing defensible",
+        "The line: heal mechanics, never semantics",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-08-05",
+      "category": "Agents"
+    },
+    {
+      "path": "/blog/shift-left-testing-explained",
+      "url": "https://molar.it/blog/shift-left-testing-explained",
+      "title": "Shift-left testing, explained for shipping teams | Molar",
+      "description": "Catch bugs where they're cheapest — design and PR, not production. Practical shift-left without slowing reviews.",
+      "headings": [
+        "Shift-left testing, explained for shipping teams",
+        "The cost curve, stated honestly",
+        "The leftmost shift: ambiguity, caught in design",
+        "The PR shift: verification inside the review window",
+        "Guardrails, not gatekeeping",
+        "A minimum viable program",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-06-25",
+      "category": "Engineering"
+    },
+    {
+      "path": "/blog/staging-environment-alternatives",
+      "url": "https://molar.it/blog/staging-environment-alternatives",
+      "title": "Staging environments are lying to you | Molar",
+      "description": "Drift, dirty data, fake integrations. Why staging fails to predict production — and what to run against instead.",
+      "headings": [
+        "Staging environments are lying to you",
+        "Where drift comes from",
+        "Data divergence is worse than config divergence",
+        "The third-party lie",
+        "The alternative: ephemeral apps + cloned dependencies",
+        "When you must test against production, mark everything",
+        "A pragmatic migration path",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-07-02",
+      "category": "Integrations"
+    },
+    {
+      "path": "/blog/startup-qa-without-qa-team",
+      "url": "https://molar.it/blog/startup-qa-without-qa-team",
+      "title": "Startup QA without a QA team | Molar",
+      "description": "You can't hire QA before PMF. Critical-path automation, PR gates, production guard — a lean playbook for founders.",
+      "headings": [
+        "Startup QA without a QA team",
+        "The founder-time math nobody runs",
+        "Find the money paths first",
+        "Automate the top five flows — nothing else yet",
+        "Make them required checks",
+        "Schedule production checks",
+        "The lean stack, recapped",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-06-20",
+      "category": "Engineering"
+    },
+    {
+      "path": "/blog/synthetic-monitoring-production",
+      "url": "https://molar.it/blog/synthetic-monitoring-production",
+      "title": "Synthetic monitoring for production, beyond uptime pings | Molar",
+      "description": "Uptime pings miss broken flows. Synthetic checks walk critical paths every few minutes and catch what pings can't.",
+      "headings": [
+        "Synthetic monitoring for production, beyond uptime pings",
+        "Pings measure liveness, not correctness",
+        "What a good synthetic check looks like",
+        "Frequency and regions: match cadence to blast radius",
+        "Marked synthetic identities, always",
+        "Alert dedup: the difference between signal and noise",
+        "Tie failures to diffs, not mysteries",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-07-25",
+      "category": "Engineering"
+    },
+    {
+      "path": "/blog/test-data-management-best-practices",
+      "url": "https://molar.it/blog/test-data-management-best-practices",
+      "title": "Test data management best practices | Molar",
+      "description": "Deterministic IDs, seeded state, synthetic identities, PII hygiene. Test data rules that kill cross-test interference.",
+      "headings": [
+        "Test data management best practices",
+        "Shared state is where flakiness is born",
+        "Rule 1: unique-per-run data beats cleanup",
+        "Rule 2: deterministic seeds and factories",
+        "Rule 3: synthetic identities that announce themselves",
+        "Rule 4: PII minimization and masking",
+        "Rule 5: cleanup vs snapshot/restore",
+        "The six rules, recapped",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-06-18",
+      "category": "Integrations"
+    },
+    {
+      "path": "/blog/test-stripe-without-real-cards",
+      "url": "https://molar.it/blog/test-stripe-without-real-cards",
+      "title": "Test Stripe checkout without charging a real card | Molar",
+      "description": "Test Stripe checkout and billing flows safely using stateful API clones. Isolated test charges, fewer test-mode gaps — deterministic Stripe clones in CI and production guard.",
+      "headings": [
+        "Test Stripe checkout without charging a real card",
+        "Why Stripe test mode isn't enough",
+        "Stateful clones vs static mocks",
+        "How Molar runs checkout tests",
+        "What you get on each run",
+        "Keep reading",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-06-27",
+      "category": "Integrations"
+    },
+    {
+      "path": "/blog/test-twilio-sms-otp-flows",
+      "url": "https://molar.it/blog/test-twilio-sms-otp-flows",
+      "title": "Testing Twilio SMS and OTP flows without real numbers | Molar",
+      "description": "Real SMS is slow, costly, and flaky in CI. Stateful Twilio clones deliver OTPs instantly with deterministic codes.",
+      "headings": [
+        "Testing Twilio SMS and OTP flows without real numbers",
+        "Why real SMS breaks CI",
+        "Clone semantics: same endpoints, deterministic codes",
+        "The virtual clock: testing expiry properly",
+        "Webhook parity",
+        "Wiring it into the suite",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-07-22",
+      "category": "Integrations"
+    },
+    {
+      "path": "/blog/testing-delayed-payment-webhooks-and-account-access",
+      "url": "https://molar.it/blog/testing-delayed-payment-webhooks-and-account-access",
+      "title": "Payment succeeded. Why is the account still locked? | Molar",
+      "description": "A practical test plan for delayed payment webhooks, duplicate deliveries and the account access a paying customer expects.",
+      "headings": [
+        "Payment succeeded. Why is the account still locked?",
+        "Define the outcome your customer paid for",
+        "Control the delay, then watch both sides",
+        "A repeated event must not repeat the business action",
+        "Check access as the intended customer",
+        "Use controlled services and keep a contract check",
+        "About this guide",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-09-05",
+      "category": "Integrations",
+      "author": "Molar editorial"
+    },
+    {
+      "path": "/blog/testing-third-party-apis-safely",
+      "url": "https://molar.it/blog/testing-third-party-apis-safely",
+      "title": "Testing third-party APIs safely: Stripe, SendGrid, S3 | Molar",
+      "description": "Sandbox limitations, rate limits, fake-data drift. Destruction-safe clones give tests real API semantics with zero blast radius.",
+      "headings": [
+        "Testing third-party APIs safely: Stripe, SendGrid, S3",
+        "Sandboxes aren’t production, and that’s the problem",
+        "The live-key rules that keep you safe",
+        "Mocks are fast; clones are honest",
+        "World snapshot / restore",
+        "Webhooks: signature parity or it didn’t happen",
+        "A rollout checklist",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-07-09",
+      "category": "Integrations"
+    },
+    {
+      "path": "/blog/visual-regression-testing-guide",
+      "url": "https://molar.it/blog/visual-regression-testing-guide",
+      "title": "Visual regression testing: a pragmatic guide | Molar",
+      "description": "Screenshot diffs that don't drown you in noise: scope, thresholds, baselines, and why semantic assertions come first.",
+      "headings": [
+        "Visual regression testing: a pragmatic guide",
+        "Visual comes last, not first",
+        "Scope: full-page vs component snapshots",
+        "Anti-flaking: fonts, animations, viewport locks",
+        "Thresholds that respect antialiasing",
+        "Baselines deserve code-review UX",
+        "A pragmatic workflow",
+        "Put the next lesson to work."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-06-16",
+      "category": "Engineering"
+    },
+    {
+      "path": "/changelog",
+      "url": "https://molar.it/changelog",
+      "title": "Molar Changelog — Product & Platform Updates",
+      "description": "Follow updates to Molar browser execution, verification, test environments, and the platform.",
+      "headings": [
+        "What’s new in Molar.",
+        "Checks that follow the whole flow.",
+        "The product, together in one workspace.",
+        "Put the next update to work."
+      ]
+    },
+    {
+      "path": "/company",
+      "url": "https://molar.it/company",
+      "title": "About Molar — Test the Whole Customer Journey",
+      "description": "Molar brings browser testing, stateful service clones, and evidence together around the customer journeys that cross your systems.",
+      "headings": [
+        "Software is built in pieces. People experience the whole.",
+        "The bug is often between the systems.",
+        "What we build around.",
+        "Building something that crosses systems?"
+      ]
+    },
+    {
+      "path": "/contact",
+      "url": "https://molar.it/contact",
+      "title": "Talk to the Molar Team",
+      "description": "Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.",
+      "headings": [
+        "Let’s make your next release less of a guess.",
+        "Tell us what you’re building."
+      ]
+    },
+    {
+      "path": "/docs",
+      "url": "https://molar.it/docs",
+      "title": "Molar Documentation — Setup, CLI, MCP & Testing",
+      "description": "Get started with Molar browser verification, stateful Clones, release checks, and agent interfaces. Find setup and product documentation.",
+      "headings": [
+        "Start with a URL. Go from there.",
+        "Your first verification loop.",
+        "Keep the reference close to the workflow.",
+        "A useful first run beats a long setup."
+      ]
+    },
+    {
+      "path": "/docs/clone",
+      "url": "https://molar.it/docs/clone",
+      "title": "Clone docs | Molar",
+      "description": "Per-clone reference for Molar stateful service clones, seeds, coverage, and tools.",
+      "headings": [
+        "Stateful service clones.",
+        "Core service clones",
+        "Supplementary fixture coverage"
+      ]
+    },
+    {
+      "path": "/docs/clones",
+      "url": "https://molar.it/docs/clones",
+      "title": "Clone docs | Molar",
+      "description": "Per-clone reference for Molar stateful service clones, seeds, coverage, and tools.",
+      "headings": [
+        "Stateful service clones.",
+        "Core service clones",
+        "Supplementary fixture coverage"
+      ]
+    },
+    {
+      "path": "/docs/clones/apify",
+      "url": "https://molar.it/docs/clones/apify",
+      "title": "Apify clone | Molar Docs",
+      "description": "Test Apify scraping agents against a stateful clone of actors, runs, datasets, key-value stores, and request queues with real REST error shapes.",
+      "headings": [
+        "Apify clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/auth",
+      "url": "https://molar.it/docs/clones/auth",
+      "title": "Auth (Clerk) clone | Molar Docs",
+      "description": "Test Clerk-style auth flows against a stateful auth clone — sessions, users, and org membership without real identities.",
+      "headings": [
+        "Auth (Clerk) clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface"
+      ]
+    },
+    {
+      "path": "/docs/clones/calcom",
+      "url": "https://molar.it/docs/clones/calcom",
+      "title": "Cal.com clone | Molar Docs",
+      "description": "Test scheduling flows against a Cal.com launch-preview clone — bookings, availability, and calendar hooks without real calendar writes.",
+      "headings": [
+        "Cal.com clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/clickup",
+      "url": "https://molar.it/docs/clones/clickup",
+      "title": "Clickup clone | Molar Docs",
+      "description": "Test task automation against a ClickUp clone — lists, tasks, and status changes with ClickUp REST semantics.",
+      "headings": [
+        "Clickup clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/discord",
+      "url": "https://molar.it/docs/clones/discord",
+      "title": "Discord clone | Molar Docs",
+      "description": "Test Discord bot flows against a stateful Discord API clone — guilds, channels, and messages without touching production servers.",
+      "headings": [
+        "Discord clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/firecrawl",
+      "url": "https://molar.it/docs/clones/firecrawl",
+      "title": "Firecrawl clone | Molar Docs",
+      "description": "Test web-scrape agents against a Firecrawl launch-preview clone — crawl jobs and extracted content without hitting the live API quota.",
+      "headings": [
+        "Firecrawl clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/github",
+      "url": "https://molar.it/docs/clones/github",
+      "title": "Github clone | Molar Docs",
+      "description": "Test GitHub agents against a stateful clone of repos, files, branches, issues, PRs, commits, and workflow runs with real GitHub API error shapes.",
+      "headings": [
+        "Github clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/gitlab",
+      "url": "https://molar.it/docs/clones/gitlab",
+      "title": "Gitlab clone | Molar Docs",
+      "description": "Test GitLab CI and repo agents against a GitLab API clone — projects, merge requests, and pipelines without touching real remotes.",
+      "headings": [
+        "Gitlab clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/google-workspace",
+      "url": "https://molar.it/docs/clones/google-workspace",
+      "title": "Google Workspace clone | Molar Docs",
+      "description": "Test Google Workspace automations against a launch-preview clone — Gmail, Calendar, and Drive-shaped APIs in isolated sessions.",
+      "headings": [
+        "Google Workspace clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/hubspot",
+      "url": "https://molar.it/docs/clones/hubspot",
+      "title": "Hubspot clone | Molar Docs",
+      "description": "Test CRM and marketing automations against a HubSpot architecture-preview clone — contacts, deals, and pipeline state in isolation.",
+      "headings": [
+        "Hubspot clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/jira",
+      "url": "https://molar.it/docs/clones/jira",
+      "title": "Jira clone | Molar Docs",
+      "description": "Test Jira automation agents against a stateful Atlassian clone — issues, transitions, and sprint fields with Jira REST error shapes.",
+      "headings": [
+        "Jira clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/linear",
+      "url": "https://molar.it/docs/clones/linear",
+      "title": "Linear clone | Molar Docs",
+      "description": "Test issue-tracking agents against a stateful Linear clone — issues, cycles, labels, and team workflows with REST-shaped errors.",
+      "headings": [
+        "Linear clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/ownerrez",
+      "url": "https://molar.it/docs/clones/ownerrez",
+      "title": "OwnerRez clone | Molar Docs",
+      "description": "Test vacation-rental ops against an OwnerRez architecture-preview clone — bookings, guests, and property state.",
+      "headings": [
+        "OwnerRez clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/pricelabs",
+      "url": "https://molar.it/docs/clones/pricelabs",
+      "title": "PriceLabs clone | Molar Docs",
+      "description": "Test dynamic-pricing integrations against a PriceLabs architecture-preview clone — listings and rate recommendations.",
+      "headings": [
+        "PriceLabs clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/ramp",
+      "url": "https://molar.it/docs/clones/ramp",
+      "title": "Ramp clone | Molar Docs",
+      "description": "Test spend and card workflows against a Ramp architecture-preview clone — transactions and limits without real money movement.",
+      "headings": [
+        "Ramp clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/s3",
+      "url": "https://molar.it/docs/clones/s3",
+      "title": "S3 clone | Molar Docs",
+      "description": "Test upload and asset flows against an S3 shadow mirror — same SDK calls, no real bucket writes.",
+      "headings": [
+        "S3 clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface"
+      ]
+    },
+    {
+      "path": "/docs/clones/sendgrid",
+      "url": "https://molar.it/docs/clones/sendgrid",
+      "title": "SendGrid clone | Molar Docs",
+      "description": "Test transactional email flows against a stateful SendGrid clone — capture messages without delivering to real inboxes.",
+      "headings": [
+        "SendGrid clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface"
+      ]
+    },
+    {
+      "path": "/docs/clones/sentry",
+      "url": "https://molar.it/docs/clones/sentry",
+      "title": "Sentry clone | Molar Docs",
+      "description": "Test Sentry triage agents against a stateful clone of organizations, projects, issues, latest events, stack traces, and releases with real REST errors.",
+      "headings": [
+        "Sentry clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/slack",
+      "url": "https://molar.it/docs/clones/slack",
+      "title": "Slack clone | Molar Docs",
+      "description": "Test Slack bots and workflow automations against a stateful Slack API clone — channels, messages, and reactions without posting to real workspaces.",
+      "headings": [
+        "Slack clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/stripe",
+      "url": "https://molar.it/docs/clones/stripe",
+      "title": "Stripe clone | Molar Docs",
+      "description": "Test billing and checkout agents against a stateful Stripe clone with real error shapes — no test-mode gaps, no real charges.",
+      "headings": [
+        "Stripe clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/supabase",
+      "url": "https://molar.it/docs/clones/supabase",
+      "title": "Supabase clone | Molar Docs",
+      "description": "Test Supabase management workflows against a fixture clone — projects, branches, secrets, and migrations without a live project.",
+      "headings": [
+        "Supabase clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/tavily",
+      "url": "https://molar.it/docs/clones/tavily",
+      "title": "Tavily clone | Molar Docs",
+      "description": "Test research agents against a Tavily architecture-preview clone — search queries and citations without live search quota.",
+      "headings": [
+        "Tavily clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/telegram",
+      "url": "https://molar.it/docs/clones/telegram",
+      "title": "Telegram clone | Molar Docs",
+      "description": "Test Telegram bot flows against a Bot API clone — messages, updates, and chat state without contacting real users.",
+      "headings": [
+        "Telegram clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/twilio",
+      "url": "https://molar.it/docs/clones/twilio",
+      "title": "Twilio clone | Molar Docs",
+      "description": "Test SMS and voice workflows against a stateful Twilio clone with real REST error shapes.",
+      "headings": [
+        "Twilio clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface"
+      ]
+    },
+    {
+      "path": "/docs/clones/typeform",
+      "url": "https://molar.it/docs/clones/typeform",
+      "title": "Typeform clone | Molar Docs",
+      "description": "Test form and survey agents against a Typeform clone — forms, responses, and webhooks without production form traffic.",
+      "headings": [
+        "Typeform clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/unipile",
+      "url": "https://molar.it/docs/clones/unipile",
+      "title": "Unipile clone | Molar Docs",
+      "description": "Test unified inbox agents against a Unipile architecture-preview clone — email, calendar, and messaging APIs in one session.",
+      "headings": [
+        "Unipile clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/webflow",
+      "url": "https://molar.it/docs/clones/webflow",
+      "title": "Webflow clone | Molar Docs",
+      "description": "Test Webflow content agents against an Architecture Preview with recording-backed Data API v2 routes and focused CMS overlays.",
+      "headings": [
+        "Webflow clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/docs/clones/woocommerce",
+      "url": "https://molar.it/docs/clones/woocommerce",
+      "title": "Woocommerce clone | Molar Docs",
+      "description": "Test WooCommerce store flows against a REST clone — orders, products, and customers without a live WordPress store.",
+      "headings": [
+        "Woocommerce clone | Molar Docs",
+        "Connect and test",
+        "What it covers",
+        "Available tools",
+        "Surface",
+        "Notes"
+      ]
+    },
+    {
+      "path": "/examples/team-invitation",
+      "url": "https://molar.it/examples/team-invitation",
+      "title": "A recorded multi-user invitation test | Molar",
+      "description": "See what Molar verified in a controlled invitation test across two browser sessions and an Email Clone.",
+      "headings": [
+        "Watch both sides of an invitation.",
+        "The right invitation arrived.",
+        "A separate browser accepted it.",
+        "The app confirmed acceptance.",
+        "Test both sides of the interaction."
+      ]
+    },
+    {
+      "path": "/integrations/github-actions",
+      "url": "https://molar.it/integrations/github-actions",
+      "title": "Molar in GitHub Actions",
+      "description": "Connect Molar scenarios and evidence to GitHub Actions for configured release checks.",
+      "headings": [
+        "Molar in GitHub Actions",
+        "01 — Overview PR gating with autonomous tests",
+        "02 — Steps Wire-up in minutes",
+        "03 — Checks What developers see on PRs"
+      ]
+    },
+    {
+      "path": "/platform",
+      "url": "https://molar.it/platform",
+      "title": "Molar Platform — Browser Execution for Humans & AI Agents",
+      "description": "Give your team and AI agents a browser that gets work done. Automate tasks, explore apps, extract data and inspect the result with Molar.",
+      "headings": [
+        "Give your agents a working browser.",
+        "The work between your tools is still work.",
+        "Your agent’s next tool? A working browser.",
+        "Two people. One connected test.",
+        "From the first click to the next release.",
+        "You built the app. Now use it like your customers do.",
+        "A few things you might be wondering.",
+        "What’s the first task you’d hand over?"
+      ]
+    },
+    {
+      "path": "/platform/browser-agents",
+      "url": "https://molar.it/platform/browser-agents",
+      "title": "Browser agents | Molar",
+      "description": "Give people and coding agents a browser that can navigate, act, and verify clear goals.",
+      "headings": [
+        "Give a browser a job to finish.",
+        "Goal in, result out",
+        "State matters",
+        "Choose your interface",
+        "A practical browser loop",
+        "QA and automation share foundations",
+        "A few things you might be wondering.",
+        "Give a browser a job."
+      ]
+    },
+    {
+      "path": "/platform/developer-tools",
+      "url": "https://molar.it/platform/developer-tools",
+      "title": "Developer tools | Molar",
+      "description": "Connect browser verification and automation to CLI, MCP, JSON output, and Playwright workflows.",
+      "headings": [
+        "Put verification where code gets written.",
+        "CLI commands",
+        "MCP tools",
+        "Playwright friendly",
+        "A small verification loop",
+        "Build interfaces into tools",
+        "A few things you might be wondering.",
+        "Connect your developer workflow."
+      ]
+    },
+    {
+      "path": "/platform/live-view",
+      "url": "https://molar.it/platform/live-view",
+      "title": "Live view | Molar",
+      "description": "Follow supported browser runs with live status and inspectable evidence.",
+      "headings": [
+        "See the browser while it works.",
+        "Current state",
+        "Useful handoff",
+        "Evidence after",
+        "Watch a browser run",
+        "Designed for safe observation",
+        "A few things you might be wondering.",
+        "Explore live browser runs."
+      ]
+    },
+    {
+      "path": "/platform/swarm",
+      "url": "https://molar.it/platform/swarm",
+      "title": "Swarm | Molar",
+      "description": "Preview coordinated browser testing across roles and scenarios with planned coverage and observed results.",
+      "headings": [
+        "See coverage across every role.",
+        "Plan by persona",
+        "Compare coverage",
+        "Preview access",
+        "A role based test plan",
+        "Start with known journeys",
+        "A few things you might be wondering.",
+        "Discuss Swarm preview."
+      ]
+    },
+    {
+      "path": "/pricing",
+      "url": "https://molar.it/pricing",
+      "title": "Pricing & Beta Access | Molar",
+      "description": "Discuss Molar beta access and pricing for your web app journeys, third-party services, and release workflow.",
+      "headings": [
+        "Start with the journey you can’t afford to break.",
+        "A plan for your application."
+      ]
+    },
+    {
+      "path": "/privacy",
+      "url": "https://molar.it/privacy",
+      "title": "Privacy Policy | Molar",
+      "description": "How Molar Labs collects, uses, and protects personal information on molar.it and the Molar autonomous QA platform.",
+      "headings": [
+        "Privacy Policy",
+        "Who this applies to",
+        "Information we collect",
+        "How we use information",
+        "Who we share with",
+        "How long we keep data",
+        "Your choices and rights",
+        "Website analytics and your choices",
+        "Questions and early-access requests",
+        "How we protect data",
+        "International transfers",
+        "Children’s privacy",
+        "Updates to this policy",
+        "Questions"
+      ]
+    },
+    {
+      "path": "/products/cartographer",
+      "url": "https://molar.it/products/cartographer",
+      "title": "Cartographer | Molar",
+      "description": "Turn a product URL and a user goal into browser evidence your team can inspect.",
+      "headings": [
+        "See how your app actually works.",
+        "Start with a goal",
+        "Know what happened",
+        "Fits your workflow",
+        "From URL to a testable path",
+        "A practical CLI loop",
+        "A few things you might be wondering.",
+        "Map a journey."
+      ]
+    },
+    {
+      "path": "/products/clones",
+      "url": "https://molar.it/products/clones",
+      "title": "Clones | Molar",
+      "description": "Stateful local service doubles for the third parties your application depends on.",
+      "headings": [
+        "Test the services behind your app.",
+        "Five core services",
+        "Move time on demand",
+        "Callbacks you can inspect",
+        "Built for complete journeys",
+        "Start with the core catalog",
+        "A few things you might be wondering.",
+        "Explore the clone catalog."
+      ]
+    },
+    {
+      "path": "/products/guard",
+      "url": "https://molar.it/products/guard",
+      "title": "Guard | Molar",
+      "description": "Run release and production checks around the journeys your users depend on.",
+      "headings": [
+        "Catch broken flows before release.",
+        "Runs in CI",
+        "A failure you can investigate",
+        "Checks after release",
+        "A check that understands integrations",
+        "Release confidence",
+        "A few things you might be wondering.",
+        "Put a journey under Guard."
+      ]
+    },
+    {
+      "path": "/products/mender",
+      "url": "https://molar.it/products/mender",
+      "title": "Mender | Molar",
+      "description": "A guarded repair workflow for investigating failures and preparing a proposed change.",
+      "headings": [
+        "Turn a failure into a proposed fix.",
+        "Start with the evidence",
+        "Proposals you can inspect",
+        "You approve the change",
+        "Evidence led proposals",
+        "Preview access",
+        "A few things you might be wondering.",
+        "See the repair workflow."
+      ]
+    },
+    {
+      "path": "/products/trace",
+      "url": "https://molar.it/products/trace",
+      "title": "Trace | Molar",
+      "description": "Inspect browser runs through structured evidence, screenshots, and replay oriented artifacts.",
+      "headings": [
+        "Know why a journey failed.",
+        "See each step",
+        "Evidence stays protected",
+        "Ready for agents",
+        "Evidence for integration failures",
+        "Replay when you need it",
+        "A few things you might be wondering.",
+        "Inspect a run."
+      ]
+    },
+    {
+      "path": "/qa-agent",
+      "url": "https://molar.it/qa-agent",
+      "title": "The Molar QA agent",
+      "description": "How Molar maps application journeys, runs browser checks, and returns evidence for software teams.",
+      "headings": [
+        "The Molar QA agent",
+        "01 — Definition What is the Molar QA agent?",
+        "02 — Capabilities What the QA agent does",
+        "03 — Comparison Not a test runner. A release guard.",
+        "04 — Start Running the agent in your repo"
+      ]
+    },
+    {
+      "path": "/resources",
+      "url": "https://molar.it/resources",
+      "title": "Resources | Molar",
+      "description": "Practical guides for testing integration heavy web applications and agent built software.",
+      "headings": [
+        "Learn how to test the whole journey.",
+        "Start with the docs",
+        "Understand integrations",
+        "Bring an agent",
+        "Suggested reading path",
+        "Resources for your workflow",
+        "A few things you might be wondering.",
+        "Open the documentation."
+      ]
+    },
+    {
+      "path": "/security",
+      "url": "https://molar.it/security",
+      "title": "Security and control | Molar",
+      "description": "Understand how Molar scopes browser actions, credentials, artifacts, and agent access.",
+      "headings": [
+        "Automate with confidence and control.",
+        "Choose the target",
+        "Clear agent access",
+        "Protect run evidence",
+        "Credentials stay referenced",
+        "Security you can discuss clearly",
+        "A few things you might be wondering.",
+        "Read the control model."
+      ]
+    },
+    {
+      "path": "/solutions",
+      "url": "https://molar.it/solutions",
+      "title": "Solutions for Web App Testing & Browser Automation | Molar",
+      "description": "Explore Molar for checkout testing, sign-in, team workflows, preview deployments, browser automation, and web data extraction.",
+      "headings": [
+        "What do you need the browser to do?",
+        "Did the payment become a confirmed order?",
+        "Can a new customer actually get in?",
+        "Does the invitation give the right access?",
+        "Does the change work before it goes live?",
+        "Let the browser handle the repeat work.",
+        "Get the information your software needs."
+      ]
+    },
+    {
+      "path": "/solutions/ai-agents",
+      "url": "https://molar.it/solutions/ai-agents",
+      "title": "QA for AI agents | Molar",
+      "description": "Give coding agents a browser verification loop with MCP tools and structured evidence.",
+      "headings": [
+        "Let the agent verify the app it just changed.",
+        "One command after code",
+        "MCP native",
+        "You stay in control",
+        "Useful output for the next turn",
+        "A verification loop with control",
+        "A few things you might be wondering.",
+        "Give your agent a verifier."
+      ]
+    },
+    {
+      "path": "/solutions/authentication-testing",
+      "url": "https://molar.it/solutions/authentication-testing",
+      "title": "Authentication testing | Molar",
+      "description": "Verify signup, OAuth, OTP, sessions, invites, and protected application routes.",
+      "headings": [
+        "Check sign-in from signup to workspace.",
+        "Real browser steps",
+        "Test identities",
+        "Failure paths",
+        "Signup, verify, continue",
+        "Sessions need checks too",
+        "A few things you might be wondering.",
+        "Verify an auth journey."
+      ]
+    },
+    {
+      "path": "/solutions/checkout-testing",
+      "url": "https://molar.it/solutions/checkout-testing",
+      "title": "Checkout testing | Molar",
+      "description": "Test checkout, payment callbacks, receipts, and failed payment paths in one browser journey.",
+      "headings": [
+        "Check every step of checkout.",
+        "Payment paths",
+        "Callbacks included",
+        "Receipt evidence",
+        "From checkout to confirmation",
+        "Cover unhappy paths",
+        "A few things you might be wondering.",
+        "Test a checkout journey."
+      ]
+    },
+    {
+      "path": "/solutions/integration-testing",
+      "url": "https://molar.it/solutions/integration-testing",
+      "title": "Integration testing for real product journeys | Molar",
+      "description": "Exercise payment, identity, messaging, and webhook behavior without coupling CI to live vendor side effects.",
+      "headings": [
+        "Test the services your app depends on.",
+        "Checkout that reaches a verdict",
+        "Signup that receives the code",
+        "Webhook behavior under time",
+        "One test environment for one journey",
+        "Use live systems deliberately",
+        "A few things you might be wondering.",
+        "Test an integration journey."
+      ]
+    },
+    {
+      "path": "/solutions/preview-deployments",
+      "url": "https://molar.it/solutions/preview-deployments",
+      "title": "Preview deployment testing | Molar",
+      "description": "Run critical browser journeys against preview deployments before changes reach production.",
+      "headings": [
+        "Know what a change did before it ships.",
+        "Check the change",
+        "See the failure",
+        "Review with context",
+        "A preview test in practice",
+        "Start with a small suite",
+        "A few things you might be wondering.",
+        "Test a preview deployment."
+      ]
+    },
+    {
+      "path": "/solutions/startups",
+      "url": "https://molar.it/solutions/startups",
+      "title": "QA for startups shipping quickly | Molar",
+      "description": "Keep integration heavy user journeys testable while a small team ships at speed.",
+      "headings": [
+        "Ship quickly with confidence in the journeys that matter.",
+        "Start from the journey",
+        "Skip fragile sandboxes",
+        "Grow into release checks",
+        "Good first journeys",
+        "A focused start",
+        "A few things you might be wondering.",
+        "Choose a first journey."
+      ]
+    },
+    {
+      "path": "/solutions/team-workflows",
+      "url": "https://molar.it/solutions/team-workflows",
+      "title": "Team workflows | Molar",
+      "description": "Give engineers, QA, and coding agents one place to run journeys and inspect what happened.",
+      "headings": [
+        "Give every teammate the same answer.",
+        "Shared run context",
+        "Useful handoffs",
+        "Repeatable checks",
+        "A workflow for review",
+        "Keep the decision close",
+        "A few things you might be wondering.",
+        "Bring your team into the loop."
+      ]
+    },
+    {
+      "path": "/solutions/web-app-testing",
+      "url": "https://molar.it/solutions/web-app-testing",
+      "title": "Web app testing | Molar",
+      "description": "Explore and verify the browser journeys that connect your UI to real application behavior.",
+      "headings": [
+        "Test the path your users actually take.",
+        "Start with a URL",
+        "See before acting",
+        "Keep the result",
+        "Coverage with a reason",
+        "Choose local or hosted execution",
+        "A few things you might be wondering.",
+        "Verify a web journey."
+      ]
+    },
+    {
+      "path": "/solutions/web-data-extraction",
+      "url": "https://molar.it/solutions/web-data-extraction",
+      "title": "Web data extraction | Molar",
+      "description": "Read structured information from authorized web applications through a real browser.",
+      "headings": [
+        "Turn a page into useful data.",
+        "Describe the fields",
+        "Navigate first",
+        "Keep a record",
+        "From page to JSON",
+        "Respect the source",
+        "A few things you might be wondering.",
+        "Extract from an authorized app."
+      ]
+    },
+    {
+      "path": "/solutions/workflow-automation",
+      "url": "https://molar.it/solutions/workflow-automation",
+      "title": "Workflow automation | Molar",
+      "description": "Automate browser tasks such as forms, downloads, extraction, and verification with clear access.",
+      "headings": [
+        "Give the browser a clear job.",
+        "Task to result",
+        "Browser aware",
+        "Built for handoff",
+        "Useful jobs",
+        "Keep automation accountable",
+        "A few things you might be wondering.",
+        "Automate a browser task."
+      ]
+    },
+    {
+      "path": "/terms",
+      "url": "https://molar.it/terms",
+      "title": "Terms of Service | Molar",
+      "description": "Terms of Service for the Molar autonomous QA platform and molar.it website, operated by Molar Labs.",
+      "headings": [
+        "Terms of Service",
+        "Acceptance",
+        "What Molar provides",
+        "Registration and security",
+        "Customer content and privacy",
+        "Acceptable use",
+        "Intellectual property",
+        "Payment and plans",
+        "Confidential information",
+        "Disclaimer",
+        "Limitation",
+        "Your responsibility",
+        "Ending access",
+        "Governing law and changes"
+      ]
+    },
+    {
+      "path": "/thesis",
+      "url": "https://molar.it/thesis",
+      "title": "The Molar thesis",
+      "description": "Why software teams need a verification loop as AI accelerates how code is shipped.",
+      "headings": [
+        "The Molar thesis",
+        "01 — The new shape of code The default path is broken.",
+        "02 — Verification is the bottleneck Tests aren't the problem. Trust is.",
+        "03 — A release guard, not a test runner One agent. Three moments.",
+        "04 — Why now The verification loop wins this cycle."
+      ]
+    },
+    {
+      "path": "/verify",
+      "url": "https://molar.it/verify",
+      "title": "Verify a URL · Instant Proof · Molar",
+      "description": "Point Molar at a public URL and one observable outcome. Watch a real browser verify it before you sign up.",
+      "headings": [
+        "Platform",
+        "Products",
+        "Solutions",
+        "Resources"
+      ]
+    },
+    {
+      "path": "/vs/checkly",
+      "url": "https://molar.it/vs/checkly",
+      "title": "Molar Guard vs Checkly | Molar",
+      "description": "Compare Molar Guard and Checkly. Guard gates PRs with affected-scenario E2E tests, runs safe production synthetics via Clones, and drafts fix PRs with Mender. Checkly focuses on Playwright synthetics and uptime.",
+      "headings": [
+        "Molar Guard vs Checkly",
+        "Monitor vs guard",
+        "Side-by-side",
+        "When teams pick Guard"
+      ]
+    },
+    {
+      "path": "/vs/cypress",
+      "url": "https://molar.it/vs/cypress",
+      "title": "Molar vs Cypress | Molar",
+      "description": "Compare Molar and Cypress. Molar authors and maintains critical-path tests autonomously, guards production, and clones third-party APIs. Cypress is a framework you write and maintain yourself.",
+      "headings": [
+        "Molar vs Cypress",
+        "Framework vs agent",
+        "Side-by-side",
+        "When teams pick Molar"
+      ]
+    },
+    {
+      "path": "/vs/playwright",
+      "url": "https://molar.it/vs/playwright",
+      "title": "Molar vs Playwright | Molar",
+      "description": "Compare Molar and Playwright. Molar autonomously writes and runs critical-path tests, guards production, and clones third parties. Playwright is a library you script and maintain.",
+      "headings": [
+        "Molar vs Playwright",
+        "Library vs release guard",
+        "Side-by-side",
+        "When teams pick Molar"
+      ]
+    },
+    {
+      "path": "/vs/playwright-trace",
+      "url": "https://molar.it/vs/playwright-trace",
+      "title": "Molar Trace vs Playwright Trace Viewer | Molar",
+      "description": "Compare Molar Trace and Playwright Trace Viewer. Trace adds investigation context, parallel run views, and MCP access alongside Playwright trace artifacts.",
+      "headings": [
+        "Molar Trace vs Playwright Trace Viewer",
+        "Viewer vs forensic record",
+        "Side-by-side",
+        "When teams pick Trace"
+      ]
+    },
+    {
+      "path": "/vs/wiremock",
+      "url": "https://molar.it/vs/wiremock",
+      "title": "Molar Clones vs WireMock | Molar",
+      "description": "Compare Molar Clones and WireMock. Clones are vendor-faithful, stateful simulations of Stripe, Twilio, and S3 with signed webhooks and a controlled local runtime. WireMock uses hand-written HTTP stubs that drift.",
+      "headings": [
+        "Molar Clones vs WireMock",
+        "Stubs vs clones",
+        "Side-by-side",
+        "When teams pick Clones"
+      ]
+    },
+    {
+      "path": "/waitlist",
+      "url": "https://molar.it/waitlist",
+      "title": "Join the waitlist · Molar",
+      "description": "Join the Molar early access waitlist for autonomous browser QA, stateful clones, and production guard.",
+      "headings": [
+        "Join the waitlist.",
+        "Get early access"
+      ]
+    }
+  ]
+}

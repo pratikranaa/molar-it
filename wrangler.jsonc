@@ -3,5 +3,7 @@
   "name": "molar-it",
   "compatibility_date": "2026-09-03",
   "pages_build_output_dir": ".site-dist",
-  "send_metrics": false
+  "send_metrics": false,
+  "ai": {"binding": "AI"},
+  "d1_databases": [{"binding":"WEBSITE_DB","database_name":"molar-website","database_id":"f93b9776-e53f-4e32-9508-1d6625ad5246","migrations_dir":"migrations"}]
 }

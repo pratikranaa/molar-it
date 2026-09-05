@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://molar.it/</loc></url>
+  <url><loc>https://molar.it/ask</loc></url>
   <url><loc>https://molar.it/blog</loc></url>
   <url><loc>https://molar.it/blog/ai-agents-future-software-testing</loc></url>
   <url><loc>https://molar.it/blog/ai-playwright-test-generation</loc></url>
@@ -21,6 +22,7 @@
   <url><loc>https://molar.it/blog/test-data-management-best-practices</loc></url>
   <url><loc>https://molar.it/blog/test-stripe-without-real-cards</loc></url>
   <url><loc>https://molar.it/blog/test-twilio-sms-otp-flows</loc></url>
+  <url><loc>https://molar.it/blog/testing-delayed-payment-webhooks-and-account-access</loc></url>
   <url><loc>https://molar.it/blog/testing-third-party-apis-safely</loc></url>
   <url><loc>https://molar.it/blog/visual-regression-testing-guide</loc></url>
   <url><loc>https://molar.it/changelog</loc></url>

@@ -1,6 +1,7 @@
 {
   "html": [
     "404.html",
+    "ask.html",
     "blog.html",
     "blog/ai-agents-future-software-testing.html",
     "blog/ai-playwright-test-generation.html",
@@ -22,6 +23,7 @@
     "blog/test-data-management-best-practices.html",
     "blog/test-stripe-without-real-cards.html",
     "blog/test-twilio-sms-otp-flows.html",
+    "blog/testing-delayed-payment-webhooks-and-account-access.html",
     "blog/testing-third-party-apis-safely.html",
     "blog/visual-regression-testing-guide.html",
     "changelog.html",
@@ -99,6 +101,7 @@
   ],
   "routes": [
     "https://molar.it/",
+    "https://molar.it/ask",
     "https://molar.it/blog",
     "https://molar.it/blog/ai-agents-future-software-testing",
     "https://molar.it/blog/ai-playwright-test-generation",
@@ -119,6 +122,7 @@
     "https://molar.it/blog/test-data-management-best-practices",
     "https://molar.it/blog/test-stripe-without-real-cards",
     "https://molar.it/blog/test-twilio-sms-otp-flows",
+    "https://molar.it/blog/testing-delayed-payment-webhooks-and-account-access",
     "https://molar.it/blog/testing-third-party-apis-safely",
     "https://molar.it/blog/visual-regression-testing-guide",
     "https://molar.it/changelog",

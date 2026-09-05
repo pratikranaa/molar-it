@@ -18,6 +18,15 @@ colors:
   green-light: "#d4e8c5"
   danger: "#a33827"
   scene-signal: "#df593a"
+  ask-field: "#ffffff"
+  ask-field-border: "#a2afa1"
+  ask-focus: "#b84328"
+  ask-placeholder: "#5c6b60"
+  ask-advisory: "#536054"
+  ask-link-hover: "#a23c24"
+  ask-rail: "#72806f"
+  ask-error: "#9e321b"
+  ask-error-wash: "#f8e8e1"
 typography:
   display:
     fontFamily: "Hanken, ui-sans-serif, sans-serif"
@@ -52,6 +61,38 @@ typography:
     fontSize: "13px"
     fontWeight: 400
     lineHeight: 1.5
+  ask-display:
+    fontFamily: "Hanken, ui-sans-serif, sans-serif"
+    fontSize: "clamp(42px, 4.6vw, 64px)"
+    fontWeight: 550
+    lineHeight: 1.05
+    letterSpacing: "-0.035em"
+  ask-lead:
+    fontFamily: "Hanken, ui-sans-serif, sans-serif"
+    fontSize: "19px"
+    fontWeight: 400
+    lineHeight: 1.55
+  ask-label:
+    fontFamily: "Hanken, ui-sans-serif, sans-serif"
+    fontSize: "16px"
+    fontWeight: 600
+    lineHeight: 1.3
+  ask-title:
+    fontFamily: "Hanken, ui-sans-serif, sans-serif"
+    fontSize: "29px"
+    fontWeight: 550
+    lineHeight: 1.13
+    letterSpacing: "-0.02em"
+  ask-answer:
+    fontFamily: "Hanken, ui-sans-serif, sans-serif"
+    fontSize: "18px"
+    fontWeight: 400
+    lineHeight: 1.7
+  ask-advisory:
+    fontFamily: "Hanken, ui-sans-serif, sans-serif"
+    fontSize: "12px"
+    fontWeight: 400
+    lineHeight: 1.65
 rounded:
   control: "6px"
   field: "7px"
@@ -59,6 +100,7 @@ rounded:
   panel: "12px"
   workbench: "16px"
   circle: "50%"
+  ask-error: "8px"
 spacing:
   xs: "8px"
   sm: "12px"
@@ -97,6 +139,17 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.control}"
     padding: "11px 12px"
+  ask-question-field:
+    backgroundColor: "{colors.ask-field}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.panel}"
+    padding: "21px 23px"
+  analytics-consent-panel:
+    backgroundColor: "{colors.dark}"
+    textColor: "{colors.light}"
+    rounded: "{rounded.panel}"
+    padding: "22px"
+    width: "min(440px, calc(100vw - 32px))"
 ---
 
 # Design System: Molar Marketing Site

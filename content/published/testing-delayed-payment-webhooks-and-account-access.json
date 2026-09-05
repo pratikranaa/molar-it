@@ -1,0 +1,72 @@
+{
+  "description": "A practical test plan for delayed payment webhooks, duplicate deliveries and the account access a paying customer expects.",
+  "sections": [
+    {
+      "heading": "Define the outcome your customer paid for",
+      "paragraphs": [
+        "A checkout can show a success screen while the application still treats the customer as unpaid. That gap is easy to miss when a test ends at the payment response. Start with a more useful outcome: the intended customer can use the feature they purchased, and the application records the correct order or subscription state.",
+        "Write down the separate observations before automating anything. You need the browser result, the payment record, delivery of the relevant event and the entitlement or order created by your application. Decide what the customer should see while processing is incomplete. A pending message can be correct behavior; an unexplained locked account needs investigation."
+      ],
+      "sourceIds": [
+        "checkout"
+      ]
+    },
+    {
+      "heading": "Control the delay, then watch both sides",
+      "paragraphs": [
+        "Use a dedicated test account and a controlled test environment. Complete the browser checkout, then hold back the payment notification using a test fixture or delivery mechanism you control. At this point, inspect the payment state and the application state independently. Do not make the test pass merely because the browser reached a thank-you page.",
+        "Release the event and wait for the specific expected change in the application. Check the order or entitlement, then return to the browser and verify that the customer can actually use it. The test should explain whether the failure occurred before delivery, during event handling or when presenting the updated state. Repeat from clean initial data so a previous successful purchase cannot hide a broken path."
+      ],
+      "sourceIds": [
+        "checkout"
+      ]
+    },
+    {
+      "heading": "A repeated event must not repeat the business action",
+      "paragraphs": [
+        "Stripe documents that webhook events can be retried, duplicated and delivered without an ordering guarantee. Include these cases in your handler tests. Deliver the same event again and assert that it does not create another order, grant duplicate credits or trigger the same business action twice. Signature verification establishes the sender; it does not itself make processing idempotent.",
+        "For out-of-order delivery, test the handler’s actual recovery path and inspect the resulting business state. Keep signature verification in the tested path, using the raw body and the correct test endpoint secret. Avoid treating an HTTP success response as proof that all downstream work finished."
+      ],
+      "sourceIds": [
+        "stripe-webhooks",
+        "checkout"
+      ]
+    },
+    {
+      "heading": "Check access as the intended customer",
+      "paragraphs": [
+        "Run the access assertion in the customer’s own browser session. Confirm the protected feature and expected role, rather than checking only that authentication succeeded. An administrator account can have permissions that bypass the defect entirely. A fresh customer account makes the test closer to the experience you want to protect.",
+        "Add a second account as a negative case: purchasing access for one customer must not grant it to another. Revisit the original session after the delayed event, and check whether refreshing or signing in again changes the observed result. Those observations help separate an entitlement problem from a stale browser session without guessing at the cause."
+      ],
+      "sourceIds": [
+        "auth",
+        "checkout"
+      ]
+    },
+    {
+      "heading": "Use controlled services and keep a contract check",
+      "paragraphs": [
+        "Molar Clones provides controlled state for supported payment behavior. It can make repeatable integration testing easier when a journey depends on external services. Keep the setup explicit: configure the test environment for the supported clone endpoints and verify which operations your scenario needs. Do not assume a test clone reproduces every part of a vendor’s service.",
+        "Finish with a small vendor-sandbox contract check for the real APIs and events your application relies on. The controlled test answers whether your application handles a chosen sequence correctly; the sandbox check helps confirm that the sequence still matches the vendor contract. Together, these checks provide a clearer explanation of a failure than a single green checkout screen."
+      ],
+      "sourceIds": [
+        "checkout"
+      ]
+    }
+  ],
+  "slug": "testing-delayed-payment-webhooks-and-account-access",
+  "title": "Payment succeeded. Why is the account still locked?",
+  "query": "How do I test delayed payment webhooks and account access?",
+  "sourceIds": [
+    "checkout",
+    "auth",
+    "stripe-webhooks"
+  ],
+  "status": "reviewed",
+  "generatedAt": "2026-09-05T20:22:21.531Z",
+  "model": "@cf/meta/llama-3.1-8b-instruct-fp8-fast",
+  "reviewedBy": "Molar editorial",
+  "reviewNotes": "Reviewed against current checkout/auth pages and Stripe webhook documentation. Removed invented clone delay control; separated signature verification from idempotency; no capacity or customer claims.",
+  "publishedAt": "2026-09-05",
+  "author": "Molar editorial"
+}

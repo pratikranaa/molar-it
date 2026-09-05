@@ -1,54 +1,28 @@
-# robots.txt — molar.it
-# Molar wants to be read, retrieved, and cited by AI/answer engines.
-# We explicitly welcome the major LLM and AI-search crawlers.
-
-# Default: allow everything.
+# Public pages are available to search and answer engines.
+# Hosting-level training-crawler policy is managed separately.
 User-agent: *
 Allow: /
+Disallow: /api/
 
-# ── AI / answer-engine crawlers (explicit allow) ──────────────────────────────
-# OpenAI
-User-agent: GPTBot
-Allow: /
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /api/
 User-agent: ChatGPT-User
 Allow: /
-
-# Anthropic (Claude)
-User-agent: ClaudeBot
-Allow: /
+Disallow: /api/
 User-agent: Claude-SearchBot
 Allow: /
+Disallow: /api/
 User-agent: Claude-User
 Allow: /
-User-agent: anthropic-ai
-Allow: /
-
-# Perplexity
+Disallow: /api/
 User-agent: PerplexityBot
 Allow: /
+Disallow: /api/
 User-agent: Perplexity-User
 Allow: /
+Disallow: /api/
 
-# Google (AI Overviews / Gemini training+grounding) & Bing/Copilot
-User-agent: Google-Extended
-Allow: /
-User-agent: Applebot-Extended
-Allow: /
-User-agent: Bingbot
-Allow: /
-User-agent: cohere-ai
-Allow: /
-User-agent: Meta-ExternalAgent
-Allow: /
-User-agent: Amazonbot
-Allow: /
-User-agent: YouBot
-Allow: /
-User-agent: DuckAssistBot
-Allow: /
-
-# Curated machine-readable map + sitemap
-# (AI clients: prefer /llms.txt for a token-cheap overview.)
 Sitemap: https://molar.it/sitemap.xml
+# Published guides: https://molar.it/feed.xml
+# Canonical public page map: https://molar.it/agent-map.json

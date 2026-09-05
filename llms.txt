@@ -1,28 +1,98 @@
 # Molar
 
-> Molar is a beta browser automation and QA platform for web applications. Its QA offering focuses on customer flows that cross payments, authentication, messaging and other third-party services. Its general platform supports browser tasks for people and AI agents.
+> Molar is a beta browser automation and QA platform for web applications. Its QA workflows test customer journeys in a real browser; its platform also supports scoped browser tasks for people and AI agents.
+
+This map is generated from crawlable canonical HTML pages. Product availability and coverage depend on the configured environment; the linked pages are the source of truth.
 
 ## Start here
-- [AI QA for web apps](https://molar.it/): what Molar tests and an illustrative checkout walkthrough.
-- [Browser automation platform](https://molar.it/platform): browser tasks, exploration and extraction.
-- [Documentation](https://docs.molar.it): installation, configuration and current command references.
-- [Create an account](https://app.molar.it/dashboard/signup)
-- [Beta access and pricing](https://molar.it/pricing): availability and usage are scoped for each setup; this site does not publish fixed plan prices.
+- [Molar — AI QA for Web Apps & Third-Party Integrations](https://molar.it/) — AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.
+
+## Company and other pages
+- [Ask Molar — Practical Answers About Browser Testing](https://molar.it/ask) — Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.
+- [Molar Changelog — Product & Platform Updates](https://molar.it/changelog) — Follow updates to Molar browser execution, verification, test environments, and the platform.
+- [About Molar — Test the Whole Customer Journey](https://molar.it/company) — Molar brings browser testing, stateful service clones, and evidence together around the customer journeys that cross your systems.
+- [Talk to the Molar Team](https://molar.it/contact) — Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.
+- [A recorded multi-user invitation test | Molar](https://molar.it/examples/team-invitation) — See what Molar verified in a controlled invitation test across two browser sessions and an Email Clone.
+- [Pricing & Beta Access | Molar](https://molar.it/pricing) — Discuss Molar beta access and pricing for your web app journeys, third-party services, and release workflow.
+- [Privacy Policy | Molar](https://molar.it/privacy) — How Molar Labs collects, uses, and protects personal information on molar.it and the Molar autonomous QA platform.
+- [The Molar QA agent](https://molar.it/qa-agent) — How Molar maps application journeys, runs browser checks, and returns evidence for software teams.
+- [Resources | Molar](https://molar.it/resources) — Practical guides for testing integration heavy web applications and agent built software.
+- [Security and control | Molar](https://molar.it/security) — Understand how Molar scopes browser actions, credentials, artifacts, and agent access.
+- [Terms of Service | Molar](https://molar.it/terms) — Terms of Service for the Molar autonomous QA platform and molar.it website, operated by Molar Labs.
+- [The Molar thesis](https://molar.it/thesis) — Why software teams need a verification loop as AI accelerates how code is shipped.
+- [Verify a URL · Instant Proof · Molar](https://molar.it/verify) — Point Molar at a public URL and one observable outcome. Watch a real browser verify it before you sign up.
+- [Join the waitlist · Molar](https://molar.it/waitlist) — Join the Molar early access waitlist for autonomous browser QA, stateful clones, and production guard.
+
+## Guides
+- [AI agents and the future of software testing | Molar](https://molar.it/blog/ai-agents-future-software-testing) — A practical guide to verification loops for coding agents, with deterministic checks where judgment matters.
+- [AI Playwright test generation: how it actually works in 2026 | Molar](https://molar.it/blog/ai-playwright-test-generation) — How AI Playwright test generation actually works — crawling, flow mapping, locator selection, self-healing, and CI export. A practical engineering guide with code.
+- [API mocking vs stateful service clones | Molar](https://molar.it/blog/api-mocking-vs-service-clones) — Mocks stub responses; clones run stateful vendor semantics — webhooks included. When each is right.
+- [Continuous testing in your CI/CD pipeline | Molar](https://molar.it/blog/continuous-testing-ci-cd-pipeline) — Where tests belong across commit, PR, deploy, and production — and what to run at each stage without killing velocity.
+- [E2E testing best practices that survive scale | Molar](https://molar.it/blog/e2e-testing-best-practices) — A practical E2E playbook: test the critical path, user-visible selectors, deterministic data, fast feedback.
+- [Email workflow testing: OTPs, invites, notifications | Molar](https://molar.it/blog/email-workflow-testing-otp) — Verify the whole email path in tests — delivery, links, codes — without SMTP or real inboxes. Deterministic and instant.
+- [Flaky tests: root causes and durable fixes | Molar](https://molar.it/blog/flaky-tests-causes-and-fixes) — Why tests flake — timing, shared state, third parties, environments — and durable fixes for each. Stop re-running, start fixing.
+- [Playwright in GitHub Actions: PR gating that holds | Molar](https://molar.it/blog/github-actions-playwright-ci) — Set up Playwright in GitHub Actions: caching, sharding, traces, required checks that block merges without drowning CI.
+- [Playwright vs Cypress in 2026: an honest comparison | Molar](https://molar.it/blog/playwright-vs-cypress-comparison) — Architecture, multi-tab, iframes, debugging, CI scale, ecosystem. Where each wins — and how generated Playwright changes the math.
+- [Regression testing strategies for fast-moving teams | Molar](https://molar.it/blog/regression-testing-strategies) — Full suites don't scale; skipping tests doesn't either. Risk-based selection, PR gates, and insurance runs that work.
+- [Required status checks: a practical merge-gate guide | Molar](https://molar.it/blog/required-status-checks-merge-gate) — How to make failing checks actually block merges: branch protection, required checks, advisory vs required modes, escape hatches.
+- [Self-healing test automation, done right | Molar](https://molar.it/blog/self-healing-test-automation) — How self-healing really works: locator re-ranking, intent capture, approval gates — and why silent rewrites mask real regressions.
+- [Shift-left testing, explained for shipping teams | Molar](https://molar.it/blog/shift-left-testing-explained) — Catch bugs where they're cheapest — design and PR, not production. Practical shift-left without slowing reviews.
+- [Staging environments are lying to you | Molar](https://molar.it/blog/staging-environment-alternatives) — Drift, dirty data, fake integrations. Why staging fails to predict production — and what to run against instead.
+- [Startup QA without a QA team | Molar](https://molar.it/blog/startup-qa-without-qa-team) — You can't hire QA before PMF. Critical-path automation, PR gates, production guard — a lean playbook for founders.
+- [Synthetic monitoring for production, beyond uptime pings | Molar](https://molar.it/blog/synthetic-monitoring-production) — Uptime pings miss broken flows. Synthetic checks walk critical paths every few minutes and catch what pings can't.
+- [Test data management best practices | Molar](https://molar.it/blog/test-data-management-best-practices) — Deterministic IDs, seeded state, synthetic identities, PII hygiene. Test data rules that kill cross-test interference.
+- [Test Stripe checkout without charging a real card | Molar](https://molar.it/blog/test-stripe-without-real-cards) — Test Stripe checkout and billing flows safely using stateful API clones. Isolated test charges, fewer test-mode gaps — deterministic Stripe clones in CI and production guard.
+- [Testing Twilio SMS and OTP flows without real numbers | Molar](https://molar.it/blog/test-twilio-sms-otp-flows) — Real SMS is slow, costly, and flaky in CI. Stateful Twilio clones deliver OTPs instantly with deterministic codes.
+- [Payment succeeded. Why is the account still locked? | Molar](https://molar.it/blog/testing-delayed-payment-webhooks-and-account-access) — A practical test plan for delayed payment webhooks, duplicate deliveries and the account access a paying customer expects.
+- [Testing third-party APIs safely: Stripe, SendGrid, S3 | Molar](https://molar.it/blog/testing-third-party-apis-safely) — Sandbox limitations, rate limits, fake-data drift. Destruction-safe clones give tests real API semantics with zero blast radius.
+- [Visual regression testing: a pragmatic guide | Molar](https://molar.it/blog/visual-regression-testing-guide) — Screenshot diffs that don't drown you in noise: scope, thresholds, baselines, and why semantic assertions come first.
+
+## Documentation
+- [Molar Documentation — Setup, CLI, MCP & Testing](https://molar.it/docs) — Get started with Molar browser verification, stateful Clones, release checks, and agent interfaces. Find setup and product documentation.
+- [Clone docs | Molar](https://molar.it/docs/clones) — Per-clone reference for Molar stateful service clones, seeds, coverage, and tools.
+
+## Integrations
+- [Molar in GitHub Actions](https://molar.it/integrations/github-actions) — Connect Molar scenarios and evidence to GitHub Actions for configured release checks.
+
+## Platform
+- [Molar Platform — Browser Execution for Humans & AI Agents](https://molar.it/platform) — Give your team and AI agents a browser that gets work done. Automate tasks, explore apps, extract data and inspect the result with Molar.
+- [Browser agents | Molar](https://molar.it/platform/browser-agents) — Give people and coding agents a browser that can navigate, act, and verify clear goals.
+- [Developer tools | Molar](https://molar.it/platform/developer-tools) — Connect browser verification and automation to CLI, MCP, JSON output, and Playwright workflows.
+- [Live view | Molar](https://molar.it/platform/live-view) — Follow supported browser runs with live status and inspectable evidence.
+- [Swarm | Molar](https://molar.it/platform/swarm) — Preview coordinated browser testing across roles and scenarios with planned coverage and observed results.
 
 ## Products
-- [Cartographer](https://molar.it/products/cartographer): browser exploration, flow maps and Playwright export workflows.
-- [Clones](https://molar.it/products/clones): stateful test services for supported payment, messaging, identity and storage behavior.
-- [Guard](https://molar.it/products/guard): release checks and recurring test workflows.
-- [Trace](https://molar.it/products/trace): browser evidence and failure investigation.
-- [Mender](https://molar.it/products/mender): repair workflow in preview; availability must be confirmed.
+- [Cartographer | Molar](https://molar.it/products/cartographer) — Turn a product URL and a user goal into browser evidence your team can inspect.
+- [Clones | Molar](https://molar.it/products/clones) — Stateful local service doubles for the third parties your application depends on.
+- [Guard | Molar](https://molar.it/products/guard) — Run release and production checks around the journeys your users depend on.
+- [Mender | Molar](https://molar.it/products/mender) — A guarded repair workflow for investigating failures and preparing a proposed change.
+- [Trace | Molar](https://molar.it/products/trace) — Inspect browser runs through structured evidence, screenshots, and replay oriented artifacts.
 
-## Resources
-- [Guides](https://molar.it/blog)
-- [Clone catalog](https://molar.it/docs/clones/): distinguish core stateful services from narrower fixtures.
-- [Security and test scope](https://molar.it/security)
-- [Company](https://molar.it/company)
-- [Contact](https://molar.it/contact)
-- [Extended overview](https://molar.it/llms-full.txt)
+## Solutions
+- [Solutions for Web App Testing & Browser Automation | Molar](https://molar.it/solutions) — Explore Molar for checkout testing, sign-in, team workflows, preview deployments, browser automation, and web data extraction.
+- [QA for AI agents | Molar](https://molar.it/solutions/ai-agents) — Give coding agents a browser verification loop with MCP tools and structured evidence.
+- [Authentication testing | Molar](https://molar.it/solutions/authentication-testing) — Verify signup, OAuth, OTP, sessions, invites, and protected application routes.
+- [Checkout testing | Molar](https://molar.it/solutions/checkout-testing) — Test checkout, payment callbacks, receipts, and failed payment paths in one browser journey.
+- [Integration testing for real product journeys | Molar](https://molar.it/solutions/integration-testing) — Exercise payment, identity, messaging, and webhook behavior without coupling CI to live vendor side effects.
+- [Preview deployment testing | Molar](https://molar.it/solutions/preview-deployments) — Run critical browser journeys against preview deployments before changes reach production.
+- [QA for startups shipping quickly | Molar](https://molar.it/solutions/startups) — Keep integration heavy user journeys testable while a small team ships at speed.
+- [Team workflows | Molar](https://molar.it/solutions/team-workflows) — Give engineers, QA, and coding agents one place to run journeys and inspect what happened.
+- [Web app testing | Molar](https://molar.it/solutions/web-app-testing) — Explore and verify the browser journeys that connect your UI to real application behavior.
+- [Web data extraction | Molar](https://molar.it/solutions/web-data-extraction) — Read structured information from authorized web applications through a real browser.
+- [Workflow automation | Molar](https://molar.it/solutions/workflow-automation) — Automate browser tasks such as forms, downloads, extraction, and verification with clear access.
 
-## Reading the examples
-The marketing demos use labeled illustrative data and do not execute a live test. Service coverage depends on the configured provider behavior, environment and credentials. A passing browser run does not by itself establish complete app coverage, portable generated-test replay or a verified repair. Product availability is beta; confirm the requirements for a specific workflow with Molar.
+## Comparisons
+- [Molar Guard vs Checkly | Molar](https://molar.it/vs/checkly) — Compare Molar Guard and Checkly. Guard gates PRs with affected-scenario E2E tests, runs safe production synthetics via Clones, and drafts fix PRs with Mender. Checkly focuses on Playwright synthetics and uptime.
+- [Molar vs Cypress | Molar](https://molar.it/vs/cypress) — Compare Molar and Cypress. Molar authors and maintains critical-path tests autonomously, guards production, and clones third-party APIs. Cypress is a framework you write and maintain yourself.
+- [Molar vs Playwright | Molar](https://molar.it/vs/playwright) — Compare Molar and Playwright. Molar autonomously writes and runs critical-path tests, guards production, and clones third parties. Playwright is a library you script and maintain.
+- [Molar Trace vs Playwright Trace Viewer | Molar](https://molar.it/vs/playwright-trace) — Compare Molar Trace and Playwright Trace Viewer. Trace adds investigation context, parallel run views, and MCP access alongside Playwright trace artifacts.
+- [Molar Clones vs WireMock | Molar](https://molar.it/vs/wiremock) — Compare Molar Clones and WireMock. Clones are vendor-faithful, stateful simulations of Stripe, Twilio, and S3 with signed webhooks and a controlled local runtime. WireMock uses hand-written HTTP stubs that drift.
+
+## External properties
+- [Documentation](https://docs.molar.it) — full product documentation on its own canonical host.
+- [Create an account](https://app.molar.it/dashboard/signup) — product sign-up.
+- [RSS feed](https://molar.it/feed.xml) — published guides.
+- [Full page map](https://molar.it/llms-full.txt) — titles, descriptions, and headings for every canonical page.
+
+## Interpretation
+The interactive examples on the marketing site are labeled examples or controlled tests. They are not customer testimonials, reliability benchmarks, or guarantees of complete vendor parity. Read the relevant page and documentation before relying on a capability.

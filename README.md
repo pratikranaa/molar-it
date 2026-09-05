@@ -49,7 +49,7 @@ python3 scripts/check-marketing.py
 npx wrangler pages deploy .site-dist --project-name molar-it --branch main
 ```
 
-`.site-dist` contains an explicit allowlist of rendered HTML and public assets. Wrangler separately compiles the two existing API functions from the root `functions/` directory. Never deploy the repository root: it contains source, review files, configuration and large local film outputs. Verify the resulting deployment with `python3 scripts/check-live-marketing.py --deployment https://DEPLOYMENT.molar-it.pages.dev --output /tmp/molar-live-check.json`. This compares every canonical page and runtime asset, accounting only for Cloudflare’s observed email obfuscation, its exact managed robots prefix (reported separately), and same-path trailing-slash redirects.
+`.site-dist` contains an explicit allowlist of rendered HTML and public assets. Wrangler separately compiles the three API functions from the root `functions/` directory. Never deploy the repository root: it contains source, review files, configuration and large local film outputs. Verify the resulting deployment with `python3 scripts/check-live-marketing.py --deployment https://DEPLOYMENT.molar-it.pages.dev --output /tmp/molar-live-check.json`. This compares every canonical page and runtime asset, accounting only for Cloudflare’s observed email obfuscation, its exact managed robots prefix (reported separately), and same-path trailing-slash redirects.
 
 The apex already points to the Pages project; this rebuild does not require DNS changes or another project.
 
@@ -103,7 +103,7 @@ You get every signup as a spreadsheet row plus an email to `pratik@molar.it` (ed
 | `WAITLIST_WEBHOOK_URL` | **$0** | POST JSON to Google Apps Script (or any HTTPS endpoint) |
 | `LOOPS_API_KEY` | paid tier eventually | Optional — Loops.so contact list |
 
-Until `WAITLIST_WEBHOOK_URL` (or Loops) is set, the API returns `503` and the form shows an error.
+The deployed site stores requests in `WEBSITE_DB`. An environment without that binding needs `WAITLIST_WEBHOOK_URL` or Loops; otherwise the API returns `503` and the form shows an error.
 
 ## SEO / launch
 
@@ -117,7 +117,35 @@ See [`seo-launch-kit/00-START-HERE.txt`](seo-launch-kit/00-START-HERE.txt) for S
 node scripts/build-site.mjs   # sitemap generated from the rendered canonical pages
 ```
 
-**Social images:** rendered pages use the shared `/og.png`. Product-specific social assets and deeper SEO/AEO work remain follow-ups.
+**Search and sharing:** rendered pages carry canonical URLs, linked entity/page/breadcrumb metadata and article publication facts. The build creates a route-specific 1200×630 sharing image in `assets/social/`, a full guide feed at `/feed.xml`, and source maps at `/llms.txt`, `/llms-full.txt` and `/agent-map.json`. These files improve discovery; search rankings and AI citations remain external outcomes. Cloudflare's managed training-crawler policy is separate from the source robots rules for search/retrieval bots.
+
+## Ask Molar and query publishing
+
+`/ask` answers general browser-testing questions using a reviewed public corpus in `content/knowledge.mjs`. The same corpus feeds the editorial generator. The visitor tool has no access to private product plans, credentials or arbitrary URLs. It returns only validated citation identifiers; invalid or unavailable inference returns explicitly labeled source guidance. Requests and answers are not persisted. Quotas store a daily salted network hash and expire after two days; cleanup runs during subsequent requests.
+
+Production bindings in `wrangler.jsonc`: `AI` and `WEBSITE_DB`. Apply `npx wrangler d1 migrations apply molar-website --remote` before deployment. Set `WEBSITE_REQUEST_SECRET` using `wrangler pages secret put` via stdin, never in source. The public answer endpoint has atomic caps of six requests per network per hour and 40 generated attempts per day across the site. No paid capacity was added. If limits are reached, visitors can still browse the guides.
+
+Generate and publish from a target query:
+
+```bash
+node scripts/generate-query.mjs "How do I test delayed payment webhooks and account access?"
+# Review .content-drafts/<slug>.json against every cited source.
+# Correct unsupported claims; set status: reviewed and reviewedBy to the editor.
+node scripts/publish-query.mjs .content-drafts/<slug>.json
+node scripts/build-site.mjs
+node --test scripts/*.test.mjs
+python3 scripts/check-marketing.py
+```
+
+Generation uses the operator's existing Wrangler session (or `CLOUDFLARE_API_TOKEN`). Drafts are excluded from Git and the deployed package. Publishing adds reviewed structured content under `content/published/`; the regular build places it in the blog, feed, sitemap and social-card inventory. It never automatically indexes visitor questions. The first guide from this workflow is `/blog/testing-delayed-payment-webhooks-and-account-access`.
+
+The waitlist now saves to `WEBSITE_DB` without requiring a paid email provider. It does not automatically send messages. Authorized operators can export signup records with Wrangler; avoid printing those records into shared logs. Duplicate email submissions are idempotent. Existing optional webhook/Loops behavior remains a fallback for environments without the database binding.
+
+## Analytics
+
+The supplied GA4 measurement ID is `G-2YL3J3PX8R`. `marketing/analytics.js` loads the Google tag only after analytics consent, keeps advertising consent denied, respects Global Privacy Control and exposes **Privacy choices** in the footer. Withdrawal clears Google cookies and disables future hits. Page URLs omit query strings and fragments; event properties use fixed names, not user-entered data.
+
+The browser contract tests exercise consent, withdrawal, GPC and sensitive query handling. GA4 reporting, Enhanced Measurement settings and Search Console submission require access to the owner's Google account. Confirm the data-stream settings before treating aggregate reporting as verified; the tag itself does not prove account-side configuration or indexing.
 
 **Docs architecture:** The full product documentation is the Next.js site at **`https://docs.molar.it`** (source: `apps/docs-site` in the Molar monorepo). It has its own sitemap and JSON-LD, and its `Organization` node shares the same `@id` (`https://molar.it/#org`) so the two properties resolve to one entity. `docs.molar.it` is in this site's schema `sameAs` and is cross-linked from `llms.txt`. Do **not** list another domain's URLs in `molar.it/sitemap.xml` — each host serves its own sitemap.
 

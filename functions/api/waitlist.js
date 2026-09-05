@@ -6,6 +6,7 @@
  *   LOOPS_API_KEY         optional Loops.so
  */
 
+import {bodyJSON,takeQuota} from '../../server/request.mjs';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const ALLOWED_ORIGINS = new Set([
@@ -94,9 +95,11 @@ export async function onRequest({ request, env }) {
     return json(request, 405, { error: "Method not allowed" });
   }
 
+  const origin=request.headers.get('Origin');
+  if(origin && !ALLOWED_ORIGINS.has(origin) && origin!==new URL(request.url).origin)return json(request,403,{error:'Open the waitlist form on the Molar website.'});
   let body;
   try {
-    body = await request.json();
+    body = await bodyJSON(request);
   } catch {
     return json(request, 400, { error: "Invalid JSON" });
   }
@@ -109,7 +112,7 @@ export async function onRequest({ request, env }) {
   }
 
   const email = String(body.email || "").trim().toLowerCase();
-  if (!EMAIL_RE.test(email)) {
+  if (email.length>160 || !EMAIL_RE.test(email)) {
     return json(request, 400, { error: "Enter a valid work email." });
   }
 
@@ -121,6 +124,13 @@ export async function onRequest({ request, env }) {
     createdAt: new Date().toISOString(),
   };
 
+  if(env.WEBSITE_DB){
+    try{
+      if(!await takeQuota(env,request,'waitlist',200))return json(request,429,{error:'Too many attempts. Please try again later.'});
+      await env.WEBSITE_DB.prepare('INSERT INTO waitlist (email,company,role,source,created_at) VALUES (?,?,?,?,?) ON CONFLICT(email) DO NOTHING').bind(record.email,record.company||'',record.role||'',record.source,record.createdAt).run();
+      return json(request,200,{ok:true});
+    }catch{return json(request,503,{error:'We could not save your request. Try again or email pratik@molar.it.'})}
+  }
   let result = await forwardWebhook(env, record);
   if (!result.ok) result = await forwardLoops(env, record);
 

@@ -52,6 +52,7 @@ const menus = [
     ['/solutions/startups','Startups & small teams','Keep shipping with repeatable QA.','bolt']
   ]],
   ['Resources',[
+    ['/ask','Ask Molar','Find an answer with sources.','search'],
     [DOCS,'Documentation','Get from setup to your first run.','file'],
     ['/blog','Guides & field notes','Practical lessons in software QA.','file'],
     ['/resources','Developer resources','CLI, API, MCP, and Playwright.','terminal'],

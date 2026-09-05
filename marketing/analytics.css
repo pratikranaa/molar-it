@@ -1,0 +1,115 @@
+.molar-consent {
+  position: fixed;
+  z-index: 1000;
+  right: 24px;
+  bottom: 24px;
+  width: min(440px, calc(100vw - 32px));
+  color: var(--light, #f5f7ef);
+  background: var(--dark, #1c2521);
+  border: 1px solid var(--dark-line, #4f5c4b);
+  border-radius: 12px;
+  box-shadow: 0 24px 48px #273a2940;
+}
+
+.molar-consent[hidden] {
+  display: none;
+}
+
+.molar-consent-inner {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.molar-consent h2 {
+  margin: 0;
+  color: inherit;
+  font: 600 16px/1.3 Hanken, ui-sans-serif, sans-serif;
+  letter-spacing: -0.015em;
+}
+
+.molar-consent p {
+  max-width: 52ch;
+  margin: 7px 0 0;
+  color: var(--light-muted, #cad2c0);
+  font: 400 14px/1.5 Hanken, ui-sans-serif, sans-serif;
+}
+
+.molar-consent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.molar-consent-action,
+.molar-preferences {
+  min-height: 42px;
+  border: 1px solid var(--dark-line, #4f5c4b);
+  border-radius: 6px;
+  font: 600 14px/1.3 Hanken, ui-sans-serif, sans-serif;
+  cursor: pointer;
+}
+
+.molar-consent-action {
+  flex: 1 1 170px;
+  padding: 9px 14px;
+  color: var(--light, #f5f7ef);
+  background: transparent;
+}
+
+.molar-consent-action:hover,
+.molar-consent-action:focus-visible {
+  border-color: var(--accent-hover, #ff8868);
+  background: var(--dark-2, #2b382d);
+}
+
+.molar-consent-action:focus-visible,
+.molar-preferences:focus-visible {
+  outline: 3px solid var(--accent, #f26342);
+  outline-offset: 3px;
+}
+
+.molar-preferences {
+  margin-left: 16px;
+  padding: 5px 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.molar-preferences:hover {
+  color: var(--accent, #f26342);
+}
+
+@media (max-width: 640px) {
+  .molar-consent {
+    right: 16px;
+    bottom: 16px;
+    width: calc(100vw - 32px);
+  }
+
+  .molar-consent-inner {
+    padding: 18px;
+  }
+
+  .molar-consent-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .molar-consent-action {
+    min-width: 0;
+    padding-inline: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .molar-consent,
+  .molar-consent * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
