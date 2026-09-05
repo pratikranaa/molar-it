@@ -9,10 +9,10 @@ This repo contains the marketing site source (`molar.it`). Product code lives in
 | | |
 |---|---|
 | **Website** | https://molar.it |
-| **Cartographer** | https://cartographer.molar.it |
-| **Clones** | https://clones.molar.it |
-| **Guard** | https://guard.molar.it |
-| **Trace** | https://trace.molar.it |
+| **Cartographer** | https://molar.it/products/cartographer |
+| **Clones** | https://molar.it/products/clones |
+| **Guard** | https://molar.it/products/guard |
+| **Trace** | https://molar.it/products/trace |
 | **QA Agent** | https://molar.it/qa-agent |
 | **Docs** | https://molar.it/docs |
 | **App** | https://app.molar.it |
@@ -33,6 +33,8 @@ python3 scripts/serve-marketing.py --port 8080
 
 The main site is pre-rendered HTML. `marketing/components.mjs`, `site.css`, and `site.js` provide the shared navigation, design, and interactions. `scripts/build-*.mjs` render the QA homepage, general platform, product/solution pages, company, pricing, resources, articles, policies, and clone documentation. Original editorial and legacy text is stored separately from generated HTML. `/verify` retains its React runtime; other rebuilt pages require no React/Babel boot.
 
+The hero demos autoplay illustrative browser tasks and support editable sample fields, Browser/Checks/Result views, pause and replay. `marketing/illustrations.mjs` authors workflow diagrams; `marketing/sections.mjs` composes the illustrated solution and platform stories. Swarm remains a Preview.
+
 Run `python3 scripts/check-marketing.py` after building. It checks the published package's internal links, assets, heading counts, IDs, anchors, and JSON-LD.
 
 Deploy to the **existing** Cloudflare Pages project:
@@ -43,7 +45,9 @@ python3 scripts/check-marketing.py
 npx wrangler pages deploy .site-dist --project-name molar-it --branch main
 ```
 
-`.site-dist` contains an explicit allowlist of rendered HTML and public assets. Wrangler separately compiles the two existing API functions from the root `functions/` directory. Never deploy the repository root: it contains source, review files, configuration and large local film outputs. The apex already points to the Pages project; this rebuild does not require DNS changes or another project.
+`.site-dist` contains an explicit allowlist of rendered HTML and public assets. Wrangler separately compiles the two existing API functions from the root `functions/` directory. Never deploy the repository root: it contains source, review files, configuration and large local film outputs. Verify the resulting deployment with `python3 scripts/check-live-marketing.py --deployment https://DEPLOYMENT.molar-it.pages.dev --output /tmp/molar-live-check.json`. This compares every canonical page and runtime asset, accounting only for Cloudflare’s observed email obfuscation.
+
+The apex already points to the Pages project; this rebuild does not require DNS changes or another project.
 
 Instant Proof / waitlist secrets (never commit):
 
@@ -107,10 +111,9 @@ See [`seo-launch-kit/00-START-HERE.txt`](seo-launch-kit/00-START-HERE.txt) for S
 
 ```bash
 node scripts/build-site.mjs   # sitemap generated from the rendered canonical pages
-node scripts/gen-clone-routes.mjs
 ```
 
-**OG images (TODO):** surface pages reference per-product social images at `/og-clones.png`, `/og-cartographer.png`, `/og-guard.png`, `/og-trace.png` (1200×630). Create and deploy to `molar.it/` root for rich social previews.
+**Social images:** rendered pages use the shared `/og.png`. Product-specific social assets and deeper SEO/AEO work remain follow-ups.
 
 **Docs architecture:** The full product documentation is the Next.js site at **`https://docs.molar.it`** (source: `apps/docs-site` in the Molar monorepo). It has its own sitemap and JSON-LD, and its `Organization` node shares the same `@id` (`https://molar.it/#org`) so the two properties resolve to one entity. `docs.molar.it` is in this site's schema `sameAs` and is cross-linked from `llms.txt`. Do **not** list another domain's URLs in `molar.it/sitemap.xml` — each host serves its own sitemap.
 

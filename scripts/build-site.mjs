@@ -8,7 +8,7 @@ for(const name of ['marketing','company','resources','editorial','legacy','verif
   if(result.status!==0) process.exit(result.status||1);
 }
 const htmlFiles=[];
-for(const dir of ['','products','solutions','blog','vs','integrations','docs','docs/clones']){
+for(const dir of ['','products','solutions','platform','blog','vs','integrations','docs','docs/clones']){
   for(const item of readdirSync(join(root,dir),{withFileTypes:true})){
     if(item.isFile() && item.name.endsWith('.html')){
       const path=join(dir,item.name),html=readFileSync(join(root,path),'utf8');
@@ -24,7 +24,7 @@ writeFileSync(join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n
 // Publish only the rendered website and the runtime it uses. Source and review files stay local.
 const stage=join(root,'.site-dist');
 rmSync(stage,{recursive:true,force:true});mkdirSync(stage,{recursive:true});
-const runtime=['marketing/site.css','marketing/site.js','marketing/verify-theme.css','verify.css','verify.js','og.png','robots.txt','sitemap.xml','llms.txt','llms-full.txt','_headers','_redirects','_routes.json','fonts/hanken-grotesk-latin.woff2','fonts/geist-mono-latin.woff2','fonts/OFL-Hanken-Grotesk.txt','assets/molar-mark-apple.png','assets/molar-mark-favicon.png'];
+const runtime=['marketing/illustrations.css','marketing/demo-surfaces.css','marketing/demo-surfaces.mjs','marketing/site.css','marketing/site.js','marketing/verify-theme.css','verify.css','verify.js','og.png','robots.txt','sitemap.xml','llms.txt','llms-full.txt','_headers','_redirects','_routes.json','fonts/hanken-grotesk-latin.woff2','fonts/geist-mono-latin.woff2','fonts/OFL-Hanken-Grotesk.txt','assets/molar-mark-apple.png','assets/molar-mark-favicon.png'];
 const copy=path=>{const out=join(stage,path);mkdirSync(dirname(out),{recursive:true});copyFileSync(join(root,path),out)};
 [...htmlFiles,...runtime].forEach(copy);
 // Wrangler compiles ./functions from the project root separately; never publish its source as static assets.

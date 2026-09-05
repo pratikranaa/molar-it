@@ -1,3 +1,4 @@
+import {browserSurface,checksSurface,resultSurface} from 'molar-demo';
 (() => {
   'use strict';
   const $ = (selector, root = document) => root.querySelector(selector);
@@ -19,12 +20,12 @@
     let hoverTimer;
     group.addEventListener('toggle', () => { if (group.open) closeGroups(group); });
     group.addEventListener('pointerenter', event => {
-      if (event.pointerType !== 'mouse' || mobileQuery.matches) return;
+      if (event.pointerType !== 'mouse' || (mobileQuery.matches && !nav.classList.contains('is-open'))) return;
       clearTimeout(hoverTimer);
       hoverTimer=setTimeout(()=>{closeGroups(group);group.open=true},350);
     });
     group.addEventListener('pointerleave', event => {
-      if (event.pointerType !== 'mouse' || mobileQuery.matches) return;
+      if (event.pointerType !== 'mouse' || (mobileQuery.matches && !nav.classList.contains('is-open'))) return;
       clearTimeout(hoverTimer);
       hoverTimer=setTimeout(()=>{if(!group.contains(document.activeElement)) group.open=false},220);
     });
@@ -63,39 +64,43 @@
     wireTabs(tabs,index => { $$('[role=tabpanel]',root).forEach((panel,i) => panel.hidden=i!==index); });
   });
   const shape = name => `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${{check:'<path d="m5 12 4 4L19 6"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/>',file:'<path d="M14 2H5v20h14V7Zm0 0v6h5M8 12h8m-8 4h8"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c5 5 5 13 0 18-5-5-5-13 0-18Z"/>',lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',x:'<path d="m6 6 12 12m0-12L6 18"/>',play:'<path d="m8 4 12 8-12 8Z"/>',pause:'<path d="M8 5v14m8-14v14"/>',replay:'<path d="M4 10a8 8 0 1 1 2 8M4 4v6h6"/>',card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h3"/>'}[name]||''}</svg>`;
-  const result=(title,detail,code='')=>`<div class="demo-result">${shape('check')}<strong>${title}</strong><span>${detail}</span>${code?`<code>${code}</code>`:''}</div>`;
-  const inbox=(title,detail,code='')=>`<div class="demo-inbox"><div class="inbox-meta">${shape('mail')}<span>Acme · Test inbox</span></div><div class="inbox-message"><strong>${title}</strong><p>${detail}</p>${code?`<code>${code}</code>`:''}</div></div>`;
   const qa=[
-    {goal:'Buy a plan. Check the payment and receipt.',url:'demo.acme.test/checkout',names:['Open checkout','Confirm payment','Receive receipt'],icons:['globe','card','mail'],titles:['Checkout is ready','Payment is confirmed','The receipt arrived'],evidence:['Payment form visible. Test service connected.','Payment state changed to succeeded.','Receipt matches the test order and inbox.'],surfaces:[null,result('Payment confirmed','Acme Pro · $24.00 · USD','payment_intent.succeeded'),inbox('You’re on the Pro plan.','Your test payment of $24.00 was received.<br>Receipt and plan details are ready.')]},
-    {goal:'Create an account. Verify email. Open the app.',url:'demo.acme.test/signup',names:['Create account','Read email code','Open workspace'],icons:['globe','mail','lock'],titles:['The account is created','The verification code arrived','The workspace is ready'],evidence:['Dedicated test identity created.','Code received in the controlled test inbox.','Authenticated workspace is visible.'],surfaces:[result('Account created','New member · Dedicated test identity','Email verification required'),inbox('Verify your email','Use this code to continue to Acme.','834 291'),result('Welcome to your workspace','Signed in as a test member.','Authentication verified')]},
-    {goal:'Open settings. Rename the project. Verify it saved.',url:'demo.acme.test/settings',names:['Open settings','Rename project','Check result'],icons:['globe','file','check'],titles:['Project settings are visible','The new name is saved','The change survives a reload'],evidence:['Project name field is available.','Saved project name matches the requested value.','Project name still matches after reloading.'],surfaces:[result('Project settings','Current name: My project','Editable form found'),result('Project renamed','New name: Summer launch','Changes saved'),result('Summer launch','Verified after page reload.','Expected value observed')]}
+    {goal:'Buy a plan. Check the payment and receipt.',url:'demo.acme.test/checkout',names:['Open checkout','Confirm payment','Receive receipt'],icons:['globe','card','mail'],titles:['Checkout is ready','Payment is confirmed','The receipt arrived'],evidence:['Payment form visible. Test service connected.','Payment state changed to succeeded.','Receipt matches the test order and inbox.']},
+    {goal:'Create an account. Verify email. Open the app.',url:'demo.acme.test/signup',names:['Create account','Read email code','Open workspace'],icons:['globe','mail','lock'],titles:['The signup form is ready','The verification code arrived','The workspace is ready'],evidence:['Signup form visible. Test identity prepared.','Code received in the controlled test inbox.','Authenticated workspace is visible.']},
+    {goal:'Open settings. Rename the project. Verify it saved.',url:'demo.acme.test/settings',names:['Open settings','Rename project','Check result'],icons:['globe','file','check'],titles:['Project settings are visible','The new name is saved','The change survives a reload'],evidence:['Project name field is available.','Saved project name matches the requested value.','Project name still matches after reloading.']}
   ];
   const platform=[
-    {goal:'Find the invoice and download a copy.',url:'demo.acme.test/billing',names:['Open billing','Find invoice','Download file'],icons:['globe','file','check'],titles:['Billing is open','The requested invoice is visible','The document is available'],evidence:['Authenticated billing page visible.','Invoice matches the requested period.','The downloaded file has an artifact reference.'],surfaces:[result('Acme billing','Invoices and payment history.','Authorized workspace'),result('Invoice · August 2026','Acme Pro · Paid','invoice_august_2026.pdf'),result('Invoice downloaded','The file is ready for the next step.','file_ref: invoice_august_2026')]},
-    {goal:'Explore the workspace and map its main flows.',url:'demo.acme.test/workspace',names:['Observe page','Follow branches','Record the map'],icons:['globe','file','check'],titles:['Workspace observed','Account and project paths found','Observed paths are recorded'],evidence:['Navigation and meaningful controls observed.','Branches visited with the configured scope.','Flow nodes link to their recorded actions.'],surfaces:[result('Workspace overview','Projects · Members · Billing','Page observed'),result('Follow the user journey','Account → Workspace → Project','Branches within scope'),result('Application map updated','Observed paths and their outcomes.','Evidence attached to each path')]},
-    {goal:'Read plan names and return structured pricing.',url:'demo.acme.test/plans',names:['Open plans','Read details','Return data'],icons:['globe','file','check'],titles:['The plan page is visible','Plan details are extracted','Structured data is ready'],evidence:['Visible pricing table found.','Plan name and displayed amount read from the page.','Result follows the requested data structure.'],surfaces:[result('Acme plans','Starter · Pro · Business','Visible plan table'),result('Pro plan','Displayed price: $24 per month','Observed from the page'),'<pre class="data-result">{\n  "plan": "Pro",\n  "amount": 24,\n  "currency": "USD",\n  "interval": "month"\n}</pre>']}
+    {goal:'Find the invoice and download a copy.',url:'demo.acme.test/billing',names:['Open billing','Find invoice','Download file'],icons:['globe','file','check'],titles:['Billing is open','The requested invoice is visible','The document is available'],evidence:['Authenticated billing page visible.','Invoice matches the requested period.','The downloaded file has an artifact reference.']},
+    {goal:'Explore the workspace and map its main flows.',url:'demo.acme.test/workspace',names:['Observe page','Follow branches','Record the map'],icons:['globe','file','check'],titles:['Workspace observed','Account and project paths found','Observed paths are recorded'],evidence:['Navigation and meaningful controls observed.','Branches visited with the configured scope.','Flow nodes link to their recorded actions.']},
+    {goal:'Read plan names and return structured pricing.',url:'demo.acme.test/plans',names:['Open plans','Read details','Return data'],icons:['globe','file','check'],titles:['The plan page is visible','Plan details are extracted','Structured data is ready'],evidence:['Visible pricing table found.','Plan name and displayed amount read from the page.','Result follows the requested data structure.']}
   ];
   const qaActions=[
     ['Fill the checkout with a test card.','Confirm the payment in the Stripe clone.','Check the order and look for its receipt.'],
     ['Create a dedicated test account.','Read the code from the test inbox.','Enter the code and open the workspace.'],
-    ['Open the project settings.','Rename the project to Summer launch.','Reload the page and check the saved name.']
+    ['Open the project settings.','Save the project name.','Reload the page and check the saved name.']
   ];
   const platformActions=[
     ['Open the billing page.','Find the invoice for the requested month.','Download the matching document.'],
     ['Observe the workspace navigation.','Visit account and project branches.','Record each observed path and outcome.'],
     ['Open the plan comparison page.','Read the displayed plan and price.','Return the fields as structured data.']
   ];
-  $$('[data-demo]').forEach(root=>{
-    const isPlatform=root.dataset.demo==='platform';
+  $$('[data-demo]').forEach(root => {
+    const mode=root.dataset.demo;
+    const isPlatform=mode==='platform';
     const examples=isPlatform?platform:qa;
     const actions=isPlatform?platformActions:qaActions;
     const surface=$('[data-inspector-surface]',root);
-    const original=surface.innerHTML;
     const play=$('[data-demo-play]',root);
     const status=$('[data-demo-status]',root);
     const steps=$$('[data-step]',root);
+    const tabs=$$('[data-demo-tab]',root);
+    const views=$$('[data-demo-view]',root);
     const inspector=$('.demo-inspector',root);
-    let example=0, step=0, condition='healthy', playing=false, complete=false, timer;
+    let example=0,step=0,view=0,condition='healthy',playing=false,complete=false;
+    let userPaused=false,inView=false,timer;
+    const sample={};
+    const mayAutoplay=()=>inView&&!document.hidden&&!reducedMotion.matches&&!userPaused;
+    const hasFailed=()=>!isPlatform&&example===0&&condition==='failure'&&step===2;
     const updatePlayer=()=>{
       root.classList.toggle('is-playing',playing);
       const label=playing?'Pause demo':complete?'Replay demo':'Play demo';
@@ -105,10 +110,17 @@
       $('[data-demo-progress-label]',root).textContent=complete?'Demo complete':`Step ${step+1} of 3`;
     };
     const pause=()=>{clearTimeout(timer);playing=false;updatePlayer()};
-    const renderStep=(index,announce=true)=>{
+    const renderSurface=()=>{
+      const failed=hasFailed();
+      if(view===1) surface.innerHTML=checksSurface(mode,example,step,failed);
+      else if(view===2) surface.innerHTML=resultSurface(mode,example,step,failed);
+      else if(failed) surface.innerHTML=`<div class="demo-failure"><div class="failure-state-row"><span>Payment: succeeded</span><span>Order: pending</span></div><strong>The payment went through. The order didn’t.</strong><p>The app missed the payment update, so the customer has no order confirmation or receipt.</p><a href="/products/trace">See how Trace helps investigate</a></div>`;
+      else surface.innerHTML=browserSurface(mode,example,step,sample);
+      surface.setAttribute('aria-labelledby',`demo-view-${view}`);
+    };
+    const renderStep=(index,announce=false)=>{
       step=index;
-      const current=examples[example];
-      const failed=!isPlatform && example===0 && condition==='failure' && index===2;
+      const current=examples[example],failed=hasFailed();
       steps.forEach((button,i)=>{
         button.classList.toggle('is-selected',i===index);
         button.classList.toggle('is-complete',i<=index);
@@ -122,52 +134,88 @@
       $('[data-inspector-title]',root).textContent=failed?'Payment received. Order still pending.':current.titles[index];
       $('.status-pass',root).innerHTML=shape(failed?'x':'check')+`<span>${failed?'Failed':'Observed'}</span>`;
       $('[data-inspector-evidence]',root).textContent=failed?'Receipt missing. The payment callback returned 500.':current.evidence[index];
-      surface.innerHTML=failed?`<div class="demo-failure"><div class="failure-state-row"><span>Payment: succeeded</span><span>Order: pending</span></div><strong>The checkout stopped after payment.</strong><p>The app never applied the payment callback, so the customer has no confirmed order or receipt.</p><a href="/products/trace">See how Trace helps investigate</a></div>`:current.surfaces[index]??original;
-      $('[data-demo-action]',root).textContent=failed?'Compare the payment state with the order and inbox.':actions[example][index];
+      $('[data-demo-action]',root).textContent=failed?'Check the payment, order, and receipt together.':actions[example][index];
+      renderSurface();
       if(announce) status.textContent=`${current.names[index]}. ${failed?'Sample failure: receipt missing.':current.titles[index]+'.'}`;
-      if(!reducedMotion.matches && announce){
+      // Same exponential settling used in Molar’s earlier home.css; authored here for the simulated browser.
+      if(!reducedMotion.matches){
         surface.getAnimations().forEach(animation=>animation.cancel());
-        surface.animate([{opacity:.45,transform:'translateY(7px)',filter:'blur(2px)'},{opacity:1,transform:'translateY(0)',filter:'blur(0)'}],{duration:420,easing:'cubic-bezier(.16,1,.3,1)'});
+        surface.animate([{opacity:.6,transform:'translateY(6px)',filter:'blur(1px)'},{opacity:1,transform:'translateY(0)',filter:'blur(0)'}],{duration:480,easing:'cubic-bezier(.16,1,.3,1)'});
       }
       updatePlayer();
-    };
-    const advance=()=>{
-      timer=setTimeout(()=>{
-        if(!playing) return;
-        if(step<2){renderStep(step+1);advance()}
-        else {complete=true;pause();status.textContent='Illustrative walkthrough complete. You can replay it or inspect any step.'}
-      },2600);
-    };
-    const start=()=>{
-      if(playing){pause();status.textContent='Demo paused.';return}
-      if(complete || step===2){complete=false;renderStep(0)}
-      playing=true;updatePlayer();advance();
     };
     const renderExample=index=>{
       pause();example=index;complete=false;
       const current=examples[index];
+      tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1});
       $('[data-demo-goal]',root).textContent=current.goal;
       $('[data-demo-url]',root).textContent=current.url;
       $$('[data-step-name]',root).forEach((label,i)=>label.textContent=current.names[i]);
       $$('.step-icon',root).forEach((element,i)=>element.innerHTML=shape(current.icons[i]));
       $('#demo-panel',root).setAttribute('aria-labelledby',`demo-tab-${index}`);
       const conditions=$('[data-demo-conditions]',root);
-      if(conditions) conditions.hidden=index!==0;
-      renderStep(0,false);
+      if(conditions)conditions.hidden=index!==0;
+      renderStep(0);
     };
-    wireTabs($$('[data-demo-tab]',root),renderExample);
-    steps.forEach((button,index)=>button.addEventListener('click',()=>{pause();complete=false;renderStep(index)}));
+    const advance=()=>{
+      timer=setTimeout(()=>{
+        if(!playing)return;
+        if(step<2){renderStep(step+1);advance();return}
+        complete=true;updatePlayer();
+        timer=setTimeout(()=>{
+          if(!playing)return;
+          if(mayAutoplay()){
+            renderExample((example+1)%examples.length);
+            playing=true;updatePlayer();advance();
+          } else pause();
+        },3600);
+      },2800);
+    };
+    const start=()=>{
+      if(playing)return;
+      if(complete||step===2){complete=false;renderStep(0)}
+      playing=true;updatePlayer();advance();
+    };
+    wireTabs(tabs,index=>{userPaused=false;renderExample(index);if(mayAutoplay())start()});
+    wireTabs(views,index=>{userPaused=true;pause();view=index;renderSurface()});
+    steps.forEach((button,index)=>button.addEventListener('click',()=>{userPaused=true;pause();complete=false;renderStep(index,true)}));
     $$('[data-condition]',root).forEach(button=>button.addEventListener('click',()=>{
-      pause();condition=button.dataset.condition;complete=false;
+      pause();condition=button.dataset.condition;complete=false;userPaused=false;
       $$('[data-condition]',root).forEach(option=>option.setAttribute('aria-pressed',String(option===button)));
-      renderStep(0);status.textContent=condition==='failure'?'Missing webhook scenario selected. Play the demo to see the failed order.':'Healthy checkout selected.';
+      renderStep(0,true);
+      status.textContent=condition==='failure'?'Missing payment update selected. Watch what happens to the order.':'Healthy checkout selected.';
+      if(mayAutoplay())start();
     }));
-    play.addEventListener('click',start);
-    $$('a[href="#interactive-demo"]').forEach(link=>link.addEventListener('click',()=>{if(!playing) start()}));
-    document.addEventListener('visibilitychange',()=>{if(document.hidden) pause()});
-    new IntersectionObserver(entries=>{if(!entries[0].isIntersecting && playing) pause()},{threshold:0}).observe(root);
-    reducedMotion.addEventListener('change',()=>{surface.getAnimations().forEach(animation=>animation.cancel())});
+    play.addEventListener('click',()=>{
+      if(playing){userPaused=true;pause();status.textContent='Demo paused. Inspect any step or view.'}
+      else{userPaused=false;start()}
+    });
+    root.addEventListener('input',event=>{const key=event.target.dataset.sampleKey;if(key)sample[key]=event.target.value});
+    root.addEventListener('focusin',event=>{if(event.target.matches('[data-sample-input]')){userPaused=true;pause()}});
+    root.addEventListener('click',event=>{
+      if(event.target.closest('[data-demo-next]')){userPaused=true;pause();complete=false;renderStep(Math.min(step+1,2),true)}
+      if(event.target.closest('[data-demo-restart]')){userPaused=true;pause();complete=false;renderStep(0,true)}
+    });
+    $$('a[href="#interactive-demo"]').forEach(link=>link.addEventListener('click',()=>{userPaused=false;start()}));
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();else if(mayAutoplay())start()});
+    new IntersectionObserver(entries=>{
+      inView=entries[0].isIntersecting;
+      if(!inView)pause();else if(mayAutoplay())start();
+    },{threshold:.2}).observe(root);
+    reducedMotion.addEventListener('change',()=>{
+      surface.getAnimations().forEach(animation=>animation.cancel());
+      if(reducedMotion.matches)pause();else if(mayAutoplay())start();
+    });
     renderExample(0);
+  });
+  const scenes=$$('[data-motion-scene]');
+  const sceneObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>entry.target.classList.toggle('is-in-view',entry.isIntersecting&&!document.hidden&&!reducedMotion.matches));
+  },{threshold:.18});
+  scenes.forEach(scene=>sceneObserver.observe(scene));
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden)scenes.forEach(scene=>scene.classList.remove('is-in-view'));
+    else scenes.forEach(scene=>{sceneObserver.unobserve(scene);sceneObserver.observe(scene)});
   });
   $$('[data-copy]').forEach(button=>button.addEventListener('click',async()=>{
     const root=button.closest('.code-window');

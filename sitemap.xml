@@ -59,6 +59,10 @@
   <url><loc>https://molar.it/docs/clones/woocommerce</loc></url>
   <url><loc>https://molar.it/integrations/github-actions</loc></url>
   <url><loc>https://molar.it/platform</loc></url>
+  <url><loc>https://molar.it/platform/browser-agents</loc></url>
+  <url><loc>https://molar.it/platform/developer-tools</loc></url>
+  <url><loc>https://molar.it/platform/live-view</loc></url>
+  <url><loc>https://molar.it/platform/swarm</loc></url>
   <url><loc>https://molar.it/pricing</loc></url>
   <url><loc>https://molar.it/privacy</loc></url>
   <url><loc>https://molar.it/products/cartographer</loc></url>
@@ -69,10 +73,17 @@
   <url><loc>https://molar.it/qa-agent</loc></url>
   <url><loc>https://molar.it/resources</loc></url>
   <url><loc>https://molar.it/security</loc></url>
+  <url><loc>https://molar.it/solutions</loc></url>
   <url><loc>https://molar.it/solutions/ai-agents</loc></url>
+  <url><loc>https://molar.it/solutions/authentication-testing</loc></url>
+  <url><loc>https://molar.it/solutions/checkout-testing</loc></url>
   <url><loc>https://molar.it/solutions/integration-testing</loc></url>
+  <url><loc>https://molar.it/solutions/preview-deployments</loc></url>
   <url><loc>https://molar.it/solutions/startups</loc></url>
+  <url><loc>https://molar.it/solutions/team-workflows</loc></url>
   <url><loc>https://molar.it/solutions/web-app-testing</loc></url>
+  <url><loc>https://molar.it/solutions/web-data-extraction</loc></url>
+  <url><loc>https://molar.it/solutions/workflow-automation</loc></url>
   <url><loc>https://molar.it/terms</loc></url>
   <url><loc>https://molar.it/thesis</loc></url>
   <url><loc>https://molar.it/verify</loc></url>

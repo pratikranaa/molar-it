@@ -14,7 +14,7 @@ The user confirmed direct implementation, QA at `/`, general browser execution a
 
 - [NNGroup menu timing](https://www.nngroup.com/articles/timing-exposing-content/): pointer intent delay, immediate click/tap, and a grace period when crossing into a menu. Implementation is original, with 350 ms hover intent, click and keyboard support, Escape and outside dismissal.
 - [NNGroup mega menus](https://www.nngroup.com/articles/mega-menus-work-well/): organize choices and explain destinations. A feature introduction and descriptive product links replace the earlier small, uniform dropdown.
-- [web.dev reduced motion](https://web.dev/articles/prefers-reduced-motion): motion preferences are respected. Playback is user-initiated, pauses offscreen or in a hidden tab, and offers pause/replay. All static content is visible without animation.
+- [web.dev reduced motion](https://web.dev/articles/prefers-reduced-motion): motion preferences are respected. The first release used user-initiated playback. The user-directed expansion autoplays visible examples, pauses for manual inspection, offscreen or in a hidden tab, and offers pause/replay. All static content is visible without animation.
 
 ## Design and truth boundaries
 
@@ -23,3 +23,13 @@ The visual system uses Hanken Grotesk, charcoal, warm white and coral. Green mea
 ## Deferred work requested by the user
 
 GA4 property G-2YL3J3PX8R; a deeper SEO/AEO pass; query-to-draft publishing; visitor-facing generated answers. The user explicitly asked to finish design first. Basic static page metadata and a current sitemap accompany the design; no ranking guarantee is made.
+
+## User-directed expansion after first release
+
+User requested autoplay, deeper hands-on hero views, custom SVG scenes, clearer first-visit copy, Swarm, expanded Platform/Solutions, and typography-only header/footer. The first release remains rollback source `4f965b1` / Pages `10bb2d98`.
+
+Reviewed current primary sources: https://www.browserbase.com/use-cases (specific jobs grouped under automation/data/agents); https://tester.army/docs/get-started/core-concepts and https://docs.tester.army/run/pull-request-testing (tests/environment/preview task context); https://docs.spurtest.com/getting-started/web-prompting (state expected customer result); own https://cartographer.molar.it and https://clones.molar.it plus original home.css (settling motion, product panels and connected evidence). These are design/positioning references, not proof of Molar's capabilities. No competitor source code copied.
+
+The live Guard subdomain redirects into the app; preserve that functional entry point. Recommendation is to consolidate separate product marketing under /products/* while preserving incoming addresses. No subdomain/DNS change performed in this pass.
+
+Implementation direction: varied SVG/browser scenes explain payment callbacks, verification email, invites, preview tests, file work, extraction, role-based testing and live evidence. Swarm remains Preview; no agent-count or exhaustive-coverage claims. Hero automatically cycles visible examples, offers pause/step/view controls and sample inputs, pauses for manual inspection and offscreen/background/reduced-motion conditions. Every sample remains explicitly illustrative.

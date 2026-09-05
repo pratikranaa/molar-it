@@ -101,7 +101,7 @@ components:
 
 Molar's marketing surfaces treat software as a set of journeys that should be observed and explained. The visual language pairs a near-black working environment with a warm paper canvas, then uses coral to mark an action or next choice and restrained green to mark an observed success. The result is editorial and technical at once: calm enough to read, concrete enough to trust.
 
-Typography, navigation, and illustrative product surfaces share one voice across the home page, platform story, product pages, solutions, resources, blog, legal pages, and browser-check flow. Dark hero and developer sections create focus; pale gray reading surfaces and bordered diagrams keep evidence legible. Interactive demos are explicitly labeled illustrative and use controlled three-step Play, Pause, and Replay behavior.
+Typography, navigation, and illustrative product surfaces share one voice across the home page, platform story, product pages, solutions, resources, blog, legal pages, and browser-check flow. Dark hero and developer sections create focus; pale gray reading surfaces and bordered diagrams keep evidence legible. Interactive demos are explicitly labeled illustrative and use controlled three-step Play, Pause, and Replay behavior. Eight authored SVG scene compositions cover checkout, identity, collaboration, preview checks, automation, extraction, swarm coverage, and live evidence.
 
 **Key Characteristics:**
 - Warm paper and charcoal surfaces with a single coral action signal.
@@ -140,7 +140,8 @@ The palette is neutral first: warm paper and charcoal carry most of every surfac
 
 **Display Font:** Hanken Grotesk (`Hanken`) with `ui-sans-serif, sans-serif` fallback  
 **Body Font:** Hanken Grotesk (`Hanken`) with `ui-sans-serif, sans-serif` fallback  
-**Label/Mono Font:** Geist Mono with `monospace` fallback
+**Label Font:** Hanken Grotesk with `ui-sans-serif, sans-serif` fallback
+**Technical/Mono Font:** Geist Mono with `monospace` fallback
 
 **Character:** Hanken is compact, warm, and highly legible across large editorial headlines and dense UI labels. Geist Mono is a technical voice reserved for code and machine-observable details, creating a clear boundary between explanation and evidence.
 
@@ -158,7 +159,7 @@ The palette is neutral first: warm paper and charcoal carry most of every surfac
 
 Content uses a centered wrap capped at `1280px`; the default gutter is `48px` and contracts to `32px` below `1150px`, then `20px` below `640px`. Desktop sections use generous `112px` vertical padding (reduced to `85px` and `65px` at smaller widths), with grids commonly split into equal or intentionally weighted columns. Hero layouts pair copy with a product visual; reading layouts pair a sticky `220px` sidebar with a `750px` article column before collapsing.
 
-The shared header is `76px` on desktop and `70px` on small screens. The full navigation and explanatory dropdowns remain available above `900px`; at `900px` and below, a keyboard-accessible mobile menu replaces them, with one-column link groups below `640px`. Hero and split grids collapse to one column at `900px`; product selectors become a two-column control at `640px`, and blog cards move from three to two columns below `760px` and one below `420px`.
+The shared header is `76px` on desktop and `70px` on small screens. The full navigation and explanatory dropdowns remain available above `900px`; at `900px` and below, a keyboard-accessible mobile menu replaces them, with one-column link groups below `640px`. Hero and split grids collapse to one column at `900px`; product selectors become a two-column control at `640px`, and blog cards move from three to two columns below `760px` and one below `420px`. Feature scenes use intentional columns on desktop and collapse their browser, connector, and result panels into a readable vertical sequence on narrow phones.
 
 ## Elevation & Depth
 
@@ -197,13 +198,17 @@ Components feel quiet at rest and explicit in state. Repeated primitives are sha
 - **Error / Disabled:** Disabled controls reduce opacity to `.55`; browser-check failure surfaces use the dedicated failure red and pale red wash.
 
 ### Navigation
-- **Style:** Sticky charcoal header, Molar wordmark, four shared groups (Platform, Products, Solutions, Resources), and Hanken 14px summaries. Desktop dropdowns span the header width with a feature panel, two-column links, and a quiet bottom utility row.
-- **Default / Hover / Active:** Summary text brightens on hover/open; the open group receives a coral underline and a dark scrim. Links use tonal charcoal hover fills and coral icon/border emphasis.
+- **Style:** Sticky charcoal header, typography-only Molar. wordmark without a separate mark in either header or footer, four shared groups (Platform, Products, Solutions, Resources), and Hanken 14px summaries. Desktop dropdowns span the header width with a feature panel, two-column links, and a quiet bottom utility row.
+- **Default / Hover / Active:** Mouse hover opens a group after 350ms of intent, with a 220ms exit grace period; click/tap and keyboard activation remain immediate. Summary text brightens on hover/open; the open group receives a coral underline and a dark scrim. Links use tonal charcoal hover fills and coral icon/border emphasis.
 - **Mobile Treatment:** At `900px` and below, the header keeps the wordmark and exposes a 38×36px menu button. The menu scrolls within the viewport, locks body scroll while open, supports Escape and focus return, and changes to one-column links below `640px`.
+
+### Workflow Illustrations
+
+Eight custom compositions explain checkout, identity, collaboration, preview checks, automation, extraction, Swarm, and live evidence through inline SVG geometry and sample browser surfaces. Swarm branches into Guest, Member, and Admin browser views; the page labels it Preview and distinguishes planned checks from observed coverage. These are illustrative scenes, not production screenshots or verified capacity claims. Selected story rows use a neutral fill; extracted records use a pale coral fill.
 
 ### Journey Demo
 
-The signature illustrative demo is a dark browser-like panel with tabbed goals, a three-step flow, inspector evidence, a failure scenario, and a Play/Pause/Replay player. It always carries an “Illustrative demo” or equivalent “Sample walkthrough · No live run” label. Motion advances every `2600ms`, pauses when hidden or offscreen, and disables animation and transitions for `prefers-reduced-motion: reduce`.
+The signature illustrative demo is a dark browser-like panel with tabbed goals, a three-step flow, inspector evidence, a failure scenario, and a Play/Pause/Replay player. It always carries an “Illustrative demo” or equivalent “Sample walkthrough · No live run” label. Visible examples begin autoplay when in view, advance through steps every `2800ms`, and hold the completed example for `3600ms` before cycling to the next example. Browser/Checks/Result view selection, manual steps, and sample inputs pause playback; selecting an example or condition can resume autoplay. Sample project-name edits carry into the result. The neutral browser surface has a 270px minimum height, increasing to 280px on phones; the sample sidebar is hidden below 520px. Browser visibility and intersection state pause background or offscreen examples; reduced motion removes animation and transitions while keeping all content visible. Feature scenes use authored SVG geometry with bounded stroke travel and panel-state entrance motion.
 
 ## Do's and Don'ts
 
