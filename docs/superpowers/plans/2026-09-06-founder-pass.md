@@ -20,8 +20,10 @@ Perception requirements: reduce the opening to one value statement and one main 
 - [x] Recompose QA and platform in `scripts/build-marketing.mjs`; shorten the opening, eliminate repeated sample-story sections, add useful onboarding/next-action context. Update shared assets via `marketing/document.mjs` and `scripts/build-site.mjs`.
 - [x] Build and verify all rendered routes; browser-check hero, service controls, recordings, navigation, signup handoff and responsive page families at 1440, 833 and 390px. Check text/controls, not just overflow.
 - [x] Inspect in one batched round, fix material issues together, run one design detector for this new pass, and seek fresh independent review against the founder-level brief and prior rejected composition. Reviewer must assess persuasion and identity as well as technical defects.
-- [ ] Update DESIGN.md/sidecar from the final built truth, publish the verified revision to existing Pages, compare live files and interactions, and record release evidence with a scoped parent submodule/status commit.
+- [x] Update DESIGN.md/sidecar from the final built truth, publish the verified revision to existing Pages, compare live files and interactions, and record release evidence with a scoped parent submodule/status commit.
 
 Completion requires actual visual and interaction evidence for each improvement. A missing authentic recording remains an explicit gap to resolve, not a reason to relabel an illustration as proof.
 
 Fresh finish review: initial `fix` for mobile caption spacing, recording poster loading and stale design documentation; all three resolved. Final verdict `ship` covers those scored fixes. Root independently verified all route widths, interactions and controlled runtime evidence.
+
+Published runtime: `b111e68` at Pages deployment `6b7968d9`. All 120 canonical pages/runtime assets match the release at molar.it; live browser controls, video error/retry and all 94 routes at 390/833/1440px pass. Parent evidence: `docs/evidence/molar-marketing-founder-2026-09-06/`.
