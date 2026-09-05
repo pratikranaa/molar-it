@@ -45,7 +45,7 @@ python3 scripts/check-marketing.py
 npx wrangler pages deploy .site-dist --project-name molar-it --branch main
 ```
 
-`.site-dist` contains an explicit allowlist of rendered HTML and public assets. Wrangler separately compiles the two existing API functions from the root `functions/` directory. Never deploy the repository root: it contains source, review files, configuration and large local film outputs. Verify the resulting deployment with `python3 scripts/check-live-marketing.py --deployment https://DEPLOYMENT.molar-it.pages.dev --output /tmp/molar-live-check.json`. This compares every canonical page and runtime asset, accounting only for Cloudflare’s observed email obfuscation.
+`.site-dist` contains an explicit allowlist of rendered HTML and public assets. Wrangler separately compiles the two existing API functions from the root `functions/` directory. Never deploy the repository root: it contains source, review files, configuration and large local film outputs. Verify the resulting deployment with `python3 scripts/check-live-marketing.py --deployment https://DEPLOYMENT.molar-it.pages.dev --output /tmp/molar-live-check.json`. This compares every canonical page and runtime asset, accounting only for Cloudflare’s observed email obfuscation, its exact managed robots prefix (reported separately), and same-path trailing-slash redirects.
 
 The apex already points to the Pages project; this rebuild does not require DNS changes or another project.
 

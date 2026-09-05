@@ -34,6 +34,7 @@ def normalize_cloudflare(body):
     text = re.sub(r'/cdn-cgi/l/email-protection#([a-fA-F0-9]+)', lambda m: 'mailto:' + email_decode(m[1]), text)
     text = re.sub(r'<span class="__cf_email__" data-cfemail="([a-fA-F0-9]+)">\[email&#160;protected\]</span>', lambda m: email_decode(m[1]), text)
     text = text.replace('<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>', '')
+    text = re.sub(r'<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="([a-fA-F0-9]+)">\[email&#160;protected\]</a>', lambda m: email_decode(m[1]), text)
     return text.encode()
 
 files = {}
@@ -51,21 +52,31 @@ for path in stage.rglob('*'):
 def check(item):
     route, path = item
     url = args.base.rstrip('/') + route
-    result = subprocess.run(['curl', '-sS', '--max-time', '25', '--retry', '1', '-w', '\n%{http_code}', url], capture_output=True)
-    body, _, status = result.stdout.rpartition(b'\n')
+    result = subprocess.run(['curl', '-sS', '-L', '--max-redirs', '3', '--max-time', '25', '--retry', '1', '-w', '\n%{http_code}\n%{url_effective}', url], capture_output=True)
+    response, _, effective = result.stdout.rpartition(b'\n')
+    body, _, status = response.rpartition(b'\n')
     expected = (stage / path).read_bytes()
     normalized = normalize_cloudflare(body) if path.endswith('.html') and status == b'200' else body
+    edge_policy = None
+    if path == 'robots.txt' and body.endswith(expected):
+        prefix = body[:-len(expected)]
+        # Exact managed prefix observed at release verification; report its policy separately.
+        if digest(prefix) == '842b34303164ead41bccb7c05d1707422e98d108753b397b6dcc19683eb02101':
+            normalized = expected
+            edge_policy = prefix.decode()
+    same_target = effective.decode().rstrip('/') == url.rstrip('/')
     return {'route': route, 'file': path, 'http': status.decode(), 'expected_sha256': digest(expected),
             'received_sha256': digest(body), 'normalized_sha256': digest(normalized),
-            'cloudflare_email_rewrite': body != normalized,
-            'matches_release': result.returncode == 0 and status == b'200' and normalized == expected}
+            'cloudflare_email_rewrite': path.endswith('.html') and body != normalized,
+            'effective_url': effective.decode(), 'cloudflare_managed_robots': edge_policy,
+            'matches_release': result.returncode == 0 and status == b'200' and same_target and normalized == expected}
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
     checks = list(pool.map(check, sorted(files.items())))
 report = {'checked_at': datetime.now(timezone.utc).isoformat(),
           'source_revision': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root).decode().strip(),
           'deployment_url': args.deployment, 'base': args.base,
-          'normalization': 'Only observed Cloudflare email obfuscation href/span replacements and its exact injected decoder script.',
+          'normalization': 'Only observed Cloudflare email obfuscation href/span/anchor replacements and decoder script, plus the exact hash-pinned managed robots prefix (retained verbatim per check). Same-path trailing-slash redirects allowed.',
           'checks': checks}
 Path(args.output).write_text(json.dumps(report, indent=2) + '\n')
 failed = [row for row in checks if not row['matches_release']]
