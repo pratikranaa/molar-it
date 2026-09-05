@@ -43,7 +43,12 @@
       return "Check the URL and outcome, then try again.";
     }
     if (status === 429 || code === "rate_limited") {
-      return "Too many proof attempts right now. Wait a moment, then try again.";
+      const retrySeconds = Number(body?.retryAfter);
+      if (Number.isFinite(retrySeconds) && retrySeconds > 0) {
+        const minutes = Math.ceil(retrySeconds / 60);
+        return `Proof limit reached. Try again in ${minutes} ${minutes === 1 ? "minute" : "minutes"}.`;
+      }
+      return "Proof limit reached. Please try again later.";
     }
     if (status >= 500 || code === "instant_proof_unavailable") {
       return "Instant Proof is temporarily unavailable. Try again in a moment.";
@@ -398,7 +403,6 @@
           response: candidate,
           body: await readJson(candidate),
         }));
-        if (controller.signal.aborted) return;
         if (controller.signal.aborted) return;
         if (!response.ok) {
           setState("failed");

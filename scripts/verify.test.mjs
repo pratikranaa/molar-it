@@ -383,3 +383,15 @@ test("proxy rejects credentialed or query-bearing control-plane bases", async ()
     globalThis.fetch = originalFetch;
   }
 });
+
+// Regression: the live service returned an hour-long wait, not a momentary outage.
+test("shows the service retry window when a new proof is rate limited", async () => {
+  const page = currentPage;
+  await page.route("**/api/instant-proof", (route) => route.fulfill({
+    status: 429, contentType: "application/json",
+    body: JSON.stringify({ error: "Too Many Requests", retryAfter: 3600 }),
+  }));
+  await page.getByRole("button", { name: "Run proof", exact: true }).click();
+  await page.getByRole("alert").waitFor();
+  assert.match(await page.getByRole("alert").innerText(), /try again in 60 minutes/i);
+});
