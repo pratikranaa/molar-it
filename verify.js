@@ -110,7 +110,7 @@
       if (Number.isInteger(value) && value >= 0 && value <= 1000) return value;
     }
     // Cartographer reports `steps_used` as a count while screenshot paths use
-    // the zero-based step index, so the last available frame is count - 1.
+    // zero-based step indices. A final assertion or done step may have no frame.
     for (const value of [body?.steps_used, nested?.steps_used]) {
       if (Number.isInteger(value) && value > 0 && value <= 1001) return value - 1;
     }
@@ -198,7 +198,7 @@
               frameObjectUrl.current = objectUrl;
               setSharedFrameUrl(objectUrl);
             } else if (frame.status === 401 || frame.status === 404) {
-              setSharedError("The shared proof is available, but its frame has expired.");
+              setSharedError("The shared proof is available, but its frame is unavailable.");
             }
           }
           if (!controller.signal.aborted) setSharedState("ready");
@@ -267,18 +267,18 @@
         timer = setTimeout(loadLatest, Math.min(delay, remaining));
       };
 
-      const loadFrame = async (step) => {
+      const loadFrame = async (step, maxWaitMs = 5000) => {
         if (!Number.isInteger(step) || step < 0 || step > 1000 || controller.signal.aborted) return;
         try {
           const { response: frame, blob } = await fetchBounded(`/api/instant-proof/${proof.proof_id}/frame?step=${step}`, {
             headers: authorization,
             credentials: "include",
             cache: "no-store",
-          }, controller.signal, Math.min(5000, Math.max(1000, deadline - Date.now())), async (candidate) => ({
+          }, controller.signal, Math.min(maxWaitMs, Math.max(1000, deadline - Date.now())), async (candidate) => ({
             response: candidate,
             blob: candidate.ok ? await candidate.blob() : null,
           }));
-          if (!frame.ok) return;
+          if (!frame.ok) return frame.status;
           if (controller.signal.aborted) return;
           const objectUrl = URL.createObjectURL(blob);
           if (frameObjectUrl.current) URL.revokeObjectURL(frameObjectUrl.current);
@@ -286,6 +286,7 @@
           latestFrameStepRef.current = step;
           nextFrameStepRef.current = step + 1;
           setFrameUrl(objectUrl);
+          return frame.status;
         } catch {
           /* The terminal verdict remains useful if the last frame is unavailable. */
         }
@@ -346,7 +347,17 @@
           const step = frameStepFrom(body);
           // The status contract exposes a count only after completion. While
           // running, read each captured step through the existing frame API.
-          await loadFrame(step === null ? nextFrameStepRef.current : step);
+          let frameStatus = await loadFrame(step === null ? nextFrameStepRef.current : step);
+          // Instant Proof permits 20 steps. Find a captured earlier step when
+          // the final assertion/done step has none; bound both requests and time.
+          if (TERMINAL_STATUSES.has(body.status) && frameStatus === 404 && step !== null) {
+            const frameDeadline = Date.now() + 3000;
+            for (let candidate = step - 1; candidate >= Math.max(0, step - 19); candidate -= 1) {
+              if (controller.signal.aborted || Date.now() >= frameDeadline) break;
+              frameStatus = await loadFrame(candidate, frameDeadline - Date.now());
+              if (frameStatus !== 404) break;
+            }
+          }
           if (controller.signal.aborted) return;
           if (TERMINAL_STATUSES.has(body.status)) {
             setResult(body);
@@ -637,7 +648,7 @@
           React.createElement(
             "div",
             { className: "browser-bar" },
-            React.createElement("code", null, state === "idle" ? "Waiting for an authorized target" : url),
+            React.createElement("code", null, state === "idle" ? "Add a public URL" : url),
             React.createElement("b", null, state === "running" ? "LIVE" : state.toUpperCase()),
           ),
           React.createElement(
@@ -648,22 +659,24 @@
               : React.createElement(
                   "div",
                   null,
-                  React.createElement("span", null, state === "running" ? "Browser session active" : "No browser session"),
+                  React.createElement("span", null, state === "idle" ? "Browser preview" : state === "running" ? "Waiting for a browser frame" : "Preview unavailable"),
                   React.createElement(
                     "strong",
                     null,
                     state === "idle"
-                      ? "Your target appears here."
+                      ? "Your website appears here."
                       : state === "running"
-                        ? "Following the page, frame by frame."
+                        ? "The check is running."
                         : verdict,
                   ),
                   React.createElement(
                     "small",
                     null,
                     state === "running"
-                      ? "Evidence is captured as the browser settles."
-                      : "Nothing is simulated in this viewport.",
+                      ? "Captured browser frames appear here when available."
+                      : state === "idle"
+                        ? "Enter a public URL and an outcome to check."
+                        : "You can still review and save the result.",
                   ),
                 ),
           ),

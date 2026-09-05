@@ -395,3 +395,52 @@ test("shows the service retry window when a new proof is rate limited", async ()
   await page.getByRole("alert").waitFor();
   assert.match(await page.getByRole("alert").innerText(), /try again in 60 minutes/i);
 });
+
+
+test("a missing preview keeps the completed result without denying the browser run", async () => {
+  const page = currentPage;
+  await page.route("**/api/instant-proof**", async (route) => {
+    if (route.request().url().includes("/frame")) return route.fulfill({ status: 404 });
+    const body = route.request().method() === "POST" ? proofStart() : statusBody("completed");
+    return route.fulfill({ status: route.request().method() === "POST" ? 202 : 200, contentType: "application/json", body: JSON.stringify(body) });
+  });
+  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Share proof" }).waitFor();
+  assert.match(await page.locator(".frame").innerText(), /preview unavailable/i);
+  assert.doesNotMatch(await page.locator(".frame").innerText(), /no browser session|simulated/i);
+  assert.match(await page.locator(".verdict").innerText(), /Verified/);
+  assert.equal(await page.getByRole("button", { name: "Keep this proof" }).count(), 1);
+});
+
+test("a shared proof does not call an absent frame expired", async () => {
+  const page = currentPage;
+  await page.route("**/api/instant-proof/shared**", async (route) => {
+    if (route.request().url().includes("/frame")) return route.fulfill({ status: 404 });
+    return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ...statusBody("completed"), target_url: "https://example.com", claim: "The homepage has a heading", expires_at: new Date(Date.now() + 60_000).toISOString(), links: { frame: "/api/v1/instant-proof/shared/frame?step=0" } }) });
+  });
+  await page.goto(`${baseUrl}/verify.html#${SHARE_TOKEN}`);
+  await page.getByRole("alert").waitFor();
+  assert.match(await page.getByRole("alert").innerText(), /frame is unavailable/i);
+  assert.doesNotMatch(await page.getByRole("alert").innerText(), /expired/i);
+  assert.match(await page.locator(".verdict").innerText(), /Verified/);
+});
+
+
+test("finds the last captured frame when the final browser steps have no screenshot", async () => {
+  const page = currentPage;
+  const requested = [];
+  await page.route("**/api/instant-proof**", async (route) => {
+    const url = new URL(route.request().url());
+    if (url.pathname.endsWith("/frame")) {
+      const step = Number(url.searchParams.get("step")); requested.push(step);
+      if (step !== 1) return route.fulfill({ status: 404 });
+      return route.fulfill({ status: 200, contentType: "image/png", body: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=", "base64") });
+    }
+    const body = route.request().method() === "POST" ? proofStart() : statusBody("completed", { result: { pass: true, steps_used: 4, rationale: "The heading was observed." } });
+    return route.fulfill({ status: route.request().method() === "POST" ? 202 : 200, contentType: "application/json", body: JSON.stringify(body) });
+  });
+  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Share proof" }).waitFor();
+  assert.equal(await page.getByAltText("Latest frame from the proof browser").count(), 1);
+  assert.deepEqual(requested, [3, 2, 1]);
+});
