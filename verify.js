@@ -362,7 +362,7 @@
           if (TERMINAL_STATUSES.has(body.status)) {
             setResult(body);
             setTerminal(true);
-            setState(body.status === "completed" ? "completed" : "failed");
+            setState(body.status === "completed" || (body.status === "claimed" && body.result?.pass === true) ? "completed" : "failed");
             return;
           }
         } catch {

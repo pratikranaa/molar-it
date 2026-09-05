@@ -444,3 +444,17 @@ test("finds the last captured frame when the final browser steps have no screens
   assert.equal(await page.getByAltText("Latest frame from the proof browser").count(), 1);
   assert.deepEqual(requested, [3, 2, 1]);
 });
+
+
+test("a verified proof stays completed after it has been claimed", async () => {
+  const page = currentPage;
+  await page.route("**/api/instant-proof**", async (route) => {
+    if (route.request().url().includes("/frame")) return route.fulfill({ status: 404 });
+    const body = route.request().method() === "POST" ? proofStart() : statusBody("claimed", { result: { pass: true, rationale: "The heading was observed." } });
+    return route.fulfill({ status: route.request().method() === "POST" ? 202 : 200, contentType: "application/json", body: JSON.stringify(body) });
+  });
+  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Share proof" }).waitFor();
+  assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "completed");
+  assert.match(await page.locator(".verdict").innerText(), /Verified/);
+});
