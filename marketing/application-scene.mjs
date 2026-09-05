@@ -1,0 +1,23 @@
+import {icon} from './components.mjs';
+
+export function applicationScene(mode='qa') {
+ const platform=mode==='platform';
+ return `<div class="app-scene" id="interactive-demo" data-app-scene="${mode}" data-frame="0" data-outcome="working">
+  <div class="scene-heading"><strong>${platform?'Find the latest invoice. Download it.':'Buy a plan. Check that it actually works.'}</strong><span>Example</span></div>
+  <div class="application-stage">
+   <svg class="application-tracks" viewBox="0 0 720 470" fill="none" aria-hidden="true"><path class="track-base" d="M568 147H525Q502 147 502 174V241Q502 270 470 270H188Q155 270 155 300V370Q155 414 200 414H520Q565 414 565 370V292Q565 252 605 252H676"/><path class="track-active track-first" d="M568 147H525Q502 147 502 174V241Q502 270 470 270H188Q155 270 155 300V335"/><path class="track-active track-second" d="M155 381Q155 414 200 414H520Q565 414 565 381"/><path class="track-active track-return" d="M565 332V292Q565 252 535 252H490"/><circle class="track-end" cx="676" cy="252" r="5"/><circle class="track-origin" cx="567" cy="147" r="7"/></svg>
+   <div class="scene-browser"><div class="scene-browser-top"><span class="scene-window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Northstar / ${platform?'Invoices':'Billing'}</span>${icon('lock')}</div>
+    <div class="scene-browser-content"><div class="scene-workspace"><span class="northstar-symbol" aria-hidden="true">${icon('layers')}</span><div><strong>Northstar workspace</strong><span>${platform?'Your billing history':'Manage your subscription'}</span></div></div>
+    ${platform?`<div class="scene-invoices"><div data-invoice-row="latest"><span>September invoice<small>Sep 01 · PDF document</small></span><span data-invoice-status>Available ${icon('file')}</span></div><div><span>August invoice<small>Aug 01 · PDF document</small></span><span>Paid ${icon('check')}</span></div></div><button class="scene-app-action" data-scene-advance>Find September invoice ${icon('arrow')}</button>`:`<div class="scene-plan"><div><span>Current plan</span><strong data-scene-plan>Free</strong></div><span class="scene-plan-pill" data-scene-access>Basic access</span></div><button class="scene-app-action" data-scene-advance>Upgrade workspace ${icon('arrow')}</button>`}
+    </div></div>
+   <div class="scene-agent"><span>${icon('cursor')}</span><strong>Molar</strong><small data-scene-agent>${platform?'Find invoice':'Open checkout'}</small></div>
+   <div class="scene-service scene-service-first"><span class="scene-service-icon">${icon(platform?'file':'card')}</span><div><span>${platform?'Invoice':'Test payment'}</span><strong data-scene-first>${platform?'Looking for September':'Ready to charge'}</strong></div><i data-first-indicator></i></div>
+   <div class="scene-service scene-service-second"><span class="scene-service-icon">${icon(platform?'layers':'bolt')}</span><div><span>${platform?'Download':'Payment webhook'}</span><strong data-scene-second>${platform?'Waiting for invoice':'Waiting for payment'}</strong></div><i data-second-indicator></i></div>
+   <div class="scene-float-note">${icon('lock')} ${platform?'Your account. Your files.':'Separate test service state.'}</div>
+  </div>
+  <div class="scene-result"><span class="scene-result-symbol" data-result-icon>${icon('cursor')}</span><div><strong data-scene-result>${platform?'Molar opens the billing page.':'Molar starts where your customer does.'}</strong><p data-scene-description>${platform?'Find the document that matches your request.':'A browser, a test account, and a real user goal.'}</p></div></div>
+  <div class="scene-controls">${platform?`<span class="scene-task-label">Browser → file → result</span>`:`<button class="scene-condition" data-scene-condition aria-pressed="false"><span class="scene-switch" aria-hidden="true"></span>Delay the webhook</button>`}<button class="scene-play" data-scene-play aria-label="Pause example">${icon('pause')}<span>Pause</span></button><button class="scene-replay" data-scene-replay aria-label="Replay example">${icon('branch')}</button></div>
+  <details class="scene-evidence"><summary>Inspect the evidence ${icon('arrow')}</summary><div><dl><div><dt>${platform?'Request':'Payment'}</dt><dd data-evidence-first>Not checked yet</dd></div><div><dt>${platform?'File':'Webhook'}</dt><dd data-evidence-second>Not checked yet</dd></div><div><dt>${platform?'Outcome':'Account access'}</dt><dd data-evidence-outcome>Not checked yet</dd></div></dl><a href="/products/trace">See how Molar explains a run ${icon('arrow')}</a></div></details>
+  <span class="sr-only" role="status" data-scene-announcement></span>
+ </div>`;
+}

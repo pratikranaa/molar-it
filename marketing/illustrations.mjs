@@ -1,23 +1,138 @@
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const A=()=>'<svg class="fv-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17m-6-6 6 6-6 6"/></svg>';
-const C=()=>'<svg class="fv-svg fv-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>';
-const glyph=(name)=>`<svg class="fv-svg" viewBox="0 0 24 24" aria-hidden="true">${{mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/>',pointer:'<path d="m5 3 14 10-7 1-4 7Z"/>',search:'<circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/>',download:'<path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/>',branch:'<circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="7" r="2"/><path d="M6 7v10M6 13h5a7 7 0 0 0 7-4"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>'}[name]}</svg>`;
-const windowDots='<span class="fv-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>';
-const statusDot='<i class="fv-status-dot" aria-hidden="true"></i>';
-const cap=(t,n='Illustrative workflow')=>`<figcaption><span>${esc(t)}</span><small>${n}</small></figcaption>`;
-const fig=(k,t,b,c)=>`<figure class="feature-visual fv-${k}${c?' is-compact':''}" data-motion-scene aria-label="${esc(t)}">${cap(t)}${b}</figure>`;
-const scene=(k,body,c)=>fig(k,{checkout:'Checkout journey',identity:'Identity journey',collaboration:'Workspace collaboration',preview:'Preview check',automation:'Browser task',data:'Structured extraction',swarm:'Agent coverage',live:'Live evidence'}[k]||'Checkout journey',`<div class="fv-stage fv-${k}-stage">${body}</div>`,c);
-function checkout(){return `<div class="fv-trip"><div class="fv-browser" data-motion-item style="--i:0"><div class="fv-window">${windowDots} <span>checkout.acme.test</span></div><div class="fv-card"><em>Payment</em><strong>Acme Pro plan</strong><code>4242 4242 4242 4242</code><small>08 / 28 · Test card</small></div></div><div class="fv-join">${A()}</div><div class="fv-webhook" data-motion-item style="--i:1"><em>Signed callback</em><strong>Payment webhook</strong><code>POST /webhooks/payment</code><span>${C()} signature verified</span></div><div class="fv-join">${A()}</div><div class="fv-receipt" data-motion-item style="--i:2"><b>${C()}</b><div><em>Order #1042</em><strong>Confirmed</strong><small>Receipt → test inbox</small></div></div></div><svg class="fv-lines" viewBox="0 0 900 220" preserveAspectRatio="none" aria-hidden="true"><path d="M245 110C285 48 316 48 355 110M545 110C585 172 620 172 655 110"/><path class="fv-flow" pathLength="1" d="M245 110C285 48 316 48 355 110M545 110C585 172 620 172 655 110"/></svg>`}
-function identity(){return `<div class="fv-trip"><div class="fv-mini-browser" data-motion-item style="--i:0"><div class="fv-window">${windowDots} <span>acme.test / sign up</span></div><div class="fv-form"><em>Create account</em><strong>Join your workspace</strong><label>name@example.com</label><label>••••••••</label><button>Continue ${A()}</button></div></div><div class="fv-join">${A()}</div><div class="fv-envelope" data-motion-item style="--i:1"><span class="fv-mail">${glyph('mail')}</span><em>Acme · test inbox</em><strong>Verify your email</strong><small>Your code is ready to use.</small><div class="fv-otp">${'482190'.split('').map(x=>`<b>${x}</b>`).join('')}</div></div><div class="fv-join">${A()}</div><div class="fv-session" data-motion-item style="--i:2"><b>${C()}</b><em>Session</em><strong>Workspace ready</strong><small>Member identity verified</small><code>session_7f24</code></div></div><svg class="fv-lines" viewBox="0 0 900 220" preserveAspectRatio="none" aria-hidden="true"><path d="M245 110H355M545 110H655"/><path class="fv-flow" pathLength="1" d="M245 110H355M545 110H655"/></svg>`}
-function collaboration(){return `<svg class="fv-lines" viewBox="0 0 900 230" preserveAspectRatio="none" aria-hidden="true"><path d="M425 105C465 57 495 57 535 105"/><path class="fv-flow" pathLength="1" d="M425 105C465 57 495 57 535 105"/></svg><div class="fv-collab"><article class="fv-pane" data-motion-item style="--i:0"><header>Owner view <b>Acme workspace</b></header><div><em>People</em><strong>Invite a teammate</strong><p>${statusDot} Priya · Owner <i>online</i></p><label>sam@example.com <button>Invite</button></label></div></article><div class="fv-invite">${A()}<small>scoped invite</small></div><article class="fv-pane" data-motion-item style="--i:1"><header>Member view <b>Sam's workspace</b></header><div><em>Access granted</em><strong>Project dashboard</strong><p class="fv-permission">${C()} Projects <small>read / write</small></p><p class="fv-permission muted">${C()} Billing <small>no access</small></p></div></article></div><div class="fv-access" data-motion-item style="--i:2"><em>Observed result</em><strong>Member access scoped correctly</strong><small>Invite accepted · state matches policy</small></div>`}
-function preview(){return `<div class="fv-split"><article class="fv-pr" data-motion-item style="--i:0"><header>${glyph('branch')} <strong>Update checkout confirmation</strong><small>Pull request #48</small></header><pre><span>- status: pending</span>\n<span>+ status: confirmed</span>\n<span>+ receipt: attached</span></pre><small>commit 8e4c · 3 files changed</small></article><div class="fv-join">${A()}<small>deploy</small></div><article class="fv-deploy" data-motion-item style="--i:1"><em>Preview environment</em><code>preview.acme.test</code>${[['Signup and verification','Passed'],['Invite a teammate','Passed'],['Payment confirmation','Failed']].map((x,i)=>`<p class="${i===2?'fail':''}">${i===2?glyph('close'):C()} <span>${x[0]}</span><b>${x[1]}</b></p>`).join('')}</article></div><div class="fv-foot" data-motion-item style="--i:2">${statusDot} 3 journeys checked <span>Trace attached to the failed check</span></div><svg class="fv-lines" viewBox="0 0 900 220" preserveAspectRatio="none" aria-hidden="true"><path class="fv-flow" pathLength="1" d="M390 110H510"/></svg>`}
-function automation(){return `<svg class="fv-lines" viewBox="0 0 900 230" preserveAspectRatio="none" aria-hidden="true"><path d="M245 115C300 50 350 50 410 115S510 180 565 115S650 50 705 115"/><path class="fv-flow" pathLength="1" d="M245 115C300 50 350 50 410 115S510 180 565 115S650 50 705 115"/></svg><div class="fv-split"><article class="fv-task" data-motion-item style="--i:0"><div class="fv-window">${windowDots} <span>billing.acme.test</span></div><div><em>Browser task</em><strong>Find August invoice</strong><label>${glyph('search')} Search invoices</label><p>Aug 2026 <b>Paid</b><button>Open</button></p></div></article><div class="fv-pointer" data-motion-item style="--i:1">${glyph('pointer')}</div><article class="fv-document" data-motion-item style="--i:2"><em>Document</em><strong>invoice_august_2026.pdf</strong><hr><hr><hr><small>${glyph('download')} Downloaded</small></article></div>`}
-function data(){return `<div class="fv-split"><article class="fv-source" data-motion-item style="--i:0"><header>Plans <small>demo.acme.test/plans</small></header>${[['Starter','$9'],['Pro','$24'],['Business','$79']].map((x,i)=>`<p class="${i===1?'selected':''}"><span>${x[0]}</span><b>${x[1]}</b><i>monthly</i></p>`).join('')}<small>3 visible records</small></article><div class="fv-join">${A()}<small>extract</small></div><pre class="fv-json" data-motion-item style="--i:1">{\n  <b>"plan"</b>: <i>"Pro"</i>,\n  <b>"amount"</b>: <i>24</i>,\n  <b>"currency"</b>: <i>"USD"</i>,\n  <b>"interval"</b>: <i>"month"</i>\n}</pre></div><div class="fv-foot fv-success" data-motion-item style="--i:2">${C()} Structured result · source URL retained</div>`}
-function swarm(){return `<div class="fv-persona-plan"><strong>One workspace. Different permissions.</strong><small>Example test plan</small></div><svg class="fv-branches" viewBox="0 0 900 60" preserveAspectRatio="none" aria-hidden="true"><path d="M450 0V20M150 60V20H750V60M450 20V60"/><path class="fv-flow" pathLength="1" d="M450 0V20M150 60V20H750V60M450 20V60"/></svg><div class="fv-persona-browsers">${[
- ['Guest','Public access','Browse plans','<div class="fv-role-plan"><b>Starter</b><span>$12 / month</span></div><div class="fv-role-plan"><b>Pro</b><span>$24 / month</span></div>','Private projects stay hidden'],
- ['Member','Project access','Acme workspace','<div class="fv-role-project"><span>Website launch</span><small>Can edit</small></div><div class="fv-role-project"><span>API gateway</span><small>Can edit</small></div>','Billing settings stay restricted'],
- ['Admin','Workspace access','People & permissions','<div class="fv-role-person"><b>PR</b><span>Priya Rao</span><small>Owner</small></div><div class="fv-role-person"><b>SC</b><span>Sam Chen</span><small>Member</small></div>','Role changes apply correctly']
-].map((x,i)=>`<article class="fv-persona-browser" data-motion-item style="--i:${i}"><header><span>${x[0]}</span><small>${x[1]}</small></header><div class="fv-window"><i></i><i></i><i></i><span>acme.test</span></div><div class="fv-role-content"><strong>${x[2]}</strong>${x[3]}</div><footer>${C()}<span>${x[4]}</span></footer></article>`).join('')}</div><div class="fv-persona-note">Three example roles · actual coverage depends on your configured test plan.</div>`}
-function live(){return `<div class="fv-live"><article class="fv-viewport" data-motion-item style="--i:0"><div class="fv-window">${windowDots} <span>checkout.acme.test / confirmation</span></div><div><nav><b>Acme</b><span>Plans</span><span>Workspace</span><span>Billing</span></nav><section><b>${C()}</b><strong>Order confirmed</strong><small>Receipt sent to test inbox</small><code>payment_intent.succeeded</code></section>${glyph('pointer')}</div></article><article class="fv-timeline" data-motion-item style="--i:1"><header>Run trace <b>00:08—00:10</b></header>${[['Open checkout','Screenshot captured','200'],['Confirm payment','POST /webhooks/payment','200'],['Receive receipt','Test inbox matched','ready']].map(x=>`<p><b>${C()}</b><span><strong>${x[0]}</strong><small>${x[1]}</small></span><code>${x[2]}</code></p>`).join('')}<small>${statusDot} Network and console evidence attached</small></article></div>`}
-const render={checkout,identity,collaboration,preview,automation,data,swarm,live};
-export function featureVisual(kind,{compact=false}={}){const k=render[kind]?kind:'checkout';return scene(k,render[k](),compact)}
+const esc = value => String(value ?? '').replace(/[&<>"']/g, character => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+}[character]));
+
+const icon = (name, className = '') => {
+  const paths = {
+    arrow: '<path d="M3 12h17m-6-6 6 6-6 6"/>',
+    check: '<path d="m5 12 4 4L19 6"/>',
+    close: '<path d="m6 6 12 12M18 6 6 18"/>',
+    mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/>',
+    pointer: '<path d="m5 3 14 10-7 1-4 7Z"/>',
+    search: '<circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/>',
+    download: '<path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/>',
+    branch: '<circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="7" r="2"/><path d="M6 7v10M6 13h5a7 7 0 0 0 7-4"/>',
+    trace: '<path d="M3 12h4l3-8 4 16 3-8h4"/>',
+    lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>'
+  };
+  return `<svg class="fv-icon ${className}" viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.arrow}</svg>`;
+};
+
+const dots = '<span class="fv-dots" aria-hidden="true"><i></i><i></i><i></i></span>';
+const check = `<span class="fv-state fv-state-good">${icon('check')}</span>`;
+const fail = `<span class="fv-state fv-state-bad">${icon('close')}</span>`;
+const cap = title => `<figcaption><strong>${esc(title)}</strong><span class="fv-example">Example</span></figcaption>`;
+const fig = (kind, title, body, compact) => `<figure class="feature-visual fv-${kind}${compact ? ' is-compact' : ''}" data-motion-scene aria-label="${esc(title)}">${cap(title)}${body}</figure>`;
+const stage = (kind, body) => `<div class="fv-stage fv-${kind}-stage">${body}</div>`;
+const windowBar = label => `<div class="fv-window">${dots}<span>${esc(label)}</span></div>`;
+const pathSvg = (paths, className = '') => `<svg class="fv-geometry ${className}" viewBox="0 0 1000 280" preserveAspectRatio="none" aria-hidden="true"><g>${paths.map(path => `<path class="${path.flow ? 'fv-flow' : ''}" d="${path.d}"${path.pathLength ? ` pathLength="${path.pathLength}"` : ''}/>`).join('')}</g></svg>`;
+
+function checkout() {
+  return fig('checkout', 'Checkout journey', stage('checkout', `${pathSvg([
+    { d: 'M250 143C302 54 345 54 398 143' },
+    { d: 'M602 143C655 232 700 232 750 143' },
+    { d: 'M250 143C302 54 345 54 398 143', flow: true, pathLength: 1 },
+    { d: 'M602 143C655 232 700 232 750 143', flow: true, pathLength: 1 }
+  ])}<div class="fv-path fv-checkout-path">
+    <article class="fv-node fv-browser-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Browser</span><span class="fv-node-mark">01</span></header><div class="fv-node-content">${windowBar('checkout.northstar.test')}<strong>Northstar Pro plan</strong><span class="fv-price">$24 <small>/ month</small></span><a class="fv-scene-link" href="/solutions/checkout-testing">Explore checkout tests ${icon('arrow')}</a></div></article>
+    <article class="fv-node fv-service-node" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Payment provider</span><span class="fv-node-mark">02</span></header><div class="fv-node-content"><div class="fv-event-icon">${icon('trace')}</div><strong>Payment accepted</strong><code>payment_intent.succeeded</code><span class="fv-result">${check} state changed</span></div></article>
+    <article class="fv-node fv-result-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Your application</span><span class="fv-node-mark">03</span></header><div class="fv-node-content"><div class="fv-event-icon">${check}</div><strong>Order confirmed</strong><span>Receipt sent to test inbox</span><code>order_1042</code></div></article>
+  </div><div class="fv-branch-note" data-motion-item style="--i:3"><span>${icon('mail')}</span><strong>Signed callback</strong><span>Webhook received and verified</span></div></div>`));
+}
+
+function identity() {
+  return fig('identity', 'Identity journey', stage('identity', `${pathSvg([
+    { d: 'M250 142H395' },
+    { d: 'M605 142H750' },
+    { d: 'M500 58V112' },
+    { d: 'M500 58V112', flow: true, pathLength: 1 },
+    { d: 'M250 142H395', flow: true, pathLength: 1 },
+    { d: 'M605 142H750', flow: true, pathLength: 1 }
+  ])}<div class="fv-path fv-identity-path">
+    <article class="fv-node fv-browser-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Browser</span><span class="fv-node-mark">01</span></header><div class="fv-node-content">${windowBar('northstar.test / sign up')}<strong>Create account</strong><label>name@example.com</label><label>••••••••</label><a class="fv-scene-link" href="/solutions/authentication-testing">Test sign-in ${icon('arrow')}</a></div></article>
+    <article class="fv-node fv-service-node fv-email-node" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Test inbox</span><span class="fv-node-mark">02</span></header><div class="fv-node-content"><div class="fv-event-icon">${icon('mail')}</div><strong>Verification code</strong><span>Inbox message matched</span><div class="fv-otp" aria-label="Example verification code"><b>4</b><b>8</b><b>2</b><b>1</b><b>9</b><b>0</b></div></div></article>
+    <article class="fv-node fv-result-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Application session</span><span class="fv-node-mark">03</span></header><div class="fv-node-content"><div class="fv-event-icon">${check}</div><strong>Workspace ready</strong><span>Member identity verified</span><code>session_7f24</code></div></article>
+  </div><div class="fv-identity-callout" data-motion-item style="--i:3"><span>${icon('lock')}</span><strong>Verified email</strong><span>Only a verified identity opens the workspace.</span></div></div>`));
+}
+
+function collaboration() {
+  return fig('collaboration', 'Workspace collaboration', stage('collaboration', `${pathSvg([
+    { d: 'M225 134C310 38 395 38 480 134' },
+    { d: 'M520 134C605 230 690 230 775 134' },
+    { d: 'M225 134C310 38 395 38 480 134', flow: true, pathLength: 1 },
+    { d: 'M520 134C605 230 690 230 775 134', flow: true, pathLength: 1 }
+  ])}<div class="fv-role-map">
+    <article class="fv-role-pane" data-motion-item style="--i:0"><header><span>Owner view</span><strong>Priya · owner</strong></header><div class="fv-role-body"><span class="fv-node-kicker">Invite a teammate</span><strong>sam@example.com</strong><a class="fv-scene-link" href="/solutions/team-workflows">Test invitations ${icon('arrow')}</a><p class="fv-role-state">${check} Can manage members</p></div></article>
+    <div class="fv-invite-path" data-motion-item style="--i:1"><span>${icon('mail')}</span><strong>Invitation</strong><small>Member access</small></div>
+    <article class="fv-role-pane" data-motion-item style="--i:2"><header><span>Member view</span><strong>Sam · member</strong></header><div class="fv-role-body"><span class="fv-node-kicker">After accepting</span><strong>Project dashboard</strong><p class="fv-role-state">${check} Projects <small>read / write</small></p><p class="fv-role-state is-muted">${icon('lock')} Billing <small>no access</small></p></div></article>
+  </div><div class="fv-observation" data-motion-item style="--i:3">${check}<strong>The right permissions</strong><span>Invitation and member access checked</span></div></div>`));
+}
+
+function preview() {
+  return fig('preview', 'Preview check', stage('preview', `${pathSvg([
+    { d: 'M260 140H380' },
+    { d: 'M620 140H740' },
+    { d: 'M260 140H380', flow: true, pathLength: 1 },
+    { d: 'M620 140H740', flow: true, pathLength: 1 }
+  ])}<div class="fv-release-path">
+    <article class="fv-release-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Pull request</span><span class="fv-node-mark">01</span></header><div class="fv-release-body"><div class="fv-pr-title">${icon('branch')}<strong>Update checkout confirmation</strong></div><code>pull/48 · 3 files changed</code><div class="fv-diff"><span>- status: pending</span><span>+ status: confirmed</span><span>+ receipt: attached</span></div></div></article>
+    <article class="fv-release-node fv-browser-release" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Preview browser</span><span class="fv-node-mark">02</span></header><div class="fv-release-body">${windowBar('preview.northstar.test')}<strong>Three journeys run</strong><p>${check}<span>Signup and verification</span><b>Passed</b></p><p>${check}<span>Invite a teammate</span><b>Passed</b></p><p class="is-fail">${fail}<span>Payment confirmation</span><b>Needs review</b></p></div></article>
+    <article class="fv-release-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Result</span><span class="fv-node-mark">03</span></header><div class="fv-result-body"><div class="fv-event-icon">${fail}</div><strong>Trace attached</strong><span>One check needs review before merge.</span><code>trace_48_checkout</code><a class="fv-scene-link" href="/products/trace">Explore Trace ${icon('arrow')}</a></div></article>
+  </div>`));
+}
+
+function automation() {
+  return fig('automation', 'Invoice workflow', stage('automation', `${pathSvg([
+    { d: 'M250 140C305 54 360 54 415 140' },
+    { d: 'M585 140C640 226 695 226 750 140' },
+    { d: 'M250 140C305 54 360 54 415 140', flow: true, pathLength: 1 },
+    { d: 'M585 140C640 226 695 226 750 140', flow: true, pathLength: 1 }
+  ])}<div class="fv-task-path">
+    <article class="fv-task-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Browser task</span><span class="fv-node-mark">01</span></header><div class="fv-task-body">${windowBar('billing.northstar.test')}<strong>Find August invoice</strong><label>${icon('search')} Search invoices</label><p><span>August 2026</span><b>Paid</b></p></div></article>
+    <article class="fv-task-node fv-task-action" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Page action</span><span class="fv-node-mark">02</span></header><div class="fv-task-body"><div class="fv-event-icon">${icon('pointer')}</div><strong>Open matching record</strong><span>Invoice row selected</span><code>invoice_august_2026</code></div></article>
+    <article class="fv-task-node fv-task-result" data-motion-item style="--i:2"><header><span class="fv-node-kicker">File result</span><span class="fv-node-mark">03</span></header><div class="fv-task-body"><div class="fv-document-mark">PDF</div><strong>invoice_august_2026.pdf</strong><span>${icon('download')} Downloaded for the team</span></div></article>
+  </div>`));
+}
+
+function data() {
+  return fig('data', 'Structured extraction', stage('data', `${pathSvg([
+    { d: 'M260 140H450' },
+    { d: 'M550 140H740' },
+    { d: 'M260 140H450', flow: true, pathLength: 1 },
+    { d: 'M550 140H740', flow: true, pathLength: 1 }
+  ])}<div class="fv-data-path">
+    <article class="fv-data-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Page content</span><span class="fv-node-mark">01</span></header><div class="fv-data-body"><div class="fv-page-heading"><strong>Plans</strong><span>demo.northstar.test/plans</span></div><p><span>Starter</span><b>$9</b><small>monthly</small></p><p class="is-selected"><span>Pro</span><b>$24</b><small>monthly</small></p><p><span>Business</span><b>$79</b><small>monthly</small></p></div></article>
+    <article class="fv-data-node fv-data-schema" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Extraction</span><span class="fv-node-mark">02</span></header><div class="fv-data-body"><div class="fv-event-icon">${icon('search')}</div><strong>Map visible fields</strong><span>Plan · amount · currency · interval</span><code>source_url retained</code></div></article>
+    <article class="fv-data-node fv-data-result" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Structured result</span><span class="fv-node-mark">03</span></header><pre><b>"plan"</b>: <i>"Pro"</i>,
+<b>"amount"</b>: <i>24</i>,
+<b>"currency"</b>: <i>"USD"</i>,
+<b>"interval"</b>: <i>"month"</i></pre><div class="fv-result-line">${check} Ready for your software</div></article>
+  </div>`));
+}
+
+function swarm() {
+  return fig('swarm', 'Role based coverage', stage('swarm', `<div class="fv-swarm-intro" data-motion-item style="--i:0"><strong>One workspace. Three permission paths.</strong><span>Guest · member · admin</span></div>${pathSvg([
+    { d: 'M500 56V100M500 100H175V165M500 100V165M500 100H825V165' },
+    { d: 'M500 56V100M500 100H175V165M500 100V165M500 100H825V165', flow: true, pathLength: 1 }
+  ], 'fv-swarm-geometry')}<div class="fv-role-columns">
+    <article class="fv-role-browser" data-motion-item style="--i:1"><header><strong>Guest</strong><span>Public access</span></header>${windowBar('northstar.test')}<div class="fv-role-content"><strong>Browse plans</strong><p><span>Starter</span><b>$9 / month</b></p><p><span>Pro</span><b>$24 / month</b></p></div><footer>${check}<span>Private projects hidden</span></footer></article>
+    <article class="fv-role-browser" data-motion-item style="--i:2"><header><strong>Member</strong><span>Project access</span></header>${windowBar('northstar.test / workspace')}<div class="fv-role-content"><strong>Project dashboard</strong><p><span>Website launch</span><b>Can edit</b></p><p><span>API gateway</span><b>Can edit</b></p></div><footer>${check}<span>Billing restricted</span></footer></article>
+    <article class="fv-role-browser" data-motion-item style="--i:3"><header><strong>Admin</strong><span>Workspace access</span></header>${windowBar('northstar.test / people')}<div class="fv-role-content"><strong>People &amp; permissions</strong><p><span>Priya Rao</span><b>Owner</b></p><p><span>Sam Chen</span><b>Member</b></p></div><footer>${check}<span>Role changes observed</span></footer></article>
+  </div><div class="fv-swarm-note" data-motion-item style="--i:4">Each path checks a different boundary. Choose the roles your app needs to support.</div>`));
+}
+
+function live() {
+  return fig('live', 'Trace compare', stage('live', `<div class="fv-live-grid">
+    <article class="fv-live-browser" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Browser state</span><span class="fv-node-mark">Before</span></header>${windowBar('checkout.northstar.test / confirmation')}<div class="fv-live-screen"><nav><strong>Northstar</strong><span>Plans</span><span>Workspace</span><span>Billing</span></nav><div class="fv-live-message"><div class="fv-event-icon">${check}</div><strong>Order confirmed</strong><span>Receipt sent to test inbox</span></div></div></article>
+    <article class="fv-live-trace" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Run trace</span><strong>00:08 — 00:10</strong></header><div class="fv-trace-row"><b>01</b><span><strong>Open checkout</strong><small>Screenshot captured</small></span><code>200</code></div><div class="fv-trace-row"><b>02</b><span><strong>Confirm payment</strong><small>POST /webhooks/payment</small></span><code>200</code></div><div class="fv-trace-row"><b>03</b><span><strong>Receive receipt</strong><small>Test inbox matched</small></span><code>ready</code></div><footer>${icon('trace')} Network and console evidence attached</footer></article>
+    <article class="fv-live-compare" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Compare</span><span class="fv-node-mark">After</span></header><div class="fv-compare-row"><span>Order state</span><strong>${check} confirmed</strong></div><div class="fv-compare-row"><span>Callback</span><strong>${check} received</strong></div><div class="fv-compare-row"><span>Receipt</span><strong>${check} matched</strong></div><a class="fv-scene-link" href="/products/trace">Explore run evidence ${icon('arrow')}</a></article>
+  </div>`));
+}
+
+const render = { checkout, identity, collaboration, preview, automation, data, swarm, live };
+
+export function featureVisual(kind, { compact = false } = {}) {
+  const key = render[kind] ? kind : 'checkout';
+  const output = render[key]();
+  return compact ? output.replace(`class="feature-visual fv-${key}"`, `class="feature-visual fv-${key} is-compact"`) : output;
+}

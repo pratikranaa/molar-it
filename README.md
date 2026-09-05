@@ -33,7 +33,11 @@ python3 scripts/serve-marketing.py --port 8080
 
 The main site is pre-rendered HTML. `marketing/components.mjs`, `site.css`, and `site.js` provide the shared navigation, design, and interactions. `scripts/build-*.mjs` render the QA homepage, general platform, product/solution pages, company, pricing, resources, articles, policies, and clone documentation. Original editorial and legacy text is stored separately from generated HTML. `/verify` retains its React runtime; other rebuilt pages require no React/Babel boot.
 
-The hero demos autoplay illustrative browser tasks and support editable sample fields, Browser/Checks/Result views, pause and replay. `marketing/illustrations.mjs` authors workflow diagrams; `marketing/sections.mjs` composes the illustrated solution and platform stories. Swarm remains a Preview.
+The QA hero follows a payment through its webhook to account access; delaying the webhook changes the result. The platform hero follows an invoice download. `marketing/application-scene.mjs`, `.js`, and `.css` own these labeled examples, with autoplay, persistent manual pause, replay, evidence inspection, reduced-motion and visibility handling. `marketing/illustrations.mjs` authors the supporting service, role, release, and task scenes. `marketing/identity.css` carries the living-application identity. Swarm remains a preview.
+
+`/examples/team-invitation` presents a recorded controlled test with a public, redacted result at `/assets/invitation-run.json`. It reports the observed two-browser invitation flow; it is not a customer testimonial or a capacity claim. The result includes artifact hashes, not downloadable private recordings.
+
+Run `node --test scripts/application-scene.test.mjs` to verify the hero’s causal state transitions.
 
 Run `python3 scripts/check-marketing.py` after building. It checks the published package's internal links, assets, heading counts, IDs, anchors, and JSON-LD.
 

@@ -1,0 +1,43 @@
+{
+  "title": "An invitation across two browser sessions",
+  "recorded_at": "2026-08-02T19:29:14Z",
+  "environment": "Molar controlled test application",
+  "result": "passed",
+  "roles": {
+    "admin": "Desktop browser, 1440 \u00d7 900",
+    "member": "Mobile browser, 390 \u00d7 844"
+  },
+  "observations": {
+    "separate_browser_sessions": true,
+    "email_clone_messages_delivered": 1,
+    "invitation_link_matched": true,
+    "final_invitation_status": "accepted"
+  },
+  "artifacts": [
+    {
+      "type": "Screenshot",
+      "sha256": "33820eeb9920d93a7e8179fc31339ccb36fbe750d4433e22588fd50c3018e45f"
+    },
+    {
+      "type": "Playwright trace",
+      "sha256": "099438aa213ff74c710770fa21781188c38e187c32132e627d7129bbe812bb73"
+    },
+    {
+      "type": "Browser recording",
+      "sha256": "08ae86839f90739468919d51ef94de0442a06657993a53056d9f9f49a7f739aa"
+    },
+    {
+      "type": "Screenshot",
+      "sha256": "d11a20c8da1431c7e869b732c30fa71b6d0b095db88c829ba03c56ad5aec13c3"
+    },
+    {
+      "type": "Playwright trace",
+      "sha256": "d8ee084eabe533c7321233ad9a08c49c9fbaed273f1975531c5e134aab464ddb"
+    },
+    {
+      "type": "Browser recording",
+      "sha256": "11dc487415107e581954115d78baf6eeeb52b94895516c64a9ec828c4abefcbd"
+    }
+  ],
+  "scope": "A recorded test of a controlled invitation flow. It is not a customer case study or a measure of general reliability."
+}
