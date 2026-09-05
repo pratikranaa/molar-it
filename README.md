@@ -20,34 +20,30 @@ This repo contains the marketing site source (`molar.it`). Product code lives in
 ## Quickstart
 
 ```bash
-npx molar-agent init
+molar verify "login works" --url http://localhost:3000 --json
 ```
 
-## Develop locally
+## Build and develop locally
 
 ```bash
-cd molar.it   # from monorepo root, or clone this repo standalone
-python3 -m http.server 8080
-# open http://localhost:8080
+node scripts/build-site.mjs
+python3 scripts/serve-marketing.py --port 8080
+# http://localhost:8080 — supports the same clean URLs as Cloudflare Pages
 ```
 
-Deploy (Cloudflare Pages; **not** Vercel):
+The main site is pre-rendered HTML. `marketing/components.mjs`, `site.css`, and `site.js` provide the shared navigation, design, and interactions. `scripts/build-*.mjs` render the QA homepage, general platform, product/solution pages, company, pricing, resources, articles, policies, and clone documentation. Original editorial and legacy text is stored separately from generated HTML. `/verify` retains its React runtime; other rebuilt pages require no React/Babel boot.
+
+Run `python3 scripts/check-marketing.py` after building. It checks the published package's internal links, assets, heading counts, IDs, anchors, and JSON-LD.
+
+Deploy to the **existing** Cloudflare Pages project:
 
 ```bash
-# Auth (one of):
-npx wrangler login
-# or: export CLOUDFLARE_API_TOKEN='...'   # Dashboard → My Profile → API Tokens
-#      export CLOUDFLARE_ACCOUNT_ID='...' # 32-hex account id from the dashboard URL
-
-cd molar.it
-npx wrangler pages project create molar-it --production-branch main
-# Classic Pages walks the directory and does not honor .assetsignore.
-# Exclude local 25MiB+ artifacts (film/renders/*.mov) or the upload fails.
-npx wrangler pages deploy . --project-name molar-it --branch main
-# Expected URL: https://molar-it.pages.dev
+node scripts/build-site.mjs
+python3 scripts/check-marketing.py
+npx wrangler pages deploy .site-dist --project-name molar-it --branch main
 ```
 
-Do **not** change GoDaddy DNS until `curl -I https://molar-it.pages.dev` returns 200. Apex is still `A 216.198.79.1` (Vercel) behind `ns81/ns82.domaincontrol.com`. After Pages is 200, add custom domain `molar.it` in the Pages dashboard and copy the CNAME/ALIAS target it prints (typically `molar-it.pages.dev`). Do not guess Cloudflare nameservers.
+`.site-dist` contains an explicit allowlist of rendered HTML and public assets. Wrangler separately compiles the two existing API functions from the root `functions/` directory. Never deploy the repository root: it contains source, review files, configuration and large local film outputs. The apex already points to the Pages project; this rebuild does not require DNS changes or another project.
 
 Instant Proof / waitlist secrets (never commit):
 
@@ -66,18 +62,17 @@ Public URL+claim verification before signup. Requires Pages env on project `mola
 | `INSTANT_PROOF_PROXY_SECRET` | yes (≥32 chars) | HMAC for browser/network identity cookie; must match control-plane proxy verification if shared |
 | `MOLAR_CONTROL_PLANE_URL` | optional | Defaults to `https://api.molar.it` |
 
-Local: `python3 -m http.server` does **not** run `/api/instant-proof` — use `npx wrangler pages dev .` or deploy.
+Local: `python3 -m http.server` does **not** run `/api/instant-proof` — use `npx wrangler pages dev .site-dist` or deploy.
 
 **Clone docs:** per-clone tool tables are generated from `molar-clones` fixtures. After changing fixtures, run:
 
 ```bash
-node scripts/gen-clone-routes.mjs
-node scripts/gen-sitemap.mjs
+node scripts/build-site.mjs
 ```
 
-Surface landings use subdomains (`cartographer.molar.it`, etc.). Those hostnames are still on Vercel DNS (`*.vercel-dns-017.com`) and are **not** part of this Pages cutover. Old paths (`/cartographer`, …) 301 to the subdomain.
+Product pages on the main site live at `/products/cartographer`, `/products/clones`, `/products/guard`, `/products/trace`, and `/products/mender`. Legacy short paths redirect to these pages. Separate historical subdomain deployments are outside this build.
 
-**CTAs:** `https://app.molar.it` is live for the main Molar product. Product CTAs deep-link to `/dashboard/cartographer`, `/dashboard/clones`, `/dashboard/guard`, and `/dashboard/trace`. The waitlist popup (`waitlist-modal.js`) intercepts those links only when `MOLAR_SITE.appLive` is false.
+**CTAs:** main marketing signup links use `https://app.molar.it/dashboard/signup`; sign-in uses `/dashboard/login`. The rebuilt main site has a dedicated `/waitlist` form and no automatic waitlist popup.
 
 ### Waitlist — receive signups for $0
 
@@ -91,7 +86,7 @@ Flow: visitor clicks CTA on e.g. `clones.molar.it` → popup form → `POST http
 4. Copy the deployment URL
 5. In **Cloudflare** → Pages → `molar-it` → Settings → Environment variables (or `wrangler pages secret put WAITLIST_WEBHOOK_URL --project-name molar-it`):
    - `WAITLIST_WEBHOOK_URL` = your Google Apps Script web app URL
-6. **Redeploy** (`npx wrangler pages deploy . --project-name molar-it`)
+6. **Redeploy** (`npx wrangler pages deploy .site-dist --project-name molar-it --branch main`)
 
 You get every signup as a spreadsheet row plus an email to `pratik@molar.it` (edit `NOTIFY_EMAIL` in the script). No Loops, Zapier, or paid form tools required.
 
@@ -111,7 +106,7 @@ See [`seo-launch-kit/00-START-HERE.txt`](seo-launch-kit/00-START-HERE.txt) for S
 **Sitemap:** regenerate after clone catalog changes:
 
 ```bash
-node scripts/gen-sitemap.mjs   # 51 URLs: main site + surfaces + 28 clone docs + comparisons
+node scripts/build-site.mjs   # sitemap generated from the rendered canonical pages
 node scripts/gen-clone-routes.mjs
 ```
 

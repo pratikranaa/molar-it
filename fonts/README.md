@@ -11,3 +11,5 @@ Vendored for `molar.it/verify` so Instant Proof does not call Google Fonts
 
 OFL allows bundling and redistribution with software; do not sell the fonts alone.
 Keep the reserved font names and ship the OFL text alongside the binaries.
+
+Hanken Grotesk (variable Latin subset) is used by the rebuilt marketing site. Source: Google Fonts / Hanken Design Co. License: SIL Open Font License 1.1, included in `OFL-Hanken-Grotesk.txt`. Geist Mono is used only for code and technical values.

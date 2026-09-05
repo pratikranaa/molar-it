@@ -177,7 +177,6 @@
       React.createElement(
         "form",
         { className: "panel", onSubmit: start },
-        React.createElement("p", { className: "eyebrow", style: { margin: "0 0 8px", color: "var(--ink-3)", font: "600 11px/1 var(--mono)", letterSpacing: ".1em", textTransform: "uppercase" } }, "A public URL. One observable outcome."),
         React.createElement("h2", { id: "instant-proof-title" }, "Watch Molar check it."),
         React.createElement(
           "label",
@@ -387,29 +386,11 @@
       "div",
       { className: "verify-shell" },
       React.createElement(
-        "header",
-        { className: "verify-nav" },
-        React.createElement(
-          "a",
-          { className: "verify-brand", href: "/" },
-          React.createElement("span", null, "M"),
-          "Molar",
-        ),
-        React.createElement(
-          "nav",
-          null,
-          React.createElement("a", { href: "/docs" }, "Docs"),
-          React.createElement("a", { href: APP_URL }, "Console"),
-          React.createElement("a", { className: "btn", href: "#instant-proof" }, "Run proof"),
-        ),
-      ),
-      React.createElement(
         "main",
-        { className: "verify-main" },
+        { id: "main", className: "verify-main" },
         React.createElement(
           "div",
           { className: "verify-hero" },
-          React.createElement("p", { className: "eyebrow" }, "Instant Proof"),
           React.createElement("h1", null, "Verify any public URL before you sign up."),
           React.createElement(
             "p",

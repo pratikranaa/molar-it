@@ -5,3 +5,6 @@ film/playwright-report/
 film/test-results/
 film/renders/
 film/music/*.wav
+
+.site-dist/
+.impeccable/review/
