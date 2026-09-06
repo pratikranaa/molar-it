@@ -5,6 +5,70 @@
   const nav = $('#main-nav');
   const toggle = $('.mobile-toggle');
   const groups = $$('.nav-group');
+  const authLinks = $$('[data-site-auth-link]');
+  const dashboardLinks = $$('[data-site-dashboard]');
+  const appOrigin = 'https://app.molar.it';
+  let authCheckedAt = 0;
+  let authRequest;
+  let authController;
+  let authRequestGeneration = 0;
+  let authTrailingTimer;
+  const setSignedOut = () => {
+    authLinks.forEach(link => {
+      link.href = `${appOrigin}/login`;
+      link.querySelector('[data-site-auth-label]').textContent = 'Sign in';
+      link.removeAttribute('aria-label');
+      link.removeAttribute('title');
+    });
+    dashboardLinks.forEach(link => {
+      link.href = `${appOrigin}/signup`;
+      link.querySelector('[data-site-dashboard-label]').textContent = 'Get started';
+      link.setAttribute('data-track', 'signup-nav');
+    });
+  };
+  const setSignedIn = name => {
+    authLinks.forEach(link => {
+      link.href = `${appOrigin}/`;
+      link.querySelector('[data-site-auth-label]').textContent = name;
+      link.title = name;
+      link.setAttribute('aria-label', `Open dashboard for ${name}`);
+    });
+    dashboardLinks.forEach(link => {
+      link.href = `${appOrigin}/`;
+      link.querySelector('[data-site-dashboard-label]').textContent = 'Dashboard';
+      link.setAttribute('data-track', 'dashboard-nav');
+    });
+  };
+  const refreshSiteSession = force => {
+    const now = Date.now();
+    if (!force && now - authCheckedAt < 5000) {
+      clearTimeout(authTrailingTimer);
+      authTrailingTimer = setTimeout(() => refreshSiteSession(true), 5000 - (now - authCheckedAt));
+      return authRequest;
+    }
+    clearTimeout(authTrailingTimer);
+    authCheckedAt = now;
+    authController?.abort();
+    const controller = new AbortController();
+    authController = controller;
+    const generation = ++authRequestGeneration;
+    const timeout = setTimeout(() => controller.abort(), 4000);
+    authRequest = fetch(`${appOrigin}/api/v1/site-session`, { credentials: 'include', cache: 'no-store', signal: controller.signal })
+      .then(response => response.ok ? response.json() : null)
+      .then(session => {
+        if (generation !== authRequestGeneration) return;
+        const name = session?.authenticated === true && typeof session.displayName === 'string' && session.displayName.trim()
+          ? session.displayName.trim()
+          : null;
+        if (name) setSignedIn(name); else setSignedOut();
+      })
+      .catch(() => { if (generation === authRequestGeneration) setSignedOut(); })
+      .finally(() => { clearTimeout(timeout); if (authController === controller) authController = null; if (generation === authRequestGeneration) authRequest = null; });
+    return authRequest;
+  };
+  refreshSiteSession(true);
+  window.addEventListener('focus', () => refreshSiteSession(false));
+  window.addEventListener('pageshow', event => { if (event.persisted) refreshSiteSession(true); });
   let hoverTimer;
   const cancelHover = () => clearTimeout(hoverTimer);
   const closeGroups = except => {
