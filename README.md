@@ -83,6 +83,11 @@ node scripts/build-site.mjs
 
 Product pages on the main site live at `/products/cartographer`, `/products/clones`, `/products/guard`, `/products/trace`, and `/products/mender`. Legacy short paths redirect to these pages. Separate historical subdomain deployments are outside this build.
 
+The four core product pages use `marketing/product-pages.mjs` for their shared opening and section navigation, with separate `product-{name}.mjs`, `.css`, and `.js` stories. They contain a service-state inspector, route-map workbench, release-check console, and synchronized trace example. These are authored browser-only examples, not live app sessions. Their CSS and JavaScript load only on the matching product route and are explicitly staged by `build-site.mjs`. Actual recordings remain labeled and linked to their public results.
+
+Run `node --test scripts/product-stories.test.mjs` for causal state checks and `python3 scripts/check-product-stories.py --base http://localhost:8878 --out /tmp/molar-product-stories` for browser interactions and the batched responsive/contrast captures. The first-visit script retains the shared-scene checks for the other 17 supporting pages.
+
+
 **CTAs:** main marketing signup links use `https://app.molar.it/dashboard/signup`; sign-in uses `/dashboard/login`. The rebuilt main site has a dedicated `/waitlist` form and no automatic waitlist popup.
 
 ### Waitlist — receive signups for $0

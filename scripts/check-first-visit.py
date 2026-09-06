@@ -9,7 +9,7 @@ parser.add_argument('--out',default='/tmp/molar-final-pass')
 args=parser.parse_args()
 out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
 report={'base':args.base,'checks':[],'errors':[]}
-shots=[('/', '.identity-hero','home'),('/', '.evidence-chapter','evidence'),('/', '.first-step','first-step'),('/platform','.platform-work','platform-work'),('/company','.company-hero','company'),('/company','.company-origin','company-origin'),('/company','.company-founder','founder'),('/pricing','.pricing-choices','pricing'),('/products/clones','.detail-section','clones'),('/products/trace','.detail-section','trace'),('/products/clones','.detail-reading-section','clones-depth'),('/products/guard','.detail-reading-section','guard-depth'),('/platform/swarm','.detail-section','swarm'),('/solutions/authentication-testing','.detail-section.muted-section','roles')]
+shots=[('/', '.identity-hero','home'),('/', '.evidence-chapter','evidence'),('/', '.first-step','first-step'),('/platform','.platform-work','platform-work'),('/company','.company-hero','company'),('/company','.company-origin','company-origin'),('/company','.company-founder','founder'),('/pricing','.pricing-choices','pricing'),('/products/clones','#product-demo','clones'),('/products/trace','#product-demo','trace'),('/products/clones','#product-setup','clones-depth'),('/products/guard','#product-setup','guard-depth'),('/platform/swarm','.detail-section','swarm'),('/solutions/authentication-testing','.detail-section.muted-section','roles')]
 with sync_playwright() as p:
     browser=p.chromium.launch()
     context=browser.new_context(viewport={'width':1440,'height':1000},reduced_motion='reduce')
@@ -42,7 +42,7 @@ with sync_playwright() as p:
     assert 42<report['video']['duration']<45 and not report['video']['error']
     video.evaluate('(v)=>v.pause()')
     report['checks'].append('Native recorded evidence plays')
-    for route in ('/products/clones','/products/cartographer','/products/guard','/products/trace','/products/mender','/platform/swarm','/platform/browser-agents','/platform/live-view','/platform/developer-tools','/solutions/integration-testing','/solutions/checkout-testing','/solutions/authentication-testing','/solutions/team-workflows','/solutions/preview-deployments','/solutions/workflow-automation','/solutions/web-data-extraction','/solutions/ai-agents','/solutions/startups','/solutions/web-app-testing','/resources','/security'):
+    for route in ('/products/mender','/platform/swarm','/platform/browser-agents','/platform/live-view','/platform/developer-tools','/solutions/integration-testing','/solutions/checkout-testing','/solutions/authentication-testing','/solutions/team-workflows','/solutions/preview-deployments','/solutions/workflow-automation','/solutions/web-data-extraction','/solutions/ai-agents','/solutions/startups','/solutions/web-app-testing','/resources','/security'):
         page.goto(args.base+route)
         figures=page.locator('.detail-section .scenario-detail')
         assert figures.count()==2,(route,figures.count())
@@ -50,7 +50,7 @@ with sync_playwright() as p:
         assert figures.locator('button').count()==0,route
         small=figures.evaluate_all("els=>els.flatMap(e=>[...e.querySelectorAll('*')]).filter(e=>e.children.length===0&&e.textContent.trim()&&parseFloat(getComputedStyle(e).fontSize)<12).map(e=>e.textContent)")
         assert not small,(route,small)
-    report['checks'].append('21 supporting pages have distinct section scenes, readable labels and no fake buttons')
+    report['checks'].append('17 supporting pages have distinct section scenes, readable labels and no fake buttons')
     for width in (1440,390):
         page.set_viewport_size({'width':width,'height':900})
         for route,selector,name in shots:

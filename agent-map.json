@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-09-06T11:21:46.803Z",
+  "generatedAt": "2026-09-06T12:02:11.874Z",
   "pageCount": 97,
   "pages": [
     {
@@ -1095,57 +1095,45 @@
       "path": "/products/cartographer",
       "url": "https://molar.it/products/cartographer",
       "title": "Cartographer | Molar",
-      "description": "Explore your app with a browser agent. Describe a task, follow the steps, and inspect the captured page and test result.",
+      "description": "Give Cartographer a task and an authorized app. Follow the routes it explores, inspect the browser actions, and see which checks passed, failed, or could not run.",
       "headings": [
-        "Explore your app with a browser agent.",
-        "Start with a goal",
-        "See the failing step",
-        "Run it where you work",
-        "Follow signup into the workspace",
-        "Check a change from your terminal",
-        "Name what success looks like",
-        "Investigate the step that stopped",
-        "Use the right account for the test",
+        "Map your app. Test the paths that matter.",
+        "See how someone gets from signup to a working account.",
+        "Choose the app, task, and test account.",
+        "Check what happened after the click.",
+        "Watch Molar complete a real browser task.",
         "Questions, answered.",
-        "Try a browser check."
+        "Start with one task in your app."
       ]
     },
     {
       "path": "/products/clones",
       "url": "https://molar.it/products/clones",
       "title": "Clones | Molar",
-      "description": "Test Stripe, Twilio, email, authentication, and storage with stateful service clones, virtual time, and resettable test data.",
+      "description": "Give your tests payment records, messages, accounts, and files they can change and inspect. Control supported failures and timing, then restore the starting state for the next run.",
       "headings": [
         "Test the services behind your app.",
-        "Five core services",
-        "Advance the clock",
-        "Assert the callback",
-        "Test what happens after the payment",
-        "Choose the services your app uses",
-        "Connect your app to the test service",
-        "Reproduce a decline, delay, or expiry",
-        "Reset the data before the next test",
+        "See what happens after a payment.",
+        "Connect your test to a service you control.",
+        "Re-run the same checkout from a clean starting point.",
+        "Choose the service behind the feature you need to check.",
+        "Use service state when a fixed response isn’t enough.",
         "Questions, answered.",
-        "Choose your test services."
+        "Give your next test the right services."
       ]
     },
     {
       "path": "/products/guard",
       "url": "https://molar.it/products/guard",
       "title": "Guard | Molar",
-      "description": "Run browser checks in CI and after release. Review failed steps and configure the checks required before merging.",
+      "description": "Run configured signup, checkout, and account-access scenarios against a preview, a release, or a scheduled environment. Give reviewers the failed assertion and the captured steps behind it.",
       "headings": [
-        "Catch broken flows before release.",
-        "Check a pull request",
-        "Find the failed check",
-        "Check after deployment",
-        "Check the browser and the service together",
-        "Run a configured scenario in CI",
-        "Give reviewers the failed step",
-        "Choose what blocks a merge",
-        "Keep checking after release",
+        "Know which check failed before you ship.",
+        "Run the checks your release depends on.",
+        "Add a check to each stage of your release.",
+        "Know what the check actually proved.",
         "Questions, answered.",
-        "Set up a Guard check."
+        "Choose the check your next release needs."
       ]
     },
     {
@@ -1169,19 +1157,17 @@
       "path": "/products/trace",
       "url": "https://molar.it/products/trace",
       "title": "Trace | Molar",
-      "description": "Inspect browser test steps, screenshots, recordings, and captured requests to understand where a test failed.",
+      "description": "Inspect browser actions, requests, console messages, and captured service state in one run. Follow a failed assertion back to the details an engineer or coding agent needs to investigate.",
       "headings": [
-        "See where your browser test failed.",
-        "See the steps in order",
-        "Keep run data private",
-        "Let your coding agent investigate",
-        "Start with the action that failed",
-        "Understand why the run stopped",
-        "Follow the failed request",
-        "Send an agent the relevant steps",
-        "Review a recording before rerunning",
+        "Find the step where your app stopped working.",
+        "The payment worked. Why is the account still locked?",
+        "Start at the failed check. Follow what happened before it.",
+        "Keep the failure close to your test.",
+        "Know what you can inspect.",
+        "A recording you can watch and inspect.",
+        "Give the next person the exact starting point.",
         "Questions, answered.",
-        "Inspect a recorded browser test."
+        "Bring a failure you want to understand."
       ]
     },
     {

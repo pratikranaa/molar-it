@@ -2,6 +2,7 @@ import {mkdirSync,writeFileSync} from 'node:fs';
 import {dirname,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {pages} from '../marketing/pages.mjs';
+import {productPage} from '../marketing/product-pages.mjs';
 import {solutionsHub} from '../marketing/sections.mjs';
 import {featureVisual} from '../marketing/illustrations.mjs';
 import {applicationScene} from '../marketing/application-scene.mjs';
@@ -30,6 +31,8 @@ save('/examples/team-invitation',document({title:'A recorded multi-user invitati
 const browserCheckBody=`<main id="main" class="browser-check-example"><section class="reading-hero"><div class="wrap"><h1>Describe the check. <br>Watch Molar run it.</h1><p>Add one element, check that it appears, remove it, and check that it is gone. See the actual browser recording and result.</p></div></section><section class="section recording-section" id="recordings"><div class="wrap"><div class="recording-intro"><span>${icon('check')} Passed · September 5, 2026</span><p>A 43-second recording on the public <a href="https://the-internet.herokuapp.com/add_remove_elements/">Add/Remove Elements test page</a>.</p></div><div class="recording-pair"><figure><figcaption><strong>The browser run</strong><span>Unedited recording</span></figcaption>${recordingPlayer('video',1280,720,'/assets/browser-check','final.jpg','Autonomous browser check: adding and removing an element')}<a href="/assets/browser-check/video.webm" download>Download the recording ${icon('download')}</a></figure><aside class="browser-check-steps"><h2>One instruction. <br>Four observed steps.</h2><p>“Add an element, verify it appears, remove it, and verify it is gone.”</p><ol>${[['Add the element','Clicked Add Element once.'],['Check that it appeared','Verified the new Delete button was present.'],['Remove the element','Clicked the Delete button.'],['Check that it is gone','Verified no Delete button remained.']].map(([title,detail])=>`<li><span>${icon('check')}</span><div><h3>${title}</h3><p>${detail}</p></div></li>`).join('')}</ol></aside></div><div class="browser-check-scope"><h2>What this run shows</h2><p>Molar chose and executed the browser actions, checked the result after each step, and stopped after the final check. This is an autonomous run on a public test page. Generated Playwright export and clean replay were not completed in this run; it is not a customer case study or a reliability benchmark.</p><a class="text-link" href="/assets/browser-check/result.json" download>Download the result and recording checksums ${icon('arrow')}</a></div></div></section>${cta('What does your app <br>need to get right?','Describe what should appear on a public page. No account needed.')}</main>`;
 save('/examples/autonomous-browser-check',document({title:'An autonomous browser check | Molar',description:'Watch a recorded Molar browser check add and remove an element on a public test page, with each observed result.',path:'/examples/autonomous-browser-check',body:browserCheckBody}));
 for(const p of pages){
+ const story=productPage(p);
+ if(story){save(p.path,document({...p,...story}));continue;}
  const name=p.title.split('|')[0].trim();
  const isMender=p.path.endsWith('mender');
  const isPreview=isMender||p.preview;

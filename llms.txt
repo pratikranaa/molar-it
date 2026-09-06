@@ -63,11 +63,11 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 - [Swarm | Molar](https://molar.it/platform/swarm) — Preview coordinated browser testing across roles and scenarios with planned coverage and observed results.
 
 ## Products
-- [Cartographer | Molar](https://molar.it/products/cartographer) — Explore your app with a browser agent. Describe a task, follow the steps, and inspect the captured page and test result.
-- [Clones | Molar](https://molar.it/products/clones) — Test Stripe, Twilio, email, authentication, and storage with stateful service clones, virtual time, and resettable test data.
-- [Guard | Molar](https://molar.it/products/guard) — Run browser checks in CI and after release. Review failed steps and configure the checks required before merging.
+- [Cartographer | Molar](https://molar.it/products/cartographer) — Give Cartographer a task and an authorized app. Follow the routes it explores, inspect the browser actions, and see which checks passed, failed, or could not run.
+- [Clones | Molar](https://molar.it/products/clones) — Give your tests payment records, messages, accounts, and files they can change and inspect. Control supported failures and timing, then restore the starting state for the next run.
+- [Guard | Molar](https://molar.it/products/guard) — Run configured signup, checkout, and account-access scenarios against a preview, a release, or a scheduled environment. Give reviewers the failed assertion and the captured steps behind it.
 - [Mender | Molar](https://molar.it/products/mender) — A guarded repair workflow for investigating failures and preparing a proposed change.
-- [Trace | Molar](https://molar.it/products/trace) — Inspect browser test steps, screenshots, recordings, and captured requests to understand where a test failed.
+- [Trace | Molar](https://molar.it/products/trace) — Inspect browser actions, requests, console messages, and captured service state in one run. Follow a failed assertion back to the details an engineer or coding agent needs to investigate.
 
 ## Solutions
 - [Solutions for Web App Testing & Browser Automation | Molar](https://molar.it/solutions) — Explore Molar for checkout testing, sign-in, team workflows, preview deployments, browser automation, and web data extraction.

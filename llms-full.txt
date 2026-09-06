@@ -371,18 +371,18 @@ Headings: Privacy Policy · Who this applies to · Information we collect · How
 
 ## Cartographer | Molar
 URL: https://molar.it/products/cartographer
-Description: Explore your app with a browser agent. Describe a task, follow the steps, and inspect the captured page and test result.
-Headings: Explore your app with a browser agent. · Start with a goal · See the failing step · Run it where you work · Follow signup into the workspace · Check a change from your terminal · Name what success looks like · Investigate the step that stopped · Use the right account for the test · Questions, answered. · Try a browser check.
+Description: Give Cartographer a task and an authorized app. Follow the routes it explores, inspect the browser actions, and see which checks passed, failed, or could not run.
+Headings: Map your app. Test the paths that matter. · See how someone gets from signup to a working account. · Choose the app, task, and test account. · Check what happened after the click. · Watch Molar complete a real browser task. · Questions, answered. · Start with one task in your app.
 
 ## Clones | Molar
 URL: https://molar.it/products/clones
-Description: Test Stripe, Twilio, email, authentication, and storage with stateful service clones, virtual time, and resettable test data.
-Headings: Test the services behind your app. · Five core services · Advance the clock · Assert the callback · Test what happens after the payment · Choose the services your app uses · Connect your app to the test service · Reproduce a decline, delay, or expiry · Reset the data before the next test · Questions, answered. · Choose your test services.
+Description: Give your tests payment records, messages, accounts, and files they can change and inspect. Control supported failures and timing, then restore the starting state for the next run.
+Headings: Test the services behind your app. · See what happens after a payment. · Connect your test to a service you control. · Re-run the same checkout from a clean starting point. · Choose the service behind the feature you need to check. · Use service state when a fixed response isn’t enough. · Questions, answered. · Give your next test the right services.
 
 ## Guard | Molar
 URL: https://molar.it/products/guard
-Description: Run browser checks in CI and after release. Review failed steps and configure the checks required before merging.
-Headings: Catch broken flows before release. · Check a pull request · Find the failed check · Check after deployment · Check the browser and the service together · Run a configured scenario in CI · Give reviewers the failed step · Choose what blocks a merge · Keep checking after release · Questions, answered. · Set up a Guard check.
+Description: Run configured signup, checkout, and account-access scenarios against a preview, a release, or a scheduled environment. Give reviewers the failed assertion and the captured steps behind it.
+Headings: Know which check failed before you ship. · Run the checks your release depends on. · Add a check to each stage of your release. · Know what the check actually proved. · Questions, answered. · Choose the check your next release needs.
 
 ## Mender | Molar
 URL: https://molar.it/products/mender
@@ -391,8 +391,8 @@ Headings: Turn a failure into a proposed fix. · Start with the evidence · Prop
 
 ## Trace | Molar
 URL: https://molar.it/products/trace
-Description: Inspect browser test steps, screenshots, recordings, and captured requests to understand where a test failed.
-Headings: See where your browser test failed. · See the steps in order · Keep run data private · Let your coding agent investigate · Start with the action that failed · Understand why the run stopped · Follow the failed request · Send an agent the relevant steps · Review a recording before rerunning · Questions, answered. · Inspect a recorded browser test.
+Description: Inspect browser actions, requests, console messages, and captured service state in one run. Follow a failed assertion back to the details an engineer or coding agent needs to investigate.
+Headings: Find the step where your app stopped working. · The payment worked. Why is the account still locked? · Start at the failed check. Follow what happened before it. · Keep the failure close to your test. · Know what you can inspect. · A recording you can watch and inspect. · Give the next person the exact starting point. · Questions, answered. · Bring a failure you want to understand.
 
 ## The Molar QA agent
 URL: https://molar.it/qa-agent
