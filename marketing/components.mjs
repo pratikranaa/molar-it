@@ -1,4 +1,6 @@
 import {featureVisual} from './illustrations.mjs';
+import {productGraphic} from './product-graphics.mjs';
+import {featuredGuides,guidePreview} from './guide-previews.mjs';
 export const APP = 'https://app.molar.it/dashboard/signup';
 export const DOCS = 'https://docs.molar.it';
 export const esc = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -34,12 +36,12 @@ const menus = [
     ['/platform/developer-tools','Developer tools','Connect your CLI, API, or MCP client.','code'],
   ]],
   ['Products',[
-    ['/products/cartographer','Cartographer','Explore your app. Map its flows.','map'],
-    ['/products/clones','Clones','Test payments, email and sign-in.','layers'],
+    ['/products/cartographer','Cartographer','Explore your app and inspect its routes.','map'],
+    ['/products/clones','Clones','Test with services you can reset.','layers'],
     ['/products/clones#clone-catalog','Clone catalog','Browse 28 services and API fixture packs.','search'],
-    ['/products/guard','Guard','Run checks before and after release.','shield'],
-    ['/products/trace','Trace','Inspect browser steps and failures.','trace'],
-    ['/products/mender','Mender','Investigate failures. Propose a repair.','bolt']
+    ['/products/guard','Guard','Check changes before and after release.','shield'],
+    ['/products/trace','Trace','Find the step and request behind a failure.','trace'],
+    ['/products/mender','Mender','Review a proposed fix for a failure.','bolt']
   ]],
   ['Solutions',[
     ['/solutions/checkout-testing','Checkout & payments','From a payment to a confirmed order.','card'],
@@ -63,20 +65,21 @@ const menus = [
     ['/contact','Talk to the team','Find the right setup for your app.','mail']
   ]]
 ];
-const menuFeatures = {
-  Platform: ['A browser that does the work.', 'Test your app, automate a workflow, or give your coding agent a way to use the web.', '/platform', 'Explore the platform', 'globe'],
-  Products: ['Explore. Test. Debug.', 'Map your app with Cartographer, test its services with Clones, check releases with Guard, and investigate failures with Trace.', '/#products', 'Meet the Molar products', 'map'],
-  Solutions: ['Find your first workflow.', 'Test a checkout. Verify an invitation. Download a report. Start with the job you need done.', '/solutions', 'Explore all solutions', 'layers'],
-  Resources: ['Set up your first browser check.', 'Find setup instructions, CLI commands, and guides to testing payments, sign-in, and email.', '/docs', 'Open the quickstart', 'terminal']
-};
+const menuLink = ([href,title,desc,i],active,graphic=false) => `<a href="${href}"${href===active?' aria-current="page"':''}${graphic?' class="nav-product"':''}>${graphic?productGraphic(href.split('/').pop(),{compact:true}):`<span class="nav-icon">${icon(i)}</span>`}<span class="nav-link-copy"><strong>${title}${(title==='Mender'||title==='Swarm')?'<small class="preview-label">Preview</small>':''}</strong><span>${desc}</span></span>${icon('arrow','nav-arrow')}</a>`;
+function menuBody(label,items,active){
+  if(label==='Products')return `<div class="dropdown-links product-menu-links" aria-label="Products">${items.filter(item=>item[1]!=='Clone catalog').map(item=>menuLink(item,active,true)).join('')}</div><div class="dropdown-bottom"><a href="/products/clones#clone-catalog">${icon('layers')} Browse all 28 services <span class="menu-link-note">5 stateful services · 23 API fixture packs</span>${icon('arrow')}</a><a href="/#products">How the products work together ${icon('arrow')}</a></div>`;
+  if(label==='Platform')return `<a class="menu-platform-feature" href="/platform">${productGraphic('platform',{compact:true})}<strong>Give a browser the task.</strong><span>Bring back the file, the data and a record of what happened.</span><span class="text-link">Explore the platform ${icon('arrow')}</span></a><div class="dropdown-links" aria-label="Platform">${items.map(item=>menuLink(item,active)).join('')}</div><div class="dropdown-bottom"><span>From one browser task to your coding workflow.</span><a href="https://mcp.molar.it">Connect through MCP ${icon('arrow')}</a></div>`;
+  if(label==='Resources')return `<div class="menu-guides">${featuredGuides.slice(0,2).map(guide=>guidePreview(guide,{compact:true})).join('')}</div><div class="dropdown-links" aria-label="Resources">${items.map(item=>menuLink(item,active)).join('')}</div><div class="dropdown-bottom"><a href="/docs">Start with the quickstart ${icon('arrow')}</a><a href="/examples/autonomous-browser-check">Watch an actual browser recording ${icon('arrow')}</a></div>`;
+  const groups=[['Test customer actions',items.filter((_,i)=>[0,1,2,6].includes(i))],['Build and release',items.filter((_,i)=>[3,7,8].includes(i))],['Automate browser work',items.filter((_,i)=>[4,5].includes(i))]];
+  return `<div class="solution-menu-groups">${groups.map(([title,links])=>`<div><p class="menu-group-title">${title}</p><div class="dropdown-links">${links.map(item=>menuLink(item,active)).join('')}</div></div>`).join('')}</div><div class="dropdown-bottom"><a href="/solutions">Find the setup for your task ${icon('arrow')}</a><a href="/contact">Talk through your app ${icon('arrow')}</a></div>`;
+}
 export function header(active='') {
   return `<a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="Molar home">${logo}</a><button class="mobile-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="main-nav">${icon('menu')}</button><nav id="main-nav" class="main-nav" aria-label="Main navigation">${menus.map(([label,items])=>{
-    const [title,description,href,link,i]=menuFeatures[label];
-    return `<details class="nav-group"><summary>${label}${icon('chevron')}</summary><div class="nav-dropdown"><div class="dropdown-inner"><div class="dropdown-feature"><span class="menu-feature-icon">${icon(i)}</span><p>${title}</p><span>${description}</span><a href="${href}" class="text-link">${link} ${icon('arrow')}</a></div><div class="dropdown-links" aria-label="${label}">${items.map(([href,title,desc,i])=>`<a href="${href}"${href===active?' aria-current="page"':''}><span class="nav-icon">${icon(i)}</span><span><strong>${title}${(title==='Mender'||title==='Swarm')?'<small class="preview-label">Preview</small>':''}</strong><span>${desc}</span></span>${icon('arrow','nav-arrow')}</a>`).join('')}</div><div class="dropdown-bottom"><span>Start with the flow your customers depend on.</span><a href="/">Explore Molar for QA ${icon('arrow')}</a><a href="/contact">Talk to us ${icon('arrow')}</a></div></div></div></details>`;
-  }).join('')}<div class="mobile-auth"><a href="https://app.molar.it/dashboard/login">Sign in</a><a class="button button-primary" href="/verify">Try Molar ${icon('arrow')}</a></div></nav><div class="header-actions"><a class="sign-in" href="https://app.molar.it/dashboard/login">Sign in</a><a class="button button-small button-primary" data-track="trial-nav" href="/verify">Try Molar ${icon('arrow')}</a></div></div></header><div class="nav-scrim" aria-hidden="true"></div>`;
+    return `<details class="nav-group nav-${label.toLowerCase()}"><summary aria-controls="menu-${label.toLowerCase()}">${label}${icon('chevron')}</summary><div id="menu-${label.toLowerCase()}" class="nav-dropdown"><div class="dropdown-inner">${menuBody(label,items,active)}</div></div></details>`;
+  }).join('')}<div class="mobile-auth"><a href="https://app.molar.it/dashboard/login">Sign in</a><a class="button button-primary" href="/verify">Check a page ${icon('arrow')}</a></div></nav><div class="header-actions"><a class="sign-in" href="https://app.molar.it/dashboard/login">Sign in</a><a class="button button-small button-primary" data-track="trial-nav" href="/verify">Check a page ${icon('arrow')}</a></div></div></header><div class="nav-scrim" aria-hidden="true"></div>`;
 }
 export function footer(){return `<footer class="site-footer"><div class="wrap footer-grid"><div class="footer-brand"><a class="brand" href="/" aria-label="Molar home">${logo}</a><p>Catch broken flows<br>before your customers do.</p><a class="text-link" href="mailto:pratik@molar.it">Talk to the team ${icon('arrow')}</a></div>${menus.map(([title,items])=>`<div class="footer-column"><h2>${title}</h2>${items.map(([href,t])=>`<a href="${href}">${t}</a>`).join('')}</div>`).join('')}</div><div class="wrap footer-bottom"><span>© ${new Date().getFullYear()} Molar Labs</span><span>Browser testing and automation.</span><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/security">Security</a><a href="/pricing">Pricing</a></div></div><div class="footer-wordmark" aria-hidden="true">Molar.</div></footer>`}
-export function cta(title='See what your next check finds.',description='Start with a public page, or talk through setup for your app.',{href='/verify',label='Try a browser check'}={}){return `<section class="closing"><div class="wrap closing-inner"><h2>${title}</h2><div><p>${description}</p><div class="actions"><a class="button button-primary" href="${href}" data-track="${href==='/verify'?'trial-footer':'contact-footer'}">${label} ${icon('arrow')}</a><a class="button button-outline" href="${href==='/contact'?'/verify':'/contact'}">${href==='/contact'?'Try a public check':'Talk through your setup'} ${icon('arrow')}</a></div></div></div></section>`}
+export function cta(title='See what your next check finds.',description='Start with a public page, or talk through setup for your app.',{href='/verify',label='Check a public page'}={}){return `<section class="closing"><div class="wrap closing-inner"><h2>${title}</h2><div><p>${description}</p><div class="actions"><a class="button button-primary" href="${href}" data-track="${href==='/verify'?'trial-footer':'contact-footer'}">${label} ${icon('arrow')}</a><a class="button button-outline" href="${href==='/contact'?'/verify':'/contact'}">${href==='/contact'?'Try a public check':'Talk through your setup'} ${icon('arrow')}</a></div></div></div></section>`}
 export function faq(items){return `<section class="section faq-section"><div class="wrap faq-layout"><div><h2>Questions,<br>answered.</h2><p>Have a specific workflow in mind?<br><a class="text-link" href="mailto:pratik@molar.it">Let’s talk it through ${icon('arrow')}</a></p></div><div class="faq-list">${items.map(({q,a})=>`<details class="faq"><summary>${esc(q)}<span class="faq-plus" aria-hidden="true"></span></summary><p>${esc(a).replace(/`([^`]+)`/g,'<code>$1</code>')}</p></details>`).join('')}</div></div></section>`}
 export const faqsQA = [
   {q:'What does Molar test?',a:'Molar opens your app in a real browser and checks tasks such as signing in, submitting a form, or completing checkout. Clones provide test versions of payment, email, SMS, authentication, and storage services for the supported integrations behind those tasks.'},

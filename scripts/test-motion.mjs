@@ -20,6 +20,7 @@ const open = async path => { await page.goto(base + path, {waitUntil:'networkidl
 try {
   await open('/');
   assert.ok(await page.locator('.has-process-motion').count());
+  let pinnedY;
   for (const i of [0,1,2,3,2,1,0]) {
     await page.locator('.process-copy').nth(i).evaluate(element => element.scrollIntoView({block:'start',behavior:'instant'}));
     await page.waitForTimeout(520);
@@ -30,7 +31,12 @@ try {
     const box = await page.locator('.is-active .process-visual').boundingBox();
     const header = await page.locator('.site-header').boundingBox();
     assert.ok(box.y >= header.height && box.y + box.height < 1000, JSON.stringify(box));
-    if (i > 0) assert.equal(Math.round(box.y), 145);
+    if (i > 0) {
+      const chapterNav = await page.locator('.process-nav').boundingBox();
+      assert.ok(box.y >= chapterNav.y + chapterNav.height, 'Pinned illustration must clear the chapter navigation');
+      pinnedY ??= box.y;
+      assert.ok(Math.abs(box.y - pinnedY) <= 1, 'Pinned illustration must stay at the same vertical position between chapters');
+    }
   }
   pass('Forward and reverse scrolling select the matching pinned view, with readable text and one exposed illustration');
   await page.locator('.process-nav a').nth(3).focus();

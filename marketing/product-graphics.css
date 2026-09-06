@@ -1,0 +1,126 @@
+.molar-product-graphic {
+  --pg-paper: #f7f8f2;
+  --pg-sage: #e8eddf;
+  --pg-sage-deep: #d4e8c5;
+  --pg-ink: #202b23;
+  --pg-muted: #56614f;
+  --pg-line: #cdd5c5;
+  --pg-dark: #1c2521;
+  --pg-dark-2: #2b382d;
+  --pg-dark-line: #4f5c4b;
+  --pg-light: #f5f7ef;
+  --pg-light-muted: #cad2c0;
+  --pg-coral: #f26342;
+  --pg-coral-soft: #f8ddd3;
+  --pg-green: #22664c;
+  --pg-green-soft: #d4e8c5;
+  --pg-danger: #a33827;
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 440 / 240;
+  color: var(--pg-ink);
+  font-family: Hanken, ui-sans-serif, sans-serif;
+  isolation: isolate;
+}
+
+.molar-product-graphic__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.molar-product-graphic text { dominant-baseline: alphabetic; }
+.molar-product-graphic .pg-surface { fill: var(--pg-paper); stroke: var(--pg-line); stroke-width: 1; }
+.molar-product-graphic .pg-surface-dark { fill: var(--pg-dark); stroke: var(--pg-dark-line); stroke-width: 1; }
+.molar-product-graphic .pg-panel { fill: #fff; stroke: var(--pg-line); stroke-width: 1; }
+.molar-product-graphic .pg-panel-dark { fill: var(--pg-dark-2); stroke: var(--pg-dark-line); stroke-width: 1; }
+.molar-product-graphic .pg-panel-dark-2 { fill: #354338; stroke: var(--pg-dark-line); stroke-width: 1; }
+.molar-product-graphic .pg-sage { fill: var(--pg-sage); stroke: var(--pg-line); stroke-width: 1; }
+.molar-product-graphic .pg-line { fill: none; stroke: var(--pg-line); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.molar-product-graphic .pg-dark-line { fill: none; stroke: var(--pg-dark-line); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.molar-product-graphic .pg-route { fill: none; stroke: #9aa894; stroke-width: 1.25; vector-effect: non-scaling-stroke; }
+.molar-product-graphic .pg-flow { fill: none; stroke: var(--pg-coral); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 0.01 0.045; vector-effect: non-scaling-stroke; }
+.molar-product-graphic .pg-route-flow { stroke-dasharray: 5 7; opacity: .9; }
+.molar-product-graphic .pg-dot { fill: var(--pg-line); }
+.molar-product-graphic .pg-coral-ring { fill: var(--pg-coral-soft); stroke: var(--pg-coral); stroke-width: 1.3; }
+.molar-product-graphic .pg-coral-fill { fill: var(--pg-coral); }
+.molar-product-graphic .pg-green-ring { fill: var(--pg-green-soft); stroke: var(--pg-green); stroke-width: 1.3; }
+.molar-product-graphic .pg-green-fill { fill: var(--pg-green); }
+.molar-product-graphic .pg-mark { stroke-width: 1; }
+.molar-product-graphic .pg-mark-good { fill: var(--pg-green-soft); stroke: var(--pg-green); }
+.molar-product-graphic .pg-mark-bad { fill: #f5d9d1; stroke: var(--pg-danger); }
+.molar-product-graphic .pg-mark-pending { fill: var(--pg-coral-soft); stroke: var(--pg-coral); }
+.molar-product-graphic .pg-mark-stroke { fill: none; stroke: currentColor; color: var(--pg-green); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.molar-product-graphic .pg-mark-bad + .pg-mark-stroke { color: var(--pg-danger); }
+.molar-product-graphic .pg-mark-pending + .pg-mark-stroke { color: var(--pg-coral); }
+.molar-product-graphic .pg-label { fill: var(--pg-ink); font: 600 14px/1 Hanken, ui-sans-serif, sans-serif; letter-spacing: -.012em; }
+.molar-product-graphic .pg-mono { fill: var(--pg-muted); font: 500 11px/1 'Geist Mono', ui-monospace, monospace; letter-spacing: -.01em; }
+.molar-product-graphic .pg-light { fill: var(--pg-light); }
+.molar-product-graphic .pg-muted { fill: var(--pg-muted); }
+.molar-product-graphic .pg-light-muted { fill: var(--pg-light-muted); }
+.molar-product-graphic .pg-coral { fill: var(--pg-coral); }
+.molar-product-graphic .pg-green { fill: var(--pg-green); }
+.molar-product-graphic .pg-danger { fill: var(--pg-danger); }
+.molar-product-graphic .pg-input { fill: #fff; stroke: var(--pg-line); stroke-width: 1; }
+.molar-product-graphic .pg-coral-soft { fill: var(--pg-coral-soft); stroke: var(--pg-coral-soft); }
+.molar-product-graphic .pg-outline-button { fill: transparent; stroke: var(--pg-coral); stroke-width: 1; }
+.molar-product-graphic .pg-route-arrow { fill: none; stroke: var(--pg-coral); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.molar-product-graphic .pg-lane { fill: #354338; stroke: var(--pg-dark-line); stroke-width: 1; }
+.molar-product-graphic .pg-lane-bad { fill: #4a302d; stroke: var(--pg-danger); stroke-width: 1; }
+.molar-product-graphic .pg-cursor { stroke: var(--pg-danger); stroke-width: 1.2; stroke-dasharray: 2 4; vector-effect: non-scaling-stroke; }
+.molar-product-graphic .pg-cursor-fill { fill: var(--pg-danger); }
+
+.molar-product-graphic .pg-flow { stroke-dashoffset: 0; }
+.molar-product-graphic .pg-cursor,
+.molar-product-graphic .pg-cursor-fill { transition: transform 240ms ease-out, opacity 240ms ease-out; }
+.molar-product-graphic:is(:hover, :focus-within) .pg-coral-ring { transform-box: fill-box; transform-origin: center; transform: scale(1.04); }
+.molar-product-graphic.is-in-view .pg-route-flow { animation: pg-route-draw 1.7s cubic-bezier(.16, 1, .3, 1) 1 both; }
+.molar-product-graphic.is-in-view .pg-cursor { animation: pg-cursor-mark 700ms cubic-bezier(.16, 1, .3, 1) 1 both; }
+
+@keyframes pg-route-draw {
+  from { stroke-dashoffset: 12; opacity: .4; }
+  to { stroke-dashoffset: 0; opacity: .9; }
+}
+
+@keyframes pg-cursor-mark {
+  from { opacity: .25; }
+  to { opacity: 1; }
+}
+
+.molar-product-graphic.is-compact {
+  width: 120px;
+  min-width: 120px;
+  height: 72px;
+  max-width: 120px;
+  aspect-ratio: 5 / 3;
+}
+
+.molar-product-graphic.is-compact > svg > .pg-surface,
+.molar-product-graphic.is-compact > svg > .pg-surface-dark { fill: transparent; stroke: none; }
+.molar-product-graphic.is-compact .pg-panel-dark { fill: var(--pg-sage); stroke: var(--pg-line); }
+.molar-product-graphic.is-compact .pg-panel-dark-2 { fill: #fff; stroke: var(--pg-line); }
+.molar-product-graphic.is-compact .pg-light { fill: var(--pg-ink); }
+.molar-product-graphic.is-compact .pg-light-muted { fill: var(--pg-muted); }
+.molar-product-graphic.is-compact .pg-dark-line { stroke: var(--pg-line); }
+.molar-product-graphic.is-compact .pg-lane { fill: var(--pg-sage); stroke: var(--pg-line); }
+.molar-product-graphic.is-compact .pg-lane-bad { fill: #f5d9d1; stroke: var(--pg-danger); }
+.molar-product-graphic.is-compact .pg-label,
+.molar-product-graphic.is-compact .pg-mono { display: none; }
+.molar-product-graphic.is-compact .pg-flow { stroke-width: 2.8; }
+.molar-product-graphic.is-compact .pg-node { stroke-width: 1.15; }
+.molar-product-graphic.is-compact .pg-route { stroke-width: 1.5; }
+
+@media (max-width: 640px) {
+  .molar-product-graphic:not(.is-compact) { max-width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .molar-product-graphic .pg-node,
+  .molar-product-graphic .pg-cursor,
+  .molar-product-graphic .pg-cursor-fill,
+  .molar-product-graphic .pg-coral-ring { transition: none; }
+  .molar-product-graphic.is-in-view .pg-route-flow,
+  .molar-product-graphic.is-in-view .pg-cursor { animation: none; }
+}

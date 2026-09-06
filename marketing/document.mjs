@@ -5,7 +5,7 @@ import {absoluteUrl,metaTags,structuredData} from './seo.mjs';
 export const revision = file => createHash('sha256').update(readFileSync(new URL(file,import.meta.url))).digest('hex').slice(0,10);
 const cssVersion=revision('./site.css');
 const jsVersion=revision('./site.js');
-const extraStyles=['illustrations.css','application-scene.css','service-lab.css','identity.css','entry-experience.css','company.css','scenario-detail.css','analytics.css','motion.css','motion-feedback.css'].map(file=>`<link rel="stylesheet" href="/marketing/${file}?v=${revision('./'+file)}">`).join('');
+const extraStyles=['illustrations.css','application-scene.css','service-lab.css','identity.css','entry-experience.css','company.css','scenario-detail.css','analytics.css','motion.css','motion-feedback.css','product-graphics.css','refinement.css'].map(file=>`<link rel="stylesheet" href="/marketing/${file}?v=${revision('./'+file)}">`).join('');
 const sceneVersion=revision('./application-scene.js');
 export function document({title,description,path='/',body,faqs=[],type='WebPage',noindex=false,image,date,datePublished,dateModified,author,breadcrumbs,section,keywords,styles=[],scripts=[]}={}){
  const url=absoluteUrl(path);

@@ -239,7 +239,7 @@ The CSS face is named `Hanken`; “Hanken Grotesk” describes the font file and
 
 ### Hierarchy
 
-- **Display** (560, `clamp(48px, 4.7vw, 69px)`, 1.06, `-0.042em`): Homepage and platform hero outcomes. The final responsive rules use `51px` at `max-width: 1150px`, `52px` at `max-width: 900px`, and `46px` at `max-width: 640px`; platform hero display is `43px` on phones.
+- **Display** (560, `clamp(54px, 5.2vw, 78px)`, 1.04, `-0.035em`): Homepage and platform hero outcomes. The final responsive rules use `57px` at `max-width: 900px` and `46px` at `max-width: 640px`.
 - **Headline** (550, `clamp(36px, 3.65vw, 54px)`, 1.1, `-0.035em`): Section claims and mechanism statements.
 - **Title** (550, `24px`, 1.25, `-0.02em`): Product names, cards, and compact explanatory blocks.
 - **Body** (400, `17px`, 1.6): Customer explanation and readable supporting copy.
@@ -256,7 +256,7 @@ Conversion surfaces keep count labels in Hanken with tabular numerals; Geist Mon
 
 The shared content wrap is capped at `1320px` and uses `calc(100% - 96px)` before the cap, `calc(100% - 48px)` at `max-width: 900px`, and `calc(100% - 36px)` at `max-width: 640px`. The attached header is sticky at `76px` on desktop and `70px` on phones. General sections use `100px` vertical rhythm in the identity layer.
 
-The homepage hero is a compact headline and action row followed by a full-width application workbench inside the wrap. The desktop headline row uses a `1.5fr 1fr` grid with a `70px` gap; the application scene follows at full available width. At `max-width: 900px`, the headline row becomes one column. At `max-width: 640px`, the application scene’s observations are ordered first, followed by the browser detail, and the service observations use a two-column grid. At the approved `833px` view, the opening viewport keeps the browser, service states, and customer result visible together.
+The homepage hero is a compact headline and action row followed by a full-width application workbench inside the wrap. The desktop headline row aligns at the top in a `1.45fr 1fr` grid with a `60px` gap; the project setup command sits below the headline on desktop and follows the explanatory copy on mobile; the application scene follows at full available width. At `max-width: 900px`, the headline row becomes one column. At `max-width: 640px`, the application scene’s observations are ordered first, followed by the browser detail, and the service observations use a two-column grid. At the approved `833px` view, the opening viewport keeps the browser, service states, and customer result visible together.
 
 The service lab is a five-tab dark workspace with a controls column and an example surface. Its tabs remain horizontally scrollable when needed. Product, proof, developer, and reading sections inherit the same wrap and use scene-specific compositions rather than a single repeated card grid.
 
@@ -348,7 +348,7 @@ The startup strip says “Building Molar with startup credits and resources from
 
 The entry workbench assembles browser, service rows, and result in a single 600ms entrance with bounded delays up to 240ms. Supporting product workbenches and explanatory illustrations enter once; related output rows use a 55ms stagger. Already-visible HTML is the default, and finite Web Animations cancel when the document is hidden or reduced motion is requested. No animation library, pointer loop, artificial preloader, or scroll interception is used.
 
-The homepage product walkthrough has four complete chapters with independent illustrations. On screens at least 1050px wide and 720px high, ordinary scrolling selects a pinned illustration below the attached navigation. Its content changes with a 220ms opacity transition and a 450ms settle; its path and progress line follow scroll position. Chapter links remain keyboard-accessible and shareable. Mobile, short viewports, reduced motion, and missing JavaScript expose every chapter and illustration in document flow. Diagram labels are at least 12px; scene headings and outputs use the existing compact 14–18px range.
+The homepage product walkthrough has four complete chapters with independent illustrations. On screens at least 1050px wide and 720px high, ordinary scrolling selects a pinned illustration below the attached navigation. The illustration pins at 166px below both navigation bars and changes with a 180ms opacity transition, keeping text stationary; its path and progress line follow scroll position. Chapter links remain keyboard-accessible and shareable. Mobile, short viewports, reduced motion, and missing JavaScript expose every chapter and illustration in document flow. Diagram labels are at least 12px; scene headings and outputs use the existing compact 14–18px range.
 
 The generalist platform uses a progressively enhanced native scroll timeline for the output connector. Unsupported browsers retain the ordinary static arrow. Existing demo pause, replay, inspection, and condition controls keep their own state and visibility rules.
 
@@ -438,3 +438,12 @@ The existing release-check workbench now leads into a dependency-to-scenario dia
 A three-scenario schedule history replaces the shallow status strip. All nine cells are inspectable: passed and failed runs show expected/observed state; queued, paused and unrun slots explicitly have no assertion result. One target and authored example labels avoid implying a live global network. The Mender section follows the same paid-but-no-access failure through source review and fresh validation, with an illustrative regression assertion and review checklist. Three code blocks copy exact CLI/CI/Playwright excerpts with prerequisites.
 
 Paper/sage/ink panels, coral failure states and a curved dependency connector preserve the existing identity. Native buttons work by keyboard; brief opacity/position feedback honors reduced motion. The page keeps eleven technical FAQs and useful static content without JavaScript. The finish pass corrected the CI result contrast, removed excess kickers, shortened reading measures and removed CSS orphaned by the replaced sections.
+
+
+## Illustrated navigation and editorial graphics · September 7
+
+Each navigation group has its own layout: five product previews, a browser-task illustration for Platform, three task groups for Solutions, and two guide previews for Resources. Hover keeps the existing 100ms dwell and 180ms leave grace. Panels use a 180ms opacity entrance; feedback uses 120ms without moving menu text. Mobile uses the native accordion with compact art and full-size labels.
+
+`product-graphics.mjs` and `.css` define original route, service-state, release, trace, repair, browser-task and swarm illustrations. They reuse paper, sage, ink and coral. Compact versions omit technical labels and outer frames; larger diagrams include short readable labels. Finite route and cursor animations use the existing intersection observer and stop under reduced motion. No animation library or pointer tracking was added.
+
+`guide-previews.mjs` supplies three existing guides with matching artwork. Homepage and platform guide shelves, blog covers and Resources previews share the same graphics. `refinement.css` holds the shared compositions. Four core product headers retain their distinct long-form stories and workbenches; the small header graphic is omitted on phones so the headline has the full reading width. Public-check CTAs name the public-page check, and beta setup links describe contacting the team.
