@@ -247,6 +247,9 @@
       pollAbortRef.current = controller;
       let timer;
       let transientFailures = 0;
+      let pendingFrameStep = null;
+      let pendingFrameDelay = 0;
+      let pendingFrameRetryAt = 0;
       const deadline = Date.now() + POLL_WINDOW_MS;
       const authorization = { Authorization: `Bearer ${proof.proof_token}` };
 
@@ -267,8 +270,10 @@
         timer = setTimeout(loadLatest, Math.min(delay, remaining));
       };
 
-      const loadFrame = async (step, maxWaitMs = 5000) => {
+      const loadFrame = async (step, maxWaitMs = 5000, force = false) => {
         if (!Number.isInteger(step) || step < 0 || step > 1000 || controller.signal.aborted) return;
+        if (step === latestFrameStepRef.current) return 200;
+        if (!force && step === pendingFrameStep && Date.now() < pendingFrameRetryAt) return 204;
         try {
           const { response: frame, blob } = await fetchBounded(`/api/instant-proof/${proof.proof_id}/frame?step=${step}`, {
             headers: authorization,
@@ -276,10 +281,18 @@
             cache: "no-store",
           }, controller.signal, Math.min(maxWaitMs, Math.max(1000, deadline - Date.now())), async (candidate) => ({
             response: candidate,
-            blob: candidate.ok ? await candidate.blob() : null,
+            blob: candidate.ok && candidate.status !== 204 ? await candidate.blob() : null,
           }));
+          if (frame.status === 204) {
+            pendingFrameDelay = step === pendingFrameStep ? Math.min(10000, pendingFrameDelay * 2) : 3000;
+            pendingFrameStep = step;
+            pendingFrameRetryAt = Date.now() + pendingFrameDelay;
+            return 204;
+          }
           if (!frame.ok) return frame.status;
           if (controller.signal.aborted) return;
+          pendingFrameStep = null;
+          pendingFrameDelay = 0;
           const objectUrl = URL.createObjectURL(blob);
           if (frameObjectUrl.current) URL.revokeObjectURL(frameObjectUrl.current);
           frameObjectUrl.current = objectUrl;
@@ -345,21 +358,22 @@
             return;
           }
           const step = frameStepFrom(body);
+          const isTerminal = TERMINAL_STATUSES.has(body.status);
           // The status contract exposes a count only after completion. While
           // running, read each captured step through the existing frame API.
-          let frameStatus = await loadFrame(step === null ? nextFrameStepRef.current : step);
+          let frameStatus = await loadFrame(step === null ? nextFrameStepRef.current : step, 5000, isTerminal);
           // Instant Proof permits 20 steps. Find a captured earlier step when
           // the final assertion/done step has none; bound both requests and time.
-          if (TERMINAL_STATUSES.has(body.status) && frameStatus === 404 && step !== null) {
+          if (isTerminal && (frameStatus === 404 || frameStatus === 204) && step !== null) {
             const frameDeadline = Date.now() + 3000;
             for (let candidate = step - 1; candidate >= Math.max(0, step - 19); candidate -= 1) {
               if (controller.signal.aborted || Date.now() >= frameDeadline) break;
-              frameStatus = await loadFrame(candidate, frameDeadline - Date.now());
-              if (frameStatus !== 404) break;
+              frameStatus = await loadFrame(candidate, frameDeadline - Date.now(), true);
+              if (frameStatus !== 404 && frameStatus !== 204) break;
             }
           }
           if (controller.signal.aborted) return;
-          if (TERMINAL_STATUSES.has(body.status)) {
+          if (isTerminal) {
             setResult(body);
             setTerminal(true);
             setState(body.status === "completed" || (body.status === "claimed" && body.result?.pass === true) ? "completed" : "failed");

@@ -231,7 +231,21 @@ async function handle(context) {
       out.set("X-Accel-Buffering", "no");
     }
 
-    return new Response(await upstream.arrayBuffer(), {
+    const payload = await upstream.arrayBuffer();
+    if (segments[0] !== "shared" && segments[1] === "frame" && upstream.status === 404 && contentType?.startsWith("application/json")) {
+      // A capture may not exist yet. Keep missing/expired proof capabilities as
+      // errors; only the authorized resource-not-ready response is pollable.
+      let pending = false;
+      try {
+        pending = JSON.parse(new TextDecoder().decode(payload)).error === "proof_resource_not_ready";
+      } catch { /* Preserve an unexpected upstream response verbatim. */ }
+      if (pending) {
+        out.delete("Content-Type");
+        out.set("Retry-After", "3");
+        return new Response(null, { status: 204, headers: out });
+      }
+    }
+    return new Response(payload, {
       status: upstream.status,
       headers: out,
     });

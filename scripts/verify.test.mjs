@@ -20,6 +20,13 @@ let reactDomSource;
 before(async () => {
   server = createServer(async (request, response) => {
     const file = request.url?.split("?", 1)[0];
+    if (file === "/csp-check") {
+      const policy = (await readFile(new URL("_headers", ROOT), "utf8")).match(/Content-Security-Policy: (.+)/)[1];
+      response.setHeader("Content-Type", "text/html; charset=utf-8");
+      response.setHeader("Content-Security-Policy", policy);
+      response.end('<script src="https://static.cloudflareinsights.com/beacon.min.js/test-version"></script><script src="https://untrusted.example.test/script.js"></script>');
+      return;
+    }
     if (file === "/verify.html" || file === "/verify") {
       response.setHeader("Content-Type", "text/html; charset=utf-8");
       response.end(await readFile(new URL("verify.html", ROOT)));
@@ -105,6 +112,15 @@ test("renders a final frame before showing the terminal verdict", async (t) => {
   assert.equal(statusCalls, 1);
   assert.match(frameRequest, /[?&]step=7(?:&|$)/);
   assert.match(await page.locator(".verdict").innerText(), /Verified/);
+});
+
+test("production CSP loads the injected analytics beacon and blocks unrelated scripts", async () => {
+  const page = currentPage;
+  await page.route("https://static.cloudflareinsights.com/**", route => route.fulfill({ contentType: "application/javascript", body: "window.beaconLoaded=true" }));
+  await page.route("https://untrusted.example.test/**", route => route.fulfill({ contentType: "application/javascript", body: "window.untrustedLoaded=true" }));
+  await page.goto(`${baseUrl}/csp-check`);
+  assert.equal(await page.evaluate(() => window.beaconLoaded), true);
+  assert.notEqual(await page.evaluate(() => window.untrustedLoaded), true);
 });
 
 test("shows the first captured frame while status has no frame count", async () => {
@@ -363,6 +379,57 @@ test("proxy generic failures expose a plain recovery hint", async () => {
   }
 });
 
+test("a not-yet-captured frame is pending, while missing proof access stays an error", async () => {
+  const originalFetch = globalThis.fetch;
+  try {
+    for (const [error, expected] of [["proof_resource_not_ready", 204], ["proof_not_found", 404]]) {
+      globalThis.fetch = async () => Response.json({ error }, { status: 404 });
+      const response = await onRequest({
+        request: new Request(`https://molar.it/api/instant-proof/${PROOF_ID}/frame?step=0`),
+        env: { INSTANT_PROOF_PROXY_SECRET: "x".repeat(32) },
+        params: { path: [PROOF_ID, "frame"] },
+      });
+      assert.equal(response.status, expected);
+      if (expected === 204) {
+        assert.equal(await response.text(), "");
+        assert.equal(response.headers.get("Retry-After"), "3");
+        assert.match(response.headers.get("Cache-Control"), /no-store/);
+      } else assert.equal((await response.json()).error, error);
+    }
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("pending frames back off without creating empty images or delaying the final screenshot", async () => {
+  const page = currentPage;
+  await page.clock.install();
+  let finished = false, frameCalls = 0, statusCalls = 0;
+  await page.route("**/api/instant-proof**", async route => {
+    if (route.request().method() === "POST") return route.fulfill({ status: 202, json: proofStart() });
+    if (route.request().url().includes("/frame")) {
+      frameCalls++;
+      return finished
+        ? route.fulfill({ contentType: "image/png", body: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=", "base64") })
+        : route.fulfill({ status: 204, headers: { "Retry-After": "3" } });
+    }
+    statusCalls++;
+    return route.fulfill({ json: finished ? statusBody("completed", { frame_step: 0 }) : statusBody("running") });
+  });
+  await page.getByRole("button", { name: "Run check" }).click();
+  await page.waitForResponse(r => r.url().includes("/frame"));
+  await page.clock.runFor(1600);
+  assert.equal(await page.locator(".frame img").count(), 0, "204 is not image data");
+  assert.equal(frameCalls, 1, "status polls must not hammer a pending frame");
+  assert.ok(statusCalls >= 2, "status polling continues independently");
+  finished = true;
+  await page.clock.runFor(1600);
+  await page.locator(".verdict").waitFor();
+  assert.equal(await page.getByAltText("Latest screenshot from the browser check").count(), 1);
+  assert.equal(frameCalls, 2, "completion bypasses pending-frame backoff");
+  assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "completed");
+});
+
 test("proxy rejects credentialed or query-bearing control-plane bases", async () => {
   const originalFetch = globalThis.fetch;
   let called = false;
@@ -428,14 +495,15 @@ test("a shared proof does not call an absent frame expired", async () => {
 });
 
 
-test("finds the last captured frame when the final browser steps have no screenshot", async () => {
+for (const missingStatus of [404, 204]) {
+test(`finds the last captured frame when final steps return ${missingStatus}`, async () => {
   const page = currentPage;
   const requested = [];
   await page.route("**/api/instant-proof**", async (route) => {
     const url = new URL(route.request().url());
     if (url.pathname.endsWith("/frame")) {
       const step = Number(url.searchParams.get("step")); requested.push(step);
-      if (step !== 1) return route.fulfill({ status: 404 });
+      if (step !== 1) return route.fulfill({ status: missingStatus });
       return route.fulfill({ status: 200, contentType: "image/png", body: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=", "base64") });
     }
     const body = route.request().method() === "POST" ? proofStart() : statusBody("completed", { result: { pass: true, steps_used: 4, rationale: "The heading was observed." } });
@@ -446,6 +514,7 @@ test("finds the last captured frame when the final browser steps have no screens
   assert.equal(await page.getByAltText("Latest screenshot from the browser check").count(), 1);
   assert.deepEqual(requested, [3, 2, 1]);
 });
+}
 
 
 test("a verified proof stays completed after it has been claimed", async () => {
