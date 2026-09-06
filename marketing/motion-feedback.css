@@ -1,0 +1,87 @@
+/* One crisp authored moment: the panel fades in while its content stays put. */
+.nav-group[open] > .nav-dropdown {
+  animation: molar-dropdown-in 160ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.nav-group[open] .dropdown-inner {
+  animation: none;
+}
+
+@keyframes molar-dropdown-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* Arrow and menu controls respond with a small, directional cue. */
+.button > .icon,
+.mobile-toggle > .icon,
+.dropdown-links > a > .nav-arrow,
+.workflow-links > a > .icon:last-child {
+  transition: transform 160ms cubic-bezier(.16, 1, .3, 1), color 160ms ease;
+}
+.button:hover > .icon,
+.dropdown-links > a:hover > .nav-arrow,
+.workflow-links > a:hover > .icon:last-child {
+  transform: translateX(2px);
+}
+.dropdown-links > a:hover > .nav-arrow {
+  color: var(--accent);
+}
+.mobile-toggle:hover > .icon {
+  transform: scale(.94);
+}
+.button:active > .icon,
+.dropdown-links > a:active > .nav-arrow,
+.workflow-links > a:active > .icon:last-child {
+  transform: translateX(1px);
+}
+.mobile-toggle:active > .icon {
+  transform: scale(.9);
+}
+/* Product and solution links acknowledge the pointer without shifting layout. */
+.workflow-links > a,
+.solution-library .text-link,
+.product-section-nav a {
+  transition: color 160ms ease, background-color 160ms ease;
+}
+.workflow-links > a:hover,
+.solution-library .text-link:hover,
+.product-section-nav a:hover {
+  color: #9c3923;
+}
+.solution-library .text-link .icon,
+.product-section-nav a .icon {
+  transition: transform 160ms cubic-bezier(.16, 1, .3, 1);
+}
+.solution-library .text-link:hover .icon,
+.product-section-nav a:hover .icon {
+  transform: translateX(2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-group[open] > .nav-dropdown,
+  .nav-group[open] .dropdown-inner {
+    animation: none;
+  }
+  .button > .icon,
+  .mobile-toggle > .icon,
+  .dropdown-links > a > .nav-arrow,
+  .workflow-links > a > .icon:last-child,
+  .solution-library .text-link .icon,
+  .product-section-nav a .icon,
+  .workflow-links > a,
+  .solution-library .text-link,
+  .product-section-nav a {
+    transition: none;
+  }
+  .button:hover > .icon,
+  .button:active > .icon,
+  .mobile-toggle:hover > .icon,
+  .mobile-toggle:active > .icon,
+  .dropdown-links > a:hover > .nav-arrow,
+  .dropdown-links > a:active > .nav-arrow,
+  .workflow-links > a:hover > .icon:last-child,
+  .workflow-links > a:active > .icon:last-child,
+  .solution-library .text-link:hover .icon,
+  .product-section-nav a:hover .icon {
+    transform: none;
+  }
+}

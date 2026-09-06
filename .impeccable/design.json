@@ -51,6 +51,9 @@
       {"name": "navigation-dropdown", "value": "0 24px 36px #21321a16", "purpose": "Separates an open desktop navigation dropdown."}
     ],
     "motion": [
+      {"name": "hero-assembly", "value": "600ms cubic-bezier(.16,1,.3,1); delays 0–240ms", "purpose": "One finite browser → services → result entrance; already-visible defaults and cancellation on reduced motion or a hidden document."},
+      {"name": "product-walkthrough", "value": "220ms opacity; 450ms settle", "purpose": "Scroll-selected pinned product illustration at ≥1050×720; copy stays stationary and all chapters remain inline on smaller or reduced-motion surfaces."},
+      {"name": "menu-entrance", "value": "160ms opacity", "purpose": "Crisp attached navigation with no translated or blurred text."},
       {"name": "state-transition", "value": ".2s ease", "purpose": "Button, link, border, toggle, and navigation state changes."},
       {"name": "application-route", "value": "2.8s linear infinite", "purpose": "Animated active causal route while the application scene is playing."},
       {"name": "application-track-fade", "value": ".5s", "purpose": "Application-scene route activation."},

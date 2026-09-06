@@ -5,7 +5,7 @@ Generated from rendered, indexable canonical HTML. 97 pages are included.
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
 Description: AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.
-Headings: Your users shouldn’t be your QA team. · Supported by startup programs · Payment succeeded. The customer is still locked out. · Make the hard cases easy to test. · Your app calls more than one service. · From the first click to the next release. · Your agent wrote it. Let Molar test it. · Start with one check. See what comes back. · Questions, answered. · Your next test starts with a URL.
+Headings: Your users shouldn’t be your QA team. · Supported by startup programs · Payment succeeded. The customer is still locked out. · Make the hard cases easy to test. · Your app calls more than one service. · One flow. From discovery to debugging. · Your agent wrote it. Let Molar test it. · Start with one check. See what comes back. · Questions, answered. · Your next test starts with a URL.
 
 ## Ask Molar — Practical Answers About Browser Testing
 URL: https://molar.it/ask

@@ -155,16 +155,16 @@ with sync_playwright() as p:
         page.wait_for_timeout(100)
         assert abs(page.locator('.site-header').bounding_box()['y']) <= 1
         report['checks'].append('reduced motion and attached header after scrolling')
-        tabs = page.locator('[data-showcase-tab]')
-        tabs.nth(1).click()
-        panel = page.locator('.product-panels [role=tabpanel]:not([hidden])')
-        assert panel.count() == 1
-        assert panel.evaluate('(el)=>getComputedStyle(el).transform') == 'none'
+        figures = page.locator('.process-visual')
+        assert figures.count() == 4
+        assert figures.evaluate_all('(elements)=>elements.every(el=>getComputedStyle(el).visibility === "visible")')
+        assert figures.evaluate_all('(elements)=>elements.every(el=>getComputedStyle(el).transform === "none")')
         page.emulate_media(reduced_motion='no-preference')
-        tabs.nth(2).click()
-        assert panel.evaluate('(el)=>getComputedStyle(el).transform') == 'none'
-        assert panel.evaluate('(el)=>getComputedStyle(el).animationDuration') == '0.18s'
-        report['checks'].append('product tabs preserve crisp text and respect reduced motion')
+        page.locator('.process-copy').nth(2).evaluate('(el)=>el.scrollIntoView({block:"start",behavior:"instant"})')
+        page.wait_for_timeout(550)
+        assert page.locator('.process-chapter.is-active').get_attribute('id') == 'product-release'
+        assert page.locator('.process-copy').evaluate_all('(elements)=>elements.every(el=>getComputedStyle(el).transform === "none")')
+        report['checks'].append('product walkthrough preserves stationary copy and exposes all views with reduced motion')
         context.close()
 
         for width in (390, 833):
