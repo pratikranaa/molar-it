@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-09-06T18:12:07.149Z",
+  "generatedAt": "2026-09-06T18:28:57.375Z",
   "pageCount": 97,
   "pages": [
     {
@@ -1102,8 +1102,12 @@
       "headings": [
         "Map your app. Test the paths that matter.",
         "See how someone gets from signup to a working account.",
-        "Choose the app, task, and test account.",
-        "Check what happened after the click.",
+        "Read the action. Then check the result.",
+        "Give the exploration a useful boundary.",
+        "A generated file still has to pass.",
+        "Start from your terminal. Bring the result to your team.",
+        "Look beyond the broken click.",
+        "Use the map in your wider QA workflow.",
         "Watch Molar complete a real browser task.",
         "Questions, answered.",
         "Start with one task in your app."

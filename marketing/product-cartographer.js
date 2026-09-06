@@ -12,6 +12,40 @@ export const CARTOGRAPHER_SCENARIOS = Object.freeze([
   {id:'account', label:'Account access', goal:'Check billing access for the supplied account role', startRoute:'billing'}
 ]);
 
+// Authored product example, not a live run or a generated test result.
+export const CARTOGRAPHER_RUN_STEPS = Object.freeze([
+  {title:'Open checkout', status:'Observed', target:"page.getByRole('heading', { name: 'Checkout' })", action:'Open the configured checkout page.', observed:'The Checkout heading and Pro plan are visible.', expected:'A checkout page for the selected plan', view:'Checkout', label:'Pro plan', value:'$24.00', note:'Plan price shown before payment.'},
+  {title:'Choose the Pro plan', status:'Observed', target:"page.getByRole('radio', { name: 'Pro' })", action:'Select the Pro plan.', observed:'The selected option is Pro; the order summary shows $24.00.', expected:'Pro selected at $24.00', view:'Plan selected', label:'Order summary', value:'$24.00', note:'The selected plan and its total agree.'},
+  {title:'Submit the test payment', status:'Observed', target:"page.getByRole('button', { name: 'Pay $24.00' })", action:'Submit using the configured test payment setup.', observed:'The browser opens an order confirmation page.', expected:'An order confirmation to inspect', view:'Order confirmation', label:'Payment submitted', value:'Receipt opened', note:'A confirmation page alone does not prove the amount is correct.'},
+  {title:'Check the receipt total', status:'Failed', target:"page.getByTestId('receipt-total')", action:'Compare the visible receipt total with the expected price.', observed:'The receipt shows $240.00, not the selected $24.00.', expected:'$24.00', view:'Receipt', label:'Total shown', value:'$240.00', note:'The amount check failed. Later account-access checks have not run.'},
+  {title:'Check Pro account access', status:'Not run', target:'No element inspected', action:'Not attempted after the receipt check failed.', observed:'No account-access result was captured.', expected:'A signed-in account with Pro access', view:'Account access', label:'Later check', value:'Not run', note:'Fix the failed amount check and rerun before treating account access as verified.'}
+]);
+
+if(typeof document !== 'undefined') (() => {
+  const root=document.querySelector('[data-cg-run]');
+  if(!root)return;
+  const buttons=[...root.querySelectorAll('[data-cg-step]')], panel=root.querySelector('[data-cg-step-panel]');
+  function select(index){
+    const step=CARTOGRAPHER_RUN_STEPS[index];
+    if(!step)return;
+    root.dataset.cgSelected=String(index);
+    buttons.forEach((button,i)=>{button.setAttribute('aria-selected',String(i===index));button.tabIndex=i===index?0:-1;});
+    panel.setAttribute('aria-labelledby',`cg-step-${index}`);
+    for(const field of ['title','status','target','action','observed','expected','view','label','value','note']) {
+      root.querySelectorAll(`[data-cg-${field}]`).forEach(element=>{element.textContent=step[field];});
+    }
+    panel.dataset.stepStatus=step.status;
+  }
+  buttons.forEach((button,index)=>{
+    button.addEventListener('click',event=>{select(index);if(event.detail>0&&matchMedia('(max-width:760px)').matches)panel.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});});
+    button.addEventListener('keydown',event=>{
+      const next=event.key==='Home'?0:event.key==='End'?buttons.length-1:event.key==='ArrowDown'?(index+1)%buttons.length:event.key==='ArrowUp'?(index+buttons.length-1)%buttons.length:null;
+      if(next===null)return;
+      event.preventDefault();select(next);buttons[next].focus();
+    });
+  });
+})();
+
 
 if(typeof document !== 'undefined') (() => {
   const root=document.querySelector('[data-cartographer-demo]')?.closest('.cg-workbench');

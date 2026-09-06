@@ -372,7 +372,7 @@ Headings: Privacy Policy · Who this applies to · Information we collect · How
 ## Cartographer | Molar
 URL: https://molar.it/products/cartographer
 Description: Give Cartographer a task and an authorized app. Follow the routes it explores, inspect the browser actions, and see which checks passed, failed, or could not run.
-Headings: Map your app. Test the paths that matter. · See how someone gets from signup to a working account. · Choose the app, task, and test account. · Check what happened after the click. · Watch Molar complete a real browser task. · Questions, answered. · Start with one task in your app.
+Headings: Map your app. Test the paths that matter. · See how someone gets from signup to a working account. · Read the action. Then check the result. · Give the exploration a useful boundary. · A generated file still has to pass. · Start from your terminal. Bring the result to your team. · Look beyond the broken click. · Use the map in your wider QA workflow. · Watch Molar complete a real browser task. · Questions, answered. · Start with one task in your app.
 
 ## Clones | Molar
 URL: https://molar.it/products/clones

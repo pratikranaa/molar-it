@@ -32,3 +32,7 @@ Independent local verification: nine motion groups, nine navigation groups, nine
 ## Clones technical depth extension
 
 The product page keeps its approved first viewport and service inspector. It adds causal request/clock/retry geometry, a complete tested snapshot fixture, application-endpoint setup, and a two-service saved-state diagram. Coverage, CI setup, snapshot boundaries, and provider comparisons remain explicit. The added reading sections stay in ordinary document flow on every viewport. Four copy actions, all section anchors, mobile layout, no-JavaScript content, and existing product interactions are verified; receipt: `docs/evidence/molar-clones-depth-2026-09-06/` in the parent repository. Fresh finish-review disposition: ship; no material fixes.
+
+## Cartographer technical depth extension
+
+Preserve the route-map opening and real recording. Restore detail through a five-step checkout inspector, a concrete exploration request and account setup, a generated-test evaluation path, CLI entry examples, additional findings, and product handoffs. A changed amount produces a failed receipt check; the subsequent account check has no invented result. Generated export, replay, repository delivery and the recording extension remain accurately described as beta. Ordinary document flow, explicit example labeling and keyboard controls apply throughout. Receipt: `docs/evidence/molar-cartographer-depth-2026-09-06/` in the parent repository. Fresh finish-review disposition: ship; no material fixes.
