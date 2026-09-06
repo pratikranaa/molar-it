@@ -4,8 +4,10 @@
   const APP_URL = "https://app.molar.it";
   const PHASES = ["URL", "Browser", "Screenshot", "Result"];
   const RUN_LIMIT_MS = 2 * 60 * 1000;
+  // The execution ceiling does not include the service's final evidence check.
+  const RESULT_VERIFICATION_MS = 2 * 60 * 1000;
   const DELIVERY_GRACE_MS = 10 * 1000;
-  const POLL_WINDOW_MS = RUN_LIMIT_MS + DELIVERY_GRACE_MS;
+  const POLL_WINDOW_MS = RUN_LIMIT_MS + RESULT_VERIFICATION_MS + DELIVERY_GRACE_MS;
   const TRANSIENT_STATUSES = new Set([408, 425, 429, 500, 502, 503, 504]);
   const TERMINAL_STATUSES = new Set(["completed", "failed", "claimed", "cancelled", "error"]);
   const SHARE_TOKEN = /^molar_share_[A-Za-z0-9_-]{32,}$/;
@@ -264,7 +266,7 @@
       const schedule = (delay) => {
         const remaining = deadline - Date.now();
         if (remaining <= 0) {
-          stopWithError("This check did not finish within two minutes. Try the check again.");
+          stopWithError("This check has not returned a result after four minutes. Try the check again.");
           return;
         }
         timer = setTimeout(loadLatest, Math.min(delay, remaining));
@@ -308,7 +310,7 @@
       const loadLatest = async () => {
         if (controller.signal.aborted) return;
         if (Date.now() >= deadline) {
-          stopWithError("This check did not finish within two minutes. Try the check again.");
+          stopWithError("This check has not returned a result after four minutes. Try the check again.");
           return;
         }
         try {
@@ -597,7 +599,7 @@
         "div",
         { className: "instrument-head" },
         React.createElement("div", null, "Browser check · ", React.createElement("b", null, state === "idle" ? "Ready" : state)),
-        React.createElement("code", null, "PUBLIC PAGES · UP TO 2 MIN"),
+        React.createElement("code", null, "PUBLIC PAGES · UP TO 4 MIN"),
       ),
       React.createElement(
         "form",
@@ -690,7 +692,7 @@
                       ? "Screenshots appear here as the browser captures them."
                       : state === "idle"
                         ? "Enter a public URL and describe what should appear."
-                        : "You can still review and save the result.",
+                        : terminal ? "You can still review and save the result." : "Run the check again to get a result.",
                   ),
                 ),
           ),
@@ -777,7 +779,7 @@
                   "div",
                   null,
                   React.createElement("b", null, "Real browser"),
-                  React.createElement("small", null, state === "running" ? "Session in progress" : "Not started"),
+                  React.createElement("small", null, state === "running" ? "Session in progress" : proof ? "Session status unavailable" : "Not started"),
                 ),
               ),
               React.createElement(
@@ -788,7 +790,7 @@
                   "div",
                   null,
                   React.createElement("b", null, "Result"),
-                  React.createElement("small", null, "Waiting for the browser check"),
+                  React.createElement("small", null, state === "failed" ? "No result received" : "Waiting for the browser check"),
                 ),
               ),
             ),

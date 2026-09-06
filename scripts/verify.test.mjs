@@ -430,6 +430,48 @@ test("pending frames back off without creating empty images or delaying the fina
   assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "completed");
 });
 
+test("waits for a delayed final verification after the browser execution window", async () => {
+  const page = currentPage;
+  await page.clock.install();
+  let ready = false;
+  await page.route("**/api/instant-proof**", async route => {
+    if (route.request().method() === "POST") return route.fulfill({ status: 202, json: proofStart() });
+    if (route.request().url().includes("/frame")) return ready
+      ? route.fulfill({ contentType: "image/png", body: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=", "base64") })
+      : route.fulfill({ status: 204 });
+    return route.fulfill({ json: ready ? statusBody("completed", { frame_step: 1 }) : statusBody("running") });
+  });
+  const pending = page.waitForResponse(r => r.url().includes("/frame"));
+  await page.getByRole("button", { name: "Run check" }).click();
+  await pending;
+  await page.clock.fastForward(131000);
+  await page.clock.runFor(100);
+  assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "running");
+  ready = true;
+  await page.clock.fastForward(39000);
+  await page.getByRole("button", { name: "Share result" }).waitFor();
+  assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "completed");
+  assert.equal(await page.getByAltText("Latest screenshot from the browser check").count(), 1);
+});
+
+test("the total result wait stays bounded and does not offer to save a missing result", async () => {
+  const page = currentPage;
+  await page.clock.install();
+  await page.route("**/api/instant-proof**", async route => {
+    if (route.request().method() === "POST") return route.fulfill({ status: 202, json: proofStart() });
+    if (route.request().url().includes("/frame")) return route.fulfill({ status: 204 });
+    return route.fulfill({ json: statusBody("running") });
+  });
+  const pending = page.waitForResponse(r => r.url().includes("/frame"));
+  await page.getByRole("button", { name: "Run check" }).click();
+  await pending;
+  await page.clock.fastForward(251000);
+  await page.getByRole("alert").waitFor();
+  assert.match(await page.getByRole("alert").innerText(), /four minutes/);
+  assert.doesNotMatch(await page.locator(".frame").innerText(), /save the result/);
+  assert.equal(await page.getByRole("button", { name: /Save result|Share result/ }).count(), 0);
+});
+
 test("proxy rejects credentialed or query-bearing control-plane bases", async () => {
   const originalFetch = globalThis.fetch;
   let called = false;

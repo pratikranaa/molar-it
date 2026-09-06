@@ -31,7 +31,7 @@ with sync_playwright() as p:
     report['policy']=navigation.headers.get('content-security-policy')
     assert page.get_by_label('Public URL',exact=True).input_value()=='https://example.com'
     page.get_by_role('button',name='Run check',exact=True).click()
-    deadline=time.monotonic()+145
+    deadline=time.monotonic()+265
     while time.monotonic()<deadline:
         page.wait_for_timeout(500)
         state=page.locator('#instant-proof').get_attribute('data-state')
