@@ -34,7 +34,7 @@ with sync_playwright() as p:
     report['checks'].append('Homepage CTA reaches a usable sample check')
     page.goto(args.base+'/')
     page.locator('.evidence-chapter [data-recording-start]').click()
-    page.wait_for_function("document.querySelector('.evidence-chapter video').currentTime>1")
+    page.wait_for_function("() => document.querySelector('.evidence-chapter video').currentTime>1")
     video=page.locator('.evidence-chapter video')
     report['video']=video.evaluate('(v)=>({duration:v.duration,width:v.videoWidth,height:v.videoHeight,currentTime:v.currentTime,error:v.error?.code||null})')
     assert 42<report['video']['duration']<45 and not report['video']['error']
