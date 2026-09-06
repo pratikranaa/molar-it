@@ -154,10 +154,10 @@ URL: https://molar.it/changelog
 Description: Follow updates to Molar browser execution, verification, test environments, and the platform.
 Headings: What’s new in Molar. · Checks for each requested browser step. · One dashboard for the Molar products. · Put the next update to work.
 
-## About Molar — Verify the Whole Customer Journey
+## Company | Molar
 URL: https://molar.it/company
-Description: Why Molar is building a verification loop for browser journeys that cross your application and third-party services.
-Headings: Software is built in pieces. People experience the whole. · The screen can look right while a record is missing. · From LMS integrations to browser checks. · Pratik Rana · Watch Molar test a page and a team invitation. · Beta access starts with one workflow. · Choose the workflow you want to verify.
+Description: Molar helps teams verify software whose most important behavior crosses several services.
+Headings: Test the handoffs customers depend on. · Journey first · Evidence another engineer can use · Agents with bounded access · Where we focus · A connected product needs connected checks · Questions, answered. · Meet the platform.
 
 ## Talk to the Molar Team
 URL: https://molar.it/contact
@@ -392,7 +392,7 @@ Headings: Turn a failure into a proposed fix. · Start with the evidence · Prop
 ## Trace | Molar
 URL: https://molar.it/products/trace
 Description: Inspect browser actions, requests, console messages, and captured service state in one run. Follow a failed assertion back to the details an engineer or coding agent needs to investigate.
-Headings: Find the step where your app stopped working. · The payment worked. Why is the account still locked? · Start at the failed check. Follow what happened before it. · Keep the failure close to your test. · Know what you can inspect. · A recording you can watch and inspect. · Give the next person the exact starting point. · Questions, answered. · Bring a failure you want to understand.
+Headings: Find the step where your app stopped working. · The payment worked. Why is the account still locked? · Follow the payment. Find the first visible failure. · Keep the failure. Keep your existing tests. · Know what you can inspect. · Give your coding agent the relevant part of the run. · A recording you can watch and inspect. · Give the next person the exact starting point. · Questions, answered. · Bring a failure you want to understand.
 
 ## The Molar QA agent
 URL: https://molar.it/qa-agent

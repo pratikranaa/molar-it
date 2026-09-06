@@ -36,3 +36,7 @@ The product page keeps its approved first viewport and service inspector. It add
 ## Cartographer technical depth extension
 
 Preserve the route-map opening and real recording. Restore detail through a five-step checkout inspector, a concrete exploration request and account setup, a generated-test evaluation path, CLI entry examples, additional findings, and product handoffs. A changed amount produces a failed receipt check; the subsequent account check has no invented result. Generated export, replay, repository delivery and the recording extension remain accurately described as beta. Ordinary document flow, explicit example labeling and keyboard controls apply throughout. Receipt: `docs/evidence/molar-cartographer-depth-2026-09-06/` in the parent repository. Fresh finish-review disposition: ship; no material fixes.
+
+## Trace technical depth extension
+
+Extend the approved Trace example with synchronized captured-step tracks, a keyboard-operable playhead and linked investigation references. Restore detailed comparison, capture setup, artifact availability and CLI/MCP inspection examples. Keep the causal account-access story, explicit sample labels, actual recording and beta boundaries. Receipt: `docs/evidence/molar-trace-depth-2026-09-07/` in the parent repository. Fresh finish-review disposition: ship; no material fixes.

@@ -6,6 +6,13 @@ export const traceSteps = [
   {label:'Check account access',time:'4.1s',action:'Check that the account can use Pro features',request:'GET /api/account',status:200,body:{plan:'free',access:false},console:'Assertion failed: expected Pro access, received Free.',payment:'Succeeded',delivery:'Failed · HTTP 500',plan:'Free'},
 ];
 
+export const traceTracks = [
+  {label:'Network',view:'network',values:['200','200','500','200']},
+  {label:'Console',view:'console',values:['Info','Info','Error','Failed']},
+  {label:'Page',view:'page',values:['Billing','Paid','Free','Free']},
+  {label:'Services',view:'state',values:['Free','Paid','Retry','Free']},
+];
+
 export function traceFrame(index,passing=false){
   index=Math.max(0,Math.min(3,index));
   const step=traceSteps[index];
@@ -21,6 +28,7 @@ export function tracePanel(index,view='network',passing=false){
   const step=traceFrame(index,passing);
   if(view==='network')return `<div class="pt-request"><span class="pt-status ${step.status>=400?'is-failed':''}">${step.status}</span><code>${step.request}</code></div><p class="pt-panel-label">Response body</p><pre>${json(step.body)}</pre>`;
   if(view==='console')return `<p class="pt-panel-label">Message at ${step.time}</p><div class="pt-console ${!passing&&index>=2?'is-failed':''}"><span>${!passing&&index>=2?'Error':'Info'}</span><p>${step.console}</p></div>`;
+  if(view==='page')return `<p class="pt-panel-label">Simplified page snapshot · ${step.time}</p><pre>${escapeText(`<section aria-label="Workspace plan">\n  <h2>${step.plan} plan</h2>\n  <p>${step.plan==='Pro'?'Shared projects available':'Pro required for shared projects'}</p>\n</section>`)}</pre>`;
   return `<dl class="pt-fields">${record('Payment',step.payment)}${record('Callback',step.delivery,index>=2)}${record('Account plan',step.plan,index>=2)}${record('Pro access',step.plan==='Pro'?'Available':'Unavailable',index>=2)}</dl>`;
 }
 
@@ -30,6 +38,7 @@ export function initTraceExample(root){
   const stepButtons=[...root.querySelectorAll('[data-trace-step]')];
   const viewButtons=[...root.querySelectorAll('[data-trace-view]')];
   const play=root.querySelector('[data-trace-play]');
+  const scrubber=root.querySelector('[data-trace-scrub]');
   const set=(selector,text)=>{root.querySelector(selector).textContent=text;};
   function stop(){clearTimeout(timer);timer=null;play.textContent='Replay example';play.setAttribute('aria-pressed','false');}
   function render(announce=true){
@@ -46,6 +55,11 @@ export function initTraceExample(root){
     set('[data-trace-screen-message]',index===0?'Choose a plan for your workspace.':index===1?'Your payment was received. We’re updating your account.':'Your account is still on the Free plan.');
     set('[data-trace-finding]',index===0?'The account starts without Pro access.':index===1?'Payment succeeded. Account access is still pending.':index===2?'The payment callback failed while updating the account.':'The payment passed, but the access check failed.');
     set('[data-trace-time]',step.time);
+    scrubber.value=String(index);
+    scrubber.setAttribute('aria-valuetext',`Step ${index+1} of 4, ${step.label}, ${step.time}`);
+    set('[data-trace-position]',`Step ${index+1} of 4 · ${step.time}`);
+    root.querySelectorAll('[data-trace-event]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.traceEvent)===index&&button.dataset.traceKind===view)));
+    root.querySelectorAll('[data-trace-column]').forEach(column=>column.classList.toggle('is-current',Number(column.dataset.traceColumn)===index));
     root.dataset.traceIndex=String(index);
     if(announce)set('[data-trace-announcement]',`${step.label}. ${view} details shown.${compare?' Passing example comparison open.':''}`);
   }
@@ -56,6 +70,15 @@ export function initTraceExample(root){
   }
   function start(){stop();index=0;render();play.textContent='Pause example';play.setAttribute('aria-pressed','true');timer=setTimeout(tick,1700);}
   stepButtons.forEach((button,i)=>button.addEventListener('click',()=>{manual=true;stop();index=i;render();}));
+  scrubber.addEventListener('input',()=>{manual=true;stop();index=Number(scrubber.value);render();});
+  root.querySelectorAll('[data-trace-event]').forEach(button=>button.addEventListener('click',()=>{
+    manual=true;stop();index=Number(button.dataset.traceEvent);view=button.dataset.traceKind;render();
+    if(matchMedia('(max-width:600px)').matches)root.querySelector('.pt-inspector').scrollIntoView({block:'start',behavior:motion.matches?'instant':'smooth'});
+  }));
+  document.querySelectorAll('[data-trace-cite]').forEach(button=>button.addEventListener('click',()=>{
+    manual=true;stop();index=Number(button.dataset.traceCite);view=button.dataset.traceKind;render();
+    const panel=root.querySelector('[data-trace-panel]');panel.focus({preventScroll:true});panel.scrollIntoView({block:'start',behavior:motion.matches?'instant':'smooth'});
+  }));
   viewButtons.forEach((button,i)=>{
     button.addEventListener('click',()=>{manual=true;stop();view=button.dataset.traceView;render();});
     button.addEventListener('keydown',event=>{
@@ -75,7 +98,7 @@ export function initTraceExample(root){
   const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
     if(!entry.isIntersecting){stop();return;}
     if(!manual&&!motion.matches){manual=true;start();}
-  }),{threshold:.4});
+  }),{threshold:.15});
   observer.observe(root);render(false);
 }
 if(typeof document!=='undefined')document.querySelectorAll('[data-trace-example]').forEach(initTraceExample);
