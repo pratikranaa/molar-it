@@ -274,6 +274,8 @@ Controls are gently squared at `6px`; general buttons resolve to the identity la
 
 Global keyboard focus is a visible `3px` coral outline with `5px` offset. Service-lab tabs and the condition toggle use the same coral outline with a `4px` offset. Reduced-motion rules remove scene, tab, toggle, and proof transitions.
 
+Navigation uses a 100ms first-hover dwell, immediate switching between open groups, and a 180ms leave grace period. Menu labels stay at their final pixel position with a 140ms opacity transition; product panels use 180ms without translating their text. Click, touch, Escape, focus-out and breakpoint changes cancel pending hover work. Mobile navigation stays flat: the desktop shadow and extra dropdown top padding do not carry into the accordion.
+
 ## Components
 
 Components are quiet at rest and explicit when a state changes.

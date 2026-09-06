@@ -5,7 +5,12 @@
   const nav = $('#main-nav');
   const toggle = $('.mobile-toggle');
   const groups = $$('.nav-group');
-  const closeGroups = except => groups.forEach(group => { if (group !== except) group.open = false; });
+  let hoverTimer;
+  const cancelHover = () => clearTimeout(hoverTimer);
+  const closeGroups = except => {
+    cancelHover();
+    groups.forEach(group => { if (group !== except) group.open = false; });
+  };
   const mobileQuery = matchMedia('(max-width: 900px)');
   const setMobileOpen = open => {
     nav?.classList.toggle('is-open', open);
@@ -14,20 +19,27 @@
     $('path',toggle)?.setAttribute('d',open?'m6 6 12 12M18 6 6 18':'M4 6h16M4 12h16M4 18h16');
     if (!open) closeGroups();
   };
-  // Clean-room interaction timing informed by NNGroup: https://www.nngroup.com/articles/timing-exposing-content/
+  // Clean-room hover-intent implementation; no third-party code copied.
+  // Context: https://www.nngroup.com/articles/timing-exposing-content/
+  // A short initial dwell avoids fly-by opens. Once browsing, switch in the same
+  // frame; independent open/close timers previously left a visible blank gap.
   groups.forEach(group => {
-    let hoverTimer;
-    document.addEventListener('keydown', event => { if (event.key === 'Escape') clearTimeout(hoverTimer); });
     group.addEventListener('toggle', () => { if (group.open) closeGroups(group); });
+    $('summary', group).addEventListener('click', cancelHover);
     group.addEventListener('pointerenter', event => {
-      if (event.pointerType !== 'mouse' || (mobileQuery.matches && !nav.classList.contains('is-open'))) return;
-      clearTimeout(hoverTimer);
-      hoverTimer=setTimeout(()=>{closeGroups(group);group.open=true},350);
+      if (event.pointerType !== 'mouse' || mobileQuery.matches) return;
+      cancelHover();
+      if (group.open) return;
+      const open = () => { closeGroups(group); group.open = true; };
+      if (groups.some(item => item.open)) open();
+      else hoverTimer = setTimeout(open, 100);
     });
     group.addEventListener('pointerleave', event => {
-      if (event.pointerType !== 'mouse' || (mobileQuery.matches && !nav.classList.contains('is-open'))) return;
-      clearTimeout(hoverTimer);
-      hoverTimer=setTimeout(()=>{if(!group.contains(document.activeElement)) group.open=false},220);
+      if (event.pointerType !== 'mouse' || mobileQuery.matches) return;
+      cancelHover();
+      hoverTimer = setTimeout(() => {
+        if (!group.contains(document.activeElement)) group.open = false;
+      }, 180);
     });
   });
   toggle?.addEventListener('click', () => setMobileOpen(!nav.classList.contains('is-open')));
@@ -38,6 +50,7 @@
   });
   document.addEventListener('keydown', event => {
     if (event.key !== 'Escape') return;
+    cancelHover();
     const open = groups.find(group => group.open);
     if (open) { open.open = false; $('summary', open).focus(); }
     else if (nav?.classList.contains('is-open')) { setMobileOpen(false);toggle.focus(); }

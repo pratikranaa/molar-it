@@ -41,6 +41,8 @@ Run `node --test scripts/application-scene.test.mjs` to verify the hero’s caus
 
 Run `python3 scripts/check-marketing.py` after building. It checks the published package's internal links, assets, heading counts, IDs, anchors, and JSON-LD.
 
+Run `python3 scripts/check-navigation.py --base http://localhost:8080` for hover latency, continuous menu switching, keyboard/touch dismissal, reduced motion, mobile styling, and product-tab regressions. It measures both primary routes at normal and 4× CPU slowdown. Use `--out` to retain the report/screenshots and `--baseline` to record a comparison without enforcing the responsiveness budget. Browser measurements are not field INP or a physical-device FPS guarantee.
+
 Deploy to the **existing** Cloudflare Pages project:
 
 ```bash
