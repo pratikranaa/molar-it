@@ -10,6 +10,7 @@
   const POLL_WINDOW_MS = RUN_LIMIT_MS + RESULT_VERIFICATION_MS + DELIVERY_GRACE_MS;
   const TRANSIENT_STATUSES = new Set([408, 425, 429, 500, 502, 503, 504]);
   const TERMINAL_STATUSES = new Set(["completed", "failed", "claimed", "cancelled", "error"]);
+  const COOLDOWN_KEY = "molar.public-check.retry-at";
   const SHARE_TOKEN = /^molar_share_[A-Za-z0-9_-]{32,}$/;
 
   async function readJson(response) {
@@ -44,18 +45,27 @@
     if (code === "invalid_json" || code === "invalid_proof_input") {
       return "Check the URL and description, then try again.";
     }
-    if (status === 429 || code === "rate_limited") {
-      const retrySeconds = Number(body?.retryAfter);
-      if (Number.isFinite(retrySeconds) && retrySeconds > 0) {
-        const minutes = Math.ceil(retrySeconds / 60);
-        return `Check limit reached. Try again in ${minutes} ${minutes === 1 ? "minute" : "minutes"}.`;
-      }
-      return "Check limit reached. Please try again later.";
-    }
     if (status >= 500 || code === "instant_proof_unavailable") {
       return "Browser checks are temporarily unavailable. Try again in a moment.";
     }
     return "The browser check could not start. Check the public URL and try again.";
+  }
+
+  function readCooldown() {
+    try {
+      const until = Number(sessionStorage.getItem(COOLDOWN_KEY));
+      return Number.isFinite(until) && until > Date.now() ? until : 0;
+    } catch { return 0; }
+  }
+
+  // Retry-After permits delay seconds or an HTTP date (RFC 9110, section 10.2.3).
+  function retryDeadline(response, body) {
+    const header = response.headers.get("Retry-After");
+    if (header && /^\d+$/.test(header)) return Date.now() + Number(header) * 1000;
+    const date = header ? Date.parse(header) : NaN;
+    if (Number.isFinite(date)) return Math.max(Date.now(), date);
+    const seconds = Number(body?.retryAfter);
+    return Number.isFinite(seconds) && seconds > 0 ? Date.now() + seconds * 1000 : 0;
   }
 
   function consumeSharedToken() {
@@ -123,7 +133,9 @@
     const [sharedToken, setSharedToken] = useState(consumeSharedToken);
     const [url, setUrl] = useState("https://example.com");
     const [claim, setClaim] = useState("The page has a heading called Example Domain.");
-    const [state, setState] = useState("idle");
+    const [retryAt, setRetryAt] = useState(readCooldown);
+    const [now, setNow] = useState(Date.now);
+    const [state, setState] = useState(() => retryAt > Date.now() ? "limited" : "idle");
     const [error, setError] = useState("");
     const [proof, setProof] = useState(null);
     const [result, setResult] = useState(null);
@@ -143,6 +155,23 @@
     const [terminal, setTerminal] = useState(false);
 
     useEffect(() => onSharedChange(Boolean(sharedToken)), [sharedToken, onSharedChange]);
+
+    useEffect(() => {
+      if (state !== "limited" || !retryAt) return;
+      const tick = () => {
+        const current = Date.now();
+        setNow(current);
+        if (current >= retryAt) {
+          setRetryAt(0);
+          setState("idle");
+          setError("");
+          try { sessionStorage.removeItem(COOLDOWN_KEY); } catch { /* Storage may be disabled. */ }
+        }
+      };
+      tick();
+      const timer = setInterval(tick, 1000);
+      return () => clearInterval(timer);
+    }, [state, retryAt]);
 
     useEffect(() => {
       const openSharedLink = () => setSharedToken(consumeSharedToken());
@@ -400,6 +429,7 @@
 
     async function start(event) {
       event.preventDefault();
+      if (retryAt > Date.now()) return;
       if (pollAbortRef.current) pollAbortRef.current.abort();
       if (startAbortRef.current) startAbortRef.current.abort();
       const controller = new AbortController();
@@ -432,6 +462,16 @@
         }));
         if (controller.signal.aborted) return;
         if (!response.ok) {
+          if (response.status === 429) {
+            const until = retryDeadline(response, body);
+            setRetryAt(until);
+            setNow(Date.now());
+            setState("limited");
+            try {
+              if (until > Date.now()) sessionStorage.setItem(COOLDOWN_KEY, String(until));
+            } catch { /* The current page still honors the cooldown without storage. */ }
+            return;
+          }
           setState("failed");
           setError(customerStartError(body, response.status));
           return;
@@ -584,6 +624,9 @@
       );
     }
 
+    const limited = state === "limited";
+    const remaining = Math.max(0, Math.ceil((retryAt - now) / 1000));
+    const countdown = `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, "0")}`;
     const activePhase = state === "idle" ? 0 : state === "starting" ? 1 : state === "running" ? 2 : 3;
     const verdict =
       terminal && result?.result?.pass === true
@@ -598,8 +641,8 @@
       React.createElement(
         "div",
         { className: "instrument-head" },
-        React.createElement("div", null, "Browser check · ", React.createElement("b", null, state === "idle" ? "Ready" : state)),
-        React.createElement("code", null, "PUBLIC PAGES · UP TO 4 MIN"),
+        React.createElement("div", null, "Browser check · ", React.createElement("b", null, state === "idle" ? "Ready" : limited ? "Check limit reached" : state)),
+        React.createElement("code", null, limited ? "PUBLIC PAGES" : "PUBLIC PAGES · UP TO 4 MIN"),
       ),
       React.createElement(
         "form",
@@ -633,9 +676,11 @@
           {
             className: "primary",
             type: "submit",
-            disabled: state === "starting" || state === "running",
+            disabled: state === "starting" || state === "running" || (limited && remaining > 0),
           },
-          state === "failed"
+          limited
+            ? remaining > 0 ? `Try again in ${countdown}` : "Try again"
+            : state === "failed"
             ? "Try again"
             : state === "starting"
               ? "Starting browser…"
@@ -645,10 +690,19 @@
                   ? "Run another check"
                   : "Run check",
         ),
-        React.createElement("p", { className: "policy" }, "Checks public pages without signing in or changing data. Save a result to keep it after this link expires."),
-        error ? React.createElement("p", { className: "error", role: "alert" }, error) : null,
+        React.createElement("p", { className: "policy" }, "Checks public pages without signing in or changing data.", proof ? " Save a result to keep it after this link expires." : ""),
+        limited
+          ? React.createElement("p", { className: "limit-notice", role: "alert" }, "Public checks are temporarily limited. No browser session has started.")
+          : error ? React.createElement("p", { className: "error", role: "alert" }, error) : null,
       ),
-      React.createElement(
+      limited ? React.createElement(
+        "div",
+        { className: "stage limit-stage" },
+        React.createElement("span", { className: "limit-label" }, "Public check limit"),
+        React.createElement("h3", null, "Your check hasn’t started."),
+        React.createElement("p", null, "Please wait before starting another check. You can explore the interactive example in the meantime."),
+        React.createElement("a", { className: "text-link", href: "/#checkout-story" }, "Explore the interactive example"),
+      ) : React.createElement(
         "div",
         { className: "stage", "aria-live": "polite" },
         React.createElement(
@@ -707,7 +761,12 @@
           React.createElement("span", null, "Check details"),
           React.createElement("code", null, proof ? proof.proof_id.slice(0, 8) : "—"),
         ),
-        state === "completed" || (state === "failed" && terminal)
+        limited ? React.createElement(
+          "div", { className: "limit-details" },
+          React.createElement("b", null, "No result to review yet"),
+          React.createElement("p", null, "This limit applies to the public checker. Your page has not been tested."),
+          React.createElement("a", { className: "text-link", href: "/contact" }, "Talk to us about testing your app"),
+        ) : state === "completed" || (state === "failed" && terminal)
           ? React.createElement(
               "div",
               { className: "verdict", "data-pass": result?.result?.pass === true || undefined },
@@ -794,7 +853,7 @@
                 ),
               ),
             ),
-        React.createElement(
+        !limited && React.createElement(
           "footer",
           null,
           React.createElement("span", null, "Link expires"),

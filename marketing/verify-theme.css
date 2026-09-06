@@ -28,3 +28,14 @@
 @media(max-width:960px){.verify-shell .verify-main{width:calc(100% - 64px)}.verify-shell .verify-hero h1{font-size:57px}}
 @media(max-width:960px){.verify-shell .instrument.shared-proof{grid-template-columns:1fr}.verify-shell .shared-proof .evidence{border-left:0;border-top:1px solid #b8c8ab}}
 @media(max-width:640px){.verify-shell .verify-main{width:calc(100% - 40px);padding:42px 0 60px}.verify-shell .verify-hero{margin-bottom:30px}.verify-shell .verify-hero h1{font-size:45px}.verify-shell .verify-hero p{font-size:16px}.verify-shell .field input,.verify-shell .field textarea{font-size:16px}}
+
+/* A rejected start has no browser preview or test verdict. */
+.verify-shell .limit-notice{margin:12px 0 0;padding:12px;border:1px solid var(--line);border-radius:6px;background:#f7f8f2;color:var(--ink-2);font-size:14px;line-height:1.5}
+.verify-shell .limit-stage{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:20px;padding:36px;min-height:330px}
+.verify-shell .limit-label{font-size:13px;font-weight:600;color:var(--ink-2)}
+.verify-shell .limit-stage h3{font-size:clamp(26px,3vw,36px);font-weight:500;line-height:1.15;letter-spacing:-.02em;max-width:14ch}
+.verify-shell .limit-stage p,.verify-shell .limit-details p{font-size:15px;line-height:1.6;color:var(--ink-2)}
+.verify-shell .limit-details{display:grid;gap:16px;margin-top:26px}
+.verify-shell .limit-stage .text-link,.verify-shell .limit-details .text-link{font-size:14px;text-underline-offset:4px}
+.verify-shell .instrument[data-state="limited"] .primary:disabled{opacity:1;background:#d5deca;color:#53664a;font-variant-numeric:tabular-nums}
+@media(max-width:640px){.verify-shell .limit-stage{padding:24px;min-height:280px}}

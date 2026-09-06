@@ -495,16 +495,76 @@ test("proxy rejects credentialed or query-bearing control-plane bases", async ()
   }
 });
 
-// Regression: the live service returned an hour-long wait, not a momentary outage.
-test("shows the service retry window when a new proof is rate limited", async () => {
+// A rejected start is not a test verdict, and Retry-After must survive a reload.
+test("a rate-limited start shows a cooldown without a failed test or empty preview", async () => {
   const page = currentPage;
-  await page.route("**/api/instant-proof", (route) => route.fulfill({
-    status: 429, contentType: "application/json",
-    body: JSON.stringify({ error: "Too Many Requests", retryAfter: 3600 }),
+  await page.route("**/api/instant-proof", route => route.fulfill({
+    status: 429, json: { error: "Too Many Requests", retryAfter: 3600 },
   }));
   await page.getByRole("button", { name: "Run check", exact: true }).click();
   await page.getByRole("alert").waitFor();
-  assert.match(await page.getByRole("alert").innerText(), /try again in 60 minutes/i);
+  assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "limited");
+  assert.match(await page.locator(".stage").innerText(), /Your check hasn’t started/);
+  assert.doesNotMatch(await page.locator("#instant-proof").innerText(), /FAILED|Incomplete|Preview unavailable|Link expires|No result received/);
+  assert.equal(await page.getByRole("button", { name: /Try again in/ }).isDisabled(), true);
+  assert.equal(await page.getByRole("link", { name: "Explore the interactive example" }).getAttribute("href"), "/#checkout-story");
+  assert.equal(await page.getByRole("button", { name: /Save result|Share result/ }).count(), 0);
+});
+
+for (const format of ["seconds", "date"]) {
+  test(`respects Retry-After ${format} and only retries when the visitor asks`, async () => {
+    const page = currentPage;
+    await page.clock.install();
+    const now = await page.evaluate(() => Date.now());
+    let starts = 0;
+    await page.route("**/api/instant-proof**", async route => {
+      if (route.request().method() !== "POST") return route.fulfill({ json: statusBody("running") });
+      starts += 1;
+      return starts === 1 ? route.fulfill({
+        status: 429,
+        headers: { "Retry-After": format === "seconds" ? "65" : new Date(now + 65000).toUTCString() },
+        json: { error: "Too Many Requests" },
+      }) : route.fulfill({ status: 202, json: proofStart() });
+    });
+    await page.getByLabel("Public URL", { exact: true }).fill("https://example.org");
+    await page.getByLabel("What should be on the page?").fill("The page has an Example Domain heading.");
+    await page.getByRole("button", { name: "Run check", exact: true }).click();
+    await page.getByRole("alert").waitFor();
+    assert.equal(await page.getByRole("button", { name: /Try again in/ }).isDisabled(), true);
+    await page.clock.fastForward(66000);
+    await page.getByRole("button", { name: "Run check", exact: true }).waitFor();
+    assert.equal(starts, 1);
+    assert.equal(await page.getByLabel("Public URL", { exact: true }).inputValue(), "https://example.org");
+    assert.equal(await page.getByLabel("What should be on the page?").inputValue(), "The page has an Example Domain heading.");
+    await page.getByRole("button", { name: "Run check", exact: true }).click();
+    await page.getByRole("button", { name: "Browser running", exact: true }).waitFor();
+    assert.equal(starts, 2);
+  });
+}
+
+test("a page reload retains the known cooldown without making a new request", async () => {
+  const page = currentPage;
+  let starts = 0;
+  await page.route("**/api/instant-proof", route => {
+    starts += 1;
+    return route.fulfill({ status: 429, json: { error: "Too Many Requests", retryAfter: 3600 } });
+  });
+  await page.getByRole("button", { name: "Run check", exact: true }).click();
+  await page.getByRole("alert").waitFor();
+  await page.reload();
+  await page.getByRole("button", { name: /Try again in/ }).waitFor();
+  assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "limited");
+  assert.equal(starts, 1);
+});
+
+test("a rate limit without a retry hint does not invent a countdown", async () => {
+  const page = currentPage;
+  await page.route("**/api/instant-proof", route => route.fulfill({ status: 429, json: { error: "Too Many Requests" } }));
+  await page.getByRole("button", { name: "Run check", exact: true }).click();
+  await page.getByRole("alert").waitFor();
+  assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "limited");
+  assert.equal(await page.getByRole("button", { name: "Try again", exact: true }).isEnabled(), true);
+  assert.doesNotMatch(await page.locator("#instant-proof").innerText(), /\d+ minutes|Try again in/);
 });
 
 
