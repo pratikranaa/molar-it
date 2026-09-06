@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-09-06T12:02:11.874Z",
+  "generatedAt": "2026-09-06T12:29:57.967Z",
   "pageCount": 97,
   "pages": [
     {
@@ -12,7 +12,7 @@
       "description": "AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.",
       "headings": [
         "Your users shouldn’t be your QA team.",
-        "Watch a real check finish.",
+        "Payment succeeded. The customer is still locked out.",
         "Make the hard cases easy to test.",
         "From the first click to the next release.",
         "Your agent wrote it. Let Molar test it.",
@@ -986,7 +986,7 @@
         "Automate the tasks you repeat in browser tabs.",
         "Get the file, the data, and the run status.",
         "Your agent’s next tool? A working browser.",
-        "Watch a real check finish.",
+        "Payment succeeded. The customer is still locked out.",
         "You built the app. Now use it like your customers do.",
         "Start with one task. See what comes back.",
         "Questions, answered.",

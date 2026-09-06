@@ -9,7 +9,7 @@ parser.add_argument('--out',default='/tmp/molar-final-pass')
 args=parser.parse_args()
 out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
 report={'base':args.base,'checks':[],'errors':[]}
-shots=[('/', '.identity-hero','home'),('/', '.evidence-chapter','evidence'),('/', '.first-step','first-step'),('/platform','.platform-work','platform-work'),('/company','.company-hero','company'),('/company','.company-origin','company-origin'),('/company','.company-founder','founder'),('/pricing','.pricing-choices','pricing'),('/products/clones','#product-demo','clones'),('/products/trace','#product-demo','trace'),('/products/clones','#product-setup','clones-depth'),('/products/guard','#product-setup','guard-depth'),('/platform/swarm','.detail-section','swarm'),('/solutions/authentication-testing','.detail-section.muted-section','roles')]
+shots=[('/', '.identity-hero','home'),('/', '.checkout-story','checkout-story'),('/', '.first-step','first-step'),('/platform','.platform-work','platform-work'),('/company','.company-hero','company'),('/company','.company-origin','company-origin'),('/company','.company-founder','founder'),('/pricing','.pricing-choices','pricing'),('/products/clones','#product-demo','clones'),('/products/trace','#product-demo','trace'),('/products/clones','#product-setup','clones-depth'),('/products/guard','#product-setup','guard-depth'),('/platform/swarm','.detail-section','swarm'),('/solutions/authentication-testing','.detail-section.muted-section','roles')]
 with sync_playwright() as p:
     browser=p.chromium.launch()
     context=browser.new_context(viewport={'width':1440,'height':1000},reduced_motion='reduce')
@@ -21,11 +21,11 @@ with sync_playwright() as p:
         assert response.status==200,(route,response.status)
         header_surface=page.locator('.site-header').evaluate('(el)=>getComputedStyle(el).backgroundColor')
         assert page.locator('.identity-hero .button-primary').get_attribute('href')=='/verify'
-        assert page.locator('.identity-hero .button-outline').get_attribute('href')=='#recorded-run'
-        assert page.locator('#recorded-run video').count()==1
+        assert page.locator('.identity-hero .button-outline').get_attribute('href')=='#checkout-story'
+        assert page.locator('[data-checkout-story]').count()==1
         assert page.locator('.first-step').count()==1
         assert page.locator('.header-actions .button-primary').get_attribute('href')=='/verify'
-        report['checks'].append(route+' clear trial entry and actual recording')
+        report['checks'].append(route+' clear trial entry and interactive checkout story')
     page.goto(args.base+'/')
     page.locator('.identity-hero .button-primary').click()
     page.locator('#instant-proof').wait_for()
@@ -34,10 +34,10 @@ with sync_playwright() as p:
     assert page.get_by_label('What should be on the page?').input_value()=='The page has a heading called Example Domain.'
     assert page.get_by_role('button',name='Run check',exact=True).is_enabled()
     report['checks'].append('Homepage CTA reaches a usable sample check')
-    page.goto(args.base+'/')
-    page.locator('.evidence-chapter [data-recording-start]').click()
-    page.wait_for_function("() => document.querySelector('.evidence-chapter video').currentTime>1")
-    video=page.locator('.evidence-chapter video')
+    page.goto(args.base+'/examples/autonomous-browser-check')
+    page.locator('[data-recording-start]').click()
+    page.wait_for_function("() => document.querySelector('.browser-check-example video').currentTime>1")
+    video=page.locator('.browser-check-example video')
     report['video']=video.evaluate('(v)=>({duration:v.duration,width:v.videoWidth,height:v.videoHeight,currentTime:v.currentTime,error:v.error?.code||null})')
     assert 42<report['video']['duration']<45 and not report['video']['error']
     video.evaluate('(v)=>v.pause()')
