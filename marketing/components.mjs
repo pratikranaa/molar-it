@@ -55,6 +55,7 @@ const menus = [
   ['Resources',[
     ['/ask','Ask Molar','Find an answer with sources.','search'],
     [DOCS,'Documentation','Get from setup to your first run.','file'],
+    ['https://mcp.molar.it','MCP setup','Connect Claude Code, Codex, Cursor, and more.','code'],
     ['/blog','Guides & field notes','Practical lessons in software QA.','file'],
     ['/resources','Developer resources','CLI, API, MCP, and Playwright.','terminal'],
     ['/company','Company','Why we are building Molar.','users'],
