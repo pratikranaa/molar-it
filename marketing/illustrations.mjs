@@ -28,7 +28,7 @@ const windowBar = label => `<div class="fv-window">${dots}<span>${esc(label)}</s
 const pathSvg = (paths, className = '') => `<svg class="fv-geometry ${className}" viewBox="0 0 1000 280" preserveAspectRatio="none" aria-hidden="true"><g>${paths.map(path => `<path class="${path.flow ? 'fv-flow' : ''}" d="${path.d}"${path.pathLength ? ` pathLength="${path.pathLength}"` : ''}/>`).join('')}</g></svg>`;
 
 function checkout() {
-  return fig('checkout', 'Checkout journey', stage('checkout', `${pathSvg([
+  return fig('checkout', 'Payment and order checks', stage('checkout', `${pathSvg([
     { d: 'M250 143C302 54 345 54 398 143' },
     { d: 'M602 143C655 232 700 232 750 143' },
     { d: 'M250 143C302 54 345 54 398 143', flow: true, pathLength: 1 },
@@ -41,7 +41,7 @@ function checkout() {
 }
 
 function identity() {
-  return fig('identity', 'Identity journey', stage('identity', `${pathSvg([
+  return fig('identity', 'Signup and email verification', stage('identity', `${pathSvg([
     { d: 'M250 142H395' },
     { d: 'M605 142H750' },
     { d: 'M500 58V112' },
@@ -76,7 +76,7 @@ function preview() {
     { d: 'M620 140H740', flow: true, pathLength: 1 }
   ])}<div class="fv-release-path">
     <article class="fv-release-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Pull request</span><span class="fv-node-mark">01</span></header><div class="fv-release-body"><div class="fv-pr-title">${icon('branch')}<strong>Update checkout confirmation</strong></div><code>pull/48 · 3 files changed</code><div class="fv-diff"><span>- status: pending</span><span>+ status: confirmed</span><span>+ receipt: attached</span></div></div></article>
-    <article class="fv-release-node fv-browser-release" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Preview browser</span><span class="fv-node-mark">02</span></header><div class="fv-release-body">${windowBar('preview.northstar.test')}<strong>Three journeys run</strong><p>${check}<span>Signup and verification</span><b>Passed</b></p><p>${check}<span>Invite a teammate</span><b>Passed</b></p><p class="is-fail">${fail}<span>Payment confirmation</span><b>Needs review</b></p></div></article>
+    <article class="fv-release-node fv-browser-release" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Preview browser</span><span class="fv-node-mark">02</span></header><div class="fv-release-body">${windowBar('preview.northstar.test')}<strong>Three browser tests</strong><p>${check}<span>Signup and verification</span><b>Passed</b></p><p>${check}<span>Invite a teammate</span><b>Passed</b></p><p class="is-fail">${fail}<span>Payment confirmation</span><b>Needs review</b></p></div></article>
     <article class="fv-release-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Result</span><span class="fv-node-mark">03</span></header><div class="fv-result-body"><div class="fv-event-icon">${fail}</div><strong>Trace attached</strong><span>One check needs review before merge.</span><code>trace_48_checkout</code><a class="fv-scene-link" href="/products/trace">Explore Trace ${icon('arrow')}</a></div></article>
   </div>`));
 }
@@ -124,8 +124,8 @@ function swarm() {
 function live() {
   return fig('live', 'Trace compare', stage('live', `<div class="fv-live-grid">
     <article class="fv-live-browser" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Browser state</span><span class="fv-node-mark">Before</span></header>${windowBar('checkout.northstar.test / confirmation')}<div class="fv-live-screen"><nav><strong>Northstar</strong><span>Plans</span><span>Workspace</span><span>Billing</span></nav><div class="fv-live-message"><div class="fv-event-icon">${check}</div><strong>Order confirmed</strong><span>Receipt sent to test inbox</span></div></div></article>
-    <article class="fv-live-trace" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Run trace</span><strong>00:08 — 00:10</strong></header><div class="fv-trace-row"><b>01</b><span><strong>Open checkout</strong><small>Screenshot captured</small></span><code>200</code></div><div class="fv-trace-row"><b>02</b><span><strong>Confirm payment</strong><small>POST /webhooks/payment</small></span><code>200</code></div><div class="fv-trace-row"><b>03</b><span><strong>Receive receipt</strong><small>Test inbox matched</small></span><code>ready</code></div><footer>${icon('trace')} Network and console evidence attached</footer></article>
-    <article class="fv-live-compare" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Compare</span><span class="fv-node-mark">After</span></header><div class="fv-compare-row"><span>Order state</span><strong>${check} confirmed</strong></div><div class="fv-compare-row"><span>Callback</span><strong>${check} received</strong></div><div class="fv-compare-row"><span>Receipt</span><strong>${check} matched</strong></div><a class="fv-scene-link" href="/products/trace">Explore run evidence ${icon('arrow')}</a></article>
+    <article class="fv-live-trace" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Run trace</span><strong>00:08 — 00:10</strong></header><div class="fv-trace-row"><b>01</b><span><strong>Open checkout</strong><small>Screenshot captured</small></span><code>200</code></div><div class="fv-trace-row"><b>02</b><span><strong>Confirm payment</strong><small>POST /webhooks/payment</small></span><code>200</code></div><div class="fv-trace-row"><b>03</b><span><strong>Receive receipt</strong><small>Test inbox matched</small></span><code>ready</code></div><footer>${icon('trace')} Network requests and console logs attached</footer></article>
+    <article class="fv-live-compare" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Compare</span><span class="fv-node-mark">After</span></header><div class="fv-compare-row"><span>Order state</span><strong>${check} confirmed</strong></div><div class="fv-compare-row"><span>Callback</span><strong>${check} received</strong></div><div class="fv-compare-row"><span>Receipt</span><strong>${check} matched</strong></div><a class="fv-scene-link" href="/products/trace">Explore browser traces ${icon('arrow')}</a></article>
   </div>`));
 }
 

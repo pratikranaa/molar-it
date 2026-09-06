@@ -15,14 +15,14 @@ export const SERVICE_LAB_SCENARIOS = Object.freeze({
   payments: {
     label: 'Payments',
     narrative: 'Check that a successful payment becomes a confirmed order.',
-    good: {conditionAction: 'Decline the payment', conditionCopy: 'Payment clone returns a successful charge and the app receives its callback.', resultTitle: 'Payment, callback, and order confirmation agree.', resultCopy: 'The customer gets access because the test followed the state change all the way through.', status: 'passed'},
+    good: {conditionAction: 'Decline the payment', conditionCopy: 'Payment clone returns a successful charge and the app receives its callback.', resultTitle: 'Payment, callback, and order confirmation agree.', resultCopy: 'The payment succeeded, the app received its callback, and the account has access.', status: 'passed'},
     edge: {conditionAction: 'Decline the payment', conditionCopy: 'Payment clone declines the charge before the app can create an order.', resultTitle: 'The decline stays visible to the customer.', resultCopy: 'Molar checks that no order or access is created after a declined charge.', status: 'negative'}
   },
   email: {
     label: 'Email',
     narrative: 'Check that verification links open the right account state.',
-    good: {conditionAction: 'Expire the link', conditionCopy: 'Inbox clone delivers a fresh verification link that matches the account under test.', resultTitle: 'The verification link opens the workspace.', resultCopy: 'The browser follows the message, verifies the identity, and reaches the expected destination.', status: 'passed'},
-    edge: {conditionAction: 'Expire the link', conditionCopy: 'Inbox clone returns an expired verification link for the same account.', resultTitle: 'An expired link is handled safely.', resultCopy: 'Molar checks that the app explains what happened and gives the user a way forward.', status: 'negative'}
+    good: {conditionAction: 'Expire the link', conditionCopy: 'Inbox clone delivers a fresh verification link that matches the account under test.', resultTitle: 'The verification link opens the workspace.', resultCopy: 'The browser opens the emailed link and reaches the verified account’s workspace.', status: 'passed'},
+    edge: {conditionAction: 'Expire the link', conditionCopy: 'Inbox clone returns an expired verification link for the same account.', resultTitle: 'The expired link cannot sign the user in.', resultCopy: 'The app reports that the link expired and offers to send another.', status: 'negative'}
   },
   sms: {
     label: 'SMS',
@@ -33,7 +33,7 @@ export const SERVICE_LAB_SCENARIOS = Object.freeze({
   signin: {
     label: 'Sign-in',
     narrative: 'Check that each signed-in role sees only what it should.',
-    good: {conditionAction: 'Use the admin role', conditionCopy: 'The member session has the expected project permissions and no billing access.', resultTitle: 'Member permissions stop at the right boundary.', resultCopy: 'The browser can use the project while the restricted billing area stays locked.', status: 'boundary'},
+    good: {conditionAction: 'Use the admin role', conditionCopy: 'The member session has the expected project permissions and no billing access.', resultTitle: 'Members can use projects, but cannot manage billing.', resultCopy: 'The browser can use the project while the restricted billing area stays locked.', status: 'boundary'},
     edge: {conditionAction: 'Use the admin role', conditionCopy: 'The admin session carries the elevated workspace permissions into the browser.', resultTitle: 'Admin access reaches the workspace controls.', resultCopy: 'Molar checks the privileged view and records which controls become available.', status: 'passed'}
   },
   storage: {

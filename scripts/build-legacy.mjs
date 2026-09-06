@@ -8,9 +8,17 @@ import { esc, icon } from '../marketing/components.mjs';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const save = (path, html) => { const target = resolve(root, path); mkdirSync(dirname(target), { recursive: true }); writeFileSync(target, html); };
 
+function nextStep(path) {
+  if (path === '/qa-agent') return '<a href="/verify">Try a browser check '+icon('arrow')+'</a>';
+  if (path === '/thesis') return '<a href="/qa-agent">Read how the QA agent works '+icon('arrow')+'</a>';
+  if (path === '/integrations/github-actions') return '<a href="/contact">Discuss your CI setup '+icon('arrow')+'</a>';
+  if (path.startsWith('/docs/clones/')) return '<a href="/docs/clones">Browse the clone catalog '+icon('arrow')+'</a>';
+  return '<a href="/contact">Discuss your integration setup '+icon('arrow')+'</a>';
+}
+
 function articlePage({ title, description, path, eyebrow, intro, article, toc }) {
   const links = toc.map(([href, label]) => `<a href="#${href}">${label}</a>`).join('');
-  const body = `<main id="main"><section class="reading-hero article-hero"><div class="wrap"><div class="breadcrumbs"><a href="/">Molar</a>${icon('chevron')}<span>${esc(eyebrow)}</span></div><h1>${esc(title)}</h1><p class="article-description">${esc(intro)}</p></div></section><div class="wrap article-layout"><aside class="reading-sidebar"><strong>On this page</strong><nav aria-label="On this page">${links}</nav><a class="text-link" href="/resources">Browse resources ${icon('arrow')}</a></aside><article class="article-body">${article}<p><a href="/contact">Talk to the Molar team ${icon('arrow')}</a></p></article></div></main>`;
+  const body = `<main id="main"><section class="reading-hero article-hero"><div class="wrap"><div class="breadcrumbs"><a href="/">Molar</a>${icon('chevron')}<span>${esc(eyebrow)}</span></div><h1>${esc(title)}</h1><p class="article-description">${esc(intro)}</p></div></section><div class="wrap article-layout"><aside class="reading-sidebar"><strong>On this page</strong><nav aria-label="On this page">${links}</nav><a class="text-link" href="/resources">Browse resources ${icon('arrow')}</a></aside><article class="article-body">${article}<p>${nextStep(path)}</p></article></div></main>`;
   return document({ title, description, path, body });
 }
 
@@ -62,16 +70,16 @@ function wrapTables(html) {
 }
 
 save('qa-agent.html', articlePage({
-  title: 'The Molar QA agent', description: 'How Molar maps application journeys, runs browser checks, and returns evidence for software teams.', path: '/qa-agent', eyebrow: 'QA agent', intro: 'A grounded entry point for teams and coding agents that need to verify real application journeys.',
-  article: wrapTables(sourceArticle('qa-agent.html')), toc: [['what', 'Definition'], ['capabilities', 'Capabilities'], ['different', 'Comparison'], ['start', 'Get started']],
+  title: 'The Molar QA agent', description: 'How Molar browser agents test app tasks, check connected services, and show where a run stopped.', path: '/qa-agent', eyebrow: 'QA agent', intro: 'Point Molar at an authorized app, choose a flow such as signup or checkout, and inspect the browser result.',
+  article: wrapTables(sourceArticle('qa-agent.html')), toc: [['what', 'How it checks a browser flow'], ['capabilities', 'What it checks'], ['different', 'How it fits with a test runner'], ['start', 'Run a browser check']],
 }));
 save('thesis.html', articlePage({
-  title: 'The Molar thesis', description: 'Why software teams need a verification loop as AI accelerates how code is shipped.', path: '/thesis', eyebrow: 'Founding thesis', intro: 'AI can increase the pace of shipping. The durable advantage is knowing what the shipped software actually does.',
-  article: wrapTables(sourceArticle('thesis.html')), toc: [['new-shape', 'The new shape of code'], ['bottleneck', 'Verification is the bottleneck'], ['guard', 'A release guard'], ['why-now', 'Why now']],
+  title: 'The Molar thesis', description: 'Why software teams need a verification loop as AI accelerates how code is shipped.', path: '/thesis', eyebrow: 'Founding thesis', intro: 'AI can increase the pace of shipping. The durable advantage is knowing what the shipped software actually does after a change.',
+  article: wrapTables(sourceArticle('thesis.html')), toc: [['new-shape', 'How code changes reach users'], ['bottleneck', 'Why verification waits'], ['guard', 'Repeatable release checks'], ['why-now', 'Why this matters now']],
 }));
 save('integrations/github-actions.html', articlePage({
-  title: 'Molar in GitHub Actions', description: 'Connect Molar scenarios and evidence to GitHub Actions for configured release checks.', path: '/integrations/github-actions', eyebrow: 'Integration', intro: 'Use the CLI and GitHub integration to run configured scenarios in CI and attach inspectable results to pull requests.',
-  article: wrapTables(sourceArticle('integrations/github-actions.html')), toc: [['overview', 'Overview'], ['steps', 'Setup steps'], ['checks', 'Required checks']],
+  title: 'Molar in GitHub Actions', description: 'Run configured Molar scenarios in GitHub Actions and inspect their results before merging.', path: '/integrations/github-actions', eyebrow: 'Integration', intro: 'Run a configured signup, checkout, or invitation scenario in CI and attach its status and trace to the pull request.',
+  article: wrapTables(sourceArticle('integrations/github-actions.html')), toc: [['overview', 'Run critical browser flows'], ['steps', 'Connect the workflow'], ['checks', 'Read the pull-request result']],
 }));
 
 const cloneContext = { window: {} };
@@ -84,19 +92,19 @@ const renderValue = (value) => esc(String(value ?? '')).replace(/`([^`]+)`/g, '<
 
 function cloneArticle(doc) {
   const toolGroups = doc.toolGroups?.length ? `<section id="tools"><h2>Available tools</h2><p>${renderValue(doc.toolsSubtitle || '')}</p>${doc.toolGroups.map((group) => `<h3>${esc(group.title)}</h3><table><thead><tr><th>Tool</th><th>Description</th></tr></thead><tbody>${group.tools.map(([name, desc]) => `<tr><td><code>${esc(name)}</code></td><td>${esc(desc)}</td></tr>`).join('')}</tbody></table>`).join('')}</section>` : '';
-  return `<p class="doc-lede">${esc(doc.tagline)}</p><p><code>Clone ID: ${esc(doc.id)}</code></p><section id="start"><h2>Connect and test</h2><table><tbody><tr><th>Best for</th><td>${esc(doc.startHere.bestFor)}</td></tr><tr><th>Connect with</th><td>${renderValue(doc.startHere.connectWith)}</td></tr><tr><th>Known limits</th><td>${esc(doc.startHere.knownLimits)}</td></tr><tr><th>Seeds</th><td>${renderValue(doc.startHere.seeds)}</td></tr></tbody></table></section><section id="covers"><h2>What it covers</h2><ul>${doc.covers.map((item) => `<li>${esc(item)}</li>`).join('')}</ul></section>${toolGroups}<section id="surface"><h2>Surface</h2><p>${renderValue(doc.surface)}</p></section>${doc.notes?.length ? `<section id="notes"><h2>Notes</h2><ul>${doc.notes.map((note) => `<li>${renderValue(note)}</li>`).join('')}</ul></section>` : ''}`;
+  return `<p class="doc-lede">${esc(doc.tagline)}</p><p><code>Clone ID: ${esc(doc.id)}</code></p><section id="start"><h2>Connect and test</h2><table><tbody><tr><th>Best for</th><td>${esc(doc.startHere.bestFor)}</td></tr><tr><th>Connect with</th><td>${renderValue(doc.startHere.connectWith)}</td></tr><tr><th>Known limits</th><td>${esc(doc.startHere.knownLimits)}</td></tr><tr><th>Seeds</th><td>${renderValue(doc.startHere.seeds)}</td></tr></tbody></table></section><section id="covers"><h2>What it covers</h2><ul>${doc.covers.map((item) => `<li>${esc(item)}</li>`).join('')}</ul></section>${toolGroups}<section id="surface"><h2>API connection</h2><p>${renderValue(doc.surface)}</p></section>${doc.notes?.length ? `<section id="notes"><h2>Notes</h2><ul>${doc.notes.map((note) => `<li>${renderValue(note)}</li>`).join('')}</ul></section>` : ''}`;
 }
 
 const cloneLinks = ids.map((id) => [id, cloneDoc(id).title]);
 for (const id of ids) {
   const doc = cloneDoc(id);
-  const toc = [['start', 'Connect and test'], ['covers', 'What it covers'], ...(doc.toolGroups?.length ? [['tools', 'Available tools']] : []), ['surface', 'Surface'], ...(doc.notes?.length ? [['notes', 'Notes']] : [])];
+  const toc = [['start', 'Connect and test'], ['covers', 'Supported workflows'], ...(doc.toolGroups?.length ? [['tools', 'Tools for the integration']] : []), ['surface', 'API connection'], ...(doc.notes?.length ? [['notes', 'Notes']] : [])];
   const article = wrapTables(cloneArticle(doc).replace('<p class="doc-lede">', '<p>'));
   save(`docs/clones/${id}.html`, articlePage({ title: `${doc.title} | Molar Docs`, description: doc.tagline, path: `/docs/clones/${id}`, eyebrow: `Clones / ${doc.id}`, intro: doc.summary || doc.tagline, article, toc }));
 }
 
 const coreIds = new Set(['auth', 's3', 'sendgrid', 'stripe', 'twilio']);
-const catalog = `<main id="main"><section class="reading-hero"><div class="wrap"><div class="breadcrumbs"><a href="/">Molar</a>${icon('chevron')}<span>Clone docs</span></div><h1>Stateful service clones.</h1><p>Reference pages for connecting, seeding, and using each Molar clone in a test workflow.</p></div></section><div class="wrap article-layout"><aside class="reading-sidebar"><strong>Clone catalog</strong><nav aria-label="Clone catalog">${cloneLinks.map(([id, title]) => `<a href="/docs/clones/${id}">${esc(title)}</a>`).join('')}</nav></aside><article class="article-body"><p>Choose a clone to see its supported workflows, connection surface, seeds, tools, and known limits.</p><section><h2>Core service clones</h2><p>These five clones cover the integration paths teams most often need to test: payments, email, SMS, identity, and object storage.</p>${cloneLinks.filter(([id]) => coreIds.has(id)).map(([id, title]) => `<p><a href="/docs/clones/${id}"><strong>${esc(title)}</strong></a> — ${esc(cloneDoc(id).tagline)}</p>`).join('')}</section><section><h2>Supplementary fixture coverage</h2><p>Additional vendor shaped fixtures support focused agent and integration workflows. Each page identifies its status and the routes it covers.</p>${cloneLinks.filter(([id]) => !coreIds.has(id)).map(([id, title]) => `<p><a href="/docs/clones/${id}"><strong>${esc(title)}</strong></a> — ${esc(cloneDoc(id).tagline)}</p>`).join('')}</section></article></div></main>`;
+const catalog = `<main id="main"><section class="reading-hero"><div class="wrap"><div class="breadcrumbs"><a href="/">Molar</a>${icon('chevron')}<span>Clone docs</span></div><h1>Stateful service clones for integration tests.</h1><p>Connect a payment, email, SMS, identity, or storage clone, seed its state, and inspect the service behavior your browser flow depends on.</p></div></section><div class="wrap article-layout"><aside class="reading-sidebar"><strong>Clone catalog</strong><nav aria-label="Clone catalog">${cloneLinks.map(([id, title]) => `<a href="/docs/clones/${id}">${esc(title)}</a>`).join('')}</nav></aside><article class="article-body"><p>Choose a clone to see its supported workflows, API connection, seeds, tools, and known limits.</p><section><h2>Core service clones</h2><p>These five clones cover the integration paths teams most often need to test: payments, email, SMS, identity, and object storage.</p>${cloneLinks.filter(([id]) => coreIds.has(id)).map(([id, title]) => `<p><a href="/docs/clones/${id}"><strong>${esc(title)}</strong></a> — ${esc(cloneDoc(id).tagline)}</p>`).join('')}</section><section><h2>Additional vendor API fixtures</h2><p>These fixtures cover selected API calls for additional vendors. Each page identifies its status and the routes it covers.</p>${cloneLinks.filter(([id]) => !coreIds.has(id)).map(([id, title]) => `<p><a href="/docs/clones/${id}"><strong>${esc(title)}</strong></a> — ${esc(cloneDoc(id).tagline)}</p>`).join('')}</section></article></div></main>`;
 save('docs/clones/index.html', document({ title: 'Clone docs | Molar', description: 'Per-clone reference for Molar stateful service clones, seeds, coverage, and tools.', path: '/docs/clones', body: catalog }));
 save('docs/clone.html', document({ title: 'Clone docs | Molar', description: 'Per-clone reference for Molar stateful service clones, seeds, coverage, and tools.', path: '/docs/clone', body: catalog }));
 

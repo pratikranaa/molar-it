@@ -2,7 +2,7 @@
   "description": "A practical test plan for delayed payment webhooks, duplicate deliveries and the account access a paying customer expects.",
   "sections": [
     {
-      "heading": "Define the outcome your customer paid for",
+      "heading": "Check the access your customer paid for",
       "paragraphs": [
         "A checkout can show a success screen while the application still treats the customer as unpaid. That gap is easy to miss when a test ends at the payment response. Start with a more useful outcome: the intended customer can use the feature they purchased, and the application records the correct order or subscription state.",
         "Write down the separate observations before automating anything. You need the browser result, the payment record, delivery of the relevant event and the entitlement or order created by your application. Decide what the customer should see while processing is incomplete. A pending message can be correct behavior; an unexplained locked account needs investigation."
@@ -46,7 +46,7 @@
     {
       "heading": "Use controlled services and keep a contract check",
       "paragraphs": [
-        "Molar Clones provides controlled state for supported payment behavior. It can make repeatable integration testing easier when a journey depends on external services. Keep the setup explicit: configure the test environment for the supported clone endpoints and verify which operations your scenario needs. Do not assume a test clone reproduces every part of a vendor’s service.",
+        "Molar Clones provides controlled state for supported payment behavior. It can make repeatable integration testing easier when a test depends on external services. Keep the setup explicit: configure the test environment for the supported clone endpoints and verify which operations your scenario needs. Do not assume a test clone reproduces every part of a vendor’s service.",
         "Finish with a small vendor-sandbox contract check for the real APIs and events your application relies on. The controlled test answers whether your application handles a chosen sequence correctly; the sandbox check helps confirm that the sequence still matches the vendor contract. Together, these checks provide a clearer explanation of a failure than a single green checkout screen."
       ],
       "sourceIds": [

@@ -100,7 +100,7 @@ test("renders a final frame before showing the terminal verdict", async (t) => {
   });
   await page.getByRole("button", { name: "Run check" }).click();
   await page.locator(".verdict").waitFor();
-  await page.getByAltText("Latest frame from the proof browser").waitFor();
+  await page.getByAltText("Latest screenshot from the browser check").waitFor();
   assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "completed");
   assert.equal(statusCalls, 1);
   assert.match(frameRequest, /[?&]step=7(?:&|$)/);
@@ -156,8 +156,8 @@ test("shares the real shared-view route when the API returns only a token", asyn
     return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(statusBody("completed")) });
   });
   await page.getByRole("button", { name: "Run check" }).click();
-  await page.getByRole("button", { name: "Share proof" }).waitFor();
-  await page.getByRole("button", { name: "Share proof" }).click();
+  await page.getByRole("button", { name: "Share result" }).waitFor();
+  await page.getByRole("button", { name: "Share result" }).click();
   await page.getByRole("button", { name: "Link ready" }).waitFor();
   const sharedUrl = await page.evaluate(() => window.__sharedUrl);
   assert.equal(sharedFrameStep, 7);
@@ -190,7 +190,7 @@ test("does not claim sharing succeeded when no delivery channel exists", async (
     return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(statusBody("completed")) });
   });
   await page.getByRole("button", { name: "Run check" }).click();
-  await page.getByRole("button", { name: "Share proof" }).click();
+  await page.getByRole("button", { name: "Share result" }).click();
   await page.getByRole("button", { name: "Retry share" }).waitFor();
 });
 
@@ -222,8 +222,8 @@ test("keeps a cancelled native share neutral", async (t) => {
     return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(statusBody("completed")) });
   });
   await page.getByRole("button", { name: "Run check" }).click();
-  await page.getByRole("button", { name: "Share proof" }).click();
-  await page.getByRole("button", { name: "Share proof" }).waitFor();
+  await page.getByRole("button", { name: "Share result" }).click();
+  await page.getByRole("button", { name: "Share result" }).waitFor();
 });
 
 test("stops polling when a proof is missing instead of retrying forever", async (t) => {
@@ -247,7 +247,7 @@ test("stops polling when a proof is missing instead of retrying forever", async 
   assert.equal(statusCalls, 1);
   assert.match(await page.getByRole("alert").innerText(), /expired|no longer available/i);
   assert.equal(await page.locator(".verdict").count(), 0);
-  assert.equal(await page.getByRole("button", { name: /Share proof|Keep this proof/ }).count(), 0);
+  assert.equal(await page.getByRole("button", { name: /Share result|Save result/ }).count(), 0);
 });
 
 test("keeps proxy configuration details out of customer error copy", async (t) => {
@@ -271,7 +271,7 @@ test("keeps proxy configuration details out of customer error copy", async (t) =
   assert.match(copy, /temporarily unavailable|try again/i);
   assert.doesNotMatch(copy, /INSTANT_PROOF_PROXY_SECRET|Cloudflare Pages/);
   assert.equal(await page.locator(".verdict").count(), 0);
-  assert.equal(await page.getByRole("button", { name: /Share proof|Keep this proof/ }).count(), 0);
+  assert.equal(await page.getByRole("button", { name: /Share result|Save result/ }).count(), 0);
 });
 
 test("shared links load real read-only evidence and scrub the bearer fragment", async () => {
@@ -305,14 +305,14 @@ test("shared links load real read-only evidence and scrub the bearer fragment", 
     });
   });
   await page.goto(`${baseUrl}/verify.html#${encodeURIComponent(SHARE_TOKEN)}`, { waitUntil: "domcontentloaded" });
-  await page.locator(".instrument-head b", { hasText: "Shared proof" }).waitFor();
-  await page.getByAltText("Frame captured during the shared proof").waitFor();
+  await page.locator(".instrument-head b", { hasText: "Shared result" }).waitFor();
+  await page.getByAltText("Screenshot from the shared browser check").waitFor();
   assert.equal(await page.evaluate(() => location.hash), "");
   assert.equal(sharedAuth, `Bearer ${SHARE_TOKEN}`);
   assert.match(await page.locator("#instant-proof").innerText(), /Shared evidence is available/);
   assert.equal(await page.locator("#instant-proof").getAttribute("class"), "instrument shared-proof");
-  assert.equal(await page.getByRole("heading", { name: "Shared proof" }).count(), 1);
-  assert.equal(await page.getByRole("button", { name: /Keep this proof|Run check/ }).count(), 0);
+  assert.equal(await page.getByRole("heading", { name: "Shared result" }).count(), 1);
+  assert.equal(await page.getByRole("button", { name: /Save result|Run check/ }).count(), 0);
   await context.close();
 });
 
@@ -407,11 +407,11 @@ test("a missing preview keeps the completed result without denying the browser r
     return route.fulfill({ status: route.request().method() === "POST" ? 202 : 200, contentType: "application/json", body: JSON.stringify(body) });
   });
   await page.getByRole("button", { name: "Run check" }).click();
-  await page.getByRole("button", { name: "Share proof" }).waitFor();
+  await page.getByRole("button", { name: "Share result" }).waitFor();
   assert.match(await page.locator(".frame").innerText(), /preview unavailable/i);
   assert.doesNotMatch(await page.locator(".frame").innerText(), /no browser session|simulated/i);
   assert.match(await page.locator(".verdict").innerText(), /Verified/);
-  assert.equal(await page.getByRole("button", { name: "Keep this proof" }).count(), 1);
+  assert.equal(await page.getByRole("button", { name: "Save result" }).count(), 1);
 });
 
 test("a shared proof does not call an absent frame expired", async () => {
@@ -422,7 +422,7 @@ test("a shared proof does not call an absent frame expired", async () => {
   });
   await page.goto(`${baseUrl}/verify.html#${SHARE_TOKEN}`);
   await page.getByRole("alert").waitFor();
-  assert.match(await page.getByRole("alert").innerText(), /frame is unavailable/i);
+  assert.match(await page.getByRole("alert").innerText(), /screenshot is unavailable/i);
   assert.doesNotMatch(await page.getByRole("alert").innerText(), /expired/i);
   assert.match(await page.locator(".verdict").innerText(), /Verified/);
 });
@@ -442,8 +442,8 @@ test("finds the last captured frame when the final browser steps have no screens
     return route.fulfill({ status: route.request().method() === "POST" ? 202 : 200, contentType: "application/json", body: JSON.stringify(body) });
   });
   await page.getByRole("button", { name: "Run check" }).click();
-  await page.getByRole("button", { name: "Share proof" }).waitFor();
-  assert.equal(await page.getByAltText("Latest frame from the proof browser").count(), 1);
+  await page.getByRole("button", { name: "Share result" }).waitFor();
+  assert.equal(await page.getByAltText("Latest screenshot from the browser check").count(), 1);
   assert.deepEqual(requested, [3, 2, 1]);
 });
 
@@ -456,7 +456,7 @@ test("a verified proof stays completed after it has been claimed", async () => {
     return route.fulfill({ status: route.request().method() === "POST" ? 202 : 200, contentType: "application/json", body: JSON.stringify(body) });
   });
   await page.getByRole("button", { name: "Run check" }).click();
-  await page.getByRole("button", { name: "Share proof" }).waitFor();
+  await page.getByRole("button", { name: "Share result" }).waitFor();
   assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "completed");
   assert.match(await page.locator(".verdict").innerText(), /Verified/);
 });

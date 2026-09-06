@@ -3,9 +3,9 @@ export function sceneFrame(mode, step, delayed=false) {
  const phase=Math.max(0,Math.min(3,step));
  if(mode==='platform') return [
   {first:'Looking for September',second:'Waiting for invoice',result:'Molar opens the billing page.',description:'Find the document that matches your request.',agent:'Open billing',action:'Find September invoice',outcome:'working',evidence:['Not checked yet','Not checked yet','Not checked yet']},
-  {first:'September found',second:'Ready to download',result:'The right invoice. Not just the first link.',description:'Molar checks the month and opens the matching document.',agent:'Read invoice',action:'Download invoice',outcome:'working',evidence:['September invoice found','PDF link found','Download pending']},
+  {first:'September found',second:'Ready to download',result:'September’s invoice is selected.',description:'Molar checks the month and opens the matching document.',agent:'Read invoice',action:'Download invoice',outcome:'working',evidence:['September invoice found','PDF link found','Download pending']},
   {first:'September found',second:'Invoice downloaded',result:'Your invoice is ready.',description:'The browser task returns a file you can use.',agent:'Check file',action:'Check downloaded file',outcome:'passed',evidence:['September invoice found','PDF downloaded','File available']},
-  {first:'September found',second:'Invoice downloaded',result:'A finished task, with the evidence attached.',description:'See the browser steps and the downloaded document together.',agent:'Task complete',action:'Run it again',outcome:'passed',evidence:['September invoice found','PDF downloaded','File verified']}
+  {first:'September found',second:'Invoice downloaded',result:'The invoice and browser steps are ready.',description:'See the browser steps and the downloaded document together.',agent:'Task complete',action:'Run it again',outcome:'passed',evidence:['September invoice found','PDF downloaded','File verified']}
  ][phase];
  const paid=phase>0, callback=phase>1, complete=phase>2, failed=callback&&delayed;
  return {

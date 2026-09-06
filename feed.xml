@@ -14,33 +14,28 @@
       <pubDate>Sat, 05 Sep 2026 00:00:00 GMT</pubDate>
       <category>Integrations</category>
       <dc:creator>Molar editorial</dc:creator>
-      <content:encoded><![CDATA[<section><h2 id="define-the-outcome-your-customer-paid-for">Define the outcome your customer paid for</h2><p>A checkout can show a success screen while the application still treats the customer as unpaid. That gap is easy to miss when a test ends at the payment response. Start with a more useful outcome: the intended customer can use the feature they purchased, and the application records the correct order or subscription state.</p><p>Write down the separate observations before automating anything. You need the browser result, the payment record, delivery of the relevant event and the entitlement or order created by your application. Decide what the customer should see while processing is incomplete. A pending message can be correct behavior; an unexplained locked account needs investigation.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="control-the-delay-then-watch-both-sides">Control the delay, then watch both sides</h2><p>Use a dedicated test account and a controlled test environment. Complete the browser checkout, then hold back the payment notification using a test fixture or delivery mechanism you control. At this point, inspect the payment state and the application state independently. Do not make the test pass merely because the browser reached a thank-you page.</p><p>Release the event and wait for the specific expected change in the application. Check the order or entitlement, then return to the browser and verify that the customer can actually use it. The test should explain whether the failure occurred before delivery, during event handling or when presenting the updated state. Repeat from clean initial data so a previous successful purchase cannot hide a broken path.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="a-repeated-event-must-not-repeat-the-business-action">A repeated event must not repeat the business action</h2><p>Stripe documents that webhook events can be retried, duplicated and delivered without an ordering guarantee. Include these cases in your handler tests. Deliver the same event again and assert that it does not create another order, grant duplicate credits or trigger the same business action twice. Signature verification establishes the sender; it does not itself make processing idempotent.</p><p>For out-of-order delivery, test the handler’s actual recovery path and inspect the resulting business state. Keep signature verification in the tested path, using the raw body and the correct test endpoint secret. Avoid treating an HTTP success response as proof that all downstream work finished.</p><p class="article-source">Sources: <a href="https://docs.stripe.com/webhooks">Stripe: handle webhook events</a> · <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="check-access-as-the-intended-customer">Check access as the intended customer</h2><p>Run the access assertion in the customer’s own browser session. Confirm the protected feature and expected role, rather than checking only that authentication succeeded. An administrator account can have permissions that bypass the defect entirely. A fresh customer account makes the test closer to the experience you want to protect.</p><p>Add a second account as a negative case: purchasing access for one customer must not grant it to another. Revisit the original session after the delayed event, and check whether refreshing or signing in again changes the observed result. Those observations help separate an entitlement problem from a stale browser session without guessing at the cause.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/authentication-testing">Check sign-in and account access</a> · <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="use-controlled-services-and-keep-a-contract-check">Use controlled services and keep a contract check</h2><p>Molar Clones provides controlled state for supported payment behavior. It can make repeatable integration testing easier when a journey depends on external services. Keep the setup explicit: configure the test environment for the supported clone endpoints and verify which operations your scenario needs. Do not assume a test clone reproduces every part of a vendor’s service.</p><p>Finish with a small vendor-sandbox contract check for the real APIs and events your application relies on. The controlled test answers whether your application handles a chosen sequence correctly; the sandbox check helps confirm that the sequence still matches the vendor contract. Together, these checks provide a clearer explanation of a failure than a single green checkout screen.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="about-this-guide">About this guide</h2><p>Prepared with AI assistance from the cited material and reviewed by Molar editorial before publication. Product availability can change during beta.</p><p><a href="https://molar.it/ask">Ask a related testing question</a> or <a href="https://molar.it/blog">browse all guides</a>.</p></section>]]></content:encoded>
+      <content:encoded><![CDATA[<section><h2 id="check-the-access-your-customer-paid-for">Check the access your customer paid for</h2><p>A checkout can show a success screen while the application still treats the customer as unpaid. That gap is easy to miss when a test ends at the payment response. Start with a more useful outcome: the intended customer can use the feature they purchased, and the application records the correct order or subscription state.</p><p>Write down the separate observations before automating anything. You need the browser result, the payment record, delivery of the relevant event and the entitlement or order created by your application. Decide what the customer should see while processing is incomplete. A pending message can be correct behavior; an unexplained locked account needs investigation.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="control-the-delay-then-watch-both-sides">Control the delay, then watch both sides</h2><p>Use a dedicated test account and a controlled test environment. Complete the browser checkout, then hold back the payment notification using a test fixture or delivery mechanism you control. At this point, inspect the payment state and the application state independently. Do not make the test pass merely because the browser reached a thank-you page.</p><p>Release the event and wait for the specific expected change in the application. Check the order or entitlement, then return to the browser and verify that the customer can actually use it. The test should explain whether the failure occurred before delivery, during event handling or when presenting the updated state. Repeat from clean initial data so a previous successful purchase cannot hide a broken path.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="a-repeated-event-must-not-repeat-the-business-action">A repeated event must not repeat the business action</h2><p>Stripe documents that webhook events can be retried, duplicated and delivered without an ordering guarantee. Include these cases in your handler tests. Deliver the same event again and assert that it does not create another order, grant duplicate credits or trigger the same business action twice. Signature verification establishes the sender; it does not itself make processing idempotent.</p><p>For out-of-order delivery, test the handler’s actual recovery path and inspect the resulting business state. Keep signature verification in the tested path, using the raw body and the correct test endpoint secret. Avoid treating an HTTP success response as proof that all downstream work finished.</p><p class="article-source">Sources: <a href="https://docs.stripe.com/webhooks">Stripe: handle webhook events</a> · <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="check-access-as-the-intended-customer">Check access as the intended customer</h2><p>Run the access assertion in the customer’s own browser session. Confirm the protected feature and expected role, rather than checking only that authentication succeeded. An administrator account can have permissions that bypass the defect entirely. A fresh customer account makes the test closer to the experience you want to protect.</p><p>Add a second account as a negative case: purchasing access for one customer must not grant it to another. Revisit the original session after the delayed event, and check whether refreshing or signing in again changes the observed result. Those observations help separate an entitlement problem from a stale browser session without guessing at the cause.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/authentication-testing">Check sign-in and account access</a> · <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="use-controlled-services-and-keep-a-contract-check">Use controlled services and keep a contract check</h2><p>Molar Clones provides controlled state for supported payment behavior. It can make repeatable integration testing easier when a test depends on external services. Keep the setup explicit: configure the test environment for the supported clone endpoints and verify which operations your scenario needs. Do not assume a test clone reproduces every part of a vendor’s service.</p><p>Finish with a small vendor-sandbox contract check for the real APIs and events your application relies on. The controlled test answers whether your application handles a chosen sequence correctly; the sandbox check helps confirm that the sequence still matches the vendor contract. Together, these checks provide a clearer explanation of a failure than a single green checkout screen.</p><p class="article-source">Sources: <a href="https://molar.it/solutions/checkout-testing">Test a checkout beyond the payment</a></p></section><section><h2 id="about-this-guide">About this guide</h2><p>Prepared with AI assistance from the cited material and reviewed by Molar editorial before publication. Product availability can change during beta.</p><p><a href="https://molar.it/ask">Ask a related testing question</a> or <a href="https://molar.it/blog">browse all guides</a>.</p></section>]]></content:encoded>
     </item>
     <item>
       <title>AI agents and the future of software testing</title>
       <link>https://molar.it/blog/ai-agents-future-software-testing</link>
       <guid isPermaLink="true">https://molar.it/blog/ai-agents-future-software-testing</guid>
-      <description>Agents write half the code now. Who verifies it? Autonomous QA agents close the loop — determinism still decides trust.</description>
+      <description>How coding agents can inspect browser results, review generated tests, and check changes before release.</description>
       <pubDate>Mon, 29 Jun 2026 00:00:00 GMT</pubDate>
       <category>Agents</category>
       <content:encoded><![CDATA[<section>
-        <h2 id="the-asymmetry-nobody-planned-for">The asymmetry nobody planned for</h2>
+        <h2 id="more-code-ships-verification-still-waits">More code ships; verification still waits</h2>
         <p>
           Code generation got cheap. Code verification didn’t. A coding agent can emit a thousand-line diff
           in minutes; a human reviewer needs an hour to read it properly, and a test suite that predates the
           agent can only check what someone thought to specify. The result is an asymmetry: throughput of
           change is exploding while confidence per change is flat or falling.
         </p>
-        <p>
-          Traditional test automation doesn’t fix this, because it shares the bottleneck — tests are also
-          written by people, one scenario at a time. When the authoring side is machine-speed, the checking
-          side has to be too. That’s the actual meaning of “autonomous QA”: not AI-flavored assertions, but
-          a closed loop where generation and verification run at the same tempo.
-        </p>
+        <p>Test authoring can become another bottleneck as code changes faster. Agents can help draft scenarios and investigate unfamiliar pages, but teams still need to review assertions and establish that each test runs reliably.</p>
       </section>
 
       <section>
-        <h2 id="llms-at-authoring-time-determinism-at-runtime">LLMs at authoring time; determinism at runtime</h2>
+        <h2 id="review-generated-tests-before-running-them-in-ci">Review generated tests before running them in CI</h2>
         <p>
           The design choice that separates serious systems from demos is where the model sits. LLMs are
           excellent at the parts of testing that benefit from judgment: reading an unfamiliar app, mapping
@@ -72,23 +67,12 @@
           feature — it invokes the QA platform itself, gets structured results back, reads the failure
           evidence, fixes the code, and re-runs. No human relay in between:
         </p>
-        <pre><code>$ molar verify "signup confirms with OTP" --url http://localhost:3000 --json
-{
-  "verdict": "fail",
-  "evidence": { "trace": "&lt;trace-url&gt;", "logs": "&lt;run-logs&gt;" },
-  "hint": "Inspect the OTP delivery path"
-}</code></pre>
-        <p>
-          Structured output with evidence links changes the economics of agent-driven development: the
-          agent self-corrects from the trace instead of a developer pasting screenshots into a chat.
-          This is why we built Molar’s MCP server as a first-class interface — the coding agent becomes
-          the primary consumer of QA, and the QA platform becomes part of its toolbelt rather than a
-          downstream department.
-        </p>
+        <pre><code>molar verify "the login form is visible" --url http://localhost:3000 --json</code></pre>
+        <p>Structured results let a coding agent inspect a failed check without a developer manually copying screenshots. <a href="https://molar.it/platform/developer-tools">Molar’s CLI and MCP interfaces</a> make browser checks available from the development workflow. The app and required test access must be configured first.</p>
       </section>
 
       <section>
-        <h2 id="what-stays-stubbornly-human">What stays stubbornly human</h2>
+        <h2 id="decide-which-behavior-the-test-must-protect">Decide which behavior the test must protect</h2>
         <p>
           Agents are converging on execution. Three things remain yours:
         </p>
@@ -122,29 +106,19 @@
       </section>
 
       <section>
-        <h2 id="where-this-lands">Where this lands</h2>
-        <p>
-          Our working prediction for the next few years: plain-English scenarios become the interface for
-          specifying behavior (reviewed like code, versioned like code); autonomous agents author, heal,
-          and execute the suites; deterministic replay makes every verdict auditable; and required checks
-          become negotiations between two machines, with humans reading summaries instead of triaging
-          failures. The teams that get there first won’t hire fewer QA engineers — they’ll point them at
-          the problems automation genuinely can’t judge.
-        </p>
-        <p>
-          If you want to feel the loop before believing the essay, Molar’s beta workflow is intended to support this path: describe a flow in English, review Playwright-grade
-          tests, and connect the workflow through MCP where the relevant integrations are enabled.
-        </p>]]></content:encoded>
+        <h2 id="the-verification-model-to-build">The verification model to build</h2>
+        <p>A useful direction is to version plain-English scenarios alongside code, review generated changes, and rerun tests from clean state. Humans still decide what behavior matters and whether an unexpected change is acceptable.</p>
+        <p>To evaluate Molar, <a href="https://molar.it/examples/autonomous-browser-check">inspect a recorded browser task</a> and then choose one check for your app. Generated Playwright export and clean replay remain under validation in beta; a completed browser task is not proof that its generated test is ready for CI.</p>]]></content:encoded>
     </item>
     <item>
-      <title>AI Playwright test generation: how it actually works in 2026</title>
+      <title>AI Playwright test generation: from a task to a reviewed test</title>
       <link>https://molar.it/blog/ai-playwright-test-generation</link>
       <guid isPermaLink="true">https://molar.it/blog/ai-playwright-test-generation</guid>
-      <description>How AI Playwright test generation actually works — crawling, flow mapping, locator selection, self-healing, and CI export. A practical engineering guide with code.</description>
+      <description>How to review generated browser tests: locators, assertions, clean starting state, and repeatability in CI.</description>
       <pubDate>Mon, 10 Aug 2026 00:00:00 GMT</pubDate>
       <category>Agents</category>
       <content:encoded><![CDATA[<section>
-        <h2 id="the-pipeline-behind-generated-tests">The pipeline behind generated tests</h2>
+        <h2 id="from-app-url-to-reviewed-playwright-spec">From app URL to reviewed Playwright spec</h2>
         <p>
           Every credible AI test generator follows the same five-stage shape. The differences between
           tools are almost entirely in stages two and three.
@@ -156,14 +130,11 @@
           <li><strong>Assertion synthesis.</strong> Decide what should be true after each step.</li>
           <li><strong>Deterministic export.</strong> Emit runnable code, byte-stable for identical input.</li>
         </ul>
-        <p>
-          Molar’s Cartographer is designed around this shape: an exploration agent maps an app from a seed URL,
-          then an export pipeline can produce Playwright specs for review and execution.
-        </p>
+        <p><a href="https://molar.it/products/cartographer">Molar Cartographer</a> explores applications and captures browser tasks. Generated Playwright export and clean replay are still being validated in beta. Review the exported assertions and run the test from clean state before relying on it in CI.</p>
       </section>
 
       <section>
-        <h2 id="locator-quality-is-the-whole-ballgame">Locator quality is the whole ballgame</h2>
+        <h2 id="choose-locators-users-can-recognize">Choose locators users can recognize</h2>
         <p>
           A generated test is only as durable as its worst selector. Naive recorders emit CSS paths like
           <code>div:nth-child(3) > span</code> that shatter on the next design change. A good generator ranks
@@ -175,21 +146,12 @@
 3. data-testid            (an explicit test contract when semantics are insufficient)
 4. text content           (unique, human-meaningful)
 5. structural CSS         (last resort)</code></pre>
-        <p>
-          The result reads like a careful engineer wrote it — and when the UI does shift, a
-          <a href="https://molar.it/blog/self-healing-test-automation">self-healing layer</a> can re-rank and propose a patch
-          instead of failing the build.
-        </p>
+        <p>Review the generated code for clarity, stable locators, and meaningful assertions. If a locator later breaks, a proposed replacement should be reviewed and rerun before it changes a release check.</p>
       </section>
 
       <section>
         <h2 id="assertions-where-ai-earns-or-loses-trust">Assertions: where AI earns or loses trust</h2>
-        <p>
-          Navigation without verification is theater. Each step should carry an oracle: the heading that must
-          appear, the row count that must change, the confirmation code that must arrive. LLMs help most here —
-          reading visible state and proposing semantic assertions (“order total shows $42.00”, “banner
-          says ‘Invite sent’”) rather than pixel snapshots that flake.
-        </p>
+        <p>Every test needs an observable assertion: a heading appears, a record changes, or a confirmation code arrives. A model can propose those checks, but the reviewer must confirm that they demonstrate the behavior the test is meant to protect.</p>
         <div>
           Rule of thumb: if a generated test has no assertion except “page loaded”, it isn’t a test. It’s a crawler
           with extra steps.
@@ -207,7 +169,7 @@ npx playwright test e2e/checkout.spec.ts --trace on</code></pre>
       </section>
 
       <section>
-        <h2 id="the-third-party-problem-nobody-demos">The third-party problem nobody demos</h2>
+        <h2 id="keep-checkout-tests-off-live-payment-services">Keep checkout tests off live payment services</h2>
         <p>
           Generated checkout tests die the moment they hit a live payment processor. Serious generation pairs with
           <a href="https://molar.it/blog/testing-third-party-apis-safely">safe third-party substitutes</a>: stateful clones that
@@ -219,149 +181,24 @@ npx playwright test e2e/checkout.spec.ts --trace on</code></pre>
       <title>API mocking vs stateful service clones</title>
       <link>https://molar.it/blog/api-mocking-vs-service-clones</link>
       <guid isPermaLink="true">https://molar.it/blog/api-mocking-vs-service-clones</guid>
-      <description>Mocks stub responses; clones run stateful vendor semantics — webhooks included. When each is right.</description>
+      <description>Compare configured API responses, stateful mocks, and supported service clones for integration testing.</description>
       <pubDate>Thu, 16 Jul 2026 00:00:00 GMT</pubDate>
       <category>Integrations</category>
-      <content:encoded><![CDATA[<section>
-        <h2 id="two-tools-that-look-similar-and-aren-t">Two tools that look similar and aren’t</h2>
-        <p>
-          An HTTP mock (WireMock, MSW, a stubbed fetch) intercepts requests and plays back canned responses.
-          It’s fast, cheap, and perfectly suited to unit-level work. A stateful service clone is a different
-          animal: it re-implements a vendor’s actual behavior — resource lifecycle, ID conventions, error codes,
-          webhook delivery, signature schemes — behind the same endpoints, so your application can run against it
-          unmodified for entire end-to-end flows.
-        </p>
-        <p>
-          The confusion happens because both show up as “the Stripe call didn’t hit real Stripe.” The differences
-          show up in what your tests can assert. Five dimensions matter: fidelity, statefulness, webhooks,
-          maintenance cost, and blast radius.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="fidelity">Fidelity</h2>
-        <p>
-          A mock’s fidelity is exactly one response deep. You recorded
-          <code>{ "id": "pi_123", "status": "succeeded" }</code>, so every payment succeeds — until you need the
-          failure path, then you record another fixture. Real vendors have combinatorial behavior: idempotency-key
-          replays return the original result, card errors arrive as structured declines with specific codes,
-          partial captures change subsequent refund semantics. Encoding all of that in fixtures means hand-writing
-          a simulator anyway, badly.
-        </p>
-        <p>
-          A clone encodes vendor semantics once, in code: request an idempotent charge twice and you get the same
-          payment intent; use a test decline card and you get the real decline payload shape. Your assertions stop
-          checking “our handler ran” and start checking “our handler handled the thing the vendor actually sends.”
-          That distinction is the whole difference between unit confidence and
-          <a href="https://molar.it/blog/e2e-testing-best-practices">end-to-end confidence</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="statefulness">Statefulness</h2>
-        <p>
-          Mocks are amnesiac by design. Ask a mock “did the customer I created three steps ago already exist?” and
-          it shrugs — every request is answered from the script, with no memory between them. Multi-step flows
-          collapse under this: create customer → attach card → charge → refund requires either one giant canned
-          response or brittle sequencing logic layered on top of the mocker.
-        </p>
-        <pre><code>// Against a clone, state accumulates like the real service:
-const cust = await stripe.customers.create({ email });
-await stripe.paymentIntents.create({ customer: cust.id, amount: 4200, ... });
-const list = await stripe.paymentIntents.list({ customer: cust.id });
-expect(list.data).toHaveLength(1);   // true because the clone remembers
-
-// Against a mock, this assertion is fiction — you scripted the list response.</code></pre>
-        <p>
-          Statefulness also buys you deterministic IDs and snapshot/restore: seed a known world, run the flow,
-          reset between tests. That combination is what makes suites parallel-safe instead of
-          serial-and-hopeful — see <a href="https://molar.it/blog/test-data-management-best-practices">test data management</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="webhooks-and-signatures">Webhooks and signatures</h2>
-        <p>
-          Half of a modern integration is inbound: Stripe webhooks firing on payment success, Twilio status
-          callbacks, GitHub delivery events. Mocks handle this awkwardly — most teams end up calling their own
-          webhook endpoint directly with a hand-built payload, which bypasses signature verification entirely and
-          tests a fantasy shape.
-        </p>
-        <p>
-          A clone emits webhooks as part of normal operation: the charge succeeds because your app created it,
-          the callback fires because the charge succeeded, and it arrives correctly signed so your verification
-          middleware runs for real. You can also inject edge events (retries, out-of-order deliveries) deliberately:
-        </p>
-        <div>
-          If your webhook handler has never been tested against a replayed event with a valid signature, you don’t
-          know whether your idempotency guard works. That single gap causes duplicate charges in production more
-          often than any UI bug.
-        </div>
-        <p>
-          This is also where clones beat even live sandboxes: real vendor sandboxes deliver webhooks when they feel
-          like it, through the public internet. A local clone delivers them deterministically, in-process.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="maintenance-drift">Maintenance drift</h2>
-        <p>
-          Mocks rot silently. Vendors add fields, deprecate endpoints, and change error taxonomies; your fixtures
-          keep returning 2019-shaped responses and nothing tells you. The failure mode isn’t a red test — it’s a
-          green suite guarding code that no longer matches reality, discovered during an incident.
-        </p>
-        <p>
-          Clones drift too, but controllably: the divergence lives in one implementation per vendor, which you
-          update when the vendor changes — and a thin contract check against the live API (run weekly, manually
-          triggered) surfaces drift immediately. With mocks, the divergence is smeared across hundreds of fixture
-          files owned by nobody. For a deeper treatment of the safety question, see
-          <a href="https://molar.it/blog/testing-third-party-apis-safely">testing third-party APIs safely</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="blast-radius">Blast radius</h2>
-        <p>
-          Blast radius is about what breaks when the substitute is wrong. A wrong mock fails your unit test —
-          cheap, contained, fixable in seconds. But mocks used beyond their station fail outward: a checkout E2E
-          passing against scripted responses while the real integration is broken ships straight to production,
-          because everyone trusted the green build.
-        </p>
-        <p>
-          Clones invert this. Their blast radius is bounded by design — no money moves, no emails leave, no SMS
-          sends — while their behavior stays close enough to production that a green E2E suite actually means
-          something. That’s the trade worth making at the system boundary. Molar’s clone catalog covers Stripe, Twilio, email, auth, S3, and GitHub; use the documented integration
-          path for payment-flow testing and keep a thin project-level check so the substitution is explicit.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="the-verdict-mocks-for-units-clones-for-paths">The verdict: mocks for units, clones for paths</h2>
-        <p>
-          The honest answer is that these solve different problems, and mature teams use both:
-        </p>
-        <ul>
-          <li><strong>Use mocks</strong> for pure business logic: pricing rules, retry policies, form validation. Speed dominates; the dependency is incidental.</li>
-          <li><strong>Use clones</strong> anywhere the interaction itself matters: checkout, OTP verification, file storage, OAuth. Semantics dominate; a fake that doesn’t behave is worse than none.</li>
-          <li><strong>Keep one thin live-contract check</strong> against each vendor to catch drift — scheduled, not blocking, never in the hot PR loop.</li>
-        </ul>
-        <p>
-          If you’re evaluating substitutes for a specific tool, our comparisons of
-          <a href="https://molar.it/vs/wiremock">WireMock-style mockers</a> cover where static stubs top out. And if your flows
-          span several vendors at once — pay, notify, verify — a coordinated clone set beats stitching five mockers
-          together, as the recipes in <a href="https://molar.it/blog/test-twilio-sms-otp-flows">Twilio OTP testing</a> and
-          <a href="https://molar.it/blog/email-workflow-testing-otp">email workflow testing</a> demonstrate.
-        </p>]]></content:encoded>
+      <content:encoded><![CDATA[<section><h2 id="choose-how-to-represent-the-service-in-your-test">Choose how to represent the service in your test.</h2><p>An API mock lets you specify what a request should return. A service clone implements selected API behavior and keeps records as requests change them. Both can help you test an integration without sending traffic to a live customer service.</p><p>The right choice depends on the behavior you need. A pricing calculation may need one response. A checkout may need a customer, a payment, a callback, and an account update that agree with each other.</p></section>
+<section><h2 id="mocks-can-have-state-too">Mocks can have state too.</h2><p>Configurable mocks can model sequences and state changes. For example, <a href="https://wiremock.org/docs/stateful-behaviour/">WireMock scenarios</a> let a response depend on the current state and move the scenario into a new state.</p><p>A clone packages supported service behavior into an implementation your tests can reuse. That can reduce repeated fixture setup, but only when the clone covers the endpoints and transitions your app needs. It is not a complete copy of the provider.</p></section>
+<section><h2 id="compare-the-same-checkout-in-both-setups">Compare the same checkout in both setups.</h2><ol><li>Create a test customer and payment.</li><li>Confirm that a later request can retrieve the created record.</li><li>Send or trigger the supported payment callback.</li><li>Check that the app grants access once, including when the callback is repeated.</li><li>Reset state and verify that the test starts from the same conditions.</li></ol><p>For each step, identify what the test controls and what it actually asserts. Returning a success response does not prove that a downstream record changed. Equally, a stateful clone does not prove compatibility with API paths it does not implement.</p></section>
+<section><h2 id="check-callbacks-and-failure-cases-explicitly">Check callbacks and failure cases explicitly.</h2><p>Look for the ability to reproduce the failures that matter: a declined payment, an expired code, a repeated callback, or a missing object. Check payload formats and signature handling against the provider behavior your app expects.</p><p>Use a dedicated test endpoint and test credentials. Confirm that your application routes every relevant call to the intended mock, clone, or provider test environment; changing one base URL may leave other calls untouched.</p></section>
+<section><h2 id="keep-the-substitute-and-the-provider-in-agreement">Keep the substitute and the provider in agreement.</h2><p>Both mocks and clones can drift as a provider changes. Maintain a small set of compatibility checks against the provider’s authorized test environment. Review API versions, required fields, errors, and callbacks when updating either your integration or its test substitute.</p><p><a href="https://molar.it/docs/clones">Molar’s clone catalog</a> lists supported workflows and known limits. Use it to evaluate your actual API calls, then read the <a href="https://molar.it/vs/wiremock">WireMock comparison</a> or the <a href="https://molar.it/blog/test-stripe-without-real-cards">payment testing guide</a> for a more specific setup.</p></section>]]></content:encoded>
     </item>
     <item>
       <title>Continuous testing in your CI/CD pipeline</title>
       <link>https://molar.it/blog/continuous-testing-ci-cd-pipeline</link>
       <guid isPermaLink="true">https://molar.it/blog/continuous-testing-ci-cd-pipeline</guid>
-      <description>Where tests belong across commit, PR, deploy, and production — and what to run at each stage without killing velocity.</description>
+      <description>Choose which tests to run during development, pull requests, deployment, and production monitoring.</description>
       <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
       <content:encoded><![CDATA[<section>
-        <h2 id="the-feedback-budget-comes-first">The feedback budget comes first</h2>
+        <h2 id="set-the-wait-time-for-each-pipeline-stage">Set the wait time for each pipeline stage</h2>
         <p>
           Before deciding what to run where, decide what developers are allowed to wait for. A starting
           budget teams can tune to their CI:
@@ -469,17 +306,12 @@ jobs:
       </section>
 
       <section>
-        <h2 id="artifacts-close-the-loop">Artifacts close the loop</h2>
-        <p>
-          A failed check without evidence is a support ticket; a failed check with evidence is a diagnosis.
-          Attach trace links to the PR — video, DOM snapshots, network log, console output, and the exact
-          cloned third-party interactions — so the author debugs from the comment thread instead of
-          reproducing locally. Molar’s Guard and Trace surfaces are designed around this evidence bundle; verify the configured beta integration before relying on automatic publication.
-        </p>
+        <h2 id="attach-artifacts-so-failures-can-be-diagnosed">Attach artifacts so failures can be diagnosed</h2>
+        <p>Attach the available trace, screenshots, requests, and service results to a failed check so the author can start investigating. Capture the details your test needs and make sure teammates can open them. <a href="https://molar.it/products/guard">Molar Guard</a> and <a href="https://molar.it/products/trace">Trace</a> support this workflow where the beta integration is configured; recording and publication depend on that setup.</p>
       </section>
 
       <section>
-        <h2 id="the-three-ways-pipelines-rot">The three ways pipelines rot</h2>
+        <h2 id="how-pipelines-lose-trust">How pipelines lose trust</h2>
         <ul>
           <li><strong>Budget creep.</strong> Each new feature adds “just one more” PR test until median check time doubles and engineers start merging on red. Re-audit against the budget quarterly and move tests right.</li>
           <li><strong>Flake debt.</strong> Retries hide flaky tests instead of fixing them; the retry count becomes your real reliability metric. Track first-run pass rate per suite and quarantine anything below it.</li>
@@ -492,10 +324,10 @@ jobs:
         </p>]]></content:encoded>
     </item>
     <item>
-      <title>E2E testing best practices that survive scale</title>
+      <title>End-to-end testing: practical habits for reliable checks</title>
       <link>https://molar.it/blog/e2e-testing-best-practices</link>
       <guid isPermaLink="true">https://molar.it/blog/e2e-testing-best-practices</guid>
-      <description>A practical E2E playbook: test the critical path, user-visible selectors, deterministic data, fast feedback.</description>
+      <description>Choose important app tasks, stable locators, isolated test data, and useful failure recordings.</description>
       <pubDate>Sat, 01 Aug 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
       <content:encoded><![CDATA[<section>
@@ -518,14 +350,14 @@ jobs:
       </section>
 
       <section>
-        <h2 id="select-users-can-see">Select users can see</h2>
+        <h2 id="choose-locators-that-describe-the-visible-control">Choose locators that describe the visible control</h2>
         <p>
           The single highest-leverage habit in browser automation is selecting elements the way a user perceives
           them: by role and accessible name, not by DOM coordinates. A locator like
           <code>getByRole('button', { name: 'Pay now' })</code> survives redesigns, refactors, and CSS
           rewrites; <code>#checkout-form > div:nth-child(3) > button</code> survives nothing.
         </p>
-        <pre><code>test('guest can check out with a saved card', async ({ page }) => {
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><pre><code>test('signed-in customer can complete checkout', async ({ page }) => {
   const user = await makeUser();            // factory: unique, disposable
   await login(page, user);
   await page.getByRole('link', { name: 'Cart' }).click();
@@ -600,7 +432,7 @@ jobs:
       </section>
 
       <section>
-        <h2 id="artifacts-on-failure-always">Artifacts on failure, always</h2>
+        <h2 id="keep-the-details-needed-to-investigate-a-failure">Keep the details needed to investigate a failure</h2>
         <div>
           An E2E failure without artifacts costs a round of archaeology: reproduce, guess, instrument,
           repeat. A trace shortens the investigation — open the timeline, read the network waterfall,
@@ -614,25 +446,17 @@ jobs:
           Deterministic replay goes one step further than capture: being able to re-run the exact scenario against
           recorded third-party responses converts “couldn’t reproduce” into a routine morning task.
         </p>
-        <p>
-          Finally, treat these practices as a system, not a checklist. Critical-path focus tells you what to
-          test; visible selectors and independence make tests cheap to maintain; deterministic data makes them
-          stable; sharding keeps them fast; artifacts make failures diagnosable. Drop any pillar and the others
-          degrade — especially stability, since unresolved flakiness poisons trust in everything else
-          (<a href="https://molar.it/blog/flaky-tests-causes-and-fixes">causes and fixes here</a>). Teams that want generation
-          to enforce these defaults automatically can use Molar’s documented agent workflow to target an app and request Playwright-grade
-          specs built on these conventions.
-        </p>]]></content:encoded>
+        <p>Start with a critical task, use stable locators, isolate its data, and retain the details needed to investigate failure. Apply the same review to generated tests. Molar’s generated Playwright export and clean replay remain under validation in beta; inspect the code and prove repeatability before adding it to a release gate.</p>]]></content:encoded>
     </item>
     <item>
-      <title>Email workflow testing: OTPs, invites, notifications</title>
+      <title>Test email verification, invitations, and notifications</title>
       <link>https://molar.it/blog/email-workflow-testing-otp</link>
       <guid isPermaLink="true">https://molar.it/blog/email-workflow-testing-otp</guid>
-      <description>Verify the whole email path in tests — delivery, links, codes — without SMTP or real inboxes. Deterministic and instant.</description>
+      <description>Check captured messages, recipients, links, codes, and expiry using a configured test inbox.</description>
       <pubDate>Sun, 19 Jul 2026 00:00:00 GMT</pubDate>
       <category>Integrations</category>
       <content:encoded><![CDATA[<section>
-        <h2 id="the-inbox-is-part-of-your-app-surface">The inbox is part of your app surface</h2>
+        <h2 id="test-the-inbox-steps-users-depend-on">Test the inbox steps users depend on</h2>
         <p>
           Consider a normal B2B signup: user submits the form → receives a verification code → confirms → gets a
           team invite → clicks a link → lands in the app. Three of five steps happen outside your UI, over email.
@@ -650,7 +474,7 @@ jobs:
       </section>
 
       <section>
-        <h2 id="what-to-actually-assert">What to actually assert</h2>
+        <h2 id="assert-delivery-links-codes-and-expiry">Assert delivery, links, codes, and expiry</h2>
         <p>
           For every transactional email your app sends, three properties are worth verifying in E2E tests:
         </p>
@@ -659,7 +483,7 @@ jobs:
           <li><strong>Links.</strong> Every actionable URL resolves: extract it from the message, request or navigate it, assert the destination state (“reset confirmed”, not a 404). This catches token-expiry misconfigurations and base-URL drift between environments.</li>
           <li><strong>Codes.</strong> For OTP flows, extract the code and drive the UI with it — proving the full loop works, not just that something was rendered.</li>
         </ul>
-        <pre><code>test('password reset completes via emailed link', async ({ page }) => {
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><pre><code>test('password reset completes via emailed link', async ({ page }) => {
   await requestReset(page, 'ci-run-a7f3+user@mail.clone');
   const mail = await clone.waitForMessage({
     to: 'ci-run-a7f3+user@mail.clone',
@@ -742,7 +566,7 @@ export async function latestCodeTo(clone, addr) {
       </section>
 
       <section>
-        <h2 id="no-real-inbox-safety-and-determinism-by-default">No real inbox: safety and determinism by default</h2>
+        <h2 id="use-a-test-inbox-instead-of-smtp">Use a test inbox instead of SMTP</h2>
         <p>
           The clone approach removes the entire risk surface of real-mail testing: no sends to third parties, no
           provider rate limits in CI, no deliverability lottery, no cost scaling with run count. Delivery is local
@@ -752,21 +576,17 @@ export async function latestCodeTo(clone, addr) {
           the whole thing on a schedule against staging as part of your
           <a href="https://molar.it/blog/regression-testing-strategies">regression strategy</a>.
         </p>
-        <p>
-          Molar’s clone catalog includes email alongside Stripe, Twilio, auth, S3, and GitHub; Trace is designed to
-          capture each message as evidence next to DOM snapshots and network logs. When an
-          invite flow fails, you see the exact email the system produced, not a screenshot of its absence.
-        </p>]]></content:encoded>
+        <p>The <a href="https://molar.it/docs/clones/sendgrid">Molar email clone reference</a> describes supported message capture and inspection. For an invitation test, check the recipient and link, then assert that accepting it grants the intended access. The <a href="https://molar.it/examples/team-invitation">recorded invitation example</a> shows one configured flow.</p>]]></content:encoded>
     </item>
     <item>
-      <title>Flaky tests: root causes and durable fixes</title>
+      <title>Flaky tests: causes and fixes</title>
       <link>https://molar.it/blog/flaky-tests-causes-and-fixes</link>
       <guid isPermaLink="true">https://molar.it/blog/flaky-tests-causes-and-fixes</guid>
-      <description>Why tests flake — timing, shared state, third parties, environments — and durable fixes for each. Stop re-running, start fixing.</description>
+      <description>Investigate timing races, shared data, changing environments, and unstable selectors before adding retries.</description>
       <pubDate>Sat, 08 Aug 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
       <content:encoded><![CDATA[<section>
-        <h2 id="flake-is-a-defect-class-not-bad-luck">Flake is a defect class, not bad luck</h2>
+        <h2 id="treat-intermittent-failures-as-bugs-to-investigate">Treat intermittent failures as bugs to investigate</h2>
         <p>
           When the same commit passes on one run and fails on the next, teams learn the worst possible habit:
           re-run until green. Once that habit forms, the suite stops being a gate and becomes weather — people
@@ -862,7 +682,7 @@ await expect(page.getByText('Payment confirmed')).toBeVisible();</code></pre>
       </section>
 
       <section>
-        <h2 id="selector-brittleness-the-slow-rot">Selector brittleness: the slow rot</h2>
+        <h2 id="replace-selectors-tied-to-page-structure">Replace selectors tied to page structure</h2>
         <p>
           The fifth bucket degrades gradually rather than intermittently, but it manufactures flakes all the
           same: a selector like <code>div:nth-child(3) > span.btn-primary</code> survives until a designer
@@ -880,7 +700,7 @@ await expect(page.getByText('Payment confirmed')).toBeVisible();</code></pre>
       </section>
 
       <section>
-        <h2 id="retries-and-quarantine-policy-not-vibes">Retries and quarantine: policy, not vibes</h2>
+        <h2 id="set-a-retry-limit-and-assign-an-owner">Set a retry limit and assign an owner</h2>
         <p>
           Retries deserve nuance. Used deliberately — one retry, both outcomes reported — they absorb genuine
           environmental noise and generate a flake-rate metric you can manage down. Used silently, they convert
@@ -891,19 +711,13 @@ await expect(page.getByText('Payment confirmed')).toBeVisible();</code></pre>
           A retry that passes is a bug report, not a pass. If your green build contains three retried tests,
           you shipped with three undiagnosed defects wearing a green badge.
         </div>
-        <p>
-          A workable policy: cap retries at one or two; tag any test that ever needed one; move repeat offenders
-          to quarantine — still running and reported, but non-blocking, with a named owner and a hard expiry
-          date so quarantine stays a hospital rather than a cemetery. Budget flake rate explicitly and review it like any other SLO. Tooling should make this state visible: where Molar’s beta integration is enabled, flaky runs can remain
-          distinct from passed or failed so intermittent behavior surfaces without silently turning green. For the CI wiring that puts this policy into practice, see our
-          <a href="https://molar.it/blog/github-actions-playwright-ci">GitHub Actions setup guide</a>.
-        </p>]]></content:encoded>
+        <p>Set a small retry limit and report when a run needs it. Give repeated flakes an owner and a repair deadline; keep them visible if they temporarily stop blocking merges. A retry should not erase the first failure. See the <a href="https://molar.it/integrations/github-actions">GitHub Actions guide</a> for running a configured Molar scenario in CI.</p>]]></content:encoded>
     </item>
     <item>
-      <title>Playwright in GitHub Actions: PR gating that holds</title>
+      <title>Run Playwright tests in GitHub Actions</title>
       <link>https://molar.it/blog/github-actions-playwright-ci</link>
       <guid isPermaLink="true">https://molar.it/blog/github-actions-playwright-ci</guid>
-      <description>Set up Playwright in GitHub Actions: caching, sharding, traces, required checks that block merges without drowning CI.</description>
+      <description>Configure test jobs, sharding, failure recordings, and required checks in GitHub Actions.</description>
       <pubDate>Thu, 30 Jul 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
       <content:encoded><![CDATA[<section>
@@ -999,7 +813,7 @@ jobs:
       </section>
 
       <section>
-        <h2 id="shard-until-prs-wait-minutes-not-quarters-of-an-hour">Shard until PRs wait minutes, not quarters of an hour</h2>
+        <h2 id="split-independent-tests-across-ci-jobs">Split independent tests across CI jobs</h2>
         <p>
           Sharding splits the suite across matrix jobs. Pick the target wall-clock time first, then derive shard
           count: a serial suite split across four shards can still be limited by balance and setup overhead.
@@ -1028,17 +842,7 @@ jobs:
     screenshot: 'only-on-failure',
   },
 });</code></pre>
-        <p>
-          With <code>retries: 1</code>, a transient environmental hiccup absorbs itself while the trace records
-          both attempts — you keep velocity without losing signal, provided someone reviews what needed retrying
-          (see the flake policy below). Open any captured trace with
-          <code>npx playwright show-trace trace.zip</code> or upload it as an artifact as the baseline workflow
-          does. What separates a two-minute diagnosis from an hour-long one is usually just this: the DOM,
-          network waterfall, and console at the moment of failure. Molar extends the same idea with deterministic
-          replay — DOM, network, console, and clone state side by side — but the principle is identical; our
-          <a href="https://molar.it/vs/playwright-trace">Trace comparison</a> covers the differences. Keep
-          <code>retention-days</code> short (7) on high-churn PR artifacts; storage costs compound quietly.
-        </p>
+        <p>A retry can reveal an intermittent failure, but a passing retry still needs to be reported. Open a captured trace with <code>npx playwright show-trace trace.zip</code>, or retain it as a CI artifact. Set retention to match your debugging needs. The <a href="https://molar.it/vs/playwright-trace">Molar Trace comparison</a> explains how to inspect the captured data available from each type of run.</p>
       </section>
 
       <section>
@@ -1082,166 +886,27 @@ jobs:
         </p><p>Reference: <a href="https://playwright.dev/docs/test-sharding">Playwright’s CI sharding and report-merging guide</a>.</p>]]></content:encoded>
     </item>
     <item>
-      <title>Playwright vs Cypress in 2026: an honest comparison</title>
+      <title>Playwright vs Cypress: choosing for your app</title>
       <link>https://molar.it/blog/playwright-vs-cypress-comparison</link>
       <guid isPermaLink="true">https://molar.it/blog/playwright-vs-cypress-comparison</guid>
-      <description>Architecture, multi-tab, iframes, debugging, CI scale, ecosystem. Where each wins — and how generated Playwright changes the math.</description>
+      <description>Evaluate browser navigation, CI execution, failure inspection, and test maintenance on a representative task.</description>
       <pubDate>Mon, 22 Jun 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
-      <content:encoded><![CDATA[<section>
-        <h2 id="two-architectures-two-sets-of-limits">Two architectures, two sets of limits</h2>
-        <p>
-          Cypress executes your test code inside the browser, in the same event loop as your
-          application. That design grants unusual powers — stub timers, spy on app internals, assert on
-          network calls without leaving the test body — and imposes unusual constraints, because
-          page-context JavaScript can only do what a web page can do. Driving multiple tabs, multiple
-          origins in a single test, or certain popup flows requires workarounds like <code>cy.origin()</code>,
-          which partition a test into sequential session-like segments rather than letting you hold several
-          pages open at once.
-        </p>
-        <p>
-          Playwright is the opposite bet: an out-of-process driver speaking CDP (and equivalents) to
-          instrumented browsers, with your tests running in Node. Multi-tab is a first-class primitive:
-        </p>
-        <pre><code>// Hold the opener and the new page simultaneously
-const [checkout] = await Promise.all([
-  page.waitForEvent('popup'),
-  page.getByRole('button', { name: 'Open checkout' }).click(),
-]);
-await checkout.getByRole('heading', { name: 'Payment' }).waitFor();
-await expect(checkout.getByTestId('order-total')).toHaveText('$42.00');</code></pre>
-        <p>
-          The same physics applies to iframes: in Playwright they’re addressed with <code>frameLocator()</code>
-          like any other container, not special machinery. Neither architecture is broken. Choose based on
-          whether you need browser-context superpowers or OS-level control over the whole browser.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="browser-support-and-the-webkit-question">Browser support and the WebKit question</h2>
-        <p>
-          Playwright ships three first-party builds — Chromium, Firefox, and WebKit — patched for
-          deterministic automation, so Safari-adjacent coverage is present in CI by default. Cypress covers
-          Chromium-family and Firefox stably; its WebKit support remains experimental. If your analytics show
-          meaningful iOS/Safari share, that gap outweighs nearly every other line item in this comparison.
-        </p>
-        <p>
-          An honest caveat cuts the other way too: Playwright’s WebKit is a close proxy for Safari, not
-          literal Safari on macOS and iOS. Treat it as high-confidence coverage, and keep a single
-          real-device smoke lane if mobile Safari touches revenue. For most teams, though, “WebKit in CI” quietly eliminates an entire class of late-discovered layout and API bugs.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="parallelism-and-sharding-at-ci-scale">Parallelism and sharding at CI scale</h2>
-        <p>
-          Playwright parallelizes two ways: multiple workers within a machine and
-          shards across machines. A suite split across four shards can reduce wall-clock time when the work balances well, with a
-          built-in flag:
-        </p>
-        <pre><code>npx playwright test --shard=1/4
-
-# worker settings, in playwright.config.ts
-export default defineConfig({
-  fullyParallel: true,
-  workers: process.env.CI ? 4 : unset value,
-});</code></pre>
-        <p>
-          Cypress can distribute recorded specs across multiple CI machines with Cypress Cloud’s <code>--record --parallel</code>
-          flow; its balancing is spec-file based.
-          At small suite sizes none of this matters. As runtime grows, this section
-          determines both your CI bill and your feedback latency — and feedback latency decides whether
-          engineers wait for the gate or merge around it. Our <a href="https://molar.it/blog/github-actions-playwright-ci">GitHub
-          Actions walkthrough</a> shows the sharded setup end to end.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="debugging-who-finds-the-failure-first">Debugging: who finds the failure first</h2>
-        <p>
-          A test that fails only in CI is a tax collected on every merge. Playwright’s answer is the trace
-          viewer: each run can record a self-contained artifact with screenshots, DOM snapshots for every
-          action, network traffic, and console output — so you replay a failure that happened on a runner,
-          from your laptop, with full state at step N. We compared trace workflows in depth in
-          <a href="https://molar.it/vs/playwright-trace">our Trace overview</a>.
-        </p>
-        <p>
-          Cypress’s command log with per-command snapshots is genuinely excellent inside the interactive
-          runner; replaying a failed cloud run afterward sits behind the paid tier. Both produce video.
-          Only DOM-preserving traces let you inspect the exact accessibility tree the selector saw — which
-          is usually where the answer lives. Whichever you pick, pair it with root-cause discipline from
-          <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">our flaky-tests guide</a>; debuggers don’t fix flakes,
-          they just make the cause undeniable.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="codegen-and-the-ai-generation-pull">Codegen and the AI-generation pull</h2>
-        <p>
-          On classic codegen, Playwright leads: <code>npx playwright codegen</code> emits runnable TypeScript
-          with role-based locators by default, while Cypress Studio remains experimental-flavored. But the
-          AI-generated suites make a reviewable, code-first API especially useful. Agents often target Playwright: its
-          recognizable syntax and deterministic export keep generated tests readable and easy to review.
-        </p>
-        <div>
-          Choosing a framework in 2026 is partly choosing which API your future coding agents will emit.
-          Pick the one generators and models target, not merely the one your current team knows best.
-        </div>
-        <p>
-          If generated suites are anywhere on your roadmap, read how the pipeline works in
-          <a href="https://molar.it/blog/ai-playwright-test-generation">AI Playwright test generation</a>, and how
-          <a href="https://molar.it/blog/self-healing-test-automation">self-healing locators</a> keep generated selectors
-          alive through redesigns.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="lock-in-and-exit-cost">Lock-in and exit cost</h2>
-        <p>
-          Both tools install from npm, speak TypeScript, and leave your application runtime untouched.
-          The lock-in lives entirely in spec files. Cypress specs are chained <code>cy.*</code> commands with
-          bespoke retry-and-queue semantics — pleasant to write, awkward to port; migration means rewriting
-          structure, not swapping assertion libraries. Playwright specs are plain async functions awaiting
-          ordinary calls — closer to raw browser automation, so refactors, migrations, and code generators
-          have less ceremony to fight through.
-        </p>
-        <p>
-          Component testing is the one column where Cypress’s heritage shows: it matured years earlier and
-          remains slightly smoother for mount-and-interact workflows against frameworks like React and Vue.
-          Playwright CT is capable but younger. If component testing is 80% of your suite, weight this
-          heavily.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="the-verdict">The verdict</h2>
-        <ul>
-          <li><strong>Multi-tab, popups, iframes:</strong> Playwright, by architecture.</li>
-          <li><strong>In-browser powers</strong> (clock stubbing, internal spies): Cypress.</li>
-          <li><strong>Default WebKit in CI:</strong> Playwright.</li>
-          <li><strong>Free parallelism and sharding:</strong> Playwright.</li>
-          <li><strong>Failure debugging artifacts:</strong> Playwright traces edge the command log.</li>
-          <li><strong>Component testing heritage:</strong> Cypress.</li>
-          <li><strong>AI-generation ecosystem gravity:</strong> Playwright, decisively.</li>
-        </ul>
-        <p>
-          For teams adopting AI-generated suites, the verdict isn’t close: generated output lands in
-          Playwright, which keeps reviewability, sharding, and traces in the workflow. Teams with deep
-          Cypress investment, component-heavy frontends, and budget for cloud conveniences are rational to
-          stay put. Greenfield in 2026 starts on Playwright. Deeper dives live on our
-          <a href="https://molar.it/vs/cypress">Cypress comparison</a> and <a href="https://molar.it/vs/playwright">Playwright platform</a>
-          pages.
-        </p><p>References: <a href="https://playwright.dev/docs/test-sharding">Playwright sharding</a> and <a href="https://docs.cypress.io/cloud/features/smart-orchestration/parallelization">Cypress Cloud parallelization</a>.</p>]]></content:encoded>
+      <content:encoded><![CDATA[<section><h2 id="compare-them-on-a-test-your-team-needs-to-maintain">Compare them on a test your team needs to maintain.</h2><p>Playwright and Cypress both support browser testing. The useful comparison is how they handle your application’s navigation, assertions, test data, and debugging workflow.</p><p>Choose one representative test, such as signing in and changing a plan. Include the popup, external login, or component interaction that makes your app difficult to test. Compare the code and failure report as well as a passing run.</p></section>
+<section><h2 id="check-tabs-and-changes-of-origin">Check tabs and changes of origin.</h2><p>Playwright exposes browser pages and popup events, so a test can keep references to multiple pages. Its <a href="https://playwright.dev/docs/pages">pages documentation</a> shows how to wait for a newly opened tab before interacting with it.</p><p>Cypress provides <code>cy.origin()</code> for commands on another origin. Review its <a href="https://docs.cypress.io/api/commands/origin">documented restrictions</a> against your actual sign-in or checkout flow rather than treating every cross-origin application as the same case.</p></section>
+<section><h2 id="measure-ci-time-with-isolated-test-data">Measure CI time with isolated test data.</h2><p>Playwright can split tests across CI jobs with its <a href="https://playwright.dev/docs/test-sharding">sharding option</a>. Cypress Cloud can distribute recorded specs across machines through its <a href="https://docs.cypress.io/cloud/features/smart-orchestration/parallelization">parallelization workflow</a>.</p><p>In either setup, separate accounts and records are essential. A faster suite is not useful if two workers change the same user or consume the same verification code. Measure queue time, execution time, and failure investigation on the infrastructure you intend to use.</p></section>
+<section><h2 id="debug-a-deliberate-failure">Debug a deliberate failure.</h2><p>Break one assertion and inspect the result. Can you identify the failing action, see the page state, and find the relevant request? Can another engineer open the same report?</p><p>Playwright has a <a href="https://playwright.dev/docs/trace-viewer">trace viewer</a>; Cypress offers local command inspection and Cloud recording tools. Check what your configuration captures and which features require a service plan. Neither a video nor a screenshot proves that an assertion was correct.</p></section>
+<section><h2 id="review-generated-tests-as-carefully-as-handwritten-tests">Review generated tests as carefully as handwritten tests.</h2><p>Authoring tools can save setup work, but a generated test still needs useful assertions, appropriate accounts, and a successful rerun from clean state. Check whether a code change breaks the test for the intended reason.</p><p>Keep the framework your team can maintain unless another solves a concrete limitation. If you are evaluating Molar alongside it, read <a href="https://molar.it/vs/playwright">Molar and Playwright</a> or <a href="https://molar.it/vs/cypress">Molar and Cypress</a> for how browser agents and supported service clones fit with existing tests.</p></section>]]></content:encoded>
     </item>
     <item>
-      <title>Regression testing strategies for fast-moving teams</title>
+      <title>Choose which regression tests to run before release</title>
       <link>https://molar.it/blog/regression-testing-strategies</link>
       <guid isPermaLink="true">https://molar.it/blog/regression-testing-strategies</guid>
-      <description>Full suites don&apos;t scale; skipping tests doesn&apos;t either. Risk-based selection, PR gates, and insurance runs that work.</description>
+      <description>Map changes to affected tasks, keep essential checks, and learn from regressions your tests missed.</description>
       <pubDate>Sun, 12 Jul 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
       <content:encoded><![CDATA[<section>
-        <h2 id="the-scaling-trap">The scaling trap</h2>
+        <h2 id="why-full-suite-gating-stops-scaling">Why full-suite gating stops scaling</h2>
         <p>
           Regression suites fail in a predictable way as teams grow. At five engineers, “run everything on every
           push” works — a 10-minute suite is invisible. At fifty engineers with a 90-minute E2E suite, the math
@@ -1264,7 +929,7 @@ export default defineConfig({
           map files to modules to user flows, then run the tests that exercise the touched surface plus everything
           downstream of it.
         </p>
-        <pre><code># .molar/policy.yaml - selection policy, versioned like code
+        <pre><code># Illustrative selection policy — adapt to your CI tooling
 rules:
   - touch: "src/checkout/**"
     run_flows: [cart, checkout, order-confirmation, refunds]
@@ -1284,18 +949,17 @@ always_run: [smoke]           # never skipped</code></pre>
       </section>
 
       <section>
-        <h2 id="affected-flow-analysis-beats-path-matching">Affected-flow analysis beats path matching</h2>
+        <h2 id="map-code-changes-to-the-tasks-they-can-affect">Map code changes to the tasks they can affect</h2>
         <p>
           File-path rules are the floor, not the ceiling. A change to a shared component or an API response shape
           touches flows its path never mentions. The stronger version builds an actual dependency graph: which
           routes render this component, which flows traverse those routes, which API endpoints feed them.
         </p>
-        <pre><code>$ molar affected --diff HEAD~3..HEAD
-→ src/components/PricingTable.tsx changed
-→ rendered on /pricing, /upgrade (2 routes)
-→ traversed by flows: upgrade-plan, checkout (shared step: plan-select)
-→ API deps: GET /api/plans (shape unchanged)
-✓ Selected 7 specs, estimated 6m12s (full suite: 54m)</code></pre>
+        <pre><code>Example mapping to review:
+PricingTable.tsx changes
+→ Pricing and upgrade pages use this component
+→ Run plan-selection and checkout tests
+→ Include the normal smoke checks</code></pre>
         <p>
           Two failure modes to design against. Over-selection (everything depends on everything) usually means a
           shared utility needs decoupling — treat it as architecture signal, not a tool bug. Under-selection is the
@@ -1327,7 +991,7 @@ always_run: [smoke]           # never skipped</code></pre>
       </section>
 
       <section>
-        <h2 id="quarantine-and-snooze-policy-not-vibes">Quarantine and snooze: policy, not vibes</h2>
+        <h2 id="quarantine-flaky-checks-with-an-owner">Quarantine flaky checks with an owner</h2>
         <p>
           Flaky tests are where regression programs die. Not because flakes are unfixable — most have diagnosable
           causes (<a href="https://molar.it/blog/flaky-tests-causes-and-fixes">root causes and fixes here</a>) — but because teams
@@ -1348,7 +1012,7 @@ always_run: [smoke]           # never skipped</code></pre>
       </section>
 
       <section>
-        <h2 id="measure-escape-rate-not-vanity-coverage">Measure escape rate, not vanity coverage</h2>
+        <h2 id="review-regressions-your-tests-missed">Review regressions your tests missed</h2>
         <p>
           The only number that tells you whether any of this works is <strong>escape rate</strong>: regressions
           that reached users divided by total regressions found, over time. Everything else — coverage percent,
@@ -1359,14 +1023,7 @@ always_run: [smoke]           # never skipped</code></pre>
 
 # Track monthly, segment by area, and review every escape
 # Every escape → write the missing test + trace why selection missed it</code></pre>
-        <p>
-          Pair it with two operational metrics: <strong>time-to-feedback</strong> on the PR gate (target: under ten
-          minutes, or developers context-switch) and <strong>detection latency</strong> for production issues (how
-          long between a synthetic check failing and a human acting). Escapes going down while feedback stays fast
-          is the whole game. When escapes cluster in one area, that’s your selection graph missing edges — fix the
-          mapping, then let the <a href="https://molar.it/blog/self-healing-test-automation">self-healing layer</a> absorb the
-          locator churn those new tests will hit.
-        </p>
+        <p>Track time to useful feedback and the time between a production failure and a response. Review escaped regressions to learn whether a test was missing, an assertion was weak, or a selection rule skipped the right check. Adjust the rule or test based on that finding.</p>
         <p>
           Finally, make the gate itself non-negotiable: required status checks turn “please run the tests” into
           physics. The mechanics are in our guide to
@@ -1374,14 +1031,14 @@ always_run: [smoke]           # never skipped</code></pre>
         </p>]]></content:encoded>
     </item>
     <item>
-      <title>Required status checks: a practical merge-gate guide</title>
+      <title>Require passing checks before merging</title>
       <link>https://molar.it/blog/required-status-checks-merge-gate</link>
       <guid isPermaLink="true">https://molar.it/blog/required-status-checks-merge-gate</guid>
-      <description>How to make failing checks actually block merges: branch protection, required checks, advisory vs required modes, escape hatches.</description>
+      <description>Choose the GitHub checks that must pass, configure the requirement, and define how to handle an unreliable check.</description>
       <pubDate>Tue, 28 Jul 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
       <content:encoded><![CDATA[<section>
-        <h2 id="a-green-pipeline-nobody-waits-for">A green pipeline nobody waits for</h2>
+        <h2 id="make-the-intended-check-a-requirement-for-merging">Make the intended check a requirement for merging</h2>
         <p>
           The failure mode is always the same story. CI runs on every pull request and posts its little green
           checkmark. But nothing enforces it: someone merges while the run is still in progress, someone else
@@ -1400,7 +1057,7 @@ always_run: [smoke]           # never skipped</code></pre>
       </section>
 
       <section>
-        <h2 id="branch-protection-in-five-minutes">Branch protection in five minutes</h2>
+        <h2 id="configure-the-required-check-in-github">Configure the required check in GitHub</h2>
         <p>
           In repository settings, under Branches (or Rules → Rulesets on newer plans), create a rule targeting
           <code>main</code>. Three switches matter most: require a pull request before merging, require status
@@ -1473,7 +1130,7 @@ JSON</code></pre>
       </section>
 
       <section>
-        <h2 id="a-gate-is-only-as-strong-as-its-flake-rate">A gate is only as strong as its flake rate</h2>
+        <h2 id="investigate-checks-that-pass-only-after-a-retry">Investigate checks that pass only after a retry</h2>
         <div>
           A required check that fails randomly often enough doesn’t reduce risk — it trains bypass.
           Engineers learn that red usually means “roll the dice again”, and within a quarter the team is
@@ -1491,7 +1148,7 @@ JSON</code></pre>
       </section>
 
       <section>
-        <h2 id="escape-hatches-you-design-on-day-one">Escape hatches you design on day one</h2>
+        <h2 id="define-how-to-unblock-a-broken-gate">Define how to unblock a broken gate</h2>
         <p>
           Hard gates meet reality at the worst time — production is down, the fix is three lines, and CI takes
           twelve minutes you don’t have. Decide the protocol now, calmly, instead of improvising during an
@@ -1501,21 +1158,13 @@ JSON</code></pre>
           behind it, and post the incident note. Some teams invert the pressure entirely: allow bypass only via
           a dedicated hotfix branch whose protection is slightly softer, keeping main’s gate absolute.
         </p>
-        <p>
-          Whatever you choose, measure it. Bypass frequency is a leading indicator: rising overrides mean either
-          your suite got slower, your flake rate climbed, or your process stopped fitting reality — all worth
-          knowing within days rather than quarters. And when the required E2E verdict itself needs richer
-          evidence than a checkmark, deterministic replay with full DOM, network, and clone state turns “why did
-          the gate go red?” from a meeting into a link. That’s the model Molar’s design centers on: gates that stay
-          honest when each failure arrives with its evidence attached. For the broader rollout sequence,
-          see <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a>.
-        </p>]]></content:encoded>
+        <p>Review how often checks are bypassed and why. Repeated overrides may indicate slow tests, unreliable environments, or a policy that no longer fits the team. Retain the captured steps and failure details so an engineer can investigate the result. For rollout guidance, see <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a>.</p>]]></content:encoded>
     </item>
     <item>
-      <title>Self-healing test automation, done right</title>
+      <title>Review automated test repairs without weakening assertions</title>
       <link>https://molar.it/blog/self-healing-test-automation</link>
       <guid isPermaLink="true">https://molar.it/blog/self-healing-test-automation</guid>
-      <description>How self-healing really works: locator re-ranking, intent capture, approval gates — and why silent rewrites mask real regressions.</description>
+      <description>How to evaluate a proposed locator change, preserve the intended behavior, and rerun the original assertion.</description>
       <pubDate>Wed, 05 Aug 2026 00:00:00 GMT</pubDate>
       <category>Agents</category>
       <content:encoded><![CDATA[<section>
@@ -1593,14 +1242,7 @@ JSON</code></pre>
   # Evidence: redesign commit moved checkout into a modal.
   # Candidate matched: role=button, name="Pay now", visible, enabled.
   # Post-step assertion held: confirmation banner appeared.</code></pre>
-        <p>
-          Two properties distinguish this from auto-patching. First, the change travels through the same PR
-          workflow as any other code — nothing mutates your suite out-of-band. Second, approval is a semantic
-          decision only a human can make: did we move this button, or did we replace it? The
-          system can prove the candidate fits the recorded intent; only the team knows whether the intent itself
-          survived the redesign. Tools like Molar make the gate explicit — heals are proposed with trace evidence,
-          applied on approval, never silently.
-        </p>
+        <p>Review a locator change through the same process as other test code, then rerun the original assertion. Confirm that the target still serves the same purpose. Molar’s <a href="https://molar.it/products/mender">Mender</a> remains in preview; do not assume automatic repair is enabled for a beta project.</p>
       </section>
 
       <section>
@@ -1622,7 +1264,7 @@ JSON</code></pre>
       </section>
 
       <section>
-        <h2 id="the-line-heal-mechanics-never-semantics">The line: heal mechanics, never semantics</h2>
+        <h2 id="preserve-the-original-assertion-when-changing-a-locator">Preserve the original assertion when changing a locator</h2>
         <div>
           Silent auto-patching converts a regression detector into a compliance mechanism. If the “Buy” button
           becomes “Subscribe” and the heal silently follows it, your payment-flow test stays green while your
@@ -1640,10 +1282,10 @@ JSON</code></pre>
         </p>]]></content:encoded>
     </item>
     <item>
-      <title>Shift-left testing, explained for shipping teams</title>
+      <title>Plan tests before a change is ready to ship</title>
       <link>https://molar.it/blog/shift-left-testing-explained</link>
       <guid isPermaLink="true">https://molar.it/blog/shift-left-testing-explained</guid>
-      <description>Catch bugs where they&apos;re cheapest — design and PR, not production. Practical shift-left without slowing reviews.</description>
+      <description>Review acceptance criteria early and bring useful browser checks into the pull-request workflow.</description>
       <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
       <content:encoded><![CDATA[<section>
@@ -1674,23 +1316,16 @@ JSON</code></pre>
           ruinous to discover from a support ticket. So the cheapest test artifact is a written scenario
           list produced before code exists:
         </p>
-        <pre><code># checkout.molar.md — reviewed like code, before any code exists
+        <pre><code># Example acceptance criteria for checkout
 Scenario: Expired saved card
   When I pay with an expired saved card
   Then I see the retry form
-  And no charge attempt is stored
+  And no successful payment is recorded
 
 Scenario: Duplicate submit
   When I double-click "Pay"
   Then exactly one charge exists for this order</code></pre>
-        <p>
-          Plain-English scenarios work at this stage because every stakeholder can read them — product,
-          engineering, and support argue about edge cases while changing them costs a keystroke. It’s the
-          same format Molar is designed to compile into executable Playwright tests, so the artifact you argued over
-          in design review can become the artifact that gates the merge later. For teams without dedicated QA,
-          this habit alone closes most of the gap described in
-          <a href="https://molar.it/blog/startup-qa-without-qa-team">running QA without a QA team</a>.
-        </p>
+        <p>Plain-English scenarios let product, engineering, and support review expected behavior before implementation. Keep them specific enough to turn into assertions later. The examples above describe behavior; they are not an executable Molar configuration.</p>
       </section>
 
       <section>
@@ -1743,17 +1378,13 @@ Scenario: Duplicate submit
           the wrong flows — shift-left is a direction, not a destination, and the metric that matters is
           the phase in which defects die.
         </p>
-        <p>
-          Molar is designed to make that program boring: plain-English scenarios can compile to Playwright-grade
-          tests, while Guard and Trace are intended to connect checks, safe dependencies, and failure evidence.
-          Verify the configured beta integration before relying on automatic publication.
-        </p>]]></content:encoded>
+        <p>Molar is building toward reusable browser checks across development and releases. Start with the <a href="https://molar.it/products/cartographer">Cartographer beta workflow</a>; generated Playwright export and clean replay are still being validated. Configure and verify each release integration before relying on it.</p>]]></content:encoded>
     </item>
     <item>
-      <title>Staging environments are lying to you</title>
+      <title>Make test environments easier to trust</title>
       <link>https://molar.it/blog/staging-environment-alternatives</link>
       <guid isPermaLink="true">https://molar.it/blog/staging-environment-alternatives</guid>
-      <description>Drift, dirty data, fake integrations. Why staging fails to predict production — and what to run against instead.</description>
+      <description>Reduce configuration drift, isolate data, and choose appropriate test services for preview and staging environments.</description>
       <pubDate>Thu, 02 Jul 2026 00:00:00 GMT</pubDate>
       <category>Integrations</category>
       <content:encoded><![CDATA[<section>
@@ -1797,7 +1428,7 @@ Scenario: Duplicate submit
       </section>
 
       <section>
-        <h2 id="the-third-party-lie">The third-party lie</h2>
+        <h2 id="sandbox-behavior-hides-vendor-failures">Sandbox behavior hides vendor failures</h2>
         <p>
           Most “staging” setups fake out vendors in the least honest way possible: sandbox accounts shared
           across every environment, stub servers that only know happy paths, or — worst — live keys with a
@@ -1821,18 +1452,12 @@ Scenario: Duplicate submit
           an ephemeral full stack per PR — preview URL included — and point its third-party dependencies at
           stateful clones:
         </p>
-        <pre><code># ephemerous-but-deterministic: env for a PR preview
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><pre><code># ephemerous-but-deterministic: env for a PR preview
 DATABASE_URL=postgres://ci:${TOKEN}@db-pr-4821.internal/app
 STRIPE_BASE_URL=http://stripe-clone.internal:12111   # stateful, signed webhooks
 EMAIL_BASE_URL=http://mailhole.internal:9025         # capture inbox, no delivery
 S3_ENDPOINT=http://s3-clone.internal:9000            # real API, throwaway bucket</code></pre>
-        <p>
-          Now every property staging promised — isolated data, safe third parties, disposable state — holds
-          per pull request instead of approximately-once-per-quarter. Deterministic IDs and snapshot/restore
-          make runs reproducible; webhook-signing clones let your handlers execute their real verification
-          path. This is the architecture Molar’s Clones product is designed around; Guard can wire it into
-          required checks where the configured integration supports that path.
-        </p>
+        <p>An environment per pull request can isolate data and make cleanup simpler, provided its dependencies and reset behavior are also configured. Check that parallel runs do not share mutable state. <a href="https://molar.it/products/clones">Molar Clones</a> offers supported service substitutes, while <a href="https://molar.it/products/guard">Guard</a> beta setup connects defined scenarios to release checks.</p>
       </section>
 
       <section>
@@ -1873,137 +1498,24 @@ S3_ENDPOINT=http://s3-clone.internal:9000            # real API, throwaway bucke
         </p>]]></content:encoded>
     </item>
     <item>
-      <title>Startup QA without a QA team</title>
+      <title>Startup QA without a dedicated QA team</title>
       <link>https://molar.it/blog/startup-qa-without-qa-team</link>
       <guid isPermaLink="true">https://molar.it/blog/startup-qa-without-qa-team</guid>
-      <description>You can&apos;t hire QA before PMF. Critical-path automation, PR gates, production guard — a lean playbook for founders.</description>
+      <description>Start with important customer tasks, build repeatable tests, and add release checks your team can maintain.</description>
       <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
-      <content:encoded><![CDATA[<section>
-        <h2 id="the-founder-time-math-nobody-runs">The founder-time math nobody runs</h2>
-        <p>
-          Run the arithmetic you’d run for any other expense. Say you deploy daily and spend twenty minutes
-          manually clicking through signup and checkout before each deploy. That’s roughly eighty hours a
-          year of founder time doing what a script does in ninety seconds — but the hours aren’t even the
-          real cost. The real cost is the deploys where you skip the check because you’re shipping from a
-          cab, and one of those skipped checks is a broken checkout discovered by a customer.
-        </p>
-        <p>
-          The second hidden cost is velocity tax. When confidence is manual, engineers batch changes into
-          riskier releases (“one deploy, fewer checks”), which makes every failure bigger and slower to
-          bisect. Automation isn’t headcount substitution — it’s what lets a three-person team ship daily
-          without holding their breath. The principles in our
-          <a href="https://molar.it/blog/e2e-testing-best-practices">e2e best-practices guide</a> apply at every company
-          size; this post is about sequencing them when time is the scarcest resource.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="find-the-money-paths-first">Find the money paths first</h2>
-        <p>
-          Draw your revenue graph as literally as you can on a whiteboard: anonymous visitor → signup →
-          activation (the action that makes someone stay) → upgrade → renewal. Every edge where “broken”
-          means “revenue lost” or “user churned” is a money path. For most SaaS that’s five edges or fewer:
-          signup with email verification, login plus password reset, the core value action, checkout, and
-          subscription changes or cancellation.
-        </p>
-        <p>
-          Everything else — settings pages, admin panels, nice-to-have filters — waits. Not forever, just
-          until the money paths are guarded. Sequencing by blast radius rather than by ease-of-automation is
-          the single highest-leverage decision in a small team’s test strategy.
-        </p>
-        <div>
-          Coverage theater is the classic startup mistake: automating theme toggles while checkout is
-          verified by vibes. A green suite that skips the money paths protects nothing worth protecting.
-        </div>
-      </section>
-
-      <section>
-        <h2 id="automate-the-top-five-flows-nothing-else-yet">Automate the top five flows — nothing else yet</h2>
-        <p>
-          Write (or generate) one test per money path, end to end, against something that behaves like
-          production. Two details make or break this at startup scale. First, synthetic data: each run gets
-          its own identity so tests never collide — see
-          <a href="https://molar.it/blog/test-data-management-best-practices">test data rules that scale</a>. Second,
-          third-party safety: your checkout test must not hit live Stripe or a real mailbox. Stateful clones
-          speak Stripe’s API, accept <code>4242…</code>, and never move money —
-          <a href="https://molar.it/blog/test-stripe-without-real-cards">here’s how that works for cards</a>, and the same
-          pattern covers OTP email and SMS.
-        </p>
-        <pre><code>// e2e/money-paths.spec.ts — one guard per revenue edge
-test('signup → upgrade', async ({ page }) => {
-  const inbox = await clone.createMailbox();     // disposable, no real email
-  await page.goto('/signup');
-  await page.getByLabel('Work email').fill(inbox.address);
-  await page.getByRole('button', { name: 'Create account' }).click();
-  await inbox.waitForOtp();                      // verification code arrives via clone
-  await completeOtp(page, inbox);
-
-  await page.getByRole('button', { name: 'Upgrade to Pro' }).click();
-  await fillCard(page, '4242 4242 4242 4242');   // clone card, no real charge
-  await expect(page.getByTestId('plan-badge')).toHaveText('Pro');
-});</code></pre>
-        <p>
-          Five tests like this cover the majority of catastrophic-regression surface. Resist the urge to
-          build coverage breadth before you have depth on these five.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="make-them-required-checks">Make them required checks</h2>
-        <p>
-          A suite that runs “when someone remembers” is documentation, not protection. Wire the money paths
-          into CI on every pull request and mark them as required status checks so GitHub blocks merge on
-          red — the exact setup is in
-          <a href="https://molar.it/blog/required-status-checks-merge-gate">required status checks as a merge gate</a>, with
-          the Playwright runner configuration in
-          <a href="https://molar.it/blog/github-actions-playwright-ci">our GitHub Actions guide</a>.
-        </p>
-        <p>
-          One policy matters more than tooling here: never disable a failing required check. If a test flakes,
-          quarantine it behind a label with a deadline, then fix the cause — retries hide disease, they don’t
-          cure it. Five reliable tests gating every merge beat fifty flaky ones everyone routes around.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="schedule-production-checks">Schedule production checks</h2>
-        <p>
-          PR gates verify code before it ships. They say nothing about DNS, certificates, deploy
-          configuration, environment variables, or a vendor API that changed shape overnight. That gap
-          belongs to scheduled production checks: run the same two or three money-path tests hourly against
-          your live site, alert into Slack on failure, and attach evidence so whoever is nearest can triage
-          in minutes. The pattern is standard synthetic monitoring —
-          <a href="https://molar.it/blog/synthetic-monitoring-production">we break down cadence, alerting, and ownership
-          here</a>.
-        </p>
-        <p>
-          Hourly is usually right at startup scale: fast enough to catch breakage before most customers do,
-          cheap enough that nobody argues about the bill. If a check fails twice in a row, page; once,
-          Slack.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="the-lean-stack-recapped">The lean stack, recapped</h2>
-        <ul>
-          <li><strong>Map the money paths.</strong> Signup, login, core action, checkout, plan changes. Nothing else yet.</li>
-          <li><strong>One hermetic test per path.</strong> Synthetic identities, cloned vendors, zero real side effects.</li>
-          <li><strong>Gate merges.</strong> Required checks on every PR; quarantine flakes, never delete gates.</li>
-          <li><strong>Guard production.</strong> Hourly checks on the same paths, alerts where your team actually lives.</li>
-          <li><strong>Expand only when it hurts.</strong> Add coverage after a bug escapes, targeting the class of bug, not the instance.</li>
-        </ul>
-        <p>
-          Revisit the founder-time math: eighty hours a year of manual checking becomes an afternoon of
-          setup plus reviewing failures that actually matter. This loop — generate from plain English, gate PRs, and monitor production — is the workflow Molar is building toward;
-          see <a href="https://app.molar.it">beta access</a> for the currently supported paths.
-        </p>]]></content:encoded>
+      <content:encoded><![CDATA[<section><h2 id="start-with-the-checks-you-repeat-before-every-release">Start with the checks you repeat before every release.</h2><p>Write down what someone clicks through before shipping: signup, login, the app’s main task, checkout, or a plan change. Record how long those checks take and which ones are regularly skipped.</p><p>That gives you a useful starting point for automation. The aim is to make important failures visible while a change is still easy to investigate.</p></section>
+<section><h2 id="choose-a-few-tasks-customers-depend-on">Choose a few tasks customers depend on.</h2><p>Rank tasks by the harm a failure would cause and how often the code changes. For a subscription app, signup and account access after payment may come first. For a collaboration app, invitations and permissions may matter more.</p><p>Write a specific success condition for each. “Checkout works” is hard to review. “The paid account can open the purchased feature, and only one payment is recorded” tells you what to assert.</p></section>
+<section><h2 id="build-one-repeatable-test-before-adding-more">Build one repeatable test before adding more.</h2><p>Use dedicated test accounts, a reachable test environment, and the service behavior your task depends on. Start each run from known state. A test that only passes after a particular engineer prepares the app is not ready to run unattended.</p><p>Begin with browser assertions, then add the downstream checks that matter: the email arrives, the membership exists, or the payment grants access. The <a href="https://molar.it/blog/e2e-testing-best-practices">end-to-end testing guide</a> and <a href="https://molar.it/blog/test-data-management-best-practices">test data guide</a> cover those foundations.</p></section>
+<section><h2 id="run-reliable-checks-before-merging">Run reliable checks before merging.</h2><p>Add the test to CI once it passes consistently from clean state. Configure the relevant job as a required repository check when the team is ready to rely on it.</p><p>Assign someone to investigate failures. Track tests that pass only after a retry. If a flaky check must temporarily stop blocking releases, keep it running and give the repair an owner and deadline. Use the <a href="https://molar.it/blog/required-status-checks-merge-gate">required-check guide</a> to plan that policy.</p></section>
+<section><h2 id="watch-the-deployed-app-as-well">Watch the deployed app as well.</h2><p>Production can fail because of deployment configuration or a changed dependency even when the code passed CI. Add authorized checks against dedicated test accounts and choose a frequency that fits the impact and cost of the task.</p><p>Keep payment and messaging side effects controlled. Route actionable failures to the person who can respond, with enough captured detail to start investigating. See <a href="https://molar.it/blog/synthetic-monitoring-production">production monitoring</a> for the alerting decisions.</p></section>
+<section><h2 id="expand-when-you-find-a-specific-gap">Expand when you find a specific gap.</h2><p>Review escaped bugs and repeated manual work to choose the next test. Keep useful existing tests as you introduce browser agents or service clones.</p><p>Molar beta access starts with one defined workflow and its supported integrations. <a href="https://molar.it/solutions/startups">Explore Molar for small teams</a> or <a href="https://molar.it/contact">bring us the task you need to test</a>. Setup effort depends on your app, its accounts, and connected services.</p></section>]]></content:encoded>
     </item>
     <item>
-      <title>Synthetic monitoring for production, beyond uptime pings</title>
+      <title>Check that important tasks still work in production</title>
       <link>https://molar.it/blog/synthetic-monitoring-production</link>
       <guid isPermaLink="true">https://molar.it/blog/synthetic-monitoring-production</guid>
-      <description>Uptime pings miss broken flows. Synthetic checks walk critical paths every few minutes and catch what pings can&apos;t.</description>
+      <description>Choose browser checks, test accounts, schedules, and alerts for the application your customers use.</description>
       <pubDate>Sat, 25 Jul 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
       <content:encoded><![CDATA[<section>
@@ -2030,7 +1542,7 @@ test('signup → upgrade', async ({ page }) => {
           A flow-level check walks one critical user path end to end, asserts on outcomes (not pixels), and cleans
           up after itself. Model each check on a named business flow rather than a URL list:
         </p>
-        <pre><code># synthetic-checks/signup.yaml
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><pre><code># synthetic-checks/signup.yaml
 flow: signup-and-first-login
 schedule: "*/5 * * * *"        # every 5 minutes
 regions: [us-east, eu-west]
@@ -2064,12 +1576,7 @@ assert_timeout_s: 30</code></pre>
           <li><strong>Core UX (search, profile, upload):</strong> on a longer cadence when the path is lower risk.</li>
           <li><strong>Long-tail pages:</strong> daily crawl-style sweeps instead of dedicated checks.</li>
         </ul>
-        <p>
-          Regions matter for two reasons: CDNs and edge functions fail regionally, and latency-based routing can
-          serve different backends. Two or three regions for revenue-critical checks is a sane default; one region
-          everywhere else. Guard schedules in Molar are designed for this model — attach a cadence and region set to a flow,
-          then verify the configured beta integration for run distribution, evidence capture, and alert routing.
-        </p>
+        <p>Choose monitoring locations based on where your customers are and where failures could differ. Check the region, scheduling, alerting, and recording support of the service you use. Molar Guard beta setup establishes the supported schedule and environment for your selected scenario; it is not a promise of every region or monitoring configuration.</p>
         <div>
           Don’t point production synthetics at load-test-sized intervals. A checkout flow running once a minute
           creates ~43k sessions a month. If your checks create orders, make sure downstream systems (finance,
@@ -2097,7 +1604,7 @@ assert_timeout_s: 30</code></pre>
       </section>
 
       <section>
-        <h2 id="alert-dedup-the-difference-between-signal-and-noise">Alert dedup: the difference between signal and noise</h2>
+        <h2 id="group-repeated-failures-into-one-actionable-alert">Group repeated failures into one actionable alert</h2>
         <p>
           A single broken deployment fails every scheduled run until someone fixes it. At a short cadence across multiple regions, one incident can generate a large number of failures. Naive paging on each failure trains everyone
           to ignore the channel within a week. Dedup before notifying:
@@ -2121,7 +1628,7 @@ suppress_during_deploy_window: true          # known-change quieting</code></pre
       </section>
 
       <section>
-        <h2 id="tie-failures-to-diffs-not-mysteries">Tie failures to diffs, not mysteries</h2>
+        <h2 id="compare-failures-with-recent-changes">Compare failures with recent changes</h2>
         <p>
           An alert that says “signup flow failed” starts an investigation. An alert that says “signup flow started
           failing at 14:32 UTC, first failing run followed deploy <code>a71f0e3</code> by 90 seconds; trace shows
@@ -2137,10 +1644,10 @@ suppress_during_deploy_window: true          # known-change quieting</code></pre
         </p>]]></content:encoded>
     </item>
     <item>
-      <title>Test data management best practices</title>
+      <title>Manage test data across local runs and CI</title>
       <link>https://molar.it/blog/test-data-management-best-practices</link>
       <guid isPermaLink="true">https://molar.it/blog/test-data-management-best-practices</guid>
-      <description>Deterministic IDs, seeded state, synthetic identities, PII hygiene. Test data rules that kill cross-test interference.</description>
+      <description>Use separate accounts, predictable starting data, and verified cleanup to prevent tests from interfering.</description>
       <pubDate>Thu, 18 Jun 2026 00:00:00 GMT</pubDate>
       <category>Integrations</category>
       <content:encoded><![CDATA[<section>
@@ -2166,7 +1673,7 @@ suppress_during_deploy_window: true          # known-change quieting</code></pre
           The cheapest isolation is collision-proof identifiers. Every user, org, project, and invoice a
           test creates gets a unique suffix generated at runtime:
         </p>
-        <pre><code>import { nanoid } from 'nanoid';
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><pre><code>import { nanoid } from 'nanoid';
 
 export const newUser = (role: 'member' | 'admin' = 'member') => ({
   email: `qa-${runId()}-${nanoid(8)}@example.test`, // .test is reserved, never routable
@@ -2278,71 +1785,20 @@ export const newUser = (role: 'member' | 'admin' = 'member') => ({
       <title>Test Stripe checkout without charging a real card</title>
       <link>https://molar.it/blog/test-stripe-without-real-cards</link>
       <guid isPermaLink="true">https://molar.it/blog/test-stripe-without-real-cards</guid>
-      <description>Test Stripe checkout and billing flows safely using stateful API clones. Isolated test charges, fewer test-mode gaps — deterministic Stripe clones in CI and production guard.</description>
+      <description>Check payment records, callbacks, and account access with an authorized test environment or supported clone.</description>
       <pubDate>Sat, 27 Jun 2026 00:00:00 GMT</pubDate>
       <category>Integrations</category>
-      <content:encoded><![CDATA[<section>
-        <h2 id="why-stripe-test-mode-isn-t-enough">Why Stripe test mode isn't enough</h2>
-        <p>
-          Test keys prevent real charges, but teams still skip end-to-end checkout in CI because webhooks,
-          Connect accounts, and cross-service state are hard to reproduce. So suites drift toward
-          “click the pay button” happy paths while production breaks on edge cases: declined cards,
-          proration rounding, idempotency replays.
-        </p>
-        <div>
-          The most expensive bugs live in the gap between “the button works” and “the ledger is right”.
-        </div>
-      </section>
-
-      <section>
-        <h2 id="stateful-clones-vs-static-mocks">Stateful clones vs static mocks</h2>
-        <p>
-          A static mock returns canned JSON. A <strong>stateful clone</strong> maintains session state:
-          customers, payment intents, failures, and signed webhook payloads — so your app behaves as it
-          would against real Stripe, with no network egress to Stripe's API. See
-          <a href="https://molar.it/blog/api-mocking-vs-service-clones">mocking vs clones</a> for the full comparison.
-        </p>
-        <pre><code>// your app calls the clone exactly like production
-const intent = await stripe.paymentIntents.create({ amount: 9900 });
-// clone records state + emits a correctly-signed webhook
-await expect(receipt.total).toBe(9900);</code></pre>
-      </section>
-
-      <section>
-        <h2 id="how-molar-runs-checkout-tests">How Molar runs checkout tests</h2>
-        <p>
-          Molar’s beta workflow targets an agent pointed at a staging URL, authoring a critical-path
-          checkout scenario in plain English and running it against cloned Stripe plus email and auth
-          dependencies — see <a href="https://molar.it/blog/testing-third-party-apis-safely">safe third-party testing</a>.
-          Failures capture a full replayable trace; regressions gate PRs through
-          <a href="https://molar.it/blog/github-actions-playwright-ci">required GitHub checks</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="what-you-get-on-each-run">What you get on each run</h2>
-        <ul>
-          <li>Deterministic charge state you can assert against (amounts, currency, metadata).</li>
-          <li>Correctly signed webhooks your handlers actually accept.</li>
-          <li>Error semantics that match production (declines, timeouts) on demand.</li>
-          <li>Synthetic identities marked <code>qa+</code> so keeps test identities isolated.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 id="keep-reading">Keep reading</h2>
-        <p>
-          Compare <a href="https://molar.it/vs/wiremock">Molar Clones vs WireMock</a>, browse the
-          <a href="https://docs.molar.it">documentation</a>, or read
-          <a href="https://molar.it/blog/email-workflow-testing-otp">email workflow testing</a> to cover the receipt side.
-        </p>
-      </section>]]></content:encoded>
+      <content:encoded><![CDATA[<section><h2 id="start-with-the-payment-behavior-you-need-to-test">Start with the payment behavior you need to test.</h2><p>A checkout test should answer more than whether the Pay button works. Check the amount and currency, the payment status your app receives, and the access or order record created afterward.</p><p>Use an authorized provider test environment or a supported local clone. Confirm the credentials and endpoints before running the test. A familiar test-card number alone does not establish that every request uses the intended environment.</p></section>
+<section><h2 id="use-a-clone-when-you-need-controlled-service-state">Use a clone when you need controlled service state.</h2><p>Molar’s <a href="https://molar.it/docs/clones/stripe">Stripe clone documentation</a> describes the payment paths and test behavior it supports. A clone can let you inspect created records and repeat supported failure cases with controlled starting data.</p><p>List the API calls your checkout makes before choosing a setup. Payment providers have many products and behaviors; a working payment-intent test does not establish support for every subscription, connected-account, tax, or refund path.</p></section>
+<section><h2 id="check-the-payment-and-the-access-it-grants">Check the payment and the access it grants.</h2><ol><li><strong>Prepare a test customer.</strong> Start with an account that does not already have the access being purchased.</li><li><strong>Complete checkout.</strong> Confirm the expected amount, currency, and visible confirmation.</li><li><strong>Inspect payment state.</strong> Check the record and callback that your integration uses to grant access.</li><li><strong>Check the account.</strong> Verify that the purchased feature or order is available to the right customer.</li><li><strong>Reset and repeat.</strong> Confirm the second run does not inherit a payment or account state from the first.</li></ol></section>
+<section><h2 id="test-delayed-and-repeated-callbacks">Test delayed and repeated callbacks.</h2><p>A callback may arrive after the browser redirects. Your app should show the appropriate pending state and grant access when processing finishes. A repeated callback should not create a second order or grant the same credit twice.</p><p>Choose timing controls supported by your test setup, keep signature validation enabled, and assert the account state after processing. The <a href="https://molar.it/blog/testing-delayed-payment-webhooks-and-account-access">delayed payment callback guide</a> develops this example.</p></section>
+<section><h2 id="make-failures-easy-to-investigate">Make failures easy to investigate.</h2><p>Keep the browser steps, payment identifier, callback result, and final account assertion together. Those details help distinguish a browser error from a failed payment or missing account update.</p><p>Molar beta setup starts with a defined checkout and its supported integrations. <a href="https://molar.it/products/clones">Explore Clones</a>, <a href="https://molar.it/products/guard">review configured release checks</a>, or <a href="https://molar.it/contact">discuss your checkout</a>. A recorded browser run does not establish that generated tests and repository gating are fully set up.</p></section>]]></content:encoded>
     </item>
     <item>
-      <title>Testing Twilio SMS and OTP flows without real numbers</title>
+      <title>Test SMS verification with captured messages</title>
       <link>https://molar.it/blog/test-twilio-sms-otp-flows</link>
       <guid isPermaLink="true">https://molar.it/blog/test-twilio-sms-otp-flows</guid>
-      <description>Real SMS is slow, costly, and flaky in CI. Stateful Twilio clones deliver OTPs instantly with deterministic codes.</description>
+      <description>Configure a test SMS service, inspect the code, and check account verification, expiry, and retry behavior.</description>
       <pubDate>Wed, 22 Jul 2026 00:00:00 GMT</pubDate>
       <category>Integrations</category>
       <content:encoded><![CDATA[<section>
@@ -2366,13 +1822,13 @@ await expect(receipt.total).toBe(9900);</code></pre>
       </section>
 
       <section>
-        <h2 id="clone-semantics-same-endpoints-deterministic-codes">Clone semantics: same endpoints, deterministic codes</h2>
+        <h2 id="inspect-the-messages-captured-by-your-test-service">Inspect the messages captured by your test service</h2>
         <p>
           A Twilio clone implements the provider’s API contract — message create, lookup, verification services,
           the works — but keeps every message in a local, inspectable store. Your application doesn’t change: it
           still POSTs to a base URL, still reads back status callbacks. Only the base URL points at the clone.
         </p>
-        <pre><code># App code is unchanged except TWILIO_BASE_URL
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><pre><code># App code is unchanged except TWILIO_BASE_URL
 curl -X POST "$CLONE/2010-04-01/Accounts/ACxxx/Messages.json" \
   -d To=+15550100042 -d From=+15550001111 \
   -d Body="Your code is 491722"
@@ -2389,7 +1845,7 @@ curl "$CLONE/2010-04-01/Accounts/ACxxx/Messages.json?To=%2B15550100042"
       </section>
 
       <section>
-        <h2 id="the-virtual-clock-testing-expiry-properly">The virtual clock: testing expiry properly</h2>
+        <h2 id="test-what-happens-when-a-code-expires">Test what happens when a code expires</h2>
         <p>
           OTP expiry is where hand-rolled tests give up. Nobody wants to wait five minutes for a code to lapse, so
           expiry logic ships untested until it breaks. A clone with a virtual clock solves this cleanly: advance
@@ -2412,7 +1868,7 @@ expect(fresh).not.toBe(codeFromClone);</code></pre>
       </section>
 
       <section>
-        <h2 id="webhook-parity">Webhook parity</h2>
+        <h2 id="check-delivery-callbacks-and-signatures">Check delivery callbacks and signatures</h2>
         <p>
           Most integrations don’t poll — they consume webhooks: delivery receipts, inbound replies (STOP/HELP),
           verification status events. If your clone only fakes the REST API, you’ve tested half the surface. Look
@@ -2438,7 +1894,7 @@ await expect.poll(() => clone.suppressionList())
       </section>
 
       <section>
-        <h2 id="wiring-it-into-the-suite">Wiring it into the suite</h2>
+        <h2 id="connect-the-clone-to-your-test-runner">Connect the clone to your test runner</h2>
         <p>
           In practice the pattern is small: point your app’s provider credentials at the clone before boot, run
           your flows, pull codes out of the clone when the UI asks for them.
@@ -2453,175 +1909,34 @@ test('signup verifies by phone', async ({ page }) => {
   await page.fill('#otp', await otpFor('+15550100042'));
   await expect(page.getByRole('heading', { name: 'Welcome' })).toBeVisible();
 });</code></pre>
-        <p>
-          Molar’s clone catalog covers Twilio, email, Stripe, auth, and S3; when those integrations are enabled, a
-          single scenario can mix an SMS code, a confirmation email, and a test-mode charge without real accounts. For the email side
-          of the same pattern, see <a href="https://molar.it/blog/email-workflow-testing-otp">email workflow testing</a>; for the
-          payments leg, <a href="https://molar.it/blog/test-stripe-without-real-cards">Stripe testing without real cards</a>.
-        </p>
+        <p>The <a href="https://molar.it/docs/clones/twilio">Molar Twilio clone reference</a> lists supported SMS paths and limits. Configure test numbers and endpoints, inspect the captured message, and verify the account state after the code is submitted. For adjacent steps, see <a href="https://molar.it/blog/email-workflow-testing-otp">email testing</a> and <a href="https://molar.it/blog/test-stripe-without-real-cards">payment testing</a>.</p>
         <div>
           Keep one smoke check against the live provider behind a manual trigger. Clones verify your logic;
           a weekly manual pass confirms the vendor hasn’t changed their contract underneath you.
         </div>]]></content:encoded>
     </item>
     <item>
-      <title>Testing third-party APIs safely: Stripe, SendGrid, S3</title>
+      <title>Test the third-party services behind your app</title>
       <link>https://molar.it/blog/testing-third-party-apis-safely</link>
       <guid isPermaLink="true">https://molar.it/blog/testing-third-party-apis-safely</guid>
-      <description>Sandbox limitations, rate limits, fake-data drift. Destruction-safe clones give tests real API semantics with zero blast radius.</description>
+      <description>Choose test endpoints, isolate accounts and data, and inspect the callbacks that complete a customer task.</description>
       <pubDate>Thu, 09 Jul 2026 00:00:00 GMT</pubDate>
       <category>Integrations</category>
-      <content:encoded><![CDATA[<section>
-        <h2 id="sandboxes-aren-t-production-and-that-s-the-problem">Sandboxes aren’t production, and that’s the problem</h2>
-        <p>
-          Vendor sandboxes exist to help you integrate, not to absorb thousands of automated test runs
-          a day. Three failure modes show up on nearly every team we talk to:
-        </p>
-        <ul>
-          <li>
-            <strong>No behavioral parity.</strong> Test mode happily accepts the magic test card, but it won’t
-            decline based on velocity, won’t surface 3DS challenges the same way, and rarely fires the dispute
-            or refund webhooks your code actually has to handle. You pass in the sandbox and fail in production.
-          </li>
-          <li>
-            <strong>Shared rate limits.</strong> Your CI queue isn’t the only tenant hammering a sandbox. When a
-            vendor throttles test traffic globally, your pipeline turns red for reasons that have nothing to do
-            with your code — a special circle of flaky-test hell documented at length in our piece on
-            <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flaky tests and their fixes</a>.
-          </li>
-          <li>
-            <strong>Fake-data drift.</strong> Sandboxes accumulate months of other integrators’ test objects.
-            Search endpoints return strangers’ records, idempotency keys collide, and list responses grow until
-            pagination assumptions quietly break. We cover the cleanup side of this in
-            <a href="https://molar.it/blog/test-data-management-best-practices">test data management</a>.
-          </li>
-        </ul>
-        <p>
-          None of this means sandboxes are bad — they’re just not designed as test infrastructure. Treating them
-          like infrastructure is how teams end up with suites that are simultaneously slow, flaky, and shallow.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="the-live-key-rules-that-keep-you-safe">The live-key rules that keep you safe</h2>
-        <p>
-          Some teams skip the sandbox entirely and point tests at production APIs with real keys. Don’t — unless
-          you enforce hard guardrails. The minimum set:
-        </p>
-        <ul>
-          <li><strong>Refuse live credentials in CI.</strong> Fail the build at startup if any configured key matches a live prefix (<code>sk_live_</code>, a production Twilio SID, a bucket without <code>-test</code>).</li>
-          <li><strong>Allow-list test cards and numbers.</strong> Only known-inert values may appear in fixtures.</li>
-          <li><strong>Cap spend and side effects.</strong> Hard ceilings per run, checked before each call.</li>
-          <li><strong>Separate accounts entirely.</strong> A dedicated sub-account for tests, so even a mistake can’t touch customer data.</li>
-        </ul>
-        <div>
-          Make the live-key check a hard startup assertion, not a lint rule: read every credential your test
-          config can see, and abort the run if any of them looks production-shaped. A lint rule gets disabled
-          during a “quick fix”; an assertion that crashes CI at 3 a.m. does not.
-        </div>
-      </section>
-
-      <section>
-        <h2 id="mocks-are-fast-clones-are-honest">Mocks are fast; clones are honest</h2>
-        <p>
-          The usual fix is to mock the third party. HTTP-level mocks (WireMock, MSW, stub servers) are fast and
-          deterministic, but they only know what you taught them — which is usually the happy path from the docs.
-          They can’t tell you that your retry loop breaks on Stripe’s real <code>idempotency_error</code> shape,
-          or that your webhook handler chokes on event ordering.
-        </p>
-        <p>
-          A stateful clone sits between the extremes: it speaks the vendor’s API contract and keeps
-          state across calls. Create a customer, charge them, refund them — each step sees the effects of the
-          last, with deterministic IDs and realistic error semantics, but no money moves and no email leaves.
-          We compare the tradeoffs in detail in
-          <a href="https://molar.it/blog/api-mocking-vs-service-clones">API mocking vs. service clones</a>, and walk through
-          payments specifically in <a href="https://molar.it/blog/test-stripe-without-real-cards">testing Stripe without real cards</a>.
-        </p>
-        <p>
-          The practical split we recommend: mocks for edge-case status codes you want to simulate on demand,
-          clones for any flow where state accumulates — checkout, subscription lifecycle, OTP delivery, file
-          upload then download. For SMS and email verification flows, clones pair naturally with inbox
-          capture; see <a href="https://molar.it/blog/test-twilio-sms-otp-flows">Twilio SMS/OTP testing</a> and
-          <a href="https://molar.it/blog/email-workflow-testing-otp">email workflow testing</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="world-snapshot-restore">World snapshot / restore</h2>
-        <p>
-          Once your dependencies hold state, tests start interfering with each other: one run’s refund becomes
-          another run’s unexpected balance. The fix borrowed from database testing is snapshot and restore —
-          capture the entire simulated world before a scenario, restore it after, or fork it per worker:
-        </p>
-        <pre><code># Fork an isolated world per parallel worker,
-# seeded from a known-good baseline
-world := clones.Fork("checkout-baseline@v14")
-defer world.Discard()
-
-stripe := world.Stripe()
-cust, _ := stripe.Customers.Create(...)
-charge, _ := stripe.Charges.Create(cust.ID, 4200, "usd")
-
-// assert, mutate, break things — nothing leaks
-refund, _ := stripe.Refunds.Create(charge.ID)
-if cust.Balance != -4200 { t.Fatal("balance not updated") }</code></pre>
-        <p>
-          Two properties matter more than the mechanism. First, restore must be cheap — sub-second — or
-          teams will batch scenarios and lose isolation anyway. Second, snapshots should be named and versioned
-          like fixtures, so a test failure can say “reproducible against <code>baseline@v14</code>” instead of
-          “works on my machine.”
-        </p>
-      </section>
-
-      <section>
-        <h2 id="webhooks-signature-parity-or-it-didn-t-happen">Webhooks: signature parity or it didn’t happen</h2>
-        <p>
-          Most third-party integrations have two halves: the API you call, and the webhooks that call you.
-          Mocks usually skip the second half entirely, which is why webhook handlers are chronically untested.
-          A clone that emits events must also sign them exactly as the vendor does — same header format, same
-          timestamp tolerance, same HMAC scheme — so your verification code runs for real:
-        </p>
-        <pre><code>// Your existing handler, unchanged, verifying a cloned event
-const event = stripe.webhooks.constructEvent(
-  rawBody,                       // exact bytes the clone sent
-  req.headers['stripe-signature'],
-  process.env.STRIPE_WEBHOOK_SECRET
-);
-if (event.type === 'charge.refunded') { ... }</code></pre>
-        <p>
-          Test the unhappy paths too: replayed events (same ID, second delivery), stale timestamps outside the
-          tolerance window, and signatures computed with the wrong secret. Those three cases cause most real
-          webhook incidents, and none of them are reachable through a sandbox UI.
-        </p>
-      </section>
-
-      <section>
-        <h2 id="a-rollout-checklist">A rollout checklist</h2>
-        <ul>
-          <li><strong>Inventory</strong> every third-party call in critical flows: payments, email, SMS, storage, auth.</li>
-          <li><strong>Classify</strong>: read-only (safe-ish), stateful (needs clones), side-effecting (never live).</li>
-          <li><strong>Swap</strong> stateful dependencies to clones via env-based base URLs — no code changes.</li>
-          <li><strong>Add</strong> the live-key refusal assertion to CI startup.</li>
-          <li><strong>Seed</strong> named world snapshots for each critical flow; version them with the app.</li>
-          <li><strong>Prove</strong> webhook handling with signed cloned events, including replays and bad signatures.</li>
-        </ul>
-        <p>
-          Molar’s clone catalog is designed around destruction-safe substitutes for Stripe, Twilio, email, S3, auth, and
-          GitHub — deterministic IDs, virtual clock for expiry-sensitive logic, snapshot/restore per run — while
-          Trace can record cloned interactions as evidence next to DOM and network captures. If you want the
-          deeper walkthrough for one vendor, start with
-          <a href="https://molar.it/blog/test-stripe-without-real-cards">Stripe without real cards</a>.
-        </p>]]></content:encoded>
+      <content:encoded><![CDATA[<section><h2 id="know-which-service-receives-each-test-request">Know which service receives each test request.</h2><p>Signup, payments, emails, and file uploads often leave your application. Before automating a test, list those connections and choose the endpoint and account each one should use.</p><p>A useful test environment makes that choice explicit. Your application should not silently fall back to live credentials when a test service is unavailable.</p></section>
+<section><h2 id="choose-a-provider-test-environment-a-mock-or-a-clone">Choose a provider test environment, a mock, or a clone.</h2><p>A provider’s authorized test environment helps you check compatibility with its supported test behavior. A mock lets you define selected responses and failures. A clone implements selected service paths with records you can create and inspect.</p><p>Use the option that covers the behavior you need, and check its limits. A local clone still needs comparison with the provider’s API contract; a provider test environment may not let you control every delay or failure. Read <a href="https://molar.it/blog/api-mocking-vs-service-clones">mocks and service clones</a> for the tradeoffs.</p></section>
+<section><h2 id="give-each-run-its-own-accounts-and-data">Give each run its own accounts and data.</h2><p>Use dedicated test identities, inboxes, and storage locations. Give parallel runs separate data so one test cannot consume another test’s code, change its payment, or delete its file.</p><p>If your service setup supports snapshots or reset, capture a known starting state and restore it before rerunning. Verify the reset rather than assuming it happened. See <a href="https://molar.it/blog/test-data-management-best-practices">test data management</a> for practical patterns.</p></section>
+<section><h2 id="exercise-the-callback-as-well-as-the-request">Exercise the callback as well as the request.</h2><p>A successful request may only start the work. Your app may still be waiting for a signed payment callback, an email, or a delivery status.</p><p>Check the incoming payload, signature validation, and resulting app state. Repeat a callback to test duplicate handling; delay it to test pending states. Configure those cases using the controls your test provider or clone actually supports.</p></section>
+<section><h2 id="inspect-a-full-example-before-expanding-coverage">Inspect a full example before expanding coverage.</h2><p>For an invitation, assert that the admin creates it, the intended recipient receives the link, and the accepted invitation grants the expected membership. Keep the relevant browser and service results together.</p><p>The <a href="https://molar.it/examples/team-invitation">Molar invitation example</a> shows this in a controlled test app with email and identity clones. For your own app, start with the <a href="https://molar.it/docs/clones">supported clone catalog</a> and confirm its endpoints match the integration you use.</p><ul><li>Verify test endpoints and credentials.</li><li>Use dedicated identities and isolated run data.</li><li>Check browser behavior and downstream records.</li><li>Retain useful failure details without exposing secrets.</li><li>Repeat from a known starting state.</li></ul></section>]]></content:encoded>
     </item>
     <item>
-      <title>Visual regression testing: a pragmatic guide</title>
+      <title>Review visual changes without losing functional checks</title>
       <link>https://molar.it/blog/visual-regression-testing-guide</link>
       <guid isPermaLink="true">https://molar.it/blog/visual-regression-testing-guide</guid>
-      <description>Screenshot diffs that don&apos;t drown you in noise: scope, thresholds, baselines, and why semantic assertions come first.</description>
+      <description>Set useful screenshot scopes and baselines, control rendering variation, and review the behavior behind the page.</description>
       <pubDate>Tue, 16 Jun 2026 00:00:00 GMT</pubDate>
       <category>Engineering</category>
       <content:encoded><![CDATA[<section>
-        <h2 id="visual-comes-last-not-first">Visual comes last, not first</h2>
+        <h2 id="pair-visual-checks-with-functional-assertions">Pair visual checks with functional assertions</h2>
         <p>
           Start with functional coverage: does signup work, is the total correct, did the row get created.
           Semantic assertions are cheap to maintain and directly encode product intent. Visual checks earn
@@ -2633,14 +1948,7 @@ if (event.type === 'charge.refunded') { ... }</code></pre>
           wrong total, drop the webhook, or save an empty form. Visual checks complement oracles; they are
           never a replacement for them.
         </div>
-        <p>
-          The inverse failure mode is real too: teams whose only assertions are screenshots end up reviewing
-          images instead of reviewing intent. When someone updates a baseline because “the diff looked
-          fine,” with no behavioral oracle underneath, nobody can say whether the change was a fix or a
-          regression. Generated suites handle this well precisely because agents author semantic assertions
-          per step first — see how in <a href="https://molar.it/blog/ai-playwright-test-generation">AI Playwright test
-          generation</a>.
-        </p>
+        <p>When reviewing a new screenshot baseline, also check the behavior the screen represents. A checkout can look correct while calculating the wrong amount. Generated tests need the same combination of reviewed functional and visual assertions as handwritten tests.</p>
       </section>
 
       <section>
@@ -2662,20 +1970,13 @@ if (event.type === 'charge.refunded') { ... }</code></pre>
 
       <section>
         <h2 id="anti-flaking-fonts-animations-viewport-locks">Anti-flaking: fonts, animations, viewport locks</h2>
-        <p>
-          Every visual suite dies by flake before it dies by value. Kill the classic sources explicitly:
-          web fonts that load late (await <code>document.fonts.ready</code> or fail the render), CSS
-          animations and transitions mid-flight, blinking carets, live clocks, avatars fetched from a
-          random-image service. Lock the viewport so scrollbar appearance and responsive breakpoints don’t
-          vary between machines — 1440×900 is a good default desktop target, matching common laptop
-          resolution and what browser-agent tooling assumes.
-        </p>
+        <p>Control common sources of visual variation: late-loading fonts, animations, blinking carets, clocks, and changing remote images. Set a consistent viewport for each comparison. Choose additional viewports based on the layouts your customers use, rather than treating one desktop size as complete coverage.</p>
         <pre><code>// playwright.config.ts
 use: { viewport: { width: 1440, height: 900 } };
 
 // dashboard.spec.ts
 await page.evaluate(() => document.fonts.ready);
-await clock.install({ time: new Date('2026-06-16T10:00:00Z') }); // freeze time
+await page.clock.install({ time: new Date('2026-06-16T10:00:00Z') }); // freeze time
 
 await expect(page).toHaveScreenshot('dashboard.png', {
   animations: 'disabled',
@@ -2708,22 +2009,14 @@ await expect(page).toHaveScreenshot('dashboard.png', {
       </section>
 
       <section>
-        <h2 id="baselines-deserve-code-review-ux">Baselines deserve code-review UX</h2>
+        <h2 id="review-baseline-changes-alongside-the-code">Review baseline changes alongside the code</h2>
         <p>
           Baseline images are code. Treat their changes like code: updating a baseline happens through a
           dedicated command (<code>--update-snapshots</code> locally), lands as a PR, and requires a human
           who can articulate why the pixels changed — “marketing header redesign,” not “it looked
           different.” If nobody can explain a diff, that’s exactly when you want to stop the line.
         </p>
-        <p>
-          Make the review ergonomic: render expected vs actual vs diff side by side in the PR, not as three
-          opaque PNG attachments. Small teams store baselines next to specs in git — simple, versioned,
-          reviewable. Past a few thousand images or multiple browser matrices, move blobs to object storage
-          keyed by commit and keep only pointers in the repo; the workflow stays identical. Whatever the
-          storage, keep one rule absolute: the pipeline never auto-accepts a baseline. Automation proposes;
-          humans dispose. That’s what keeps visual suites trusted months later, and it’s the same principle
-          behind <a href="https://molar.it/blog/self-healing-test-automation">self-healing tests done right</a>.
-        </p>
+        <p>Show expected, actual, and difference images together during review. Store or retain baselines where the team can associate them with the relevant code change. Require an explanation before accepting a changed baseline, and keep the functional assertions that verify what the page does.</p>
       </section>
 
       <section>

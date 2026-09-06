@@ -2,7 +2,7 @@
 (function () {
   const { useCallback, useEffect, useRef, useState } = React;
   const APP_URL = "https://app.molar.it";
-  const PHASES = ["Target", "Browser", "Evidence", "Verdict"];
+  const PHASES = ["URL", "Browser", "Screenshot", "Result"];
   const RUN_LIMIT_MS = 2 * 60 * 1000;
   const DELIVERY_GRACE_MS = 10 * 1000;
   const POLL_WINDOW_MS = RUN_LIMIT_MS + DELIVERY_GRACE_MS;
@@ -34,26 +34,26 @@
   function customerStartError(body, status) {
     const code = body && typeof body.error === "string" ? body.error : "";
     if (code === "instant_proof_in_progress") {
-      return "A proof is already running for this browser. Wait for it to finish, then try again.";
+      return "A check is already running in this browser. Wait for it to finish, then try again.";
     }
     if (code === "target_authorization_failed" || code === "target_not_allowed") {
       return "That target could not be authorized. Use a public URL you are allowed to test.";
     }
     if (code === "invalid_json" || code === "invalid_proof_input") {
-      return "Check the URL and outcome, then try again.";
+      return "Check the URL and description, then try again.";
     }
     if (status === 429 || code === "rate_limited") {
       const retrySeconds = Number(body?.retryAfter);
       if (Number.isFinite(retrySeconds) && retrySeconds > 0) {
         const minutes = Math.ceil(retrySeconds / 60);
-        return `Proof limit reached. Try again in ${minutes} ${minutes === 1 ? "minute" : "minutes"}.`;
+        return `Check limit reached. Try again in ${minutes} ${minutes === 1 ? "minute" : "minutes"}.`;
       }
-      return "Proof limit reached. Please try again later.";
+      return "Check limit reached. Please try again later.";
     }
     if (status >= 500 || code === "instant_proof_unavailable") {
-      return "Instant Proof is temporarily unavailable. Try again in a moment.";
+      return "Browser checks are temporarily unavailable. Try again in a moment.";
     }
-    return "Instant Proof could not start this run. Check the public URL and try again.";
+    return "The browser check could not start. Check the public URL and try again.";
   }
 
   function consumeSharedToken() {
@@ -175,8 +175,8 @@
           }));
           if (!response.ok) {
             setSharedError(response.status === 401 || response.status === 404
-              ? "This shared proof has expired or is no longer available."
-              : "The shared proof could not be loaded. Try again later.");
+              ? "This shared result has expired or is no longer available."
+              : "The shared result could not be loaded. Try again later.");
             setSharedState("failed");
             return;
           }
@@ -198,13 +198,13 @@
               frameObjectUrl.current = objectUrl;
               setSharedFrameUrl(objectUrl);
             } else if (frame.status === 401 || frame.status === 404) {
-              setSharedError("The shared proof is available, but its frame is unavailable.");
+              setSharedError("The result is available, but its screenshot is unavailable.");
             }
           }
           if (!controller.signal.aborted) setSharedState("ready");
         } catch {
           if (!controller.signal.aborted) {
-            setSharedError("The shared proof could not be loaded. Try again later.");
+            setSharedError("The shared result could not be loaded. Try again later.");
             setSharedState("failed");
           }
         }
@@ -261,7 +261,7 @@
       const schedule = (delay) => {
         const remaining = deadline - Date.now();
         if (remaining <= 0) {
-          stopWithError("This proof did not finish within the two-minute window. Start a new proof.");
+          stopWithError("This check did not finish within two minutes. Try the check again.");
           return;
         }
         timer = setTimeout(loadLatest, Math.min(delay, remaining));
@@ -295,7 +295,7 @@
       const loadLatest = async () => {
         if (controller.signal.aborted) return;
         if (Date.now() >= deadline) {
-          stopWithError("This proof did not finish within the two-minute window. Start a new proof.");
+          stopWithError("This check did not finish within two minutes. Try the check again.");
           return;
         }
         try {
@@ -314,11 +314,11 @@
           if (controller.signal.aborted) return;
           if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
-              stopWithError("This proof is no longer authorized. Start a new proof.");
+              stopWithError("Access to this check has ended. Run a new check to continue.");
               return;
             }
             if (response.status === 404 || response.status === 410) {
-              stopWithError("This proof has expired or is no longer available. Start a new proof.");
+              stopWithError("This check has expired or is no longer available. Run a new check.");
               return;
             }
             if (TRANSIENT_STATUSES.has(response.status)) {
@@ -326,7 +326,7 @@
               schedule(Math.min(5000, 1200 * 2 ** Math.min(transientFailures - 1, 2)));
               return;
             }
-            stopWithError("The proof status could not be read. Start a new proof.");
+            stopWithError("The check status could not be loaded. Try a new check.");
             return;
           }
           if (parseError) {
@@ -337,11 +337,11 @@
           if (controller.signal.aborted) return;
           transientFailures = 0;
           if (body.status === "expired" || body.status === "missing") {
-            stopWithError("This proof has expired or is no longer available. Start a new proof.");
+            stopWithError("This check has expired or is no longer available. Run a new check.");
             return;
           }
           if (body.status === "unauthorized") {
-            stopWithError("This proof is no longer authorized. Start a new proof.");
+            stopWithError("Access to this check has ended. Run a new check to continue.");
             return;
           }
           const step = frameStepFrom(body);
@@ -425,7 +425,7 @@
       } catch {
         if (controller.signal.aborted) return;
         setState("failed");
-        setError("Instant Proof is temporarily unavailable. Try again in a moment.");
+        setError("Browser checks are temporarily unavailable. Try again in a moment.");
       } finally {
         if (startAbortRef.current === controller) startAbortRef.current = null;
       }
@@ -464,7 +464,7 @@
         }
         if (navigator.share) {
           try {
-            await navigator.share({ title: "Molar Instant Proof", url: href });
+            await navigator.share({ title: "Molar browser check", url: href });
           } catch (cause) {
             if (cause?.name === "AbortError") {
               setShareState("idle");
@@ -487,7 +487,7 @@
     if (sharedToken) {
       const sharedVerdict =
         sharedState === "loading"
-          ? "Loading shared proof"
+          ? "Loading shared result"
           : sharedProof?.result?.pass === true
             ? "Verified"
             : sharedProof?.result?.pass === false
@@ -507,10 +507,10 @@
               id: "instant-proof-title",
               style: { margin: 0, font: "inherit", fontWeight: "inherit", fontSize: "inherit", letterSpacing: "inherit" },
             },
-            "Instant proof · ",
-            React.createElement("b", null, "Shared proof"),
+            "Browser check · ",
+            React.createElement("b", null, "Shared result"),
           ),
-          React.createElement("code", null, "READ-ONLY EVIDENCE"),
+          React.createElement("code", null, "READ-ONLY RESULT"),
         ),
         React.createElement(
           "div",
@@ -521,31 +521,31 @@
             React.createElement(
               "div",
               { className: "browser-bar" },
-              React.createElement("code", null, sharedProof?.target_url || "Shared evidence"),
+              React.createElement("code", null, sharedProof?.target_url || "Shared browser check"),
               React.createElement("b", null, sharedState === "loading" ? "LOADING" : sharedState.toUpperCase()),
             ),
             React.createElement(
               "div",
               { className: "frame" },
               sharedFrameUrl
-                ? React.createElement("img", { alt: "Frame captured during the shared proof", src: sharedFrameUrl })
+                ? React.createElement("img", { alt: "Screenshot from the shared browser check", src: sharedFrameUrl })
                 : React.createElement(
                     "div",
                     null,
-                    React.createElement("span", null, sharedState === "loading" ? "Loading shared evidence" : "No frame available"),
-                    React.createElement("strong", null, sharedState === "failed" ? "Shared proof unavailable" : sharedVerdict),
-                    React.createElement("small", null, sharedError || "This view contains evidence from one bounded browser run."),
+                    React.createElement("span", null, sharedState === "loading" ? "Loading screenshot" : "No screenshot available"),
+                    React.createElement("strong", null, sharedState === "failed" ? "Shared result unavailable" : sharedVerdict),
+                    React.createElement("small", null, sharedError || "This view shows the result and captured page from one browser check."),
                   ),
             ),
           ),
         ),
         React.createElement(
           "aside",
-          { className: "evidence", "aria-label": "Shared proof evidence" },
+          { className: "evidence", "aria-label": "Shared check result" },
           React.createElement(
             "header",
             null,
-            React.createElement("span", null, "Shared proof"),
+            React.createElement("span", null, "Shared result"),
             React.createElement("code", null, sharedProof?.proof_id ? sharedProof.proof_id.slice(0, 8) : "—"),
           ),
           sharedState === "failed"
@@ -555,7 +555,7 @@
                 { className: "verdict", "data-pass": sharedProof?.result?.pass === true || undefined },
                 React.createElement("span", null, sharedState === "loading" ? "Loading" : "Result"),
                 React.createElement("strong", null, sharedVerdict),
-                React.createElement("p", null, sharedProof?.claim || "The original claim is unavailable."),
+                React.createElement("p", null, sharedProof?.claim || "The original check description is unavailable."),
                 sharedProof?.result?.rationale
                   ? React.createElement("small", null, sharedProof.result.rationale)
                   : null,
@@ -582,7 +582,7 @@
       React.createElement(
         "div",
         { className: "instrument-head" },
-        React.createElement("div", null, "Instant proof · ", React.createElement("b", null, state === "idle" ? "Ready" : state)),
+        React.createElement("div", null, "Browser check · ", React.createElement("b", null, state === "idle" ? "Ready" : state)),
         React.createElement("code", null, "PUBLIC PAGES · UP TO 2 MIN"),
       ),
       React.createElement(
@@ -637,7 +637,7 @@
         { className: "stage", "aria-live": "polite" },
         React.createElement(
           "div",
-          { className: "phases", "aria-label": "Proof progress" },
+          { className: "phases", "aria-label": "Check progress" },
           PHASES.map((phase, index) =>
             React.createElement("span", { key: phase, "data-active": index <= activePhase || undefined }, phase),
           ),
@@ -655,11 +655,11 @@
             "div",
             { className: "frame" },
             frameUrl
-              ? React.createElement("img", { alt: "Latest frame from the proof browser", src: frameUrl })
+              ? React.createElement("img", { alt: "Latest screenshot from the browser check", src: frameUrl })
               : React.createElement(
                   "div",
                   null,
-                  React.createElement("span", null, state === "idle" ? "Browser preview" : state === "running" ? "Waiting for a browser frame" : "Preview unavailable"),
+                  React.createElement("span", null, state === "idle" ? "Browser preview" : state === "running" ? "Waiting for a screenshot" : "Preview unavailable"),
                   React.createElement(
                     "strong",
                     null,
@@ -673,9 +673,9 @@
                     "small",
                     null,
                     state === "running"
-                      ? "Captured browser frames appear here when available."
+                      ? "Screenshots appear here as the browser captures them."
                       : state === "idle"
-                        ? "Enter a public URL and an outcome to check."
+                        ? "Enter a public URL and describe what should appear."
                         : "You can still review and save the result.",
                   ),
                 ),
@@ -684,11 +684,11 @@
       ),
       React.createElement(
         "aside",
-        { className: "evidence", "aria-label": "Proof evidence" },
+        { className: "evidence", "aria-label": "Browser check result" },
         React.createElement(
           "header",
           null,
-          React.createElement("span", null, "Evidence"),
+          React.createElement("span", null, "Check details"),
           React.createElement("code", null, proof ? proof.proof_id.slice(0, 8) : "—"),
         ),
         state === "completed" || (state === "failed" && terminal)
@@ -700,7 +700,7 @@
               React.createElement(
                 "p",
                 null,
-                result?.result?.rationale || "The run completed without a semantic rationale.",
+                result?.result?.rationale || "No explanation was returned for this result.",
               ),
               result?.result?.trace_id
                 ? React.createElement("code", null, `trace / ${result.result.trace_id}`)
@@ -717,7 +717,7 @@
                       ? "Link ready"
                       : shareState === "failed"
                         ? "Retry share"
-                        : "Share proof",
+                        : "Share result",
                 ),
                 retention === "saved"
                   ? React.createElement(
@@ -734,10 +734,10 @@
                         onClick: () => proof && void retainProof(proof),
                       },
                       retention === "saving"
-                        ? "Saving proof…"
+                        ? "Saving result…"
                         : retention === "failed"
                           ? "Retry saving"
-                          : "Keep this proof",
+                          : "Save result",
                     ),
               ),
             )
@@ -752,7 +752,7 @@
                   "div",
                   null,
                   React.createElement("b", null, "Public URL"),
-                  React.createElement("small", null, proof ? "Public origin accepted" : "Not started"),
+                  React.createElement("small", null, proof ? "URL accepted" : "Not started"),
                 ),
               ),
               React.createElement(
@@ -774,7 +774,7 @@
                   "div",
                   null,
                   React.createElement("b", null, "Result"),
-                  React.createElement("small", null, "Awaiting evidence"),
+                  React.createElement("small", null, "Waiting for the browser check"),
                 ),
               ),
             ),
@@ -811,7 +811,7 @@
             null,
             shared
               ? "See the captured page and result from one browser run. This is a read-only view of the original check."
-              : "Give Molar a public URL and one visible outcome. It opens a real browser and returns the result and captured evidence. No account needed.",
+              : "Give Molar a public URL and describe what should appear. It opens the page, checks your description, and returns the result and captured screenshot. No account needed.",
           ),
         ),
         React.createElement(InstantProofInstrument, { onSharedChange: setShared }),

@@ -9,7 +9,7 @@ parser.add_argument('--out',default='/tmp/molar-final-pass')
 args=parser.parse_args()
 out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
 report={'base':args.base,'checks':[],'errors':[]}
-shots=[('/', '.identity-hero','home'),('/', '.evidence-chapter','evidence'),('/', '.first-step','first-step'),('/platform','.platform-work','platform-work'),('/company','.company-hero','company'),('/company','.company-origin','company-origin'),('/company','.company-founder','founder'),('/pricing','.pricing-choices','pricing'),('/products/clones','.detail-section','clones'),('/products/trace','.detail-section','trace'),('/platform/swarm','.detail-section','swarm'),('/solutions/authentication-testing','.detail-section.muted-section','roles')]
+shots=[('/', '.identity-hero','home'),('/', '.evidence-chapter','evidence'),('/', '.first-step','first-step'),('/platform','.platform-work','platform-work'),('/company','.company-hero','company'),('/company','.company-origin','company-origin'),('/company','.company-founder','founder'),('/pricing','.pricing-choices','pricing'),('/products/clones','.detail-section','clones'),('/products/trace','.detail-section','trace'),('/products/clones','.detail-reading-section','clones-depth'),('/products/guard','.detail-reading-section','guard-depth'),('/platform/swarm','.detail-section','swarm'),('/solutions/authentication-testing','.detail-section.muted-section','roles')]
 with sync_playwright() as p:
     browser=p.chromium.launch()
     context=browser.new_context(viewport={'width':1440,'height':1000},reduced_motion='reduce')

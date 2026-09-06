@@ -32,7 +32,7 @@ export function serviceLab() {
             <p data-service-condition-copy>Payment clone returns a successful charge and the app receives its callback.</p>
           </div>
           <div class="service-lab-route" aria-hidden="true"><span></span><span></span><span></span></div>
-          <p class="service-lab-footnote">Molar checks the browser step, service state, and customer-facing outcome together.</p>
+          <p class="service-lab-footnote">Follow the browser action into the payment, message, or file record it creates.</p>
         </aside>
         <div class="service-lab-surface-wrap">
           <div class="service-lab-surface" id="service-lab-surface" role="tabpanel" aria-labelledby="service-lab-tab-payments" data-service-surface>
