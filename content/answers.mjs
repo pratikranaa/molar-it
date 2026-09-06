@@ -17,12 +17,19 @@ export function validateAnswer(data,sources){
  if(!data||typeof data.answer!=='string'||data.answer.length<20||data.answer.length>2400||/[<>]/.test(data.answer)||!Array.isArray(data.sourceIds)||!data.sourceIds.length||data.sourceIds.some(id=>!sources.some(s=>s.id===id)))return null;
  return {answer:data.answer.trim(),sources:sources.filter(s=>data.sourceIds.includes(s.id)).map(({id,title,url})=>({id,title,url}))};
 }
-export function validateDraft(d){
- if(d?.status!=='reviewed'||typeof d.reviewedBy!=='string'||d.reviewedBy.trim().length<3)throw new Error('A completed editorial review is required.');
+export function validateDraftContent(d){
  const plain=x=>typeof x==='string'&&x.length>0&&!/[<>]/.test(x);
  if(!plain(d.title)||d.title.length>100||!plain(d.description)||d.description.length>180||!/^[-a-z0-9]{6,90}$/.test(d.slug)||!Array.isArray(d.sections)||d.sections.length<3||!Array.isArray(d.sourceIds)||d.sourceIds.length<2)throw new Error('Draft must contain complete metadata, sections and citations.');
  for(const s of d.sections)if(!plain(s.heading)||!Array.isArray(s.paragraphs)||!s.paragraphs.length||s.paragraphs.some(p=>!plain(p))||!Array.isArray(s.sourceIds)||!s.sourceIds.length||s.sourceIds.some(id=>!d.sourceIds.includes(id)))throw new Error('Each section needs plain text and supported source citations.');
+ for(const s of d.sections)if(s.code!==undefined&&(typeof s.code!=='string'||!s.code.trim()||s.code.length>12000))throw new Error('A reviewed code example must be a nonempty string of at most 12000 characters.');
+ if(d.category&&!['Integrations','Engineering','Agents'].includes(d.category))throw new Error('Choose a supported guide category.');
  if(d.sourceIds.some(id=>!knowledge.some(s=>s.id===id)))throw new Error('Unknown source citation.');
- if(d.sections.flatMap(s=>s.paragraphs).join(' ').split(/\s+/).length<450)throw new Error('Draft needs a complete treatment of at least 450 words.');
+ return d;
+}
+
+export function validateDraft(d){
+ if(d?.status!=='reviewed'||typeof d.reviewedBy!=='string'||d.reviewedBy.trim().length<3)throw new Error('A completed editorial review is required.');
+ validateDraftContent(d);
+ if(d.sections.flatMap(s=>s.paragraphs).join(' ').split(/\s+/).length<450)throw new Error('Draft needs a complete treatment of at least 450 words before publication.');
  return d;
 }

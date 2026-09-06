@@ -447,3 +447,12 @@ Each navigation group has its own layout: five product previews, a browser-task 
 `product-graphics.mjs` and `.css` define original route, service-state, release, trace, repair, browser-task and swarm illustrations. They reuse paper, sage, ink and coral. Compact versions omit technical labels and outer frames; larger diagrams include short readable labels. Finite route and cursor animations use the existing intersection observer and stop under reduced motion. No animation library or pointer tracking was added.
 
 `guide-previews.mjs` supplies three existing guides with matching artwork. Homepage and platform guide shelves, blog covers and Resources previews share the same graphics. `refinement.css` holds the shared compositions. Four core product headers retain their distinct long-form stories and workbenches; the small header graphic is omitted on phones so the headline has the full reading width. Public-check CTAs name the public-page check, and beta setup links describe contacting the team.
+
+
+## Blog and article reading pass — September 7, 2026
+
+Articles use the shared paper canvas with a 205px desktop contents rail and a reading column capped at 760px. Body text is 18px with 1.8 line height; on phones it is 17px with 1.75 line height. At 900px the rail becomes a native contents disclosure. The article header uses a 40–64px title, 18–21px summary, author, publication date, calculated reading time, and an update date only for edited content.
+
+An original explanatory figure follows the opening section. Its HTML cards stay readable without SVG, and use ink, sage and coral to separate the browser, service and resulting state. OTP cases branch from issuance and are independent tests. Figures stack on narrow screens; long code stays in a scrollable code block with a copy control. The diagrams describe a testing method and are not presented as recorded product output.
+
+A relevant product next step, an inline Ask Molar form and three related guides finish each article. The blog includes an inline question form, category filters, local search and a direct link to the guide library. A search submits to inference only after the visitor explicitly selects the answer action. Generated, source-only, no-match, quota and canceled states use the shared Ask component; copy and text-file saving retain citations. Unpublished query drafts use the same article renderer with a visible draft banner and noindex metadata, and are excluded from the deployment package.

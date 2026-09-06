@@ -27,7 +27,9 @@ for name in manifest['html']:
  text=(STAGE/name).read_text();page=Page(text);pages[STAGE/name]=page
  if name!='verify.html' and page.h1!=1:errors.append(f'{name}: {page.h1} h1 elements')
  if len(page.ids)!=len(set(page.ids)):errors.append(f'{name}: duplicate IDs')
- if 'undefined' in text:errors.append(f'{name}: undefined in output')
+ # Technical examples may intentionally show JavaScript's undefined value.
+ prose=__import__('re').sub(r'<code\b[^>]*>[\s\S]*?</code>', '', text)
+ if 'undefined' in prose:errors.append(f'{name}: undefined outside a code example')
  for schema in __import__('re').findall(r'<script type="application/ld\+json">(.*?)</script>',text):
   try:json.loads(schema)
   except Exception:errors.append(f'{name}: invalid schema JSON')

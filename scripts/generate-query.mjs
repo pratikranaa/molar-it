@@ -1,7 +1,7 @@
 import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
 import {homedir} from 'node:os';
 import {resolve} from 'node:path';
-import {retrieve,MODEL,parseGenerated,draftFormat} from '../content/answers.mjs';
+import {retrieve,MODEL,parseGenerated,draftFormat,validateDraftContent} from '../content/answers.mjs';
 const args=process.argv.slice(2),query=args.join(' ').trim();
 if(query.length<8||query.length>400)throw new Error('Usage: node scripts/generate-query.mjs "A specific testing question" (8–400 characters).');
 const sources=retrieve(query);if(sources.length<2)throw new Error('Not enough reviewed material for this question. Add researched public sources to content/knowledge.mjs first.');
@@ -13,5 +13,6 @@ if(!response.ok)throw new Error('Generation service returned HTTP '+response.sta
 const payload=await response.json(),generated=parseGenerated(payload.result?.response);
 if(!generated||!Array.isArray(generated.sections)||!/^[-a-z0-9]{6,90}$/.test(generated.slug))throw new Error('The model returned an incomplete draft. No file was published.');
 const draft={...generated,query,sourceIds:sources.map(s=>s.id),status:'draft',generatedAt:new Date().toISOString(),model:MODEL,reviewedBy:null};
+validateDraftContent(draft);
 const dir=resolve('.content-drafts');mkdirSync(dir,{recursive:true});const file=resolve(dir,generated.slug+'.json');
-writeFileSync(file,JSON.stringify(draft,null,2)+'\n',{flag:'wx'});console.log('Draft created: '+file+'\nReview every paragraph and citation. Set status to reviewed and reviewedBy to the editor before publishing.');
+writeFileSync(file,JSON.stringify(draft,null,2)+'\n',{flag:'wx'});console.log('Draft created: '+file+'\nPreview with: node scripts/preview-query.mjs '+file+'\nReview every paragraph and citation. Set status to reviewed and reviewedBy to the editor before publishing.');

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-09-06T20:03:38.664Z",
-  "pageCount": 97,
+  "generatedAt": "2026-09-06T20:38:32.420Z",
+  "pageCount": 98,
   "pages": [
     {
       "path": "/",
@@ -43,27 +43,30 @@
       "headings": [
         "Guides for testing real user flows.",
         "Test Stripe checkout without charging a real card",
+        "What are you trying to test?",
+        "Your answer",
+        "Test an invoice download beyond the button click",
         "Payment succeeded. Why is the account still locked?",
-        "AI agents and the future of software testing",
         "AI Playwright test generation: from a task to a reviewed test",
-        "API mocking vs stateful service clones",
-        "Continuous testing in your CI/CD pipeline",
-        "End-to-end testing: practical habits for reliable checks",
-        "Test email verification, invitations, and notifications",
         "Flaky tests: causes and fixes",
-        "Run Playwright tests in GitHub Actions",
-        "Playwright vs Cypress: choosing for your app",
-        "Choose which regression tests to run before release",
-        "Require passing checks before merging",
         "Review automated test repairs without weakening assertions",
-        "Plan tests before a change is ready to ship",
-        "Make test environments easier to trust",
-        "Startup QA without a dedicated QA team",
+        "End-to-end testing: practical habits for reliable checks",
+        "Run Playwright tests in GitHub Actions",
+        "Require passing checks before merging",
         "Check that important tasks still work in production",
-        "Manage test data across local runs and CI",
-        "Test Stripe checkout without charging a real card",
         "Test SMS verification with captured messages",
+        "Test email verification, invitations, and notifications",
+        "API mocking vs stateful service clones",
+        "Choose which regression tests to run before release",
         "Test the third-party services behind your app",
+        "Continuous testing in your CI/CD pipeline",
+        "Make test environments easier to trust",
+        "AI agents and the future of software testing",
+        "Test Stripe checkout without charging a real card",
+        "Plan tests before a change is ready to ship",
+        "Playwright vs Cypress: choosing for your app",
+        "Startup QA without a dedicated QA team",
+        "Manage test data across local runs and CI",
         "Review visual changes without losing functional checks",
         "No guides found",
         "Try a check on a public page."
@@ -82,7 +85,10 @@
         "Decide which behavior the test must protect",
         "The failure mode worth designing against",
         "The verification model to build",
-        "Try a check on a public page."
+        "Give Molar a browser task",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-06-29",
@@ -95,12 +101,17 @@
       "description": "How to review generated browser tests: locators, assertions, clean starting state, and repeatability in CI.",
       "headings": [
         "AI Playwright test generation: from a task to a reviewed test",
-        "From app URL to reviewed Playwright spec",
-        "Choose locators users can recognize",
-        "Assertions: where AI earns or loses trust",
-        "Deterministic output, or it doesn’t belong in CI",
-        "Keep checkout tests off live payment services",
-        "Try a check on a public page."
+        "Generation is the beginning of test review.",
+        "Prefer locators that describe the control.",
+        "Ask what the test proves after every important action.",
+        "Run the exported file from clean state.",
+        "Keep generated changes reviewable.",
+        "Keep payments and credentials in a test environment.",
+        "When a locator fails, repair the cause you can explain.",
+        "Give Molar a browser task",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-08-10",
@@ -113,12 +124,16 @@
       "description": "Compare configured API responses, stateful mocks, and supported service clones for integration testing.",
       "headings": [
         "API mocking vs stateful service clones",
-        "Choose how to represent the service in your test.",
-        "Mocks can have state too.",
-        "Compare the same checkout in both setups.",
-        "Check callbacks and failure cases explicitly.",
-        "Keep the substitute and the provider in agreement.",
-        "Try a check on a public page."
+        "Choose the smallest substitute that proves the behavior.",
+        "Stateful mocks are real state machines.",
+        "Clones package provider behavior you can reuse.",
+        "Run the same checkout against each option.",
+        "Make failure and compatibility checks explicit.",
+        "Choose from the calls your app actually makes.",
+        "Explore the service inspector",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-07-16",
@@ -138,7 +153,10 @@
         "Production stage: schedules, not releases",
         "Attach artifacts so failures can be diagnosed",
         "How pipelines lose trust",
-        "Try a check on a public page."
+        "Explore a release check",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-07-06",
@@ -157,7 +175,10 @@
         "Deterministic data beats cleaned-up data",
         "Parallelize deliberately",
         "Keep the details needed to investigate a failure",
-        "Try a check on a public page."
+        "Inspect a failed checkout",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-08-01",
@@ -175,7 +196,10 @@
         "Unique-per-run addresses",
         "Code extraction helpers",
         "Use a test inbox instead of SMTP",
-        "Try a check on a public page."
+        "Explore the service inspector",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-07-19",
@@ -195,7 +219,10 @@
         "Third-party failures: someone else’s uptime",
         "Replace selectors tied to page structure",
         "Set a retry limit and assign an owner",
-        "Try a check on a public page."
+        "Inspect a failed checkout",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-08-08",
@@ -214,7 +241,10 @@
         "Traces and artifacts on failure",
         "Make the check required — carefully",
         "Keep the gate honest as the suite grows",
-        "Try a check on a public page."
+        "Explore a release check",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-07-30",
@@ -227,12 +257,17 @@
       "description": "Evaluate browser navigation, CI execution, failure inspection, and test maintenance on a representative task.",
       "headings": [
         "Playwright vs Cypress: choosing for your app",
-        "Compare them on a test your team needs to maintain.",
-        "Check tabs and changes of origin.",
-        "Measure CI time with isolated test data.",
-        "Debug a deliberate failure.",
-        "Review generated tests as carefully as handwritten tests.",
-        "Try a check on a public page."
+        "Compare the test your team has to maintain.",
+        "Model tabs and origin changes deliberately.",
+        "Compare network control with a real assertion.",
+        "Measure CI with isolated data.",
+        "Break one assertion and inspect the report.",
+        "Keep the framework that solves your concrete constraint.",
+        "Make the CI choice from the failure you need to explain.",
+        "Inspect a failed checkout",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-06-22",
@@ -251,7 +286,10 @@
         "The nightly full suite is insurance, not gating",
         "Quarantine flaky checks with an owner",
         "Review regressions your tests missed",
-        "Try a check on a public page."
+        "Explore a release check",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-07-12",
@@ -270,7 +308,10 @@
         "The naming trap",
         "Investigate checks that pass only after a retry",
         "Define how to unblock a broken gate",
-        "Try a check on a public page."
+        "Explore a release check",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-07-28",
@@ -289,7 +330,10 @@
         "The heal loop: propose, review, approve",
         "Audit trails make healing defensible",
         "Preserve the original assertion when changing a locator",
-        "Try a check on a public page."
+        "Inspect a failed checkout",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-08-05",
@@ -307,7 +351,10 @@
         "The PR shift: verification inside the review window",
         "Guardrails, not gatekeeping",
         "A minimum viable program",
-        "Try a check on a public page."
+        "Inspect a failed checkout",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-06-25",
@@ -326,7 +373,10 @@
         "The alternative: ephemeral apps + cloned dependencies",
         "When you must test against production, mark everything",
         "A pragmatic migration path",
-        "Try a check on a public page."
+        "Explore the service inspector",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-07-02",
@@ -339,13 +389,16 @@
       "description": "Start with important customer tasks, build repeatable tests, and add release checks your team can maintain.",
       "headings": [
         "Startup QA without a dedicated QA team",
-        "Start with the checks you repeat before every release.",
-        "Choose a few tasks customers depend on.",
-        "Build one repeatable test before adding more.",
-        "Run reliable checks before merging.",
-        "Watch the deployed app as well.",
-        "Expand when you find a specific gap.",
-        "Try a check on a public page."
+        "Start with the checks people repeat before release.",
+        "Write an outcome another person can verify.",
+        "Make data and service state disposable.",
+        "Promote one stable check into CI.",
+        "Keep failures actionable.",
+        "Expand from escaped bugs and repeated work.",
+        "Inspect a failed checkout",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-06-20",
@@ -364,7 +417,10 @@
         "Marked synthetic identities, always",
         "Group repeated failures into one actionable alert",
         "Compare failures with recent changes",
-        "Try a check on a public page."
+        "Inspect a failed checkout",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-07-25",
@@ -384,7 +440,10 @@
         "Rule 4: PII minimization and masking",
         "Rule 5: cleanup vs snapshot/restore",
         "The six rules, recapped",
-        "Try a check on a public page."
+        "Explore the service inspector",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-06-18",
@@ -397,12 +456,15 @@
       "description": "Check payment records, callbacks, and account access with an authorized test environment or supported clone.",
       "headings": [
         "Test Stripe checkout without charging a real card",
-        "Start with the payment behavior you need to test.",
-        "Use a clone when you need controlled service state.",
-        "Check the payment and the access it grants.",
-        "Test delayed and repeated callbacks.",
-        "Make failures easy to investigate.",
-        "Try a check on a public page."
+        "Use test mode to check the whole payment handoff.",
+        "Choose Stripe test mode or a supported clone.",
+        "Run one clean checkout from payment to access.",
+        "Exercise the failures that change customer treatment.",
+        "Keep the failed run useful.",
+        "Explore the service inspector",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-06-27",
@@ -420,7 +482,10 @@
         "Test what happens when a code expires",
         "Check delivery callbacks and signatures",
         "Connect the clone to your test runner",
-        "Try a check on a public page."
+        "Explore the service inspector",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-07-22",
@@ -439,7 +504,10 @@
         "Check access as the intended customer",
         "Use controlled services and keep a contract check",
         "About this guide",
-        "Try a check on a public page."
+        "Explore the service inspector",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-09-05",
@@ -453,16 +521,43 @@
       "description": "Choose test endpoints, isolate accounts and data, and inspect the callbacks that complete a customer task.",
       "headings": [
         "Test the third-party services behind your app",
-        "Know which service receives each test request.",
-        "Choose a provider test environment, a mock, or a clone.",
-        "Give each run its own accounts and data.",
-        "Exercise the callback as well as the request.",
-        "Inspect a full example before expanding coverage.",
-        "Try a check on a public page."
+        "Make every outbound test request intentional.",
+        "Choose a provider sandbox, mock, or clone.",
+        "Give each run separate identities and records.",
+        "Test the callback that completes the work.",
+        "Exercise delay, duplication, and rejection.",
+        "Inspect a complete customer task before expanding.",
+        "Keep a contract check beside the repeatable integration test.",
+        "Explore the service inspector",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-07-09",
       "category": "Integrations"
+    },
+    {
+      "path": "/blog/verify-downloaded-invoice-browser-test",
+      "url": "https://molar.it/blog/verify-downloaded-invoice-browser-test",
+      "title": "Test an invoice download beyond the button click | Molar",
+      "description": "Capture the download, save it before teardown, and check the invoice fields that matter. Includes a Playwright example and failure cases.",
+      "headings": [
+        "Test an invoice download beyond the button click",
+        "Define which invoice the customer should receive",
+        "Capture and save the browser download",
+        "Validate the document, not just its filename",
+        "Make the unhappy paths explain themselves",
+        "About this guide",
+        "Give Molar a browser task",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
+      ],
+      "type": "BlogPosting",
+      "datePublished": "2026-09-06",
+      "category": "Engineering",
+      "author": "Molar editorial"
     },
     {
       "path": "/blog/visual-regression-testing-guide",
@@ -477,7 +572,10 @@
         "Thresholds that respect antialiasing",
         "Review baseline changes alongside the code",
         "A pragmatic workflow",
-        "Try a check on a public page."
+        "Explore a release check",
+        "Ask about your test.",
+        "Your answer",
+        "Keep reading."
       ],
       "type": "BlogPosting",
       "datePublished": "2026-06-16",

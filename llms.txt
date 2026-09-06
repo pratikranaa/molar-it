@@ -46,6 +46,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 - [Test SMS verification with captured messages | Molar](https://molar.it/blog/test-twilio-sms-otp-flows) — Configure a test SMS service, inspect the code, and check account verification, expiry, and retry behavior.
 - [Payment succeeded. Why is the account still locked? | Molar](https://molar.it/blog/testing-delayed-payment-webhooks-and-account-access) — A practical test plan for delayed payment webhooks, duplicate deliveries and the account access a paying customer expects.
 - [Test the third-party services behind your app | Molar](https://molar.it/blog/testing-third-party-apis-safely) — Choose test endpoints, isolate accounts and data, and inspect the callbacks that complete a customer task.
+- [Test an invoice download beyond the button click | Molar](https://molar.it/blog/verify-downloaded-invoice-browser-test) — Capture the download, save it before teardown, and check the invoice fields that matter. Includes a Playwright example and failure cases.
 - [Review visual changes without losing functional checks | Molar](https://molar.it/blog/visual-regression-testing-guide) — Set useful screenshot scopes and baselines, control rendering variation, and review the behavior behind the page.
 
 ## Documentation

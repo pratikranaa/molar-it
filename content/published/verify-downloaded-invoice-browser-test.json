@@ -1,0 +1,68 @@
+{
+  "description": "Capture the download, save it before teardown, and check the invoice fields that matter. Includes a Playwright example and failure cases.",
+  "sections": [
+    {
+      "heading": "Define which invoice the customer should receive",
+      "paragraphs": [
+        "A download button can work while returning the wrong invoice. Start with a disposable account and one known invoice: a specific customer, invoice number, currency, total, and billing period. The test should prove that this account receives this document. A screenshot of the billing page is useful context, but it cannot establish what was written into the file.",
+        "Write the expected fields independently of the export response. For example, seed invoice INV-1042 for the test account with a total of USD 49.00, then compare the downloaded document with that fixture. Copying values from the same response that generated the document would allow both sides of a broken calculation to agree.",
+        "Treat access as a separate assertion. A user who can see a billing link should still need permission to retrieve its invoice. Include a second account in an authorization test and confirm that it cannot obtain the first account\u2019s document. Keep these records synthetic so saved files can be inspected without exposing customer billing data."
+      ],
+      "sourceIds": [
+        "playwright"
+      ]
+    },
+    {
+      "heading": "Capture and save the browser download",
+      "paragraphs": [
+        "For a control that produces a browser attachment, start waiting for the download before clicking. This avoids missing a fast response. Await that event in the main test, then save the file into the test\u2019s own output directory. Playwright\u2019s saveAs operation waits for completion; the download event itself only tells you that downloading started.",
+        "The example below checks transport completion, the suggested extension, and the PDF signature. It is a starting check, not a complete invoice assertion. Replace the button label with your app\u2019s accessible name. If the app opens an inline PDF viewer instead of an attachment, this event-based example does not apply unchanged: verify that navigation and the document response separately.",
+        "Save before the browser context closes. Playwright removes that context\u2019s temporary downloads during teardown. Use a per-test output path instead of a shared invoice.pdf in the repository, especially when workers run concurrently. A failed run should leave its own document available for investigation under your normal artifact retention policy."
+      ],
+      "code": "import { test, expect } from '@playwright/test';\nimport { readFile } from 'node:fs/promises';\n\ntest('invoice downloads as a PDF', async ({ page }, testInfo) => {\n  // Configure baseURL and a test account that owns INV-1042.\n  await page.goto('/billing/invoices/INV-1042');\n  const pending = page.waitForEvent('download');\n  await page.getByRole('button', { name: 'Download invoice' }).click();\n  const download = await pending;\n  expect(await download.failure()).toBeNull();\n  expect(download.suggestedFilename()).toMatch(/\\.pdf$/i);\n\n  const file = testInfo.outputPath('invoice.pdf');\n  await download.saveAs(file);\n  const bytes = await readFile(file);\n  expect(bytes.subarray(0, 5).toString()).toBe('%PDF-');\n  // Next: parse and assert the invoice fields described below.\n});",
+      "sourceIds": [
+        "playwright-downloads",
+        "playwright-download-api"
+      ]
+    },
+    {
+      "heading": "Validate the document, not just its filename",
+      "paragraphs": [
+        "A file named invoice.pdf could contain an error page, an empty export, or another customer\u2019s invoice. The header check above catches some obvious wrong-file responses; it does not prove that the PDF is well formed or that its contents are correct. Parse the saved document with a PDF parser your project supports, then compare the extracted invoice number, recipient, currency, and total with the seeded expectation.",
+        "Use assertions suited to the format. For a CSV export, parse columns and values rather than searching the raw file for a number that might appear in an unrelated row. For a PDF, normalize only known formatting differences such as whitespace. Do not remove currency symbols, signs, or decimal separators in a way that makes different amounts compare equal.",
+        "Check the suggested filename when its naming pattern is part of the product contract. Otherwise, avoid requiring an exact timestamp or browser-specific spelling. Keep filename checks distinct from document checks so a failure explains whether naming changed, the transfer failed, or the invoice itself is wrong."
+      ],
+      "sourceIds": [
+        "playwright-download-api",
+        "playwright"
+      ]
+    },
+    {
+      "heading": "Make the unhappy paths explain themselves",
+      "paragraphs": [
+        "Run separate cases for an expired session, an unauthorized invoice, and an export that fails. Assert the intended error message or response rather than waiting indefinitely for a file that should never arrive. Add a two-invoice case to catch stale selection: choose the second invoice and verify that the first document is not downloaded again.",
+        "On failure, retain the expected invoice identifier, failed assertion, and saved file when available. Keep the browser trace alongside them to show which control was clicked. Do not label a run successful because the browser action completed if file validation never ran. This distinction gives the next person a concrete starting point for debugging."
+      ],
+      "sourceIds": [
+        "playwright-download-api",
+        "playwright"
+      ]
+    }
+  ],
+  "slug": "verify-downloaded-invoice-browser-test",
+  "title": "Test an invoice download beyond the button click",
+  "query": "How should a browser test verify a downloaded invoice?",
+  "sourceIds": [
+    "playwright-downloads",
+    "playwright-download-api",
+    "playwright"
+  ],
+  "status": "reviewed",
+  "generatedAt": "2026-09-06T20:25:59.696Z",
+  "model": "@cf/meta/llama-3.1-8b-instruct-fp8-fast",
+  "reviewedBy": "Codex editorial verification",
+  "category": "Engineering",
+  "reviewedAt": "2026-09-06T20:34:52.567228+00:00",
+  "publishedAt": "2026-09-06",
+  "author": "Molar editorial"
+}

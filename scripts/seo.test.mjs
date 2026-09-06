@@ -54,6 +54,16 @@ test('generated RSS contains every rendered article exactly once', () => {
   }
 });
 
+test('RSS keeps the complete article after its inline illustration', () => {
+  const feed=read('feed.xml');
+  for(const article of [...articles,...published]){
+    const item=feed.split('<item>').find(item=>item.includes(`<link>https://molar.it${article.path}</link>`));
+    const headings=[...article.body.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)];
+    assert.ok(item.includes(headings.at(-1)[1]),article.path+' lost its last section');
+    assert.ok(item.includes('data-article-graphic'),article.path+' lost its illustration');
+  }
+});
+
 test('agent map only contains canonical molar.it pages and includes all articles', () => {
   const map = JSON.parse(read('agent-map.json'));
   assert.equal(map.generatedFrom, 'rendered canonical HTML');

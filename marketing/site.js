@@ -89,7 +89,7 @@
     const root=button.closest('.code-window');
     const text=$('code',root).textContent;
     const status=$('.copy-status',root);
-    try{await navigator.clipboard.writeText(text);if(button.closest('.quick-command'))window.MolarAnalytics?.track('cta_click',{cta:'setup-command-copied'});$('span',button).textContent='Copied';status.textContent='Command copied to clipboard.';setTimeout(()=>$('span',button).textContent='Copy',2000)}
+    try{await navigator.clipboard.writeText(text);if(button.closest('.quick-command'))window.MolarAnalytics?.track('cta_click',{cta:'setup-command-copied'});$('span',button).textContent='Copied';status.textContent=button.closest('.article-code')?'Example copied to clipboard.':'Command copied to clipboard.';setTimeout(()=>$('span',button).textContent='Copy',2000)}
     catch{status.textContent='Copy is unavailable in this browser. Select the command and copy it manually.';status.classList.remove('sr-only')}
   }));
   $('#contact-form')?.addEventListener('submit',event=>{

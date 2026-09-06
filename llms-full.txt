@@ -1,6 +1,6 @@
 # Molar — canonical page map
 
-Generated from rendered, indexable canonical HTML. 97 pages are included.
+Generated from rendered, indexable canonical HTML. 98 pages are included.
 
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
@@ -15,139 +15,145 @@ Headings: What do you want to test? · Your answer · Read the guides behind you
 ## Molar Guides — Browser QA, Integrations & Agents
 URL: https://molar.it/blog
 Description: Practical engineering guides on browser QA, third-party integrations, release confidence, and agent workflows.
-Headings: Guides for testing real user flows. · Test Stripe checkout without charging a real card · Payment succeeded. Why is the account still locked? · AI agents and the future of software testing · AI Playwright test generation: from a task to a reviewed test · API mocking vs stateful service clones · Continuous testing in your CI/CD pipeline · End-to-end testing: practical habits for reliable checks · Test email verification, invitations, and notifications · Flaky tests: causes and fixes · Run Playwright tests in GitHub Actions · Playwright vs Cypress: choosing for your app · Choose which regression tests to run before release · Require passing checks before merging · Review automated test repairs without weakening assertions · Plan tests before a change is ready to ship · Make test environments easier to trust · Startup QA without a dedicated QA team · Check that important tasks still work in production · Manage test data across local runs and CI · Test Stripe checkout without charging a real card · Test SMS verification with captured messages · Test the third-party services behind your app · Review visual changes without losing functional checks · No guides found · Try a check on a public page.
+Headings: Guides for testing real user flows. · Test Stripe checkout without charging a real card · What are you trying to test? · Your answer · Test an invoice download beyond the button click · Payment succeeded. Why is the account still locked? · AI Playwright test generation: from a task to a reviewed test · Flaky tests: causes and fixes · Review automated test repairs without weakening assertions · End-to-end testing: practical habits for reliable checks · Run Playwright tests in GitHub Actions · Require passing checks before merging · Check that important tasks still work in production · Test SMS verification with captured messages · Test email verification, invitations, and notifications · API mocking vs stateful service clones · Choose which regression tests to run before release · Test the third-party services behind your app · Continuous testing in your CI/CD pipeline · Make test environments easier to trust · AI agents and the future of software testing · Test Stripe checkout without charging a real card · Plan tests before a change is ready to ship · Playwright vs Cypress: choosing for your app · Startup QA without a dedicated QA team · Manage test data across local runs and CI · Review visual changes without losing functional checks · No guides found · Try a check on a public page.
 
 ## AI agents and the future of software testing | Molar
 URL: https://molar.it/blog/ai-agents-future-software-testing
 Description: A practical guide to verification loops for coding agents, with deterministic checks where judgment matters.
 - Published: 2026-06-29
-Headings: AI agents and the future of software testing · More code ships; verification still waits · Review generated tests before running them in CI · Coding agents should verify their own work · Decide which behavior the test must protect · The failure mode worth designing against · The verification model to build · Try a check on a public page.
+Headings: AI agents and the future of software testing · More code ships; verification still waits · Review generated tests before running them in CI · Coding agents should verify their own work · Decide which behavior the test must protect · The failure mode worth designing against · The verification model to build · Give Molar a browser task · Ask about your test. · Your answer · Keep reading.
 
 ## AI Playwright test generation: from a task to a reviewed test | Molar
 URL: https://molar.it/blog/ai-playwright-test-generation
 Description: How to review generated browser tests: locators, assertions, clean starting state, and repeatability in CI.
 - Published: 2026-08-10
-Headings: AI Playwright test generation: from a task to a reviewed test · From app URL to reviewed Playwright spec · Choose locators users can recognize · Assertions: where AI earns or loses trust · Deterministic output, or it doesn’t belong in CI · Keep checkout tests off live payment services · Try a check on a public page.
+Headings: AI Playwright test generation: from a task to a reviewed test · Generation is the beginning of test review. · Prefer locators that describe the control. · Ask what the test proves after every important action. · Run the exported file from clean state. · Keep generated changes reviewable. · Keep payments and credentials in a test environment. · When a locator fails, repair the cause you can explain. · Give Molar a browser task · Ask about your test. · Your answer · Keep reading.
 
 ## API mocking vs stateful service clones | Molar
 URL: https://molar.it/blog/api-mocking-vs-service-clones
 Description: Compare configured API responses, stateful mocks, and supported service clones for integration testing.
 - Published: 2026-07-16
-Headings: API mocking vs stateful service clones · Choose how to represent the service in your test. · Mocks can have state too. · Compare the same checkout in both setups. · Check callbacks and failure cases explicitly. · Keep the substitute and the provider in agreement. · Try a check on a public page.
+Headings: API mocking vs stateful service clones · Choose the smallest substitute that proves the behavior. · Stateful mocks are real state machines. · Clones package provider behavior you can reuse. · Run the same checkout against each option. · Make failure and compatibility checks explicit. · Choose from the calls your app actually makes. · Explore the service inspector · Ask about your test. · Your answer · Keep reading.
 
 ## Continuous testing in your CI/CD pipeline | Molar
 URL: https://molar.it/blog/continuous-testing-ci-cd-pipeline
 Description: Choose which tests to run during development, pull requests, deployment, and production monitoring.
 - Published: 2026-07-06
-Headings: Continuous testing in your CI/CD pipeline · Set the wait time for each pipeline stage · Commit stage: seconds, not minutes · PR stage: critical-path E2E behind required checks · Deploy stage: smoke, then promote · Production stage: schedules, not releases · Attach artifacts so failures can be diagnosed · How pipelines lose trust · Try a check on a public page.
+Headings: Continuous testing in your CI/CD pipeline · Set the wait time for each pipeline stage · Commit stage: seconds, not minutes · PR stage: critical-path E2E behind required checks · Deploy stage: smoke, then promote · Production stage: schedules, not releases · Attach artifacts so failures can be diagnosed · How pipelines lose trust · Explore a release check · Ask about your test. · Your answer · Keep reading.
 
 ## End-to-end testing: practical habits for reliable checks | Molar
 URL: https://molar.it/blog/e2e-testing-best-practices
 Description: Choose important app tasks, stable locators, isolated test data, and useful failure recordings.
 - Published: 2026-08-01
-Headings: End-to-end testing: practical habits for reliable checks · Prioritize the critical path ruthlessly · Choose locators that describe the visible control · Every test stands alone · Deterministic data beats cleaned-up data · Parallelize deliberately · Keep the details needed to investigate a failure · Try a check on a public page.
+Headings: End-to-end testing: practical habits for reliable checks · Prioritize the critical path ruthlessly · Choose locators that describe the visible control · Every test stands alone · Deterministic data beats cleaned-up data · Parallelize deliberately · Keep the details needed to investigate a failure · Inspect a failed checkout · Ask about your test. · Your answer · Keep reading.
 
 ## Test email verification, invitations, and notifications | Molar
 URL: https://molar.it/blog/email-workflow-testing-otp
 Description: Check captured messages, recipients, links, codes, and expiry using a configured test inbox.
 - Published: 2026-07-19
-Headings: Test email verification, invitations, and notifications · Test the inbox steps users depend on · Assert delivery, links, codes, and expiry · Unique-per-run addresses · Code extraction helpers · Use a test inbox instead of SMTP · Try a check on a public page.
+Headings: Test email verification, invitations, and notifications · Test the inbox steps users depend on · Assert delivery, links, codes, and expiry · Unique-per-run addresses · Code extraction helpers · Use a test inbox instead of SMTP · Explore the service inspector · Ask about your test. · Your answer · Keep reading.
 
 ## Flaky tests: causes and fixes | Molar
 URL: https://molar.it/blog/flaky-tests-causes-and-fixes
 Description: Investigate timing races, shared data, changing environments, and unstable selectors before adding retries.
 - Published: 2026-08-08
-Headings: Flaky tests: causes and fixes · Treat intermittent failures as bugs to investigate · Timing races: sleeps are guesses · Shared state: two tests, one row · Environment drift: it passed on my machine · Third-party failures: someone else’s uptime · Replace selectors tied to page structure · Set a retry limit and assign an owner · Try a check on a public page.
+Headings: Flaky tests: causes and fixes · Treat intermittent failures as bugs to investigate · Timing races: sleeps are guesses · Shared state: two tests, one row · Environment drift: it passed on my machine · Third-party failures: someone else’s uptime · Replace selectors tied to page structure · Set a retry limit and assign an owner · Inspect a failed checkout · Ask about your test. · Your answer · Keep reading.
 
 ## Run Playwright tests in GitHub Actions | Molar
 URL: https://molar.it/blog/github-actions-playwright-ci
 Description: Configure test jobs, sharding, failure recordings, and required checks in GitHub Actions.
 - Published: 2026-07-30
-Headings: Run Playwright tests in GitHub Actions · The baseline workflow · Cache what’s slow · Split independent tests across CI jobs · Traces and artifacts on failure · Make the check required — carefully · Keep the gate honest as the suite grows · Try a check on a public page.
+Headings: Run Playwright tests in GitHub Actions · The baseline workflow · Cache what’s slow · Split independent tests across CI jobs · Traces and artifacts on failure · Make the check required — carefully · Keep the gate honest as the suite grows · Explore a release check · Ask about your test. · Your answer · Keep reading.
 
 ## Playwright vs Cypress: choosing for your app | Molar
 URL: https://molar.it/blog/playwright-vs-cypress-comparison
 Description: Evaluate browser navigation, CI execution, failure inspection, and test maintenance on a representative task.
 - Published: 2026-06-22
-Headings: Playwright vs Cypress: choosing for your app · Compare them on a test your team needs to maintain. · Check tabs and changes of origin. · Measure CI time with isolated test data. · Debug a deliberate failure. · Review generated tests as carefully as handwritten tests. · Try a check on a public page.
+Headings: Playwright vs Cypress: choosing for your app · Compare the test your team has to maintain. · Model tabs and origin changes deliberately. · Compare network control with a real assertion. · Measure CI with isolated data. · Break one assertion and inspect the report. · Keep the framework that solves your concrete constraint. · Make the CI choice from the failure you need to explain. · Inspect a failed checkout · Ask about your test. · Your answer · Keep reading.
 
 ## Choose which regression tests to run before release | Molar
 URL: https://molar.it/blog/regression-testing-strategies
 Description: Map changes to affected tasks, keep essential checks, and learn from regressions your tests missed.
 - Published: 2026-07-12
-Headings: Choose which regression tests to run before release · Why full-suite gating stops scaling · Risk-based selection starts from the diff · Map code changes to the tasks they can affect · The nightly full suite is insurance, not gating · Quarantine flaky checks with an owner · Review regressions your tests missed · Try a check on a public page.
+Headings: Choose which regression tests to run before release · Why full-suite gating stops scaling · Risk-based selection starts from the diff · Map code changes to the tasks they can affect · The nightly full suite is insurance, not gating · Quarantine flaky checks with an owner · Review regressions your tests missed · Explore a release check · Ask about your test. · Your answer · Keep reading.
 
 ## Require passing checks before merging | Molar
 URL: https://molar.it/blog/required-status-checks-merge-gate
 Description: Choose the GitHub checks that must pass, configure the requirement, and define how to handle an unreliable check.
 - Published: 2026-07-28
-Headings: Require passing checks before merging · Make the intended check a requirement for merging · Configure the required check in GitHub · Advisory versus required, precisely · The naming trap · Investigate checks that pass only after a retry · Define how to unblock a broken gate · Try a check on a public page.
+Headings: Require passing checks before merging · Make the intended check a requirement for merging · Configure the required check in GitHub · Advisory versus required, precisely · The naming trap · Investigate checks that pass only after a retry · Define how to unblock a broken gate · Explore a release check · Ask about your test. · Your answer · Keep reading.
 
 ## Review automated test repairs without weakening assertions | Molar
 URL: https://molar.it/blog/self-healing-test-automation
 Description: How to evaluate a proposed locator change, preserve the intended behavior, and rerun the original assertion.
 - Published: 2026-08-05
-Headings: Review automated test repairs without weakening assertions · What self-healing is — and isn’t · Locator ranking is most of the battle · Capture intent at authoring time · The heal loop: propose, review, approve · Audit trails make healing defensible · Preserve the original assertion when changing a locator · Try a check on a public page.
+Headings: Review automated test repairs without weakening assertions · What self-healing is — and isn’t · Locator ranking is most of the battle · Capture intent at authoring time · The heal loop: propose, review, approve · Audit trails make healing defensible · Preserve the original assertion when changing a locator · Inspect a failed checkout · Ask about your test. · Your answer · Keep reading.
 
 ## Plan tests before a change is ready to ship | Molar
 URL: https://molar.it/blog/shift-left-testing-explained
 Description: Review acceptance criteria early and bring useful browser checks into the pull-request workflow.
 - Published: 2026-06-25
-Headings: Plan tests before a change is ready to ship · The cost curve, stated honestly · The leftmost shift: ambiguity, caught in design · The PR shift: verification inside the review window · Guardrails, not gatekeeping · A minimum viable program · Try a check on a public page.
+Headings: Plan tests before a change is ready to ship · The cost curve, stated honestly · The leftmost shift: ambiguity, caught in design · The PR shift: verification inside the review window · Guardrails, not gatekeeping · A minimum viable program · Inspect a failed checkout · Ask about your test. · Your answer · Keep reading.
 
 ## Make test environments easier to trust | Molar
 URL: https://molar.it/blog/staging-environment-alternatives
 Description: Reduce configuration drift, isolate data, and choose appropriate test services for preview and staging environments.
 - Published: 2026-07-02
-Headings: Make test environments easier to trust · Where drift comes from · Data divergence is worse than config divergence · Sandbox behavior hides vendor failures · The alternative: ephemeral apps + cloned dependencies · When you must test against production, mark everything · A pragmatic migration path · Try a check on a public page.
+Headings: Make test environments easier to trust · Where drift comes from · Data divergence is worse than config divergence · Sandbox behavior hides vendor failures · The alternative: ephemeral apps + cloned dependencies · When you must test against production, mark everything · A pragmatic migration path · Explore the service inspector · Ask about your test. · Your answer · Keep reading.
 
 ## Startup QA without a dedicated QA team | Molar
 URL: https://molar.it/blog/startup-qa-without-qa-team
 Description: Start with important customer tasks, build repeatable tests, and add release checks your team can maintain.
 - Published: 2026-06-20
-Headings: Startup QA without a dedicated QA team · Start with the checks you repeat before every release. · Choose a few tasks customers depend on. · Build one repeatable test before adding more. · Run reliable checks before merging. · Watch the deployed app as well. · Expand when you find a specific gap. · Try a check on a public page.
+Headings: Startup QA without a dedicated QA team · Start with the checks people repeat before release. · Write an outcome another person can verify. · Make data and service state disposable. · Promote one stable check into CI. · Keep failures actionable. · Expand from escaped bugs and repeated work. · Inspect a failed checkout · Ask about your test. · Your answer · Keep reading.
 
 ## Check that important tasks still work in production | Molar
 URL: https://molar.it/blog/synthetic-monitoring-production
 Description: Choose browser checks, test accounts, schedules, and alerts for the application your customers use.
 - Published: 2026-07-25
-Headings: Check that important tasks still work in production · Pings measure liveness, not correctness · What a good synthetic check looks like · Frequency and regions: match cadence to blast radius · Marked synthetic identities, always · Group repeated failures into one actionable alert · Compare failures with recent changes · Try a check on a public page.
+Headings: Check that important tasks still work in production · Pings measure liveness, not correctness · What a good synthetic check looks like · Frequency and regions: match cadence to blast radius · Marked synthetic identities, always · Group repeated failures into one actionable alert · Compare failures with recent changes · Inspect a failed checkout · Ask about your test. · Your answer · Keep reading.
 
 ## Manage test data across local runs and CI | Molar
 URL: https://molar.it/blog/test-data-management-best-practices
 Description: Use separate accounts, predictable starting data, and verified cleanup to prevent tests from interfering.
 - Published: 2026-06-18
-Headings: Manage test data across local runs and CI · Shared state is where flakiness is born · Rule 1: unique-per-run data beats cleanup · Rule 2: deterministic seeds and factories · Rule 3: synthetic identities that announce themselves · Rule 4: PII minimization and masking · Rule 5: cleanup vs snapshot/restore · The six rules, recapped · Try a check on a public page.
+Headings: Manage test data across local runs and CI · Shared state is where flakiness is born · Rule 1: unique-per-run data beats cleanup · Rule 2: deterministic seeds and factories · Rule 3: synthetic identities that announce themselves · Rule 4: PII minimization and masking · Rule 5: cleanup vs snapshot/restore · The six rules, recapped · Explore the service inspector · Ask about your test. · Your answer · Keep reading.
 
 ## Test Stripe checkout without charging a real card | Molar
 URL: https://molar.it/blog/test-stripe-without-real-cards
 Description: Check payment records, callbacks, and account access with an authorized test environment or supported clone.
 - Published: 2026-06-27
-Headings: Test Stripe checkout without charging a real card · Start with the payment behavior you need to test. · Use a clone when you need controlled service state. · Check the payment and the access it grants. · Test delayed and repeated callbacks. · Make failures easy to investigate. · Try a check on a public page.
+Headings: Test Stripe checkout without charging a real card · Use test mode to check the whole payment handoff. · Choose Stripe test mode or a supported clone. · Run one clean checkout from payment to access. · Exercise the failures that change customer treatment. · Keep the failed run useful. · Explore the service inspector · Ask about your test. · Your answer · Keep reading.
 
 ## Test SMS verification with captured messages | Molar
 URL: https://molar.it/blog/test-twilio-sms-otp-flows
 Description: Configure a test SMS service, inspect the code, and check account verification, expiry, and retry behavior.
 - Published: 2026-07-22
-Headings: Test SMS verification with captured messages · Why real SMS breaks CI · Inspect the messages captured by your test service · Test what happens when a code expires · Check delivery callbacks and signatures · Connect the clone to your test runner · Try a check on a public page.
+Headings: Test SMS verification with captured messages · Why real SMS breaks CI · Inspect the messages captured by your test service · Test what happens when a code expires · Check delivery callbacks and signatures · Connect the clone to your test runner · Explore the service inspector · Ask about your test. · Your answer · Keep reading.
 
 ## Payment succeeded. Why is the account still locked? | Molar
 URL: https://molar.it/blog/testing-delayed-payment-webhooks-and-account-access
 Description: A practical test plan for delayed payment webhooks, duplicate deliveries and the account access a paying customer expects.
 - Published: 2026-09-05
-Headings: Payment succeeded. Why is the account still locked? · Check the access your customer paid for · Control the delay, then watch both sides · A repeated event must not repeat the business action · Check access as the intended customer · Use controlled services and keep a contract check · About this guide · Try a check on a public page.
+Headings: Payment succeeded. Why is the account still locked? · Check the access your customer paid for · Control the delay, then watch both sides · A repeated event must not repeat the business action · Check access as the intended customer · Use controlled services and keep a contract check · About this guide · Explore the service inspector · Ask about your test. · Your answer · Keep reading.
 
 ## Test the third-party services behind your app | Molar
 URL: https://molar.it/blog/testing-third-party-apis-safely
 Description: Choose test endpoints, isolate accounts and data, and inspect the callbacks that complete a customer task.
 - Published: 2026-07-09
-Headings: Test the third-party services behind your app · Know which service receives each test request. · Choose a provider test environment, a mock, or a clone. · Give each run its own accounts and data. · Exercise the callback as well as the request. · Inspect a full example before expanding coverage. · Try a check on a public page.
+Headings: Test the third-party services behind your app · Make every outbound test request intentional. · Choose a provider sandbox, mock, or clone. · Give each run separate identities and records. · Test the callback that completes the work. · Exercise delay, duplication, and rejection. · Inspect a complete customer task before expanding. · Keep a contract check beside the repeatable integration test. · Explore the service inspector · Ask about your test. · Your answer · Keep reading.
+
+## Test an invoice download beyond the button click | Molar
+URL: https://molar.it/blog/verify-downloaded-invoice-browser-test
+Description: Capture the download, save it before teardown, and check the invoice fields that matter. Includes a Playwright example and failure cases.
+- Published: 2026-09-06
+Headings: Test an invoice download beyond the button click · Define which invoice the customer should receive · Capture and save the browser download · Validate the document, not just its filename · Make the unhappy paths explain themselves · About this guide · Give Molar a browser task · Ask about your test. · Your answer · Keep reading.
 
 ## Review visual changes without losing functional checks | Molar
 URL: https://molar.it/blog/visual-regression-testing-guide
 Description: Set useful screenshot scopes and baselines, control rendering variation, and review the behavior behind the page.
 - Published: 2026-06-16
-Headings: Review visual changes without losing functional checks · Pair visual checks with functional assertions · Scope: full-page vs component snapshots · Anti-flaking: fonts, animations, viewport locks · Thresholds that respect antialiasing · Review baseline changes alongside the code · A pragmatic workflow · Try a check on a public page.
+Headings: Review visual changes without losing functional checks · Pair visual checks with functional assertions · Scope: full-page vs component snapshots · Anti-flaking: fonts, animations, viewport locks · Thresholds that respect antialiasing · Review baseline changes alongside the code · A pragmatic workflow · Explore a release check · Ask about your test. · Your answer · Keep reading.
 
 ## Molar Changelog — Product & Platform Updates
 URL: https://molar.it/changelog

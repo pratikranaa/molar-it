@@ -129,9 +129,17 @@ node scripts/build-site.mjs   # sitemap generated from the rendered canonical pa
 
 **Search and sharing:** rendered pages carry canonical URLs, linked entity/page/breadcrumb metadata and article publication facts. The build creates a route-specific 1200×630 sharing image in `assets/social/`, a full guide feed at `/feed.xml`, and source maps at `/llms.txt`, `/llms-full.txt` and `/agent-map.json`. These files improve discovery; search rankings and AI citations remain external outcomes. Cloudflare's managed training-crawler policy is separate from the source robots rules for search/retrieval bots.
 
+## Blog reading experience
+
+`marketing/article-page.mjs` is the shared article renderer. It adds a desktop table of contents, a native mobile contents disclosure, calculated reading time, truthful publication/update dates, copyable code, three related guides, a relevant product next step and a follow-up question form. Topic-specific figures in `article-graphics.mjs/css` explain payment callbacks, OTP cases, release checks, agent proposals, test data, debugging, visual baselines, service substitutes, downloads and framework choices. They remain readable without JavaScript and do not run background animation loops.
+
+The listing retains category filters and local search. Typing does not send a request. An explicit empty-result action can submit the search as a question; quota responses retain source links. Answers can be copied or saved as a text file in the visitor's browser. The same `ask-workspace.mjs` and `ask.js` power all three entry points.
+
+`python3 scripts/check-blog-browser.py` checks filters, explicit submission, copy/save, quotas, source fallback, no-match, cancellation, code copying, mobile contents and article overflow at 390/833/1440px. It mocks inference. Set `MOLAR_CHECK_OUT` to choose the local evidence folder.
+
 ## Ask Molar and query publishing
 
-`/ask` answers general browser-testing questions using a reviewed public corpus in `content/knowledge.mjs`. The same corpus feeds the editorial generator. The visitor tool has no access to private product plans, credentials or arbitrary URLs. It returns only validated citation identifiers; invalid or unavailable inference returns explicitly labeled source guidance. Requests and answers are not persisted. Quotas store a daily salted network hash and expire after two days; cleanup runs during subsequent requests.
+`/ask`, the blog listing, and article follow-up forms answer general browser-testing questions using a reviewed public corpus in `content/knowledge.mjs`. The same corpus feeds the editorial generator. The visitor tool has no access to private product plans, credentials or arbitrary URLs. It returns only validated citation identifiers; invalid or unavailable inference returns explicitly labeled source guidance. Requests and answers are not persisted. Quotas store a daily salted network hash and expire after two days; cleanup runs during subsequent requests.
 
 Production bindings in `wrangler.jsonc`: `AI` and `WEBSITE_DB`. Apply `npx wrangler d1 migrations apply molar-website --remote` before deployment. Set `WEBSITE_REQUEST_SECRET` using `wrangler pages secret put` via stdin, never in source. The public answer endpoint has atomic caps of six requests per network per hour and 40 generated attempts per day across the site. No paid capacity was added. If limits are reached, visitors can still browse the guides.
 
@@ -139,7 +147,9 @@ Generate and publish from a target query:
 
 ```bash
 node scripts/generate-query.mjs "How do I test delayed payment webhooks and account access?"
-# Review .content-drafts/<slug>.json against every cited source.
+node scripts/preview-query.mjs .content-drafts/<slug>.json
+# Open the printed localhost preview URL (serve-marketing.py --port 8080).
+# Review the draft against every cited source; previewing does not approve it.
 # Correct unsupported claims; set status: reviewed and reviewedBy to the editor.
 node scripts/publish-query.mjs .content-drafts/<slug>.json
 node scripts/build-site.mjs
@@ -147,7 +157,9 @@ node --test scripts/*.test.mjs
 python3 scripts/check-marketing.py
 ```
 
-Generation uses the operator's existing Wrangler session (or `CLOUDFLARE_API_TOKEN`). Drafts are excluded from Git and the deployed package. Publishing adds reviewed structured content under `content/published/`; the regular build places it in the blog, feed, sitemap and social-card inventory. It never automatically indexes visitor questions. The first guide from this workflow is `/blog/testing-delayed-payment-webhooks-and-account-access`.
+Draft validation checks metadata, plain-text sections and known citations. Publication additionally requires an explicit reviewer and at least 450 words; these checks do not replace factual review. Editors may add an optional `code` string to a section after verifying the example; it is HTML-escaped and rendered with a copy control. An optional category can be `Integrations`, `Engineering` or `Agents`. Short drafts can be previewed but cannot be published. Existing filenames are never overwritten by generation or publication.
+
+Generation uses the operator's existing Wrangler session (or `CLOUDFLARE_API_TOKEN`). Drafts are excluded from Git and the deployed package. Publishing adds reviewed structured content under `content/published/`; the regular build places it in the blog, feed, sitemap and social-card inventory. It never automatically indexes visitor questions. Examples from this workflow are `/blog/testing-delayed-payment-webhooks-and-account-access` and `/blog/verify-downloaded-invoice-browser-test`. The latter was revised after generation, with its illustrative Playwright transport check run against a synthetic download and an intentionally invalid attachment. It does not claim to implement PDF field parsing.
 
 The waitlist now saves to `WEBSITE_DB` without requiring a paid email provider. It does not automatically send messages. Authorized operators can export signup records with Wrangler; avoid printing those records into shared logs. Duplicate email submissions are idempotent. Existing optional webhook/Loops behavior remains a fallback for environments without the database binding.
 
