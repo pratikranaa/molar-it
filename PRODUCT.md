@@ -36,3 +36,9 @@ Full user vision attachment, monorepo STATUS.md and IMPL_STATUS.md, current sour
 
 ## Accessibility & Inclusion
 Responsive mobile and desktop, semantic HTML, keyboard navigation, visible focus, readable contrast, reduced-motion support.
+
+## Marketing Conversion Extension (September 6, 2026)
+
+The marketing site adds a compact project-initialization path (`npx molar-agent init`), a progressively disclosed coding-agent handoff, and a complete Clones catalog. The catalog contains 28 services: 5 stateful services and 23 API fixture packs, each with documented coverage and setup links. These additions extend the existing QA and general-browser positioning without changing the product’s beta status or inventing support beyond the documented paths.
+
+The site also presents four founder-confirmed startup-program memberships as credits and resources: Google for Startups Cloud Program, Microsoft for Startups, AWS Activate, and Razorpay Rize. Confirmation date: 2026-09-06. These are program memberships/resources, not equity backing, customer endorsements, or evidence of other affiliations.

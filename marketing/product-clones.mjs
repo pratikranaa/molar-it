@@ -1,14 +1,6 @@
 import {codeBlock, icon} from './components.mjs';
 
-const services = [
-  ['stripe', 'Stripe', 'PaymentIntents, charges, refunds, subscriptions, invoices, checkout sessions, and supported webhooks.', 'card'],
-  ['twilio', 'Twilio', 'Messages, Verify paths, delivery state, and supported callback behavior.', 'bolt'],
-  ['sendgrid', 'Email / SendGrid', 'Captured messages and provider-shaped email flows for receipt and verification tests.', 'mail'],
-  ['auth', 'Auth', 'Identity, sessions, credentials, and cross-clone authentication paths.', 'lock'],
-  ['s3', 'S3', 'Buckets, objects, prefixes, presigned URLs, and access-denied paths.', 'file'],
-];
-
-const catalog = services.map(([id, name, body, glyph]) => `<tr><th><a href="/docs/clones/${id}">${icon(glyph)}${name}</a></th><td>${body}</td><td><a class="pc-table-link" href="/docs/clones/${id}">Catalog ↗</a></td></tr>`).join('');
+import {fullCloneCatalog} from './conversion.mjs';
 
 const workbench = `<section class="section pc-workbench-section" id="product-demo">
   <div class="wrap">
@@ -41,8 +33,6 @@ const setup = `<section class="section pc-setup-section" id="product-setup"><div
 
 const lifecycle = `<section class="section pc-lifecycle-section"><div class="wrap"><div class="pc-section-intro"><div><h2>Re-run the same checkout from a clean starting point.</h2><p>Each run owns its records. Save the starting point, exercise a failure, advance time, then restore the same records for a clean retry.</p></div></div><div class="pc-lifecycle" role="list"><article><span>01</span><h3>Seed</h3><p>Create a tenant with deterministic starting data for the service your scenario calls.</p></article><article><span>02</span><h3>Act</h3><p>Run the browser and API flow. Inspect requests, records, signatures, and callback attempts together.</p></article><article><span>03</span><h3>Travel</h3><p>Move the virtual clock to reach expiry, renewal, or delayed delivery without sleeping through a test.</p></article><article><span>04</span><h3>Restore</h3><p>Load the saved snapshot, or reset the run, so the next checkout starts from known records.</p></article></div></div></section>`;
 
-const capabilities = `<section class="section pc-capabilities-section" id="product-capabilities"><div class="wrap"><div class="pc-section-intro"><div><h2>Choose the service behind the feature you need to check.</h2><p>Five core services cover payments, email, SMS, identity, and object storage in the current Clones workspace. Each service has its own documented operations and limits.</p></div></div><div class="pc-table-wrap"><table class="pc-capability-table"><thead><tr><th>Service</th><th>Useful for</th><th></th></tr></thead><tbody>${catalog}</tbody></table></div><div class="pc-capability-notes"><span>${icon('check')}Per-run state and deterministic IDs</span><span>${icon('replay')}Virtual clock, snapshots, restore, and reset</span><span>${icon('bolt')}Supported error and latency injection</span><span>${icon('branch')}Local process, Docker, and on-prem patterns</span></div></div></section>`;
-
 const comparison = `<section class="section pc-comparison-section"><div class="wrap"><div class="pc-section-intro"><div><h2>Use service state when a fixed response isn’t enough.</h2><p>WireMock and MSW are useful for hand-written HTTP responses. Vendor sandboxes are useful for provider-specific checks. Clones keep the service record, clock, callback attempt, and reset path in view.</p></div></div><div class="pc-compare-grid"><a href="/blog/api-mocking-vs-service-clones"><span>Compare approaches</span><strong>API mocks vs service clones ${icon('arrow')}</strong><small>Compare fixed responses, stateful records, and vendor sandboxes.</small></a><a href="/docs/clones"><span>Read the docs</span><strong>Browse service coverage ${icon('arrow')}</strong><small>Review operations, known limits, seeds, and setup before relying on a path.</small></a><a href="/products/guard"><span>Use it in a release check</span><strong>Pair with Guard ${icon('arrow')}</strong><small>Run a browser scenario against the same controlled service process.</small></a></div></div></section>`;
 
 export const faqs = [
@@ -50,8 +40,8 @@ export const faqs = [
   {q:'Can I test a webhook without weakening signature checks?',a:'Yes, supported webhook paths emit vendor-shaped callbacks with clone-controlled signing secrets. Your application can verify the signature and your test can inspect delivery attempts.'},
   {q:'How do I test expiry or renewal without waiting?',a:'Use the virtual clock controls exposed by the clone setup. Advance simulated time to reach supported expiry, delayed delivery, or renewal behavior, then inspect the resulting records.'},
   {q:'What is the difference between reset and restore?',a:'Restore loads a saved snapshot of a run’s records. Reset removes the run state so the clone can return to its initial state. Choose the one your scenario needs.'},
-  {q:'Does the catalog implement every vendor API?',a:'No. Stripe, Twilio, Email, Auth, and S3 each implement documented operations and state transitions. Check the service page and known limits before depending on a behavior outside those paths.'},
+  {q:'Does the catalog implement every vendor API?',a:'No. Five stateful services implement documented operations and state transitions. Another 23 fixture packs provide predefined responses for named API operations. Neither tier implements every vendor API; check the coverage for the paths your app calls.'},
   {q:'Can I run this in CI or offline?',a:'The repository supports local processes, Docker, and on-prem deployment patterns. Configure the clone endpoint inside the test environment and keep live vendor credentials out of the run.'},
 ];
 
-export function clonesStory(){return {body:workbench+setup+lifecycle+capabilities+comparison,faqs};}
+export function clonesStory(){return {body:workbench+setup+lifecycle+fullCloneCatalog()+comparison,faqs};}

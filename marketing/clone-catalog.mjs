@@ -1,0 +1,33 @@
+// Catalog IDs and tiers mirror ../clones-catalog.json in the Molar monorepo.
+// Fixture descriptions name operations in molar-clones/fixtures/<id>/.
+// This snapshot keeps standalone marketing builds independent of the private repo.
+export const cloneCatalog = [
+  ['stripe','Stripe','stateful','Payments, customers, refunds, subscriptions, and signed webhook delivery.'],
+  ['twilio','Twilio','stateful','SMS, verification codes, message records, and delivery callbacks.'],
+  ['sendgrid','SendGrid / Email','stateful','Captured email for receipts, invitations, and verification links.'],
+  ['auth','Auth','stateful','Test identities, credentials, sessions, and account access.'],
+  ['s3','Amazon S3','stateful','Buckets, objects, presigned URLs, and access-denied responses.'],
+  ['apify','Apify','fixture','Actor runs, datasets, and key-value store responses.'],
+  ['calcom','Cal.com','fixture','Availability, bookings, event types, and schedules.'],
+  ['clickup','ClickUp','fixture','Workspaces, folders, lists, and task creation.'],
+  ['discord','Discord','fixture','Channels, messages, threads, and webhook responses.'],
+  ['firecrawl','Firecrawl','fixture','Scrape, crawl, search, and URL map responses.'],
+  ['github','GitHub','fixture','Repositories, issues, pull requests, reviews, and workflow runs.'],
+  ['gitlab','GitLab','fixture','Projects, branches, issues, merge requests, and pipelines.'],
+  ['google-workspace','Google Workspace','fixture','Gmail, Calendar, Drive, Sheets, and directory responses.'],
+  ['hubspot','HubSpot','fixture','Contacts, companies, deals, pipelines, and tickets.'],
+  ['jira','Jira','fixture','Issues, transitions, comments, sprints, and worklogs.'],
+  ['linear','Linear','fixture','Issues, teams, projects, cycles, and initiatives.'],
+  ['ownerrez','OwnerRez','fixture','Properties, guests, inquiries, and bookings.'],
+  ['pricelabs','PriceLabs','fixture','Listings, calendars, neighborhood data, and pricing.'],
+  ['ramp','Ramp','fixture','Cards, transactions, reimbursements, and spend programs.'],
+  ['sentry','Sentry','fixture','Organizations, projects, issues, events, and releases.'],
+  ['slack','Slack','fixture','Messages, channel history, thread replies, and reactions.'],
+  ['supabase','Supabase','fixture','Projects, tables, SQL, migrations, branches, and functions.'],
+  ['tavily','Tavily','fixture','Search, extract, crawl, and site map responses.'],
+  ['telegram','Telegram','fixture','Chats, updates, messages, photos, and webhooks.'],
+  ['typeform','Typeform','fixture','Forms, responses, workspaces, and webhooks.'],
+  ['unipile','Unipile','fixture','Accounts, messages, LinkedIn messaging, and webhooks.'],
+  ['webflow','Webflow','fixture','Sites, pages, collections, and CMS items.'],
+  ['woocommerce','WooCommerce','fixture','Products, orders, customers, categories, and coupons.'],
+].map(([id,name,tier,description])=>({id,name,tier,description}));

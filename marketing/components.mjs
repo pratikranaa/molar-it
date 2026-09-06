@@ -36,6 +36,7 @@ const menus = [
   ['Products',[
     ['/products/cartographer','Cartographer','Explore your app. Map its flows.','map'],
     ['/products/clones','Clones','Test payments, email and sign-in.','layers'],
+    ['/products/clones#clone-catalog','Clone catalog','Browse 28 services and API fixture packs.','search'],
     ['/products/guard','Guard','Run checks before and after release.','shield'],
     ['/products/trace','Trace','Inspect browser steps and failures.','trace'],
     ['/products/mender','Mender','Investigate failures. Propose a repair.','bolt']

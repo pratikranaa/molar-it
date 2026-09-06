@@ -1,0 +1,212 @@
+{
+  "generated": "2026-09-06",
+  "usage": "Brand marks identify integrations and programs. They remain property of their respective owners; inclusion does not claim endorsement, certification, investment, or partnership.",
+  "missing": [],
+  "assets": {
+    "auth": {
+      "file": "auth.svg",
+      "source": "https://api.iconify.design/mdi:lock-outline.svg",
+      "provenance": "Material Design Icons / Pictogrammers via Iconify",
+      "license": "Apache-2.0",
+      "note": "Generic lock icon; no company brand implied."
+    },
+    "s3": {
+      "file": "s3.svg",
+      "source": "https://api.iconify.design/logos:aws-s3.svg",
+      "provenance": "Amazon S3 service mark via Iconify Logos",
+      "license": "See upstream mark terms; trademark remains Amazon Web Services property"
+    },
+    "sendgrid": {
+      "file": "sendgrid.svg",
+      "source": "https://api.iconify.design/logos:sendgrid-icon.svg",
+      "provenance": "SendGrid standalone icon via Iconify Logos",
+      "license": "See upstream mark terms; trademark remains SendGrid property"
+    },
+    "stripe": {
+      "file": "stripe.svg",
+      "source": "https://cdn.simpleicons.org/stripe",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains Stripe property"
+    },
+    "twilio": {
+      "file": "twilio.svg",
+      "source": "https://api.iconify.design/logos:twilio-icon.svg",
+      "provenance": "Twilio standalone icon via Iconify Logos",
+      "license": "See upstream mark terms; trademark remains Twilio property"
+    },
+    "calcom": {
+      "file": "calcom.svg",
+      "source": "https://cdn.simpleicons.org/caldotcom",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains Cal.com property"
+    },
+    "clickup": {
+      "file": "clickup.svg",
+      "source": "https://cdn.simpleicons.org/clickup",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains ClickUp property"
+    },
+    "discord": {
+      "file": "discord.svg",
+      "source": "https://cdn.simpleicons.org/discord",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains Discord property"
+    },
+    "github": {
+      "file": "github.svg",
+      "source": "https://cdn.simpleicons.org/github",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains GitHub property"
+    },
+    "gitlab": {
+      "file": "gitlab.svg",
+      "source": "https://cdn.simpleicons.org/gitlab",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains GitLab property"
+    },
+    "google-workspace": {
+      "file": "google-workspace.svg",
+      "source": "https://api.iconify.design/logos:google-icon.svg",
+      "provenance": "Google multicolor standalone icon via Iconify Logos",
+      "license": "See upstream mark terms; trademark remains Google property",
+      "note": "Pair with visible Google Workspace text in the UI."
+    },
+    "hubspot": {
+      "file": "hubspot.svg",
+      "source": "https://cdn.simpleicons.org/hubspot",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains HubSpot property"
+    },
+    "jira": {
+      "file": "jira.svg",
+      "source": "https://cdn.simpleicons.org/jira",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains Atlassian property"
+    },
+    "linear": {
+      "file": "linear.svg",
+      "source": "https://cdn.simpleicons.org/linear",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains Linear property"
+    },
+    "sentry": {
+      "file": "sentry.svg",
+      "source": "https://cdn.simpleicons.org/sentry",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains Sentry property"
+    },
+    "slack": {
+      "file": "slack.svg",
+      "source": "https://api.iconify.design/logos:slack-icon.svg",
+      "provenance": "Slack standalone icon via Iconify Logos",
+      "license": "See upstream mark terms; trademark remains Slack property"
+    },
+    "supabase": {
+      "file": "supabase.svg",
+      "source": "https://cdn.simpleicons.org/supabase",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains Supabase property"
+    },
+    "telegram": {
+      "file": "telegram.svg",
+      "source": "https://cdn.simpleicons.org/telegram",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains Telegram property"
+    },
+    "typeform": {
+      "file": "typeform.svg",
+      "source": "https://cdn.simpleicons.org/typeform",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains Typeform property"
+    },
+    "webflow": {
+      "file": "webflow.svg",
+      "source": "https://cdn.simpleicons.org/webflow",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains Webflow property"
+    },
+    "woocommerce": {
+      "file": "woocommerce.svg",
+      "source": "https://cdn.simpleicons.org/woocommerce",
+      "provenance": "Simple Icons",
+      "license": "CC0-1.0; trademark remains WooCommerce property"
+    },
+    "apify": {
+      "file": "apify.ico",
+      "source": "https://apify.com/favicon.ico",
+      "provenance": "Official Apify site favicon",
+      "license": "Apify brand terms apply",
+      "format": "ICO/PNG favicon"
+    },
+    "firecrawl": {
+      "file": "firecrawl.ico",
+      "source": "https://firecrawl.dev/favicon.ico",
+      "provenance": "Official Firecrawl site favicon",
+      "license": "Firecrawl brand terms apply",
+      "format": "ICO/PNG favicon"
+    },
+    "ownerrez": {
+      "file": "ownerrez.ico",
+      "source": "https://ownerrez.com/favicon.ico",
+      "provenance": "Official OwnerRez site favicon",
+      "license": "OwnerRez brand terms apply",
+      "format": "ICO/PNG favicon"
+    },
+    "pricelabs": {
+      "file": "pricelabs.ico",
+      "source": "https://pricelabs.co/favicon.ico",
+      "provenance": "Official PriceLabs site favicon",
+      "license": "PriceLabs brand terms apply",
+      "format": "ICO/PNG favicon"
+    },
+    "ramp": {
+      "file": "ramp.ico",
+      "source": "https://ramp.com/favicon.ico",
+      "provenance": "Official Ramp site favicon",
+      "license": "Ramp brand terms apply",
+      "format": "ICO/PNG favicon"
+    },
+    "tavily": {
+      "file": "tavily.ico",
+      "source": "https://tavily.com/favicon.ico",
+      "provenance": "Official Tavily site favicon",
+      "license": "Tavily brand terms apply",
+      "format": "ICO/PNG favicon"
+    },
+    "unipile": {
+      "file": "unipile.ico",
+      "source": "https://unipile.com/favicon.ico",
+      "provenance": "Official Unipile site favicon",
+      "license": "Unipile brand terms apply",
+      "format": "PNG favicon"
+    },
+    "google-startups": {
+      "file": "google-startups.svg",
+      "source": "https://api.iconify.design/logos:google-cloud.svg",
+      "provenance": "Google Cloud multicolor mark via Iconify Logos",
+      "license": "See upstream mark terms; trademark remains Google property",
+      "note": "Pair with visible Google for Startups Cloud Program text in the UI."
+    },
+    "microsoft-startups": {
+      "file": "microsoft-startups.svg",
+      "source": "https://api.iconify.design/logos:microsoft.svg",
+      "provenance": "Microsoft mark via Iconify Logos",
+      "license": "Microsoft brand terms apply",
+      "note": "Pair with visible text \u2018Microsoft for Startups\u2019; mark alone does not imply endorsement."
+    },
+    "aws-activate": {
+      "file": "aws-activate.svg",
+      "source": "https://api.iconify.design/logos:aws.svg",
+      "provenance": "AWS mark via Iconify Logos",
+      "license": "AWS brand terms apply",
+      "note": "Pair with visible text \u2018AWS Activate\u2019; mark alone does not imply endorsement."
+    },
+    "razorpay-rize": {
+      "file": "razorpay-rize.svg",
+      "source": "https://framerusercontent.com/images/h1I1RX8CZTkNrczSB7BRvWzLiMU.svg",
+      "provenance": "Razorpay Rize page hosted asset",
+      "license": "Razorpay brand terms apply",
+      "note": "Original artwork retained; viewBox 0 0 651 99 added from the source intrinsic dimensions for responsive scaling."
+    }
+  }
+}

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-09-06T13:39:50.593Z",
+  "generatedAt": "2026-09-06T16:30:14.839Z",
   "pageCount": 97,
   "pages": [
     {
@@ -12,8 +12,10 @@
       "description": "AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.",
       "headings": [
         "Your users shouldn’t be your QA team.",
+        "Supported by startup programs",
         "Payment succeeded. The customer is still locked out.",
         "Make the hard cases easy to test.",
+        "Your app calls more than one service.",
         "From the first click to the next release.",
         "Your agent wrote it. Let Molar test it.",
         "Start with one check. See what comes back.",
@@ -983,6 +985,7 @@
       "description": "Give your team and AI agents a browser that gets work done. Automate tasks, explore apps, extract data and inspect the result with Molar.",
       "headings": [
         "Give your agents a working browser.",
+        "Supported by startup programs",
         "Automate the tasks you repeat in browser tabs.",
         "Get the file, the data, and the run status.",
         "Your agent’s next tool? A working browser.",
@@ -1116,7 +1119,7 @@
         "See what happens after a payment.",
         "Connect your test to a service you control.",
         "Re-run the same checkout from a clean starting point.",
-        "Choose the service behind the feature you need to check.",
+        "Find the services your app depends on.",
         "Use service state when a fixed response isn’t enough.",
         "Questions, answered.",
         "Give your next test the right services."

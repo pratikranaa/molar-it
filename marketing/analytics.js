@@ -20,6 +20,12 @@
     ['signup-nav', 'signup_navigation'],
     ['signup-hero', 'signup_hero'],
     ['signup-footer', 'signup_footer'],
+    ['setup-command-copied', 'setup_command_copied'],
+    ['agent-prompt-copied', 'agent_prompt_copied'],
+    ['setup-docs', 'setup_docs'],
+    ['agent-docs', 'agent_docs'],
+    ['clone-catalog', 'clone_catalog'],
+    ['clone-request', 'clone_request'],
   ]);
   const DEMO_ACTIONS = new Map([
     ['[data-scene-play]', 'playback'],

@@ -5,7 +5,7 @@ Generated from rendered, indexable canonical HTML. 97 pages are included.
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
 Description: AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.
-Headings: Your users shouldn’t be your QA team. · Payment succeeded. The customer is still locked out. · Make the hard cases easy to test. · From the first click to the next release. · Your agent wrote it. Let Molar test it. · Start with one check. See what comes back. · Questions, answered. · Your next test starts with a URL.
+Headings: Your users shouldn’t be your QA team. · Supported by startup programs · Payment succeeded. The customer is still locked out. · Make the hard cases easy to test. · Your app calls more than one service. · From the first click to the next release. · Your agent wrote it. Let Molar test it. · Start with one check. See what comes back. · Questions, answered. · Your next test starts with a URL.
 
 ## Ask Molar — Practical Answers About Browser Testing
 URL: https://molar.it/ask
@@ -337,7 +337,7 @@ Headings: Molar in GitHub Actions · Run a configured browser scenario in CI. ·
 ## Molar Platform — Browser Execution for Humans & AI Agents
 URL: https://molar.it/platform
 Description: Give your team and AI agents a browser that gets work done. Automate tasks, explore apps, extract data and inspect the result with Molar.
-Headings: Give your agents a working browser. · Automate the tasks you repeat in browser tabs. · Get the file, the data, and the run status. · Your agent’s next tool? A working browser. · Payment succeeded. The customer is still locked out. · You built the app. Now use it like your customers do. · Start with one task. See what comes back. · Questions, answered. · What’s the first task you’d hand over?
+Headings: Give your agents a working browser. · Supported by startup programs · Automate the tasks you repeat in browser tabs. · Get the file, the data, and the run status. · Your agent’s next tool? A working browser. · Payment succeeded. The customer is still locked out. · You built the app. Now use it like your customers do. · Start with one task. See what comes back. · Questions, answered. · What’s the first task you’d hand over?
 
 ## Browser agents | Molar
 URL: https://molar.it/platform/browser-agents
@@ -377,7 +377,7 @@ Headings: Map your app. Test the paths that matter. · See how someone gets from
 ## Clones | Molar
 URL: https://molar.it/products/clones
 Description: Give your tests payment records, messages, accounts, and files they can change and inspect. Control supported failures and timing, then restore the starting state for the next run.
-Headings: Test the services behind your app. · See what happens after a payment. · Connect your test to a service you control. · Re-run the same checkout from a clean starting point. · Choose the service behind the feature you need to check. · Use service state when a fixed response isn’t enough. · Questions, answered. · Give your next test the right services.
+Headings: Test the services behind your app. · See what happens after a payment. · Connect your test to a service you control. · Re-run the same checkout from a clean starting point. · Find the services your app depends on. · Use service state when a fixed response isn’t enough. · Questions, answered. · Give your next test the right services.
 
 ## Guard | Molar
 URL: https://molar.it/products/guard

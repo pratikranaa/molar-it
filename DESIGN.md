@@ -250,6 +250,8 @@ The CSS face is named `Hanken`; “Hanken Grotesk” describes the font file and
 
 Ask Molar uses a `clamp(42px, 4.6vw, 64px)` route display, `19px` lead and question copy, `16px` field label, `29px` rail/result title, `18px` answer copy, and `12px` advisory copy. At the phone breakpoint these resolve to a `43px` intro title, `27px` rail title, and `17px` answer copy.
 
+Conversion surfaces keep count labels in Hanken with tabular numerals; Geist Mono remains reserved for commands, URLs, event timelines, and other technical values. The compact hero setup command is set in the existing technical voice: `npx molar-agent init`. Conversion metadata and control labels use `12px`–`15px`; catalog descriptions use `15px`, service names `20px` (`19px` on phones), and the homepage inventory preview heading uses `32px` (`30px` on phones).
+
 ## Layout
 
 The shared content wrap is capped at `1320px` and uses `calc(100% - 96px)` before the cap, `calc(100% - 48px)` at `max-width: 900px`, and `calc(100% - 36px)` at `max-width: 640px`. The attached header is sticky at `76px` on desktop and `70px` on phones. General sections use `100px` vertical rhythm in the identity layer.
@@ -259,6 +261,8 @@ The homepage hero is a compact headline and action row followed by a full-width 
 The service lab is a five-tab dark workspace with a controls column and an example surface. Its tabs remain horizontally scrollable when needed. Product, proof, developer, and reading sections inherit the same wrap and use scene-specific compositions rather than a single repeated card grid.
 
 Ask Molar keeps the form and public-source rail in a `1.65fr 1fr` desktop grid with a `72px` gap. The route intro uses a `1.4fr 1fr` split with a `64px` gap; the question workspace begins at a hairline and the rail begins at a vertical hairline. Below `900px`, the form grid tightens and the submit row can wrap. At `640px` and below, the route becomes a single column with a `48px` gap: the complete question workspace, including any answer, comes first, then the source rail with a top rule. The shared wrap remains `calc(100% - 36px)` on phones and `calc(100% - 48px)` at tablet widths.
+
+The conversion extension follows the same responsive rhythm. The startup-program strip is a two-column relationship on wide screens and stacks below `1000px`; its four marks become a two-column grid on phones. The catalog is a two-column open row list on desktop, with filter controls stacked below `1000px` and rows stacked into one column below `640px`; brand slots tighten from `50px` to `42px` on phones. The hero setup command stays compact and horizontally scrollable where needed.
 
 ## Elevation & Depth
 
@@ -328,6 +332,16 @@ The rail uses a coral origin dot and a thin branching connector in Ask Rail Line
 
 The shared analytics layer starts with `analytics_storage` denied and keeps ad storage, ad user data, ad personalization, Google signals, and ad personalization signals denied. If no choice exists and GPC is off, the lower-right panel presents “Optional analytics” with Decline analytics and Accept analytics actions. On clean public URLs, a granted choice loads GA4 and sends sanitized page views and allowlisted CTA, navigation, and demo events; private proof views and URLs containing a query string or fragment keep the tag off because automatic measurement can inspect those values. Explicit clean form destinations prevent automatic form events from inheriting the document query; a denied choice clears Google cookies and sends nothing. The footer’s Privacy choices control reopens the same nonmodal panel and restores focus to the control after closing. When `navigator.globalPrivacyControl === true`, analytics remain off, cookies are cleared, and the panel explains that browser GPC keeps optional analytics off.
 
+The conversion layer uses fixed, consent-gated action names: `trial_navigation`, `trial_hero`, `trial_footer`, `contact_hero`, `contact_footer`, `signup_navigation`, `signup_hero`, `signup_footer`, `setup_command_copied`, `agent_prompt_copied`, `setup_docs`, `agent_docs`, `clone_catalog`, and `clone_request`. Search text, prompt content, project paths, URLs, credentials, and other free-form values are excluded.
+
+### Conversion Extension (September 6)
+
+The hero initializes project setup with the compact, copyable `npx molar-agent init` command and labels it as project initialization. The coding-agent handoff is progressively disclosed in a native `details` block: the prompt preview remains readable without JavaScript, and clipboard failure opens the preview with a manual-copy recovery message.
+
+The Clones catalog is an open two-column searchable list of 28 entries: 5 stateful services and 23 fixture packs. Each row exposes the provider name, coverage tier, operation summary, and a link to its existing documentation. Provider marks come from the local brand source manifest and attribution files; Auth uses the generic lock treatment and niche providers use their official site favicons. The catalog filter has All services (28), Stateful (5), and Fixture packs (23), plus an operation-aware search and an explicit empty state.
+
+The startup strip says “Building Molar with startup credits and resources from” and shows Google for Startups Cloud Program, Microsoft for Startups, AWS Activate, and Razorpay Rize. These marks and links are part of the relationship copy; they do not change the established paper, sage, coral, and green-black identity.
+
 ### Route-specific Social Cards
 
 The full site’s canonical routes receive 1200×630 social cards generated by `scripts/build-social.py`. Cards reuse Hanken, the paper canvas, green-black framing, coral route signal, typography-only `Molar.` wordmark, and route path label; `/ask` uses `assets/social/ask.png`.
@@ -347,6 +361,10 @@ The full site’s canonical routes receive 1200×630 social cards generated by `
 - **Do** keep Ask Molar’s generated, published-guide fallback, and no-match labels visible with the answer.
 - **Do** keep the public-source rail beside the form on desktop and after the answer on mobile.
 - **Do** make analytics optional, nonmodal, keyboard reachable, and governed by GPC and Privacy choices.
+- **Do** use the compact `npx molar-agent init` command for project initialization and reveal the longer agent prompt progressively.
+- **Do** keep the full 28-entry catalog searchable by provider and operation, with the 5-stateful / 23-fixture split visible.
+- **Do** use the actual local provider marks and keep startup-program copy framed as credits and resources.
+- **Do** preserve the fixed consent-gated analytics action names and the exclusion of free-form search and prompt content.
 
 ### Don't:
 
