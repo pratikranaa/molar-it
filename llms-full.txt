@@ -377,7 +377,7 @@ Headings: Map your app. Test the paths that matter. · See how someone gets from
 ## Clones | Molar
 URL: https://molar.it/products/clones
 Description: Give your tests payment records, messages, accounts, and files they can change and inspect. Control supported failures and timing, then restore the starting state for the next run.
-Headings: Test the services behind your app. · See what happens after a payment. · Connect your test to a service you control. · Re-run the same checkout from a clean starting point. · Find the services your app depends on. · Use service state when a fixed response isn’t enough. · Questions, answered. · Give your next test the right services.
+Headings: Test the services behind your app. · See what happens after a payment. · Choose exactly what goes wrong. · Put Clones inside your test suite. · Restore the payment. And the receipt. · Find the services your app depends on. · Choose the right service for the test. · Questions, answered. · Give your next test the right services.
 
 ## Guard | Molar
 URL: https://molar.it/products/guard
