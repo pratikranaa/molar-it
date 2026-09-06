@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-09-06T00:05:54.957Z",
+  "generatedAt": "2026-09-06T10:19:45.095Z",
   "pageCount": 97,
   "pages": [
     {
@@ -12,11 +12,11 @@
       "description": "AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.",
       "headings": [
         "Your users shouldn’t be your QA team.",
+        "Watch a real check finish.",
         "Make the hard cases easy to test.",
-        "Two people. One connected test.",
         "From the first click to the next release.",
         "Your agent wrote it. Let Molar test it.",
-        "Start with the flow you can’t afford to break.",
+        "Start with one check. See what comes back.",
         "A few things you might be wondering.",
         "Your next test starts with a URL."
       ]
@@ -500,13 +500,16 @@
     {
       "path": "/company",
       "url": "https://molar.it/company",
-      "title": "About Molar — Test the Whole Customer Journey",
-      "description": "Molar brings browser testing, stateful service clones, and evidence together around the customer journeys that cross your systems.",
+      "title": "About Molar — Verify the Whole Customer Journey",
+      "description": "Why Molar is building a verification loop for browser journeys that cross your application and third-party services.",
       "headings": [
         "Software is built in pieces. People experience the whole.",
-        "The bug is often between the systems.",
-        "What we build around.",
-        "Building something that crosses systems?"
+        "The bug was between the systems.",
+        "Built from integration work.",
+        "Pratik Rana",
+        "Start with a concrete journey.",
+        "Useful in beta. Clear about what comes next.",
+        "What needs to be true when the click is done?"
       ]
     },
     {
@@ -986,10 +989,11 @@
       "headings": [
         "Give your agents a working browser.",
         "The work between your tools is still work.",
+        "A result your next step can use.",
         "Your agent’s next tool? A working browser.",
-        "Two people. One connected test.",
-        "From the first click to the next release.",
+        "Watch a real check finish.",
         "You built the app. Now use it like your customers do.",
+        "Start with one task. See what comes back.",
         "A few things you might be wondering.",
         "What’s the first task you’d hand over?"
       ]
@@ -1062,10 +1066,12 @@
       "path": "/pricing",
       "url": "https://molar.it/pricing",
       "title": "Pricing & Beta Access | Molar",
-      "description": "Discuss Molar beta access and pricing for your web app journeys, third-party services, and release workflow.",
+      "description": "Choose a public browser check or discuss private Molar beta access for a workflow that crosses your application and services.",
       "headings": [
-        "Start with the journey you can’t afford to break.",
-        "A plan for your application."
+        "Try Molar. Plan your first workflow.",
+        "Check a public page.",
+        "Test your own app.",
+        "Know what happens before you start."
       ]
     },
     {
@@ -1158,7 +1164,7 @@
       "path": "/products/trace",
       "url": "https://molar.it/products/trace",
       "title": "Trace | Molar",
-      "description": "Inspect browser runs through structured evidence, screenshots, and replay oriented artifacts.",
+      "description": "Inspect browser runs through structured evidence, screenshots, and artifacts built for investigation.",
       "headings": [
         "Know why a journey failed.",
         "See each step",
@@ -1187,7 +1193,7 @@
       "path": "/resources",
       "url": "https://molar.it/resources",
       "title": "Resources | Molar",
-      "description": "Practical guides for testing integration heavy web applications and agent built software.",
+      "description": "Practical guides for testing web applications with several connected services and agent built software.",
       "headings": [
         "Learn how to test the whole journey.",
         "Start with the docs",
@@ -1209,7 +1215,7 @@
         "Choose the target",
         "Clear agent access",
         "Protect run evidence",
-        "Credentials stay referenced",
+        "Use the right test account",
         "Security you can discuss clearly",
         "A few things you might be wondering.",
         "Read the control model."
@@ -1238,7 +1244,7 @@
       "headings": [
         "Let the agent verify the app it just changed.",
         "One command after code",
-        "MCP native",
+        "MCP access",
         "You stay in control",
         "Useful output for the next turn",
         "A verification loop with control",
@@ -1314,7 +1320,7 @@
       "path": "/solutions/startups",
       "url": "https://molar.it/solutions/startups",
       "title": "QA for startups shipping quickly | Molar",
-      "description": "Keep integration heavy user journeys testable while a small team ships at speed.",
+      "description": "Keep connected user journeys testable while a small team ships at speed.",
       "headings": [
         "Ship quickly with confidence in the journeys that matter.",
         "Start from the journey",
@@ -1332,12 +1338,12 @@
       "title": "Team workflows | Molar",
       "description": "Give engineers, QA, and coding agents one place to run journeys and inspect what happened.",
       "headings": [
-        "Give every teammate the same answer.",
+        "Test the work that takes two people.",
         "Shared run context",
         "Useful handoffs",
         "Repeatable checks",
-        "A workflow for review",
-        "Keep the decision close",
+        "Follow the invitation into the app",
+        "Check what each role can do",
         "A few things you might be wondering.",
         "Bring your team into the loop."
       ]
@@ -1428,8 +1434,8 @@
     {
       "path": "/verify",
       "url": "https://molar.it/verify",
-      "title": "Verify a URL · Instant Proof · Molar",
-      "description": "Point Molar at a public URL and one observable outcome. Watch a real browser verify it before you sign up.",
+      "title": "Try a Public Browser Check | Molar",
+      "description": "Give Molar a public page and one visible outcome. Try a real browser check and inspect the captured evidence without an account.",
       "headings": [
         "Platform",
         "Products",

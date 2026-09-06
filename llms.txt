@@ -10,18 +10,18 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 ## Company and other pages
 - [Ask Molar — Practical Answers About Browser Testing](https://molar.it/ask) — Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.
 - [Molar Changelog — Product & Platform Updates](https://molar.it/changelog) — Follow updates to Molar browser execution, verification, test environments, and the platform.
-- [About Molar — Test the Whole Customer Journey](https://molar.it/company) — Molar brings browser testing, stateful service clones, and evidence together around the customer journeys that cross your systems.
+- [About Molar — Verify the Whole Customer Journey](https://molar.it/company) — Why Molar is building a verification loop for browser journeys that cross your application and third-party services.
 - [Talk to the Molar Team](https://molar.it/contact) — Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.
 - [An autonomous browser check | Molar](https://molar.it/examples/autonomous-browser-check) — Watch a recorded Molar browser check add and remove an element on a public test page, with each observed result.
 - [A recorded multi-user invitation test | Molar](https://molar.it/examples/team-invitation) — See what Molar verified in a controlled invitation test across two browser sessions and an Email Clone.
-- [Pricing & Beta Access | Molar](https://molar.it/pricing) — Discuss Molar beta access and pricing for your web app journeys, third-party services, and release workflow.
+- [Pricing & Beta Access | Molar](https://molar.it/pricing) — Choose a public browser check or discuss private Molar beta access for a workflow that crosses your application and services.
 - [Privacy Policy | Molar](https://molar.it/privacy) — How Molar Labs collects, uses, and protects personal information on molar.it and the Molar autonomous QA platform.
 - [The Molar QA agent](https://molar.it/qa-agent) — How Molar maps application journeys, runs browser checks, and returns evidence for software teams.
-- [Resources | Molar](https://molar.it/resources) — Practical guides for testing integration heavy web applications and agent built software.
+- [Resources | Molar](https://molar.it/resources) — Practical guides for testing web applications with several connected services and agent built software.
 - [Security and control | Molar](https://molar.it/security) — Understand how Molar scopes browser actions, credentials, artifacts, and agent access.
 - [Terms of Service | Molar](https://molar.it/terms) — Terms of Service for the Molar autonomous QA platform and molar.it website, operated by Molar Labs.
 - [The Molar thesis](https://molar.it/thesis) — Why software teams need a verification loop as AI accelerates how code is shipped.
-- [Verify a URL · Instant Proof · Molar](https://molar.it/verify) — Point Molar at a public URL and one observable outcome. Watch a real browser verify it before you sign up.
+- [Try a Public Browser Check | Molar](https://molar.it/verify) — Give Molar a public page and one visible outcome. Try a real browser check and inspect the captured evidence without an account.
 - [Join the waitlist · Molar](https://molar.it/waitlist) — Join the Molar early access waitlist for autonomous browser QA, stateful clones, and production guard.
 
 ## Guides
@@ -67,7 +67,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 - [Clones | Molar](https://molar.it/products/clones) — Stateful local service doubles for the third parties your application depends on.
 - [Guard | Molar](https://molar.it/products/guard) — Run release and production checks around the journeys your users depend on.
 - [Mender | Molar](https://molar.it/products/mender) — A guarded repair workflow for investigating failures and preparing a proposed change.
-- [Trace | Molar](https://molar.it/products/trace) — Inspect browser runs through structured evidence, screenshots, and replay oriented artifacts.
+- [Trace | Molar](https://molar.it/products/trace) — Inspect browser runs through structured evidence, screenshots, and artifacts built for investigation.
 
 ## Solutions
 - [Solutions for Web App Testing & Browser Automation | Molar](https://molar.it/solutions) — Explore Molar for checkout testing, sign-in, team workflows, preview deployments, browser automation, and web data extraction.
@@ -76,7 +76,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 - [Checkout testing | Molar](https://molar.it/solutions/checkout-testing) — Test checkout, payment callbacks, receipts, and failed payment paths in one browser journey.
 - [Integration testing for real product journeys | Molar](https://molar.it/solutions/integration-testing) — Exercise payment, identity, messaging, and webhook behavior without coupling CI to live vendor side effects.
 - [Preview deployment testing | Molar](https://molar.it/solutions/preview-deployments) — Run critical browser journeys against preview deployments before changes reach production.
-- [QA for startups shipping quickly | Molar](https://molar.it/solutions/startups) — Keep integration heavy user journeys testable while a small team ships at speed.
+- [QA for startups shipping quickly | Molar](https://molar.it/solutions/startups) — Keep connected user journeys testable while a small team ships at speed.
 - [Team workflows | Molar](https://molar.it/solutions/team-workflows) — Give engineers, QA, and coding agents one place to run journeys and inspect what happened.
 - [Web app testing | Molar](https://molar.it/solutions/web-app-testing) — Explore and verify the browser journeys that connect your UI to real application behavior.
 - [Web data extraction | Molar](https://molar.it/solutions/web-data-extraction) — Read structured information from authorized web applications through a real browser.

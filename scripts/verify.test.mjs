@@ -84,6 +84,8 @@ test("renders a final frame before showing the terminal verdict", async (t) => {
   const page = currentPage;
   assert.equal(await page.locator("#instant-proof form").getAttribute("action"), "/verify");
   assert.equal(await page.locator("#instant-proof form").getAttribute("method"), "post");
+  assert.equal(await page.getByLabel("Public URL", { exact: true }).inputValue(), "https://example.com");
+  assert.equal(await page.getByLabel("What should be on the page?").inputValue(), "The page has a heading called Example Domain.");
   let statusCalls = 0;
   let frameRequest;
   await page.route("**/*", async (route) => {
@@ -96,7 +98,7 @@ test("renders a final frame before showing the terminal verdict", async (t) => {
     statusCalls += 1;
     return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(statusBody("completed")) });
   });
-  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Run check" }).click();
   await page.locator(".verdict").waitFor();
   await page.getByAltText("Latest frame from the proof browser").waitFor();
   assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "completed");
@@ -117,7 +119,7 @@ test("shows the first captured frame while status has no frame count", async () 
     }
     return route.fulfill({ json: { proof_id: PROOF_ID, status: "running", result: null, links: {} } });
   });
-  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Run check" }).click();
   await page.waitForFunction(() => document.querySelector(".frame img")?.naturalWidth > 0);
   assert.equal(frameStep, "0");
   assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "running");
@@ -153,7 +155,7 @@ test("shares the real shared-view route when the API returns only a token", asyn
     }
     return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(statusBody("completed")) });
   });
-  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Run check" }).click();
   await page.getByRole("button", { name: "Share proof" }).waitFor();
   await page.getByRole("button", { name: "Share proof" }).click();
   await page.getByRole("button", { name: "Link ready" }).waitFor();
@@ -187,7 +189,7 @@ test("does not claim sharing succeeded when no delivery channel exists", async (
     }
     return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(statusBody("completed")) });
   });
-  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Run check" }).click();
   await page.getByRole("button", { name: "Share proof" }).click();
   await page.getByRole("button", { name: "Retry share" }).waitFor();
 });
@@ -219,7 +221,7 @@ test("keeps a cancelled native share neutral", async (t) => {
     }
     return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(statusBody("completed")) });
   });
-  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Run check" }).click();
   await page.getByRole("button", { name: "Share proof" }).click();
   await page.getByRole("button", { name: "Share proof" }).waitFor();
 });
@@ -238,7 +240,7 @@ test("stops polling when a proof is missing instead of retrying forever", async 
         }))
       : route.continue(),
   );
-  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Run check" }).click();
   await page.getByRole("alert").waitFor();
   await page.waitForTimeout(2200);
   assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "failed");
@@ -262,7 +264,7 @@ test("keeps proxy configuration details out of customer error copy", async (t) =
       }),
     }),
   );
-  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Run check" }).click();
   const alert = page.getByRole("alert");
   await alert.waitFor();
   const copy = await alert.innerText();
@@ -310,7 +312,7 @@ test("shared links load real read-only evidence and scrub the bearer fragment", 
   assert.match(await page.locator("#instant-proof").innerText(), /Shared evidence is available/);
   assert.equal(await page.locator("#instant-proof").getAttribute("class"), "instrument shared-proof");
   assert.equal(await page.getByRole("heading", { name: "Shared proof" }).count(), 1);
-  assert.equal(await page.getByRole("button", { name: /Keep this proof|Run proof/ }).count(), 0);
+  assert.equal(await page.getByRole("button", { name: /Keep this proof|Run check/ }).count(), 0);
   await context.close();
 });
 
@@ -391,7 +393,7 @@ test("shows the service retry window when a new proof is rate limited", async ()
     status: 429, contentType: "application/json",
     body: JSON.stringify({ error: "Too Many Requests", retryAfter: 3600 }),
   }));
-  await page.getByRole("button", { name: "Run proof", exact: true }).click();
+  await page.getByRole("button", { name: "Run check", exact: true }).click();
   await page.getByRole("alert").waitFor();
   assert.match(await page.getByRole("alert").innerText(), /try again in 60 minutes/i);
 });
@@ -404,7 +406,7 @@ test("a missing preview keeps the completed result without denying the browser r
     const body = route.request().method() === "POST" ? proofStart() : statusBody("completed");
     return route.fulfill({ status: route.request().method() === "POST" ? 202 : 200, contentType: "application/json", body: JSON.stringify(body) });
   });
-  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Run check" }).click();
   await page.getByRole("button", { name: "Share proof" }).waitFor();
   assert.match(await page.locator(".frame").innerText(), /preview unavailable/i);
   assert.doesNotMatch(await page.locator(".frame").innerText(), /no browser session|simulated/i);
@@ -439,7 +441,7 @@ test("finds the last captured frame when the final browser steps have no screens
     const body = route.request().method() === "POST" ? proofStart() : statusBody("completed", { result: { pass: true, steps_used: 4, rationale: "The heading was observed." } });
     return route.fulfill({ status: route.request().method() === "POST" ? 202 : 200, contentType: "application/json", body: JSON.stringify(body) });
   });
-  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Run check" }).click();
   await page.getByRole("button", { name: "Share proof" }).waitFor();
   assert.equal(await page.getByAltText("Latest frame from the proof browser").count(), 1);
   assert.deepEqual(requested, [3, 2, 1]);
@@ -453,7 +455,7 @@ test("a verified proof stays completed after it has been claimed", async () => {
     const body = route.request().method() === "POST" ? proofStart() : statusBody("claimed", { result: { pass: true, rationale: "The heading was observed." } });
     return route.fulfill({ status: route.request().method() === "POST" ? 202 : 200, contentType: "application/json", body: JSON.stringify(body) });
   });
-  await page.getByRole("button", { name: "Run proof" }).click();
+  await page.getByRole("button", { name: "Run check" }).click();
   await page.getByRole("button", { name: "Share proof" }).waitFor();
   assert.equal(await page.locator("#instant-proof").getAttribute("data-state"), "completed");
   assert.match(await page.locator(".verdict").innerText(), /Verified/);

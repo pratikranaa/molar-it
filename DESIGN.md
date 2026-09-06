@@ -370,3 +370,12 @@ The autonomous browser example uses the existing paper/sage editorial surface an
 Final proof-section polish: the two recording links are stacked with a 14px gap so each is a clear target. Both QA and platform versions were checked with loaded screenshots at 390, 833 and 1440px. This preserves the distinction between the recorded multi-user scenario and autonomous browser example.
 
 Accessibility follow-through: the actual autonomous homepage run found faint small labels. Corrected the service URL, product-tab subtitle, map labels, closing action, changelog labels, optional form labels and large footer wordmark without changing the palette. Axe color-contrast checks passed all 99 rendered pages at 390 and 1440px (198 renders); active product tabs are checked separately. This is automated contrast evidence, not a claim of complete accessibility conformance. Proof-limit errors now display the service-provided retry window.
+
+
+### First-visit path and evidence (September 6)
+
+The shared header leads to `/verify` with “Try Molar.” Homepage and platform use “Try a browser check” plus “Watch a real run.” The note beneath distinguishes the public check from private-app beta setup. The start section explains URL → visible outcome → captured evidence, with separate links for discussing setup and creating a workspace. The sample pairs `https://example.com` with its actual Example Domain heading.
+
+A native, unedited 43.36-second browser recording sits directly after the QA hero. Its four observations are tied to the captured run, with scope and provenance visible. The platform pairs a workflow output and field mapping, then explains completed/failed/blocked results. Supporting sections use distinct service state, catalog, role, output, source, review and evidence views; explanatory scenes are labeled, actual captured images identify their controlled runs, and preview plans do not pretend to be passed tests.
+
+Company names the founder and professional origin of Molar, using an explicitly illustrative LMS handoff diagram and public professional links. Pricing separates the public read-only check from private app beta setup without invented rates or traction. Hanken remains the primary face; mono is confined to commands and technical values. No new animation runtime is added; existing autoplay, reduced-motion handling, native video controls and responsive navigation remain shared.

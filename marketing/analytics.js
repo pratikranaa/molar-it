@@ -12,6 +12,11 @@
     analytics_storage: granted ? 'granted' : 'denied',
   });
   const CTA_NAMES = new Map([
+    ['trial-nav', 'trial_navigation'],
+    ['trial-hero', 'trial_hero'],
+    ['trial-footer', 'trial_footer'],
+    ['contact-hero', 'contact_hero'],
+    ['contact-footer', 'contact_footer'],
     ['signup-nav', 'signup_navigation'],
     ['signup-hero', 'signup_hero'],
     ['signup-footer', 'signup_footer'],

@@ -12,7 +12,7 @@ function save(path, html) {
 }
 
 const verifyBody = `<div id="root"></div><script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script><script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script><script src="/verify.js?v=${revision('../verify.js')}"></script>`;
-const verifyDocument = document({ title: 'Verify a URL · Instant Proof · Molar', description: 'Point Molar at a public URL and one observable outcome. Watch a real browser verify it before you sign up.', path: '/verify', body: verifyBody });
+const verifyDocument = document({ title: 'Try a Public Browser Check | Molar', description: 'Give Molar a public page and one visible outcome. Try a real browser check and inspect the captured evidence without an account.', path: '/verify', body: verifyBody });
 save('/verify.html', verifyDocument.replace(/<link rel="stylesheet" href="\/marketing\/site\.css[^"]*">/, '').replace('</head>', `<link rel="stylesheet" href="/verify.css?v=${revision('../verify.css')}">${verifyDocument.match(/<link rel="stylesheet" href="\/marketing\/site\.css[^"]*">/)[0]}<link rel="stylesheet" href="/marketing/verify-theme.css?v=${revision('./verify-theme.css')}"></head>`));
 save('/waitlist.html', document({ title: 'Join the waitlist · Molar', description: 'Join the Molar early access waitlist for autonomous browser QA, stateful clones, and production guard.', path: '/waitlist', body: `${waitlistStyles()}${waitlistBody}<script>${waitlistScript}</script>` }));
 console.log('Built /verify and /waitlist with the shared marketing document.');

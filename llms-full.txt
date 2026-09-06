@@ -5,7 +5,7 @@ Generated from rendered, indexable canonical HTML. 97 pages are included.
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
 Description: AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.
-Headings: Your users shouldn’t be your QA team. · Make the hard cases easy to test. · Two people. One connected test. · From the first click to the next release. · Your agent wrote it. Let Molar test it. · Start with the flow you can’t afford to break. · A few things you might be wondering. · Your next test starts with a URL.
+Headings: Your users shouldn’t be your QA team. · Watch a real check finish. · Make the hard cases easy to test. · From the first click to the next release. · Your agent wrote it. Let Molar test it. · Start with one check. See what comes back. · A few things you might be wondering. · Your next test starts with a URL.
 
 ## Ask Molar — Practical Answers About Browser Testing
 URL: https://molar.it/ask
@@ -154,10 +154,10 @@ URL: https://molar.it/changelog
 Description: Follow updates to Molar browser execution, verification, test environments, and the platform.
 Headings: What’s new in Molar. · Checks that follow the whole flow. · The product, together in one workspace. · Put the next update to work.
 
-## About Molar — Test the Whole Customer Journey
+## About Molar — Verify the Whole Customer Journey
 URL: https://molar.it/company
-Description: Molar brings browser testing, stateful service clones, and evidence together around the customer journeys that cross your systems.
-Headings: Software is built in pieces. People experience the whole. · The bug is often between the systems. · What we build around. · Building something that crosses systems?
+Description: Why Molar is building a verification loop for browser journeys that cross your application and third-party services.
+Headings: Software is built in pieces. People experience the whole. · The bug was between the systems. · Built from integration work. · Pratik Rana · Start with a concrete journey. · Useful in beta. Clear about what comes next. · What needs to be true when the click is done?
 
 ## Talk to the Molar Team
 URL: https://molar.it/contact
@@ -337,7 +337,7 @@ Headings: Molar in GitHub Actions · 01 — Overview PR gating with autonomous t
 ## Molar Platform — Browser Execution for Humans & AI Agents
 URL: https://molar.it/platform
 Description: Give your team and AI agents a browser that gets work done. Automate tasks, explore apps, extract data and inspect the result with Molar.
-Headings: Give your agents a working browser. · The work between your tools is still work. · Your agent’s next tool? A working browser. · Two people. One connected test. · From the first click to the next release. · You built the app. Now use it like your customers do. · A few things you might be wondering. · What’s the first task you’d hand over?
+Headings: Give your agents a working browser. · The work between your tools is still work. · A result your next step can use. · Your agent’s next tool? A working browser. · Watch a real check finish. · You built the app. Now use it like your customers do. · Start with one task. See what comes back. · A few things you might be wondering. · What’s the first task you’d hand over?
 
 ## Browser agents | Molar
 URL: https://molar.it/platform/browser-agents
@@ -361,8 +361,8 @@ Headings: See coverage across every role. · Plan by persona · Compare coverage
 
 ## Pricing & Beta Access | Molar
 URL: https://molar.it/pricing
-Description: Discuss Molar beta access and pricing for your web app journeys, third-party services, and release workflow.
-Headings: Start with the journey you can’t afford to break. · A plan for your application.
+Description: Choose a public browser check or discuss private Molar beta access for a workflow that crosses your application and services.
+Headings: Try Molar. Plan your first workflow. · Check a public page. · Test your own app. · Know what happens before you start.
 
 ## Privacy Policy | Molar
 URL: https://molar.it/privacy
@@ -391,7 +391,7 @@ Headings: Turn a failure into a proposed fix. · Start with the evidence · Prop
 
 ## Trace | Molar
 URL: https://molar.it/products/trace
-Description: Inspect browser runs through structured evidence, screenshots, and replay oriented artifacts.
+Description: Inspect browser runs through structured evidence, screenshots, and artifacts built for investigation.
 Headings: Know why a journey failed. · See each step · Evidence stays protected · Ready for agents · Evidence for integration failures · Replay when you need it · A few things you might be wondering. · Inspect a run.
 
 ## The Molar QA agent
@@ -401,13 +401,13 @@ Headings: The Molar QA agent · 01 — Definition What is the Molar QA agent? ·
 
 ## Resources | Molar
 URL: https://molar.it/resources
-Description: Practical guides for testing integration heavy web applications and agent built software.
+Description: Practical guides for testing web applications with several connected services and agent built software.
 Headings: Learn how to test the whole journey. · Start with the docs · Understand integrations · Bring an agent · Suggested reading path · Resources for your workflow · A few things you might be wondering. · Open the documentation.
 
 ## Security and control | Molar
 URL: https://molar.it/security
 Description: Understand how Molar scopes browser actions, credentials, artifacts, and agent access.
-Headings: Automate with confidence and control. · Choose the target · Clear agent access · Protect run evidence · Credentials stay referenced · Security you can discuss clearly · A few things you might be wondering. · Read the control model.
+Headings: Automate with confidence and control. · Choose the target · Clear agent access · Protect run evidence · Use the right test account · Security you can discuss clearly · A few things you might be wondering. · Read the control model.
 
 ## Solutions for Web App Testing & Browser Automation | Molar
 URL: https://molar.it/solutions
@@ -417,7 +417,7 @@ Headings: What do you need the browser to do? · Did the payment become a confir
 ## QA for AI agents | Molar
 URL: https://molar.it/solutions/ai-agents
 Description: Give coding agents a browser verification loop with MCP tools and structured evidence.
-Headings: Let the agent verify the app it just changed. · One command after code · MCP native · You stay in control · Useful output for the next turn · A verification loop with control · A few things you might be wondering. · Give your agent a verifier.
+Headings: Let the agent verify the app it just changed. · One command after code · MCP access · You stay in control · Useful output for the next turn · A verification loop with control · A few things you might be wondering. · Give your agent a verifier.
 
 ## Authentication testing | Molar
 URL: https://molar.it/solutions/authentication-testing
@@ -441,13 +441,13 @@ Headings: Know what a change did before it ships. · Check the change · See the
 
 ## QA for startups shipping quickly | Molar
 URL: https://molar.it/solutions/startups
-Description: Keep integration heavy user journeys testable while a small team ships at speed.
+Description: Keep connected user journeys testable while a small team ships at speed.
 Headings: Ship quickly with confidence in the journeys that matter. · Start from the journey · Skip fragile sandboxes · Grow into release checks · Good first journeys · A focused start · A few things you might be wondering. · Choose a first journey.
 
 ## Team workflows | Molar
 URL: https://molar.it/solutions/team-workflows
 Description: Give engineers, QA, and coding agents one place to run journeys and inspect what happened.
-Headings: Give every teammate the same answer. · Shared run context · Useful handoffs · Repeatable checks · A workflow for review · Keep the decision close · A few things you might be wondering. · Bring your team into the loop.
+Headings: Test the work that takes two people. · Shared run context · Useful handoffs · Repeatable checks · Follow the invitation into the app · Check what each role can do · A few things you might be wondering. · Bring your team into the loop.
 
 ## Web app testing | Molar
 URL: https://molar.it/solutions/web-app-testing
@@ -474,9 +474,9 @@ URL: https://molar.it/thesis
 Description: Why software teams need a verification loop as AI accelerates how code is shipped.
 Headings: The Molar thesis · 01 — The new shape of code The default path is broken. · 02 — Verification is the bottleneck Tests aren't the problem. Trust is. · 03 — A release guard, not a test runner One agent. Three moments. · 04 — Why now The verification loop wins this cycle.
 
-## Verify a URL · Instant Proof · Molar
+## Try a Public Browser Check | Molar
 URL: https://molar.it/verify
-Description: Point Molar at a public URL and one observable outcome. Watch a real browser verify it before you sign up.
+Description: Give Molar a public page and one visible outcome. Try a real browser check and inspect the captured evidence without an account.
 Headings: Platform · Products · Solutions · Resources
 
 ## Molar Guard vs Checkly | Molar

@@ -120,7 +120,7 @@
   function InstantProofInstrument({ onSharedChange }) {
     const [sharedToken, setSharedToken] = useState(consumeSharedToken);
     const [url, setUrl] = useState("https://example.com");
-    const [claim, setClaim] = useState("The page explains what this product does");
+    const [claim, setClaim] = useState("The page has a heading called Example Domain.");
     const [state, setState] = useState("idle");
     const [error, setError] = useState("");
     const [proof, setProof] = useState(null);
@@ -603,7 +603,7 @@
         React.createElement(
           "label",
           { className: "field" },
-          React.createElement("span", null, "Outcome to verify"),
+          React.createElement("span", null, "What should be on the page?"),
           React.createElement("textarea", {
             required: true,
             rows: 3,
@@ -626,8 +626,8 @@
               : state === "running"
                 ? "Browser running"
                 : state === "completed"
-                  ? "Run another proof"
-                  : "Run proof",
+                  ? "Run another check"
+                  : "Run check",
         ),
         React.createElement("p", { className: "policy" }, "Checks public pages without signing in or changing data. Save a result to keep it after this link expires."),
         error ? React.createElement("p", { className: "error", role: "alert" }, error) : null,
@@ -805,13 +805,13 @@
         React.createElement(
           "div",
           { className: "verify-hero" },
-          React.createElement("h1", null, shared ? "A browser check, shared with you." : "Verify any public URL before you sign up."),
+          React.createElement("h1", null, shared ? "A browser check, shared with you." : "See Molar check a public page."),
           React.createElement(
             "p",
             null,
             shared
               ? "See the captured page and result from one browser run. This is a read-only view of the original check."
-              : "Molar launches a real browser, checks one observable claim, and returns replayable evidence. No account required to start.",
+              : "Give Molar a public URL and one visible outcome. It opens a real browser and returns the result and captured evidence. No account needed.",
           ),
         ),
         React.createElement(InstantProofInstrument, { onSharedChange: setShared }),
