@@ -1,7 +1,6 @@
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import vm from 'node:vm';
 import { document } from '../marketing/document.mjs';
 import { esc, icon } from '../marketing/components.mjs';
 
@@ -12,7 +11,6 @@ function nextStep(path) {
   if (path === '/qa-agent') return '<a href="/verify">Try a browser check '+icon('arrow')+'</a>';
   if (path === '/thesis') return '<a href="/qa-agent">Read how the QA agent works '+icon('arrow')+'</a>';
   if (path === '/integrations/github-actions') return '<a href="/contact">Discuss your CI setup '+icon('arrow')+'</a>';
-  if (path.startsWith('/docs/clones/')) return '<a href="/docs/clones">Browse the clone catalog '+icon('arrow')+'</a>';
   return '<a href="/contact">Discuss your integration setup '+icon('arrow')+'</a>';
 }
 
@@ -82,30 +80,4 @@ save('integrations/github-actions.html', articlePage({
   article: wrapTables(sourceArticle('integrations/github-actions.html')), toc: [['overview', 'Run critical browser flows'], ['steps', 'Connect the workflow'], ['checks', 'Read the pull-request result']],
 }));
 
-const cloneContext = { window: {} };
-vm.createContext(cloneContext);
-vm.runInContext(readFileSync(resolve(root, 'clone-routes-data.js'), 'utf8'), cloneContext);
-vm.runInContext(readFileSync(resolve(root, 'clone-docs-data.js'), 'utf8'), cloneContext);
-const ids = cloneContext.window.listCloneDocIds();
-const cloneDoc = (id) => cloneContext.window.getCloneDoc(id);
-const renderValue = (value) => esc(String(value ?? '')).replace(/`([^`]+)`/g, '<code>$1</code>');
-
-function cloneArticle(doc) {
-  const toolGroups = doc.toolGroups?.length ? `<section id="tools"><h2>Available tools</h2><p>${renderValue(doc.toolsSubtitle || '')}</p>${doc.toolGroups.map((group) => `<h3>${esc(group.title)}</h3><table><thead><tr><th>Tool</th><th>Description</th></tr></thead><tbody>${group.tools.map(([name, desc]) => `<tr><td><code>${esc(name)}</code></td><td>${esc(desc)}</td></tr>`).join('')}</tbody></table>`).join('')}</section>` : '';
-  return `<p class="doc-lede">${esc(doc.tagline)}</p><p><code>Clone ID: ${esc(doc.id)}</code></p><section id="start"><h2>Connect and test</h2><table><tbody><tr><th>Best for</th><td>${esc(doc.startHere.bestFor)}</td></tr><tr><th>Connect with</th><td>${renderValue(doc.startHere.connectWith)}</td></tr><tr><th>Known limits</th><td>${esc(doc.startHere.knownLimits)}</td></tr><tr><th>Seeds</th><td>${renderValue(doc.startHere.seeds)}</td></tr></tbody></table></section><section id="covers"><h2>What it covers</h2><ul>${doc.covers.map((item) => `<li>${esc(item)}</li>`).join('')}</ul></section>${toolGroups}<section id="surface"><h2>API connection</h2><p>${renderValue(doc.surface)}</p></section>${doc.notes?.length ? `<section id="notes"><h2>Notes</h2><ul>${doc.notes.map((note) => `<li>${renderValue(note)}</li>`).join('')}</ul></section>` : ''}`;
-}
-
-const cloneLinks = ids.map((id) => [id, cloneDoc(id).title]);
-for (const id of ids) {
-  const doc = cloneDoc(id);
-  const toc = [['start', 'Connect and test'], ['covers', 'Supported workflows'], ...(doc.toolGroups?.length ? [['tools', 'Tools for the integration']] : []), ['surface', 'API connection'], ...(doc.notes?.length ? [['notes', 'Notes']] : [])];
-  const article = wrapTables(cloneArticle(doc).replace('<p class="doc-lede">', '<p>'));
-  save(`docs/clones/${id}.html`, articlePage({ title: `${doc.title} | Molar Docs`, description: doc.tagline, path: `/docs/clones/${id}`, eyebrow: `Clones / ${doc.id}`, intro: doc.summary || doc.tagline, article, toc }));
-}
-
-const coreIds = new Set(['auth', 's3', 'sendgrid', 'stripe', 'twilio']);
-const catalog = `<main id="main"><section class="reading-hero"><div class="wrap"><div class="breadcrumbs"><a href="/">Molar</a>${icon('chevron')}<span>Clone docs</span></div><h1>Stateful service clones for integration tests.</h1><p>Connect a payment, email, SMS, identity, or storage clone, seed its state, and inspect the service behavior your browser flow depends on.</p></div></section><div class="wrap article-layout"><aside class="reading-sidebar"><strong>Clone catalog</strong><nav aria-label="Clone catalog">${cloneLinks.map(([id, title]) => `<a href="/docs/clones/${id}">${esc(title)}</a>`).join('')}</nav></aside><article class="article-body"><p>Choose a clone to see its supported workflows, API connection, seeds, tools, and known limits.</p><section><h2>Core service clones</h2><p>These five clones cover the integration paths teams most often need to test: payments, email, SMS, identity, and object storage.</p>${cloneLinks.filter(([id]) => coreIds.has(id)).map(([id, title]) => `<p><a href="/docs/clones/${id}"><strong>${esc(title)}</strong></a> — ${esc(cloneDoc(id).tagline)}</p>`).join('')}</section><section><h2>Additional vendor API fixtures</h2><p>These fixtures cover selected API calls for additional vendors. Each page identifies its status and the routes it covers.</p>${cloneLinks.filter(([id]) => !coreIds.has(id)).map(([id, title]) => `<p><a href="/docs/clones/${id}"><strong>${esc(title)}</strong></a> — ${esc(cloneDoc(id).tagline)}</p>`).join('')}</section></article></div></main>`;
-save('docs/clones/index.html', document({ title: 'Clone docs | Molar', description: 'Per-clone reference for Molar stateful service clones, seeds, coverage, and tools.', path: '/docs/clones', body: catalog }));
-save('docs/clone.html', document({ title: 'Clone docs | Molar', description: 'Per-clone reference for Molar stateful service clones, seeds, coverage, and tools.', path: '/docs/clone', body: catalog }));
-
-console.log(`Built legacy routes: /qa-agent, /thesis, /integrations/github-actions, /docs/clones plus ${ids.length} clone pages.`);
+console.log('Built legacy routes: /qa-agent, /thesis and /integrations/github-actions. Clone docs redirect to docs.molar.it.');

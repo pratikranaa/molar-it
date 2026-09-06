@@ -77,11 +77,7 @@ The browser reads captured step frames while polling, waits for the final frame 
 
 Local: `python3 -m http.server` does **not** run `/api/instant-proof` — use `npx wrangler pages dev .site-dist` or deploy.
 
-**Clone docs:** per-clone tool tables are generated from `molar-clones` fixtures. After changing fixtures, run:
-
-```bash
-node scripts/build-site.mjs
-```
+**Clone docs:** the canonical reference lives at `https://docs.molar.it/docs/clones`. Catalog entries open its `/vendors/:id` guides. Former marketing `/docs/clones/:id` URLs permanently redirect there; this build no longer creates a second copy of the documentation.
 
 Product pages on the main site live at `/products/cartographer`, `/products/clones`, `/products/guard`, `/products/trace`, and `/products/mender`. Legacy short paths redirect to these pages. Separate historical subdomain deployments are outside this build.
 
@@ -90,7 +86,7 @@ The four core product pages use `marketing/product-pages.mjs` for their shared o
 Run `node --test scripts/product-stories.test.mjs` for causal state checks and `python3 scripts/check-product-stories.py --base http://localhost:8878 --out /tmp/molar-product-stories` for browser interactions and the batched responsive/contrast captures. The first-visit script retains the shared-scene checks for the other 17 supporting pages.
 
 
-**CTAs:** main marketing signup links use `https://app.molar.it/dashboard/signup`; sign-in uses `/dashboard/login`. The rebuilt main site has a dedicated `/waitlist` form and no automatic waitlist popup.
+**CTAs:** “Get started” in the desktop/mobile header and homepage/platform heroes opens dashboard signup. Public-page verification remains a secondary preview, with no-account wording attached only to that action. Main marketing signup links use `https://app.molar.it/dashboard/signup`; sign-in uses `/dashboard/login`. The rebuilt main site has a dedicated `/waitlist` form and no automatic waitlist popup.
 
 ### Waitlist — receive signups for $0
 

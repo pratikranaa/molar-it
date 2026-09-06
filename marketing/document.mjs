@@ -8,6 +8,8 @@ const jsVersion=revision('./site.js');
 const extraStyles=['illustrations.css','application-scene.css','service-lab.css','identity.css','entry-experience.css','company.css','scenario-detail.css','analytics.css','motion.css','motion-feedback.css','product-graphics.css','refinement.css'].map(file=>`<link rel="stylesheet" href="/marketing/${file}?v=${revision('./'+file)}">`).join('');
 const sceneVersion=revision('./application-scene.js');
 export function document({title,description,path='/',body,faqs=[],type='WebPage',noindex=false,image,date,datePublished,dateModified,author,breadcrumbs,section,keywords,styles=[],scripts=[]}={}){
+ // Legacy links in existing articles resolve directly to the canonical documentation.
+ body=body.replace(/href="(?:https:\/\/molar\.it)?\/docs\/clones?(?:\/([a-z0-9-]+))?\/?"/g,(_,vendor)=>`href="https://docs.molar.it/docs/clones${vendor?'/vendors/'+vendor:''}"`);
  const url=absoluteUrl(path);
  const schema=structuredData({title,description,path,type,image,date,datePublished,dateModified,author,breadcrumbs,section,keywords});
  if(faqs.length)schema['@graph'].push({'@type':'FAQPage',mainEntity:faqs.map(({q,a})=>({'@type':'Question',name:q,acceptedAnswer:{'@type':'Answer',text:a}}))});

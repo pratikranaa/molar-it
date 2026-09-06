@@ -20,20 +20,20 @@ with sync_playwright() as p:
         response=page.goto(args.base+route)
         assert response.status==200,(route,response.status)
         header_surface=page.locator('.site-header').evaluate('(el)=>getComputedStyle(el).backgroundColor')
-        assert page.locator('.identity-hero .button-primary').get_attribute('href')=='/verify'
-        assert page.locator('.identity-hero .button-outline').get_attribute('href')=='#checkout-story'
+        assert page.locator('.identity-hero .button-primary').get_attribute('href')=='https://app.molar.it/dashboard/signup'
+        assert page.locator('.identity-hero .button-outline').get_attribute('href')==('#checkout-story' if route=='/' else '#how-it-works')
         assert page.locator('[data-checkout-story]').count()==1
         assert page.locator('.first-step').count()==1
-        assert page.locator('.header-actions .button-primary').get_attribute('href')=='/verify'
-        report['checks'].append(route+' clear trial entry and interactive checkout story')
+        assert page.locator('.header-actions .button-primary').get_attribute('href')=='https://app.molar.it/dashboard/signup'
+        report['checks'].append(route+' signup entry, public-page preview and interactive checkout story')
     page.goto(args.base+'/')
-    page.locator('.identity-hero .button-primary').click()
+    page.locator('.identity-hero .entry-note a').click()
     page.locator('#instant-proof').wait_for()
     assert page.locator('.site-header').evaluate('(el)=>getComputedStyle(el).backgroundColor')==header_surface, 'Public check lost the shared website identity'
     assert page.get_by_label('Public URL',exact=True).input_value()=='https://example.com'
     assert page.get_by_label('What should be on the page?').input_value()=='The page has a heading called Example Domain.'
     assert page.get_by_role('button',name='Run check',exact=True).is_enabled()
-    report['checks'].append('Homepage CTA reaches a usable sample check')
+    report['checks'].append('Homepage secondary preview reaches a usable sample check')
     page.goto(args.base+'/examples/autonomous-browser-check')
     page.locator('[data-recording-start]').click()
     page.wait_for_function("() => document.querySelector('.browser-check-example video').currentTime>1")

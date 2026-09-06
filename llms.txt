@@ -51,7 +51,6 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 
 ## Documentation
 - [Molar Documentation — Setup, CLI, MCP & Testing](https://molar.it/docs) — Get started with Molar browser verification, stateful Clones, release checks, and agent interfaces. Find setup and product documentation.
-- [Clone docs | Molar](https://molar.it/docs/clones) — Per-clone reference for Molar stateful service clones, seeds, coverage, and tools.
 
 ## Integrations
 - [Molar in GitHub Actions](https://molar.it/integrations/github-actions) — Run configured Molar scenarios in GitHub Actions and inspect their results before merging.

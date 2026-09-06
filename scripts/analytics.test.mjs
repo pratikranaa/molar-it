@@ -112,7 +112,7 @@ test('accept loads GA once and sends a sanitized page view and CTA event', async
     assert.equal(pageViews[0][2].page_location, `${baseURL.slice(0, -1)}/`);
     assert.equal(pageViews[0][2].page_referrer, undefined);
 
-    await page.locator('[data-track="trial-nav"]').evaluate(element => {
+    await page.locator('[data-track="signup-nav"]').evaluate(element => {
       element.addEventListener('click', event => event.preventDefault(), { once: true });
       element.click();
     });
@@ -191,7 +191,7 @@ test('revoke stops future events and removes the known GA cookies', async () => 
     const beforeRevoke = requests.length;
     await page.getByRole('button', { name: 'Privacy choices' }).click();
     await page.getByRole('button', { name: 'Decline analytics' }).click();
-    await page.locator('[data-track="trial-nav"]').evaluate(element => {
+    await page.locator('[data-track="signup-nav"]').evaluate(element => {
       element.addEventListener('click', event => event.preventDefault(), { once: true });
       element.click();
     });

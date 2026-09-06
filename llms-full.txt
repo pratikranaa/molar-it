@@ -1,11 +1,11 @@
 # Molar — canonical page map
 
-Generated from rendered, indexable canonical HTML. 98 pages are included.
+Generated from rendered, indexable canonical HTML. 68 pages are included.
 
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
 Description: AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.
-Headings: Your users shouldn’t be your QA team. · Supported by startup programs · Payment succeeded. The customer is still locked out. · Make the hard cases easy to test. · Your app calls more than one service. · Explore it. Test it. Know where it broke. · Write the change. Check it in a browser. · Put the next test into practice. · Check a public page. Inspect the result. · Questions, answered. · Your next test starts with a URL.
+Headings: Your users shouldn’t be your QA team. · Supported by startup programs · Payment succeeded. The customer is still locked out. · Make the hard cases easy to test. · Your app calls more than one service. · Explore it. Test it. Know where it broke. · Write the change. Check it in a browser. · Put the next test into practice. · Check a public page. Inspect the result. · Questions, answered. · Start with the flow your customers rely on.
 
 ## Ask Molar — Practical Answers About Browser Testing
 URL: https://molar.it/ask
@@ -174,156 +174,6 @@ Headings: Let’s plan your first Molar test. · Tell us what you’re building.
 URL: https://molar.it/docs
 Description: Get started with Molar browser verification, stateful Clones, release checks, and agent interfaces. Find setup and product documentation.
 Headings: Set up your first browser check. · Run a check from your terminal. · Find help for each part of Molar. · Try a check before connecting your app.
-
-## Clone docs | Molar
-URL: https://molar.it/docs/clone
-Description: Per-clone reference for Molar stateful service clones, seeds, coverage, and tools.
-Headings: Stateful service clones for integration tests. · Core service clones · Additional vendor API fixtures
-
-## Clone docs | Molar
-URL: https://molar.it/docs/clones
-Description: Per-clone reference for Molar stateful service clones, seeds, coverage, and tools.
-Headings: Stateful service clones for integration tests. · Core service clones · Additional vendor API fixtures
-
-## Apify clone | Molar Docs
-URL: https://molar.it/docs/clones/apify
-Description: Test Apify scraping agents against a stateful clone of actors, runs, datasets, key-value stores, and request queues with real REST error shapes.
-Headings: Apify clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Auth (Clerk) clone | Molar Docs
-URL: https://molar.it/docs/clones/auth
-Description: Test Clerk-style auth flows against a stateful auth clone — sessions, users, and org membership without real identities.
-Headings: Auth (Clerk) clone | Molar Docs · Connect and test · What it covers · Available tools · API connection
-
-## Cal.com clone | Molar Docs
-URL: https://molar.it/docs/clones/calcom
-Description: Test scheduling flows against a Cal.com launch-preview clone — bookings, availability, and calendar hooks without real calendar writes.
-Headings: Cal.com clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Clickup clone | Molar Docs
-URL: https://molar.it/docs/clones/clickup
-Description: Test task automation against a ClickUp clone — lists, tasks, and status changes with ClickUp REST semantics.
-Headings: Clickup clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Discord clone | Molar Docs
-URL: https://molar.it/docs/clones/discord
-Description: Test Discord bot flows against a stateful Discord API clone — guilds, channels, and messages without touching production servers.
-Headings: Discord clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Firecrawl clone | Molar Docs
-URL: https://molar.it/docs/clones/firecrawl
-Description: Test web-scrape agents against a Firecrawl launch-preview clone — crawl jobs and extracted content without hitting the live API quota.
-Headings: Firecrawl clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Github clone | Molar Docs
-URL: https://molar.it/docs/clones/github
-Description: Test GitHub agents against a stateful clone of repos, files, branches, issues, PRs, commits, and workflow runs with real GitHub API error shapes.
-Headings: Github clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Gitlab clone | Molar Docs
-URL: https://molar.it/docs/clones/gitlab
-Description: Test GitLab CI and repo agents against a GitLab API clone — projects, merge requests, and pipelines without touching real remotes.
-Headings: Gitlab clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Google Workspace clone | Molar Docs
-URL: https://molar.it/docs/clones/google-workspace
-Description: Test Google Workspace automations against a launch-preview clone — Gmail, Calendar, and Drive-shaped APIs in isolated sessions.
-Headings: Google Workspace clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Hubspot clone | Molar Docs
-URL: https://molar.it/docs/clones/hubspot
-Description: Test CRM and marketing automations against a HubSpot architecture-preview clone — contacts, deals, and pipeline state in isolation.
-Headings: Hubspot clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Jira clone | Molar Docs
-URL: https://molar.it/docs/clones/jira
-Description: Test Jira automation agents against a stateful Atlassian clone — issues, transitions, and sprint fields with Jira REST error shapes.
-Headings: Jira clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Linear clone | Molar Docs
-URL: https://molar.it/docs/clones/linear
-Description: Test issue-tracking agents against a stateful Linear clone — issues, cycles, labels, and team workflows with REST-shaped errors.
-Headings: Linear clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## OwnerRez clone | Molar Docs
-URL: https://molar.it/docs/clones/ownerrez
-Description: Test vacation-rental ops against an OwnerRez architecture-preview clone — bookings, guests, and property state.
-Headings: OwnerRez clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## PriceLabs clone | Molar Docs
-URL: https://molar.it/docs/clones/pricelabs
-Description: Test dynamic-pricing integrations against a PriceLabs architecture-preview clone — listings and rate recommendations.
-Headings: PriceLabs clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Ramp clone | Molar Docs
-URL: https://molar.it/docs/clones/ramp
-Description: Test spend and card workflows against a Ramp architecture-preview clone — transactions and limits without real money movement.
-Headings: Ramp clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## S3 clone | Molar Docs
-URL: https://molar.it/docs/clones/s3
-Description: Test upload and asset flows against an S3 shadow mirror — same SDK calls, no real bucket writes.
-Headings: S3 clone | Molar Docs · Connect and test · What it covers · Available tools · API connection
-
-## SendGrid clone | Molar Docs
-URL: https://molar.it/docs/clones/sendgrid
-Description: Test transactional email flows against a stateful SendGrid clone — capture messages without delivering to real inboxes.
-Headings: SendGrid clone | Molar Docs · Connect and test · What it covers · Available tools · API connection
-
-## Sentry clone | Molar Docs
-URL: https://molar.it/docs/clones/sentry
-Description: Test Sentry triage agents against a stateful clone of organizations, projects, issues, latest events, stack traces, and releases with real REST errors.
-Headings: Sentry clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Slack clone | Molar Docs
-URL: https://molar.it/docs/clones/slack
-Description: Test Slack bots and workflow automations against a stateful Slack API clone — channels, messages, and reactions without posting to real workspaces.
-Headings: Slack clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Stripe clone | Molar Docs
-URL: https://molar.it/docs/clones/stripe
-Description: Test billing and checkout agents against a stateful Stripe clone with real error shapes — no test-mode gaps, no real charges.
-Headings: Stripe clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Supabase clone | Molar Docs
-URL: https://molar.it/docs/clones/supabase
-Description: Test Supabase management workflows against a fixture clone — projects, branches, secrets, and migrations without a live project.
-Headings: Supabase clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Tavily clone | Molar Docs
-URL: https://molar.it/docs/clones/tavily
-Description: Test research agents against a Tavily architecture-preview clone — search queries and citations without live search quota.
-Headings: Tavily clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Telegram clone | Molar Docs
-URL: https://molar.it/docs/clones/telegram
-Description: Test Telegram bot flows against a Bot API clone — messages, updates, and chat state without contacting real users.
-Headings: Telegram clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Twilio clone | Molar Docs
-URL: https://molar.it/docs/clones/twilio
-Description: Test SMS and voice workflows against a stateful Twilio clone with real REST error shapes.
-Headings: Twilio clone | Molar Docs · Connect and test · What it covers · Available tools · API connection
-
-## Typeform clone | Molar Docs
-URL: https://molar.it/docs/clones/typeform
-Description: Test form and survey agents against a Typeform clone — forms, responses, and webhooks without production form traffic.
-Headings: Typeform clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Unipile clone | Molar Docs
-URL: https://molar.it/docs/clones/unipile
-Description: Test unified inbox agents against a Unipile architecture-preview clone — email, calendar, and messaging APIs in one session.
-Headings: Unipile clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Webflow clone | Molar Docs
-URL: https://molar.it/docs/clones/webflow
-Description: Test Webflow content agents against an Architecture Preview with recording-backed Data API v2 routes and focused CMS overlays.
-Headings: Webflow clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
-
-## Woocommerce clone | Molar Docs
-URL: https://molar.it/docs/clones/woocommerce
-Description: Test WooCommerce store flows against a REST clone — orders, products, and customers without a live WordPress store.
-Headings: Woocommerce clone | Molar Docs · Connect and test · What it covers · Available tools · API connection · Notes
 
 ## An autonomous browser check | Molar
 URL: https://molar.it/examples/autonomous-browser-check

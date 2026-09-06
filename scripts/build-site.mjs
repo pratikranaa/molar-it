@@ -15,7 +15,7 @@ if(process.platform==='darwin' && cpus()[0]?.model.includes('Apple'))socialArgs.
 const social=spawnSync(socialArgs[0],socialArgs.slice(1),{cwd:root,stdio:'inherit'});
 if(social.status!==0)process.exit(social.status||1);
 const htmlFiles=[];
-for(const dir of ['','products','solutions','platform','blog','vs','integrations','docs','docs/clones','examples']){
+for(const dir of ['','products','solutions','platform','blog','vs','integrations','docs','examples']){
   for(const item of readdirSync(join(root,dir),{withFileTypes:true})){
     if(item.isFile() && item.name.endsWith('.html')){
       const path=join(dir,item.name),html=readFileSync(join(root,path),'utf8');

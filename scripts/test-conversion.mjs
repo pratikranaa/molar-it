@@ -60,7 +60,7 @@ try{
   assert.equal(await visible(),5);
   await page.getByRole('searchbox').fill('stripe');
   assert.equal(await visible(),1);
-  await page.getByRole('button',{name:'Fixture packs 23',exact:true}).click();
+  await page.getByRole('button',{name:'API clones 23',exact:true}).click();
   assert.equal(await visible(),0);
   assert.ok(await page.getByRole('heading',{name:'No matching services.'}).isVisible());
   await page.getByRole('button',{name:'Clear filters',exact:true}).click();
@@ -70,8 +70,8 @@ try{
   assert.equal(await visible(),1);
   assert.match(await page.locator('[data-catalog-entry]:visible').textContent(),/Unipile/);
   await page.locator('[data-catalog-entry]:visible a').click();
-  await page.waitForURL('**/docs/clones/unipile');
-  assert.equal(await page.locator('h1').count(),1);
+  await page.waitForURL('https://docs.molar.it/docs/clones/vendors/unipile');
+  assert.ok((await page.locator('h1').first().textContent()).includes('Unipile'));
   pass('homepage catalog path, keyboard filtering, empty recovery, operation search and service docs work');
   for(const width of [390,768,1440]){
     await page.setViewportSize({width,height:900});

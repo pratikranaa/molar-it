@@ -2,7 +2,7 @@ import {APP, icon} from './components.mjs';
 import {productGraphic} from './product-graphics.mjs';
 
 export function entryNote() {
-  return `<p class="entry-note">No account needed. Checks public pages without signing in or changing data. <a href="/pricing">Bringing a private app? See beta setup ${icon('arrow')}</a></p>`;
+  return `<p class="entry-note">Create your workspace to get started. <a href="/verify">Or check a public page—no account needed ${icon('arrow')}</a></p>`;
 }
 
 export function firstStep(platform=false) {
