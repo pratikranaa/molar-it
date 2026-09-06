@@ -156,7 +156,7 @@ ${[...grouped].map(([group, entries]) => `## ${group}\n${entries.map(pageLink).j
 
 ## External properties
 - [Documentation](https://docs.molar.it) — full product documentation on its own canonical host.
-- [Create an account](https://app.molar.it/dashboard/signup) — product sign-up.
+- [Create an account](https://app.molar.it/signup) — product sign-up.
 - [RSS feed](${SITE_URL}/feed.xml) — published guides.
 - [Full page map](${SITE_URL}/llms-full.txt) — titles, descriptions, and headings for every canonical page.
 

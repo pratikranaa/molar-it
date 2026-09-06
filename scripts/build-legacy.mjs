@@ -35,7 +35,7 @@ function sourceArticle(file) {
     .replace(/href="(?:\.\/|)index\.html"/g, 'href="/"')
     .replace(/href="(?:\.\/|)qa-agent\.html"/g, 'href="/qa-agent"')
     .replace(/href="(?:\.\/|)thesis\.html"/g, 'href="/thesis"')
-    .replace(/href="https:\/\/app\.molar\.it"/g, 'href="https://app.molar.it/dashboard/signup"')
+    .replace(/href="https:\/\/app\.molar\.it"/g, 'href="https://app.molar.it/signup"')
     .replace(/The Molar QA agent writes tests and guards production\./g, 'Molar explores your app, runs browser checks, and returns evidence your team can inspect.')
     .replace(/replaces manual test authoring and brittle Playwright maintenance/g, 'helps reduce manual test authoring and brittle Playwright maintenance')
     .replace(/maintains a living suite of critical-path end-to-end tests/g, 'turns important user journeys into repeatable end-to-end checks')

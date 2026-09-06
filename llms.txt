@@ -91,7 +91,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 
 ## External properties
 - [Documentation](https://docs.molar.it) — full product documentation on its own canonical host.
-- [Create an account](https://app.molar.it/dashboard/signup) — product sign-up.
+- [Create an account](https://app.molar.it/signup) — product sign-up.
 - [RSS feed](https://molar.it/feed.xml) — published guides.
 - [Full page map](https://molar.it/llms-full.txt) — titles, descriptions, and headings for every canonical page.
 

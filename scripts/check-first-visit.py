@@ -20,11 +20,11 @@ with sync_playwright() as p:
         response=page.goto(args.base+route)
         assert response.status==200,(route,response.status)
         header_surface=page.locator('.site-header').evaluate('(el)=>getComputedStyle(el).backgroundColor')
-        assert page.locator('.identity-hero .button-primary').get_attribute('href')=='https://app.molar.it/dashboard/signup'
+        assert page.locator('.identity-hero .button-primary').get_attribute('href')=='https://app.molar.it/signup'
         assert page.locator('.identity-hero .button-outline').get_attribute('href')==('#checkout-story' if route=='/' else '#how-it-works')
         assert page.locator('[data-checkout-story]').count()==1
         assert page.locator('.first-step').count()==1
-        assert page.locator('.header-actions .button-primary').get_attribute('href')=='https://app.molar.it/dashboard/signup'
+        assert page.locator('.header-actions .button-primary').get_attribute('href')=='https://app.molar.it/signup'
         report['checks'].append(route+' signup entry, public-page preview and interactive checkout story')
     page.goto(args.base+'/')
     page.locator('.identity-hero .entry-note a').click()

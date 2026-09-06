@@ -86,7 +86,7 @@ The four core product pages use `marketing/product-pages.mjs` for their shared o
 Run `node --test scripts/product-stories.test.mjs` for causal state checks and `python3 scripts/check-product-stories.py --base http://localhost:8878 --out /tmp/molar-product-stories` for browser interactions and the batched responsive/contrast captures. The first-visit script retains the shared-scene checks for the other 17 supporting pages.
 
 
-**CTAs:** “Get started” in the desktop/mobile header and homepage/platform heroes opens dashboard signup. Public-page verification remains a secondary preview, with no-account wording attached only to that action. Main marketing signup links use `https://app.molar.it/dashboard/signup`; sign-in uses `/dashboard/login`. The rebuilt main site has a dedicated `/waitlist` form and no automatic waitlist popup.
+**CTAs:** “Get started” in the desktop/mobile header and homepage/platform heroes opens dashboard signup. Public-page verification remains a secondary preview, with no-account wording attached only to that action. Main marketing signup links use `https://app.molar.it/signup`; sign-in uses `/login`. The rebuilt main site has a dedicated `/waitlist` form and no automatic waitlist popup.
 
 ### Waitlist — receive signups for $0
 
