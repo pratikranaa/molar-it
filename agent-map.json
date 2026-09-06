@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-09-06T18:52:56.311Z",
+  "generatedAt": "2026-09-06T19:12:00.763Z",
   "pageCount": 97,
   "pages": [
     {
@@ -1138,8 +1138,10 @@
       "headings": [
         "Know which check failed before you ship.",
         "Run the checks your release depends on.",
+        "See why a change selects a test.",
         "Add a check to each stage of your release.",
-        "Know what the check actually proved.",
+        "Follow the same check after deployment.",
+        "A failed checkout. A fix you can review.",
         "Questions, answered.",
         "Choose the check your next release needs."
       ]

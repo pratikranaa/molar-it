@@ -135,3 +135,52 @@ if (typeof document !== 'undefined') {
     render();
   }
 }
+
+
+// Authored examples match packages/affected/src/select.ts. These never run tests.
+export const GUARD_SELECTION_CASES = [
+  {id:'mapped', label:'Billing change', file:'src/billing/access.ts', mapping:'Billing access → checkout', selected:['checkout'], title:'1 of 3 scenarios selected', detail:'The dependency map connects this file to checkout. Sign-in and invitations have no matching dependency in this example.', fallback:false},
+  {id:'scenario', label:'Scenario edit', file:'scenarios/invite-member.molar.md', mapping:'Scenario file → invite-member', selected:['invite-member'], title:'The edited scenario is selected', detail:'Changing a scenario definition selects that scenario directly, even without a matching source-file dependency.', fallback:false},
+  {id:'large', label:'Large unmapped change', file:'11 changed files · no mapped dependencies', mapping:'No graph match → full-suite fallback', selected:['checkout','signin-and-dashboard','invite-member'], title:'Run the full configured suite', detail:'This change has no graph matches and exceeds the file-count threshold. Guard selects all three configured scenarios. They still need to execute.', fallback:true},
+  {id:'unmapped', label:'New unmapped file', file:'src/billing/new-rule.ts · 18 changed lines', mapping:'No graph match · no automatic fallback', selected:[], title:'No tests selected. Review the scope.', detail:'A small unmapped change can return an empty selection. Add the missing dependency or explicitly run the relevant tests before relying on the check.', fallback:false}
+];
+export const GUARD_SCENARIOS = ['checkout','signin-and-dashboard','invite-member'];
+export function guardSelectionMarkup(example) {
+  return `<div class="pgd-selection-diagram"><div class="pgd-change-file"><span>Changed in this pull request</span><code>${example.file}</code><div class="pgd-map-label">${example.mapping}</div></div><svg class="pgd-connector" viewBox="0 0 60 160" fill="none" aria-hidden="true"><path d="M0 80H20Q30 80 30 70V30Q30 20 40 20H60M30 80H60M30 80V130Q30 140 40 140H60" stroke="currentColor" stroke-width="1.5"/></svg><ul class="pgd-selection-list">${GUARD_SCENARIOS.map(name=>`<li class="${example.selected.includes(name)?'is-selected':''}"><code>${name}</code><span>${example.selected.includes(name)?'Selected':'Not selected'}</span></li>`).join('')}</ul></div><div class="pgd-selection-summary"><h3>${example.title}</h3><p>${example.detail}</p><span>Selection only · no execution result</span></div>`;
+}
+
+export const GUARD_MONITOR_RUNS = [
+  {scenario:'checkout', time:'09:00', status:'Passed', expected:'Pro access after test payment', observed:'Pro plan visible; project creation enabled.', next:'Keep this result as a reference for later runs.'},
+  {scenario:'checkout', time:'09:15', status:'Failed', expected:'Pro access after test payment', observed:'Payment completed. Account still shows Free.', next:'Inspect the callback and account-access assertion in the failed run.'},
+  {scenario:'checkout', time:'09:30', status:'Queued', next:'Wait for the worker to start. This slot has no browser result yet.'},
+  {scenario:'signin-and-dashboard', time:'09:00', status:'Passed', expected:'Workspace visible after sign-in', observed:'The dedicated test account opened its workspace.', next:'Keep the result with the target URL and run time.'},
+  {scenario:'signin-and-dashboard', time:'09:15', status:'Passed', expected:'Workspace visible after sign-in', observed:'The dedicated test account opened its workspace.', next:'This result covers sign-in; the separate checkout failure remains open.'},
+  {scenario:'signin-and-dashboard', time:'09:30', status:'Queued', next:'No assertion has executed for this slot. Inspect the run when it starts.'},
+  {scenario:'invite-member', time:'09:00', status:'Passed', expected:'Invited member can open the workspace', observed:'Invitation accepted with the expected member role.', next:'Keep the invitation and membership assertions with this run.'},
+  {scenario:'invite-member', time:'09:15', status:'Not run', next:'Test credentials were unavailable. Restore the configured test identity before running again.'},
+  {scenario:'invite-member', time:'09:30', status:'Paused', next:'This example schedule is paused. Resume it after reviewing the test-account setup.'}
+];
+export function guardMonitorMarkup(run) {
+  return `<div class="pgd-monitor-result-head"><div><span>${run.time} UTC · northstar.test</span><h3>${run.scenario}</h3></div><strong class="pgd-history-status is-${run.status.toLowerCase().replace(' ','-')}">${run.status}</strong></div>${run.expected?`<dl class="pgd-monitor-assertion"><div><dt>Expected</dt><dd>${run.expected}</dd></div><div><dt>Observed</dt><dd>${run.observed}</dd></div></dl>`:'<p class="pgd-no-result">No assertion result. No captured browser steps for this slot.</p>'}<p class="pgd-monitor-next">${run.next}</p>`;
+}
+if (typeof document !== 'undefined') {
+  function animatePanel(panel) {
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) panel.animate([{opacity:.5,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:180,easing:'ease-out'});
+  }
+  const selection = document.querySelector('[data-guard-selection]');
+  if (selection) selection.querySelectorAll('[data-selection-case]').forEach(button=>button.addEventListener('click',()=>{
+    const example = GUARD_SELECTION_CASES.find(item=>item.id===button.dataset.selectionCase);
+    selection.querySelectorAll('[data-selection-case]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+    const panel=selection.querySelector('[data-selection-panel]');
+    panel.innerHTML=guardSelectionMarkup(example);
+    selection.dataset.selectedCase=example.id;
+    animatePanel(panel);
+  }));
+  const monitor = document.querySelector('[data-guard-monitor]');
+  if (monitor) monitor.querySelectorAll('[data-monitor-run]').forEach(button=>button.addEventListener('click',()=>{
+    monitor.querySelectorAll('[data-monitor-run]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+    const panel=monitor.querySelector('[data-monitor-panel]');
+    panel.innerHTML=guardMonitorMarkup(GUARD_MONITOR_RUNS[Number(button.dataset.monitorRun)]);
+    animatePanel(panel);
+  }));
+}

@@ -382,7 +382,7 @@ Headings: Test the services behind your app. · See what happens after a payment
 ## Guard | Molar
 URL: https://molar.it/products/guard
 Description: Run configured signup, checkout, and account-access scenarios against a preview, a release, or a scheduled environment. Give reviewers the failed assertion and the captured steps behind it.
-Headings: Know which check failed before you ship. · Run the checks your release depends on. · Add a check to each stage of your release. · Know what the check actually proved. · Questions, answered. · Choose the check your next release needs.
+Headings: Know which check failed before you ship. · Run the checks your release depends on. · See why a change selects a test. · Add a check to each stage of your release. · Follow the same check after deployment. · A failed checkout. A fix you can review. · Questions, answered. · Choose the check your next release needs.
 
 ## Mender | Molar
 URL: https://molar.it/products/mender
