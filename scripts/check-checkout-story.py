@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Exercise the authored checkout story without calling a product or payment API."""
-import argparse, json
+import argparse, json, re
 from pathlib import Path
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 
 parser=argparse.ArgumentParser()
 parser.add_argument('--base',default='http://localhost:8878')
@@ -74,15 +74,15 @@ with sync_playwright() as p:
     page.goto(args.base+'/')
     scene=page.locator('[data-checkout-story]')
     scene.scroll_into_view_if_needed()
-    page.wait_for_function("document.querySelector('[data-checkout-story]').classList.contains('is-playing')")
-    page.wait_for_function("document.querySelector('[data-checkout-story]').dataset.step==='1'")
+    expect(scene).to_have_class(re.compile(r'.*is-playing.*'))
+    expect(scene).to_have_attribute('data-step','1')
     scene.locator('[data-story-step="2"]').click()
     page.wait_for_timeout(3100)
     assert scene.get_attribute('data-step')=='2'
     assert 'is-playing' not in scene.get_attribute('class')
     scene.locator('[data-story-play]').click()
     page.evaluate("document.documentElement.style.scrollBehavior='auto';window.scrollTo(0,0)")
-    page.wait_for_function("!document.querySelector('[data-checkout-story]').classList.contains('is-playing')")
+    expect(scene).not_to_have_class(re.compile(r'.*is-playing.*'))
     stopped=scene.get_attribute('data-step')
     scene.scroll_into_view_if_needed()
     page.wait_for_timeout(3100)
