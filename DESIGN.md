@@ -464,3 +464,7 @@ The desktop/mobile header and homepage/platform primary actions say “Get start
 The homepage says “Test those calls with service clones,” with the original eight-provider preview and complete 28-service inventory. The full catalog retains all 28 entries and explains fixture coverage where customers inspect individual APIs. Startup-program logos remain, with no credits headline.
 
 Clone setup links open the canonical guides at `docs.molar.it/docs/clones/vendors/:id`. Old marketing docs permanently redirect there, and duplicate pages are removed from the marketing sitemap and agent index. API clones remain part of the full service clone inventory; detailed coverage explains their predefined responses without claiming stateful behavior.
+
+### Hero proportions — September 7, 2026
+
+The entry heroes use a desktop display scale of `clamp(52px, 4.6vw, 68px)` and a 20px/1.5 supporting paragraph with a 490px measure. The headline stops growing with the bounded page container, keeping the QA statement on two lines across 1024–1920px. The columns use `1.3fr 1fr` with a 48px gap (30px on compact desktops); the headline is vertically centered beside the complete action stack. Below 900px the existing left-aligned stacked composition and mobile sizes remain. The command stays with the signup and preview actions.
