@@ -19,6 +19,7 @@ with sync_playwright() as p:
     for route in ('/','/platform'):
         response=page.goto(args.base+route)
         assert response.status==200,(route,response.status)
+        header_surface=page.locator('.site-header').evaluate('(el)=>getComputedStyle(el).backgroundColor')
         assert page.locator('.identity-hero .button-primary').get_attribute('href')=='/verify'
         assert page.locator('.identity-hero .button-outline').get_attribute('href')=='#recorded-run'
         assert page.locator('#recorded-run video').count()==1
@@ -28,6 +29,7 @@ with sync_playwright() as p:
     page.goto(args.base+'/')
     page.locator('.identity-hero .button-primary').click()
     page.locator('#instant-proof').wait_for()
+    assert page.locator('.site-header').evaluate('(el)=>getComputedStyle(el).backgroundColor')==header_surface, 'Public check lost the shared website identity'
     assert page.get_by_label('Public URL',exact=True).input_value()=='https://example.com'
     assert page.get_by_label('What should be on the page?').input_value()=='The page has a heading called Example Domain.'
     assert page.get_by_role('button',name='Run check',exact=True).is_enabled()

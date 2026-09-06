@@ -1,19 +1,19 @@
 /* Instant Proof inherits the shared marketing tokens while retaining its instrument layout. */
-.verify-shell{--bg:var(--paper);--font:Hanken,ui-sans-serif,sans-serif;--display:Hanken,ui-sans-serif,sans-serif;--ink-2:#5a5855;--ink-3:#676562;--card:#f7f7f7;--signal:#b45231;--jade:#4e4d4a;--jade-soft:#e8e8e7;--fail:#a23a30;--fail-soft:#f8e9e3;--line:#cdcccb;background:var(--paper)}
+.verify-shell{--bg:var(--paper);--font:Hanken,ui-sans-serif,sans-serif;--display:Hanken,ui-sans-serif,sans-serif;--ink-2:#4d5e45;--ink-3:#53664a;--card:#f7f8f2;--signal:#a43b24;--jade:#2e613c;--jade-soft:#e0ecd5;--fail:#a23a30;--fail-soft:#f8e9e3;--line:#b8c8ab;background:var(--paper)}
 .verify-shell .verify-main{width:min(1280px,calc(100% - 96px));padding:70px 0 90px}
 .verify-shell .verify-hero{max-width:740px;margin-bottom:45px}
 .verify-shell .verify-hero h1{font-family:var(--display);font-size:clamp(44px,5.5vw,74px);line-height:1.06;letter-spacing:-.035em;font-weight:600}
 .verify-shell .verify-hero p{max-width:58ch;font-size:18px;line-height:1.6;margin-top:22px}
-.verify-shell .instrument{border:1px solid #c7c6c5;border-radius:12px;box-shadow:none;background:#f0f0f0;overflow:hidden}
-.verify-shell .instrument-head{background:#2a2927;color:#dad9d8;border-bottom:1px solid #565451}
+.verify-shell .instrument{border:1px solid #c0cdb5;border-radius:12px;box-shadow:none;background:#e9efdf;overflow:hidden}
+.verify-shell .instrument-head{background:#202f25;color:#d6e1cc;border-bottom:1px solid #506349}
 .verify-shell .instrument-head b{color:#f5b298}
-.verify-shell .panel,.verify-shell .evidence{background:#f0f0f0}
+.verify-shell .panel,.verify-shell .evidence{background:#e9efdf}
 .verify-shell .panel h2{font-family:var(--display);font-size:25px;font-weight:500}
-.verify-shell .field input,.verify-shell .field textarea{border-radius:5px;border-color:#bcbbb8;background:#fcfcfb;font-family:var(--font)}
+.verify-shell .field input,.verify-shell .field textarea{border-radius:5px;border-color:#9fac91;background:#f7f8f2;font-family:var(--font)}
 .verify-shell .field input:focus,.verify-shell .field textarea:focus{outline:3px solid var(--accent);outline-offset:3px}
-.verify-shell .primary{border-radius:6px;background:var(--accent);color:#2a2927;min-height:48px;font-weight:600}
+.verify-shell .primary{border-radius:6px;background:var(--accent);color:#1f291d;min-height:48px;font-weight:600}
 .verify-shell .primary:hover{background:var(--accent-hover)}
-.verify-shell .stage{background:#e5e4e3}.verify-shell .browser{border-radius:7px}.verify-shell .evidence{border-left:1px solid #cecdcc}.verify-shell .phases span,.verify-shell .verdict{border-radius:5px}
+.verify-shell .stage{background:#dce5d2}.verify-shell .browser{border-radius:7px}.verify-shell .evidence{border-left:1px solid #b8c8ab}.verify-shell .phases span,.verify-shell .verdict{border-radius:5px}
 .verify-shell .instrument.shared-proof{grid-template-columns:minmax(0,1.8fr) minmax(260px,1fr);gap:0}
 .verify-shell .shared-proof .stage{border:0;padding:24px}
 .verify-shell .shared-proof .evidence{padding:24px}
@@ -26,5 +26,5 @@
 .verify-shell .shared-proof .verdict small{display:block;color:var(--ink-2);font-size:14px;line-height:1.6;margin-bottom:18px}
 .verify-shell .verdict code{display:block;overflow-wrap:anywhere}
 @media(max-width:960px){.verify-shell .verify-main{width:calc(100% - 64px)}.verify-shell .verify-hero h1{font-size:57px}}
-@media(max-width:960px){.verify-shell .instrument.shared-proof{grid-template-columns:1fr}.verify-shell .shared-proof .evidence{border-left:0;border-top:1px solid #cecdcc}}
+@media(max-width:960px){.verify-shell .instrument.shared-proof{grid-template-columns:1fr}.verify-shell .shared-proof .evidence{border-left:0;border-top:1px solid #b8c8ab}}
 @media(max-width:640px){.verify-shell .verify-main{width:calc(100% - 40px);padding:42px 0 60px}.verify-shell .verify-hero{margin-bottom:30px}.verify-shell .verify-hero h1{font-size:45px}.verify-shell .verify-hero p{font-size:16px}.verify-shell .field input,.verify-shell .field textarea{font-size:16px}}
