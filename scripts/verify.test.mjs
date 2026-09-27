@@ -87,6 +87,23 @@ function statusBody(status, extra = {}) {
   };
 }
 
+test("an incomplete terminal check explains the missing verdict without claiming a failed assertion", async () => {
+  const page = currentPage;
+  await page.route("**/api/instant-proof**", async route => {
+    if (route.request().method() === "POST") return route.fulfill({ json: proofStart(), status: 202 });
+    if (route.request().url().includes("/frame")) return route.fulfill({ status: 404 });
+    return route.fulfill({ json: statusBody("failed", { result: { trace_id: "trace-incomplete", rationale: "   " } }) });
+  });
+  await page.getByRole("button", { name: "Run check" }).click();
+  await page.locator(".verdict").waitFor();
+  const message = await page.locator(".verdict").innerText();
+  assert.match(message, /Incomplete/);
+  assert.match(message, /ended without a verified result/);
+  assert.match(message, /Try again/);
+  assert.match(message, /trace-incomplete/);
+  assert.doesNotMatch(message, /No explanation|Not verified|Verified/);
+});
+
 test("renders a final frame before showing the terminal verdict", async (t) => {
   const page = currentPage;
   assert.equal(await page.locator("#instant-proof form").getAttribute("action"), "/verify");

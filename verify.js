@@ -634,6 +634,13 @@
         : terminal && result?.result?.pass === false
           ? "Not verified"
           : "Incomplete";
+    const explanation = typeof result?.result?.rationale === "string" && result.result.rationale.trim()
+      ? result.result.rationale
+      : result?.result?.pass === true
+        ? "The check verified the requested outcome."
+        : result?.result?.pass === false
+          ? "The check did not verify the requested outcome. Review the trace, then try again."
+          : "The check ended without a verified result. Try again; if it keeps happening, share the trace ID with support.";
 
     return React.createElement(
       "section",
@@ -775,7 +782,7 @@
               React.createElement(
                 "p",
                 null,
-                result?.result?.rationale || "No explanation was returned for this result.",
+                explanation,
               ),
               result?.result?.trace_id
                 ? React.createElement("code", null, `trace / ${result.result.trace_id}`)
