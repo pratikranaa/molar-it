@@ -223,7 +223,7 @@ Headings: Test a public page. Then bring your app. · Check a public page. · Te
 ## Privacy Policy | Molar
 URL: https://molar.it/privacy
 Description: How Molar Labs collects, uses, and protects personal information on molar.it and the Molar autonomous QA platform.
-Headings: Privacy Policy · Who this applies to · Information we collect · How we use information · Who we share with · How long we keep data · Your choices and rights · Website analytics and your choices · Questions and early-access requests · How we protect data · International transfers · Children’s privacy · Updates to this policy · Questions
+Headings: Privacy Policy · Who this applies to · Information we collect · How we use information · Who we share with · How long we keep data · Your choices and rights · Website analytics and your choices · Product analytics in app.molar.it · Questions and early-access requests · How we protect data · International transfers · Children’s privacy · Updates to this policy · Questions
 
 ## Cartographer | Molar
 URL: https://molar.it/products/cartographer
