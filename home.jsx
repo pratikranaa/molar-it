@@ -2995,8 +2995,7 @@ function SiteFooter() {
               without real cards, emails, or customers in tests.
             </p>
             <p className="site-footer-status">
-              <span className="site-footer-status-dot" aria-hidden="true" />
-              All systems operational
+              <a href="https://status.molar.it">Status</a>
             </p>
           </div>
 

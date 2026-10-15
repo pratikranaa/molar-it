@@ -44,8 +44,7 @@ function SiteFooter() {
               without real cards, emails, or customers in tests.
             </p>
             <p className="site-footer-status">
-              <span className="site-footer-status-dot" aria-hidden="true" />
-              All systems operational
+              <a href="https://status.molar.it">Status</a>
             </p>
           </div>
 
@@ -93,6 +92,8 @@ function SiteFooter() {
             <a href="/privacy">Privacy</a>
             <span className="site-footer-legal-sep" aria-hidden>·</span>
             <a href="/terms">Terms</a>
+            <span className="site-footer-legal-sep" aria-hidden>·</span>
+            <a href="/subprocessors">Subprocessors</a>
           </nav>
           <span className="site-footer-legal-by">
             Built with <span className="site-footer-heart" aria-hidden>❤️</span> in Bengaluru, India

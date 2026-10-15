@@ -12,13 +12,15 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 - [Molar Changelog — Product & Platform Updates](https://molar.it/changelog) — Follow updates to Molar browser execution, verification, test environments, and the platform.
 - [About Molar — Verify the Whole Customer Journey](https://molar.it/company) — Why Molar is building a verification loop for browser journeys that cross your application and third-party services.
 - [Talk to the Molar Team](https://molar.it/contact) — Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.
+- [Data Processing Addendum | Molar](https://molar.it/dpa) — Molar’s Data Processing Addendum template for customers who process personal data with Molar. Pending legal review.
 - [An autonomous browser check | Molar](https://molar.it/examples/autonomous-browser-check) — Watch a recorded Molar browser check add and remove an element on a public test page, with each observed result.
 - [A recorded multi-user invitation test | Molar](https://molar.it/examples/team-invitation) — See what Molar verified in a controlled invitation test across two browser sessions and an Email Clone.
 - [Pricing & Beta Access | Molar](https://molar.it/pricing) — Choose a public browser check or discuss private Molar beta access for a workflow that crosses your application and services.
-- [Privacy Policy | Molar](https://molar.it/privacy) — How Molar Labs collects, uses, and protects personal information on molar.it and the Molar autonomous QA platform.
+- [Privacy Policy | Molar](https://molar.it/privacy) — How Molar Labs collects, uses, keeps, and protects personal information on molar.it and in the Molar product.
 - [The Molar QA agent](https://molar.it/qa-agent) — How Molar browser agents test app tasks, check connected services, and show where a run stopped.
 - [Resources | Molar](https://molar.it/resources) — Practical guides for checking web apps, connected services, and agent-built software.
-- [Security and control | Molar](https://molar.it/security) — Understand how Molar scopes browser actions, credentials, run files, and agent access.
+- [Security | Molar](https://molar.it/security) — The security controls Molar runs today: encryption, organization isolation, browser sandboxing, backups, and retention. What we have not done yet.
+- [Subprocessors | Molar](https://molar.it/subprocessors) — The companies that process personal information for Molar, what each one receives, and where.
 - [Terms of Service | Molar](https://molar.it/terms) — Terms of Service for the Molar autonomous QA platform and molar.it website, operated by Molar Labs.
 - [The Molar thesis](https://molar.it/thesis) — Why software teams need a verification loop as AI accelerates how code is shipped.
 - [Try a Public Browser Check | Molar](https://molar.it/verify) — Give Molar a public URL and describe what should appear. See the check result and captured screenshot without an account.

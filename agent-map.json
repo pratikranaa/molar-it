@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-10-12T21:15:49.873Z",
-  "pageCount": 68,
+  "generatedAt": "2026-10-15T14:52:50.830Z",
+  "pageCount": 70,
   "pages": [
     {
       "path": "/",
@@ -631,6 +631,27 @@
       ]
     },
     {
+      "path": "/dpa",
+      "url": "https://molar.it/dpa",
+      "title": "Data Processing Addendum | Molar",
+      "description": "Molar’s Data Processing Addendum template for customers who process personal data with Molar. Pending legal review.",
+      "headings": [
+        "Data Processing Addendum",
+        "1. Parties and roles",
+        "2. Details of processing",
+        "3. Customer instructions",
+        "4. Confidentiality",
+        "5. Security",
+        "6. Subprocessors",
+        "7. Data subject requests",
+        "8. Personal data breaches",
+        "9. Deletion or return at the end",
+        "10. Audits and information",
+        "11. International transfers",
+        "12. General"
+      ]
+    },
+    {
       "path": "/examples/autonomous-browser-check",
       "url": "https://molar.it/examples/autonomous-browser-check",
       "title": "An autonomous browser check | Molar",
@@ -766,22 +787,22 @@
       "path": "/privacy",
       "url": "https://molar.it/privacy",
       "title": "Privacy Policy | Molar",
-      "description": "How Molar Labs collects, uses, and protects personal information on molar.it and the Molar autonomous QA platform.",
+      "description": "How Molar Labs collects, uses, keeps, and protects personal information on molar.it and in the Molar product.",
       "headings": [
         "Privacy Policy",
         "Who this applies to",
         "Information we collect",
         "How we use information",
-        "Who we share with",
+        "Who processes data for us",
         "How long we keep data",
-        "Your choices and rights",
+        "Your rights",
         "Website analytics and your choices",
         "Product analytics in app.molar.it",
         "Questions and early-access requests",
         "How we protect data",
         "International transfers",
         "Children’s privacy",
-        "Updates to this policy",
+        "Changes to this policy",
         "Questions"
       ]
     },
@@ -904,17 +925,22 @@
     {
       "path": "/security",
       "url": "https://molar.it/security",
-      "title": "Security and control | Molar",
-      "description": "Understand how Molar scopes browser actions, credentials, run files, and agent access.",
+      "title": "Security | Molar",
+      "description": "The security controls Molar runs today: encryption, organization isolation, browser sandboxing, backups, and retention. What we have not done yet.",
       "headings": [
-        "Control what Molar can access and change.",
-        "Choose the target",
-        "Review sensitive actions",
-        "Protect run files",
-        "Use the right test account",
-        "Decide who can open the run",
+        "How Molar protects your data.",
+        "Encrypted in transit",
+        "Separated by organization",
+        "Saved logins encrypted",
+        "Hosted browsers run in locked-down workers",
+        "Saved logins stay on your hosts",
+        "A fresh MFA check for sensitive actions",
+        "Backups and retention",
+        "Analytics without your inputs",
+        "What we have not done yet",
+        "Report a vulnerability",
         "Questions, answered.",
-        "Discuss security for your setup."
+        "Ask a security question."
       ]
     },
     {
@@ -1094,6 +1120,18 @@
         "Control what Molar can access and change",
         "Questions, answered.",
         "Automate a browser task."
+      ]
+    },
+    {
+      "path": "/subprocessors",
+      "url": "https://molar.it/subprocessors",
+      "title": "Subprocessors | Molar",
+      "description": "The companies that process personal information for Molar, what each one receives, and where.",
+      "headings": [
+        "Subprocessors",
+        "Product",
+        "Websites",
+        "Changes to this list"
       ]
     },
     {

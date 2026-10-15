@@ -1,6 +1,6 @@
 # Molar — canonical page map
 
-Generated from rendered, indexable canonical HTML. 68 pages are included.
+Generated from rendered, indexable canonical HTML. 70 pages are included.
 
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
@@ -175,6 +175,11 @@ URL: https://molar.it/docs
 Description: Get started with Molar browser verification, stateful Clones, release checks, and agent interfaces. Find setup and product documentation.
 Headings: Set up your first browser check. · Run a check from your terminal. · Find help for each part of Molar. · Try a check before connecting your app.
 
+## Data Processing Addendum | Molar
+URL: https://molar.it/dpa
+Description: Molar’s Data Processing Addendum template for customers who process personal data with Molar. Pending legal review.
+Headings: Data Processing Addendum · 1. Parties and roles · 2. Details of processing · 3. Customer instructions · 4. Confidentiality · 5. Security · 6. Subprocessors · 7. Data subject requests · 8. Personal data breaches · 9. Deletion or return at the end · 10. Audits and information · 11. International transfers · 12. General
+
 ## An autonomous browser check | Molar
 URL: https://molar.it/examples/autonomous-browser-check
 Description: Watch a recorded Molar browser check add and remove an element on a public test page, with each observed result.
@@ -222,8 +227,8 @@ Headings: Test a public page. Then bring your app. · Check a public page. · Te
 
 ## Privacy Policy | Molar
 URL: https://molar.it/privacy
-Description: How Molar Labs collects, uses, and protects personal information on molar.it and the Molar autonomous QA platform.
-Headings: Privacy Policy · Who this applies to · Information we collect · How we use information · Who we share with · How long we keep data · Your choices and rights · Website analytics and your choices · Product analytics in app.molar.it · Questions and early-access requests · How we protect data · International transfers · Children’s privacy · Updates to this policy · Questions
+Description: How Molar Labs collects, uses, keeps, and protects personal information on molar.it and in the Molar product.
+Headings: Privacy Policy · Who this applies to · Information we collect · How we use information · Who processes data for us · How long we keep data · Your rights · Website analytics and your choices · Product analytics in app.molar.it · Questions and early-access requests · How we protect data · International transfers · Children’s privacy · Changes to this policy · Questions
 
 ## Cartographer | Molar
 URL: https://molar.it/products/cartographer
@@ -260,10 +265,10 @@ URL: https://molar.it/resources
 Description: Practical guides for checking web apps, connected services, and agent-built software.
 Headings: Set up, test, and debug with Molar. · Run your first check · Connect the service behind it · Give an agent readable output · Suggested reading path · Match the guide to the job · Questions, answered. · Open the documentation.
 
-## Security and control | Molar
+## Security | Molar
 URL: https://molar.it/security
-Description: Understand how Molar scopes browser actions, credentials, run files, and agent access.
-Headings: Control what Molar can access and change. · Choose the target · Review sensitive actions · Protect run files · Use the right test account · Decide who can open the run · Questions, answered. · Discuss security for your setup.
+Description: The security controls Molar runs today: encryption, organization isolation, browser sandboxing, backups, and retention. What we have not done yet.
+Headings: How Molar protects your data. · Encrypted in transit · Separated by organization · Saved logins encrypted · Hosted browsers run in locked-down workers · Saved logins stay on your hosts · A fresh MFA check for sensitive actions · Backups and retention · Analytics without your inputs · What we have not done yet · Report a vulnerability · Questions, answered. · Ask a security question.
 
 ## Solutions for Web App Testing & Browser Automation | Molar
 URL: https://molar.it/solutions
@@ -319,6 +324,11 @@ Headings: Turn a page into useful data. · Choose the fields · Reach the right 
 URL: https://molar.it/solutions/workflow-automation
 Description: Run repeat browser tasks such as forms, downloads, extraction, and page checks with clear access.
 Headings: Automate the browser work you repeat. · Describe the job · Work through the web app · Return the file or data · Download reports and fill forms · Control what Molar can access and change · Questions, answered. · Automate a browser task.
+
+## Subprocessors | Molar
+URL: https://molar.it/subprocessors
+Description: The companies that process personal information for Molar, what each one receives, and where.
+Headings: Subprocessors · Product · Websites · Changes to this list
 
 ## Terms of Service | Molar
 URL: https://molar.it/terms
