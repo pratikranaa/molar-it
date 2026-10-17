@@ -131,8 +131,8 @@
 
   function InstantProofInstrument({ onSharedChange }) {
     const [sharedToken, setSharedToken] = useState(consumeSharedToken);
-    const [url, setUrl] = useState("https://example.com");
-    const [claim, setClaim] = useState("The page has a heading called Example Domain.");
+    const [url, setUrl] = useState("https://molar.it/");
+    const [claim, setClaim] = useState('The page has a heading called "Your users shouldn’t be your QA team."');
     const [retryAt, setRetryAt] = useState(readCooldown);
     const [now, setNow] = useState(Date.now);
     const [state, setState] = useState(() => retryAt > Date.now() ? "limited" : "idle");
@@ -736,24 +736,28 @@
               : React.createElement(
                   "div",
                   null,
-                  React.createElement("span", null, state === "idle" ? "Browser preview" : state === "running" ? "Waiting for a screenshot" : "Preview unavailable"),
+                  React.createElement("span", null, state === "idle" ? "Browser preview" : state === "starting" ? "Starting browser" : state === "running" ? "Waiting for a screenshot" : "Preview unavailable"),
                   React.createElement(
                     "strong",
                     null,
                     state === "idle"
                       ? "Your website appears here."
-                      : state === "running"
-                        ? "The check is running."
-                        : verdict,
+                      : state === "starting"
+                        ? "Starting the browser."
+                        : state === "running"
+                          ? "The check is running."
+                          : verdict,
                   ),
                   React.createElement(
                     "small",
                     null,
-                    state === "running"
-                      ? "Screenshots appear here as the browser captures them."
-                      : state === "idle"
-                        ? "Enter a public URL and describe what should appear."
-                        : terminal ? "You can still review and save the result." : "Run the check again to get a result.",
+                    state === "starting"
+                      ? "Your check is starting. Wait for the browser to connect."
+                      : state === "running"
+                        ? "Screenshots appear here as the browser captures them."
+                        : state === "idle"
+                          ? "Enter a public URL and describe what should appear."
+                          : terminal ? "You can still review and save the result." : "Run the check again to get a result.",
                   ),
                 ),
           ),

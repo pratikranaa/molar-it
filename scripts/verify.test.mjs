@@ -87,6 +87,30 @@ function statusBody(status, extra = {}) {
   };
 }
 
+test("starting preview asks the customer to wait without claiming a terminal verdict", async () => {
+  const page = currentPage;
+  let release;
+  const receipt = new Promise(resolve => { release = resolve; });
+  await page.route("**/api/instant-proof**", async route => {
+    if (route.request().method() === "POST") {
+      await receipt;
+      return route.fulfill({ json: proofStart(), status: 202 });
+    }
+    if (route.request().url().includes("/frame")) return route.fulfill({ status: 404 });
+    return route.fulfill({ json: statusBody("running") });
+  });
+  try {
+    await page.getByRole("button", { name: "Run check" }).click();
+    await page.locator('.instrument[data-state="starting"]').waitFor();
+    assert.equal(await page.getByRole("button", { name: "Starting browser…" }).isDisabled(), true);
+    const preview = await page.locator(".frame").innerText();
+    assert.match(preview, /Starting the browser/);
+    assert.match(preview, /Wait for the browser/);
+    assert.doesNotMatch(preview, /Incomplete|Run the check again|Preview unavailable/);
+  } finally { release(); }
+  await page.locator('.instrument[data-state="running"]').waitFor();
+});
+
 test("an incomplete terminal check explains the missing verdict without claiming a failed assertion", async () => {
   const page = currentPage;
   await page.route("**/api/instant-proof**", async route => {
@@ -108,8 +132,8 @@ test("renders a final frame before showing the terminal verdict", async (t) => {
   const page = currentPage;
   assert.equal(await page.locator("#instant-proof form").getAttribute("action"), "/verify");
   assert.equal(await page.locator("#instant-proof form").getAttribute("method"), "post");
-  assert.equal(await page.getByLabel("Public URL", { exact: true }).inputValue(), "https://example.com");
-  assert.equal(await page.getByLabel("What should be on the page?").inputValue(), "The page has a heading called Example Domain.");
+  assert.equal(await page.getByLabel("Public URL", { exact: true }).inputValue(), "https://molar.it/");
+  assert.equal(await page.getByLabel("What should be on the page?").inputValue(), 'The page has a heading called "Your users shouldn’t be your QA team."');
   let statusCalls = 0;
   let frameRequest;
   await page.route("**/*", async (route) => {
