@@ -548,7 +548,7 @@ test("a rate-limited start shows a cooldown without a failed test or empty previ
   assert.match(await page.locator(".stage").innerText(), /Your check hasn’t started/);
   assert.doesNotMatch(await page.locator("#instant-proof").innerText(), /FAILED|Incomplete|Preview unavailable|Link expires|No result received/);
   assert.equal(await page.getByRole("button", { name: /Try again in/ }).isDisabled(), true);
-  assert.equal(await page.getByRole("link", { name: "Explore the interactive example" }).getAttribute("href"), "/#checkout-story");
+  assert.equal(await page.getByRole("link", { name: "Explore the interactive example" }).getAttribute("href"), "/#interactive-demo");
   assert.equal(await page.getByRole("button", { name: /Save result|Share result/ }).count(), 0);
 });
 

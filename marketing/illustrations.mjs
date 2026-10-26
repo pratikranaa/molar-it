@@ -22,7 +22,7 @@ const dots = '<span class="fv-dots" aria-hidden="true"><i></i><i></i><i></i></sp
 const check = `<span class="fv-state fv-state-good">${icon('check')}</span>`;
 const fail = `<span class="fv-state fv-state-bad">${icon('close')}</span>`;
 const cap = title => `<figcaption><strong>${esc(title)}</strong><span class="fv-example">Example</span></figcaption>`;
-const fig = (kind, title, body, compact) => `<figure class="feature-visual fv-${kind}${compact ? ' is-compact' : ''}" data-motion-scene aria-label="${esc(title)}">${cap(title)}${body}</figure>`;
+const fig = (kind, title, body, compact, note) => `<figure class="feature-visual fv-${kind}${compact ? ' is-compact' : ''}" data-motion-scene aria-label="${esc(title)}">${note ? cap(title).replace('>Example<', `>${esc(note)}<`) : cap(title)}${body}</figure>`;
 const stage = (kind, body) => `<div class="fv-stage fv-${kind}-stage">${body}</div>`;
 const windowBar = label => `<div class="fv-window">${dots}<span>${esc(label)}</span></div>`;
 const pathSvg = (paths, className = '') => `<svg class="fv-geometry ${className}" viewBox="0 0 1000 280" preserveAspectRatio="none" aria-hidden="true"><g>${paths.map(path => `<path class="${path.flow ? 'fv-flow' : ''}" d="${path.d}"${path.pathLength ? ` pathLength="${path.pathLength}"` : ''}/>`).join('')}</g></svg>`;
@@ -129,7 +129,24 @@ function live() {
   </div>`));
 }
 
-const render = { checkout, identity, collaboration, preview, automation, data, swarm, live };
+// Where run data goes. Used on /security; every row matches the subprocessors page.
+function dataflow() {
+  const rows = [
+    ['Your browser run', 'Microsoft Azure', 'Central India', 'Run records, screenshots, video, saved logins (encrypted)'],
+    ['AI model', 'Azure OpenAI Service', 'South India', 'Your goal, page content and screenshots, for each step'],
+    ['Account email', 'Resend', 'United States', 'Your email address and the message'],
+    ['Product analytics', 'PostHog', 'United States', 'Usage events and dashboard recordings, form inputs masked']
+  ];
+  return fig('dataflow', 'Where your run data goes', stage('dataflow', `<ol class="fv-flow-list">${rows.map(([what, who, where, data], i) => `<li data-motion-item style="--i:${i}"><span class="fv-flow-what">${esc(what)}</span><span class="fv-flow-who"><strong>${esc(who)}</strong><small>${esc(where)}</small></span><span class="fv-flow-data">${esc(data)}</span></li>`).join('')}</ol>`), false, 'As of October 26, 2026');
+}
+
+// Developer tools: one command and the fields molar verify --json returns (values are illustrative).
+function terminal() {
+  const out = ['{', '  "ok": true,', '  "pass": false,', '  "failure_taxonomy": "element_not_found",', '  "rationale": "The page shows a Sign in button but no password field.",', '  "hint": "Check that /login renders the form for signed-out visitors.",', '  "failure": { "code": "element_not_found", "retryable": false },', '  "execution_mode": "local",', '  "artifact_manifest_url": "https://api.molar.it/v1/runs/…/artifacts/manifest"', '}'];
+  return fig('terminal', 'A check from your terminal', stage('terminal', `<div class="fv-terminal"><p class="fv-terminal-cmd"><span>$</span> molar verify "the login form is visible" --url http://localhost:3000 --json</p><pre>${esc(out.join('\n'))}</pre></div>`));
+}
+
+const render = { checkout, identity, collaboration, preview, automation, data, swarm, live, dataflow, terminal };
 
 export function featureVisual(kind, { compact = false } = {}) {
   const key = render[kind] ? kind : 'checkout';

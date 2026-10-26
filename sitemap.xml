@@ -31,6 +31,7 @@
   <url><loc>https://molar.it/contact</loc></url>
   <url><loc>https://molar.it/docs</loc></url>
   <url><loc>https://molar.it/dpa</loc></url>
+  <url><loc>https://molar.it/examples/agent-checkout-run</loc></url>
   <url><loc>https://molar.it/examples/autonomous-browser-check</loc></url>
   <url><loc>https://molar.it/examples/team-invitation</loc></url>
   <url><loc>https://molar.it/integrations/github-actions</loc></url>
@@ -69,5 +70,4 @@
   <url><loc>https://molar.it/vs/playwright</loc></url>
   <url><loc>https://molar.it/vs/playwright-trace</loc></url>
   <url><loc>https://molar.it/vs/wiremock</loc></url>
-  <url><loc>https://molar.it/waitlist</loc></url>
 </urlset>

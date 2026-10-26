@@ -708,7 +708,7 @@
         React.createElement("span", { className: "limit-label" }, "Public check limit"),
         React.createElement("h3", null, "Your check hasn’t started."),
         React.createElement("p", null, "Please wait before starting another check. You can explore the interactive example in the meantime."),
-        React.createElement("a", { className: "text-link", href: "/#checkout-story" }, "Explore the interactive example"),
+        React.createElement("a", { className: "text-link", href: "/#interactive-demo" }, "Explore the interactive example"),
       ) : React.createElement(
         "div",
         { className: "stage", "aria-live": "polite" },

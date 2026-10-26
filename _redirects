@@ -8,6 +8,10 @@
 /guard /products/guard 301
 /trace /products/trace 301
 
+# Signup is open; the old waitlist sends people to it.
+/waitlist https://app.molar.it/signup 302
+/waitlist.html https://app.molar.it/signup 302
+
 # Preserve old documentation bookmarks without maintaining duplicate references.
 /docs/clones https://docs.molar.it/docs/clones 301
 /docs/clones/ https://docs.molar.it/docs/clones 301

@@ -10,24 +10,24 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 ## Company and other pages
 - [Ask Molar — Practical Answers About Browser Testing](https://molar.it/ask) — Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.
 - [Molar Changelog — Product & Platform Updates](https://molar.it/changelog) — Follow updates to Molar browser execution, verification, test environments, and the platform.
-- [About Molar — Verify the Whole Customer Journey](https://molar.it/company) — Why Molar is building a verification loop for browser journeys that cross your application and third-party services.
+- [About Molar — Verify the Whole Customer Journey](https://molar.it/company) — Why Molar tests the whole customer journey, across your app and the payment, email and sign-in services behind it. Who builds it and how to reach us.
 - [Talk to the Molar Team](https://molar.it/contact) — Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.
-- [Data Processing Addendum | Molar](https://molar.it/dpa) — Molar’s Data Processing Addendum template for customers who process personal data with Molar. Pending legal review.
+- [Data Processing Addendum | Molar](https://molar.it/dpa) — Molar’s Data Processing Addendum template for customers who process personal data with Molar.
+- [An agent run: checkout on a test store | Molar](https://molar.it/examples/agent-checkout-run) — A real run of Molar’s browser agent: sign in, add two items, pay in test mode and confirm the order, with every step’s screenshot and the exported Playwright test.
 - [An autonomous browser check | Molar](https://molar.it/examples/autonomous-browser-check) — Watch a recorded Molar browser check add and remove an element on a public test page, with each observed result.
 - [A recorded multi-user invitation test | Molar](https://molar.it/examples/team-invitation) — See what Molar verified in a controlled invitation test across two browser sessions and an Email Clone.
-- [Pricing & Beta Access | Molar](https://molar.it/pricing) — Choose a public browser check or discuss private Molar beta access for a workflow that crosses your application and services.
+- [Pricing | Molar](https://molar.it/pricing) — Molar is free during the beta: up to 25 hosted runs a day per organization, no card. See the limits and how to start.
 - [Privacy Policy | Molar](https://molar.it/privacy) — How Molar Labs collects, uses, keeps, and protects personal information on molar.it and in the Molar product.
 - [The Molar QA agent](https://molar.it/qa-agent) — How Molar browser agents test app tasks, check connected services, and show where a run stopped.
 - [Resources | Molar](https://molar.it/resources) — Practical guides for checking web apps, connected services, and agent-built software.
-- [Security | Molar](https://molar.it/security) — The security controls Molar runs today: encryption, organization isolation, browser sandboxing, backups, and retention. What we have not done yet.
+- [Security | Molar](https://molar.it/security) — The security controls Molar runs today: where runs can go, what the AI model sees, encryption, access controls, backups and retention. What we have not done yet.
 - [Subprocessors | Molar](https://molar.it/subprocessors) — The companies that process personal information for Molar, what each one receives, and where.
 - [Terms of Service | Molar](https://molar.it/terms) — Terms of Service for the Molar autonomous QA platform and molar.it website, operated by Molar Labs.
-- [The Molar thesis](https://molar.it/thesis) — Why software teams need a verification loop as AI accelerates how code is shipped.
+- [The Molar thesis](https://molar.it/thesis) — Why software teams need to check every change in a real browser as AI speeds up how code is shipped.
 - [Try a Public Browser Check | Molar](https://molar.it/verify) — Give Molar a public URL and describe what should appear. See the check result and captured screenshot without an account.
-- [Join the waitlist · Molar](https://molar.it/waitlist) — Join the Molar early access waitlist for autonomous browser QA, stateful clones, and production guard.
 
 ## Guides
-- [AI agents and the future of software testing | Molar](https://molar.it/blog/ai-agents-future-software-testing) — A practical guide to verification loops for coding agents, with deterministic checks where judgment matters.
+- [AI agents and the future of software testing | Molar](https://molar.it/blog/ai-agents-future-software-testing) — A practical guide to letting coding agents test their own changes in a browser, with deterministic checks where judgment matters.
 - [AI Playwright test generation: from a task to a reviewed test | Molar](https://molar.it/blog/ai-playwright-test-generation) — How to review generated browser tests: locators, assertions, clean starting state, and repeatability in CI.
 - [API mocking vs stateful service clones | Molar](https://molar.it/blog/api-mocking-vs-service-clones) — Compare configured API responses, stateful mocks, and supported service clones for integration testing.
 - [Continuous testing in your CI/CD pipeline | Molar](https://molar.it/blog/continuous-testing-ci-cd-pipeline) — Choose which tests to run during development, pull requests, deployment, and production monitoring.
@@ -59,21 +59,21 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 
 ## Platform
 - [Molar Platform — Browser Execution for Humans & AI Agents](https://molar.it/platform) — Give your team and AI agents a browser that gets work done. Automate tasks, explore apps, extract data and inspect the result with Molar.
-- [Browser agents | Molar](https://molar.it/platform/browser-agents) — Give people and coding agents a browser that can navigate, act, and verify clear goals.
-- [Developer tools | Molar](https://molar.it/platform/developer-tools) — Connect browser verification and automation to CLI, MCP, JSON output, and Playwright workflows.
-- [Live view | Molar](https://molar.it/platform/live-view) — Follow supported browser runs with live status and captured run files.
-- [Swarm | Molar](https://molar.it/platform/swarm) — Preview coordinated browser testing across roles and scenarios with planned coverage and returned results.
+- [Browser agents | Molar](https://molar.it/platform/browser-agents) — Give Molar a website and a task. It works through the site in a real browser and returns the result, with a recording of every step.
+- [Developer tools | Molar](https://molar.it/platform/developer-tools) — Install the molar CLI, connect any MCP client or call the HTTP API. Every check returns JSON your coding agent can read.
+- [Live view and recordings | Molar](https://molar.it/platform/live-view) — Watch a hosted run live, read-only, then replay its video, screenshots, network log and Playwright trace.
+- [Multi-user tests | Molar](https://molar.it/platform/swarm) — Preview: test one flow across several accounts, with a separate browser and identity for each role.
 
 ## Products
 - [Cartographer | Molar](https://molar.it/products/cartographer) — Give Cartographer an authorized app and a goal such as “sign up, enter the email code, and open the workspace.” It follows the route, returns the pages and browser actions it reached, and gives you a check to review or rerun.
 - [Clones | Molar](https://molar.it/products/clones) — Point your test environment at a documented clone, run the payment, message, sign-in, or upload task, and inspect the record your app creates. Control supported failures and timing, then restore the starting state for the next run.
-- [Guard | Molar](https://molar.it/products/guard) — Select a signup, checkout, or account-access scenario and its preview or live target. Guard reports which checks passed and which failed. Open a failure to inspect the captured browser step before deciding to ship.
+- [Guard | Molar](https://molar.it/products/guard) — Guard runs your sign-up, checkout and account checks on every pull request and on a schedule, and shows the step that failed. Each check is a Playwright test, so no AI agent decides pass or fail.
 - [Mender | Molar](https://molar.it/products/mender) — Review a proposed repair beside the failed browser check that prompted it.
 - [Trace | Molar](https://molar.it/products/trace) — Open one run and follow its browser action, page, request, console message, and available service detail in sequence. See the failed request beside the browser step that triggered it, then share the run with the engineer fixing it.
 
 ## Solutions
 - [Solutions for Web App Testing & Browser Automation | Molar](https://molar.it/solutions) — Explore Molar for checkout testing, sign-in, team workflows, preview deployments, browser automation, and web data extraction.
-- [QA for AI agents | Molar](https://molar.it/solutions/ai-agents) — Give coding agents a browser check they can run, read, and rerun from CLI or MCP.
+- [Browser checks for coding agents | Molar](https://molar.it/solutions/ai-agents) — Give coding agents a browser check they can run, read, and rerun from CLI or MCP.
 - [Authentication testing | Molar](https://molar.it/solutions/authentication-testing) — Check signup, OAuth, OTP, sessions, invites, and protected application routes.
 - [Checkout testing | Molar](https://molar.it/solutions/checkout-testing) — Check payment, callback, order, and receipt behavior in one browser journey.
 - [Integration testing for real product journeys | Molar](https://molar.it/solutions/integration-testing) — Exercise payment, identity, messaging, and webhook behavior with resettable test services.

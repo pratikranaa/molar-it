@@ -468,3 +468,17 @@ Clone setup links open the canonical guides at `docs.molar.it/docs/clones/vendor
 ### Hero proportions — September 7, 2026
 
 The entry heroes use a desktop display scale of `clamp(52px, 4.6vw, 68px)` and a 20px/1.5 supporting paragraph with a 490px measure. The headline stops growing with the bounded page container, keeping the QA statement on two lines across 1024–1920px. The columns use `1.3fr 1fr` with a 48px gap (30px on compact desktops); the headline is vertically centered beside the complete action stack. Below 900px the existing left-aligned stacked composition and mobile sizes remain. The command stays with the signup and preview actions.
+
+### First-visit review fixes — October 26, 2026
+
+Five first-time visitors (solo founder, engineering manager, agent developer, security reviewer, product designer) reviewed every page. The fixes live in `marketing/first-visit.css`, loaded after `refinement.css`, plus source copy changes; fold the CSS into the base files on the next refactor.
+
+- **One next action.** Coral means “Get started free” (app signup) everywhere: nav, heroes and the closing band, which is now dark green-black so the coral button is the only coral element. Every “Discuss…” action became an outline “Talk to us”. `/waitlist` redirects to signup and is no longer indexed. Pricing is a plain link beside the four nav menus.
+- **Hero.** One coral button and one quiet link (“How it works”), then the beta line “Free during the beta · Up to 25 hosted runs a day · No card”. The project command moved to the developer section; the public check has its own section lower on the page. Product pages show the headline alone; the 110px thumbnail is gone.
+- **Diagrams never clip.** Three-card diagrams use tighter gaps, status labels on their own line, and ellipsis for long identifiers. Solution and platform heroes stack below 1360px so the diagram gets the full width. The trace-compare diagram is two columns with the comparison as a row.
+- **No in-illustration calls to action.** Links inside illustrations are neutral outlines; the walkthrough progress bar is neutral.
+- **Headline accent.** One accessible dark coral (`#b54126`) on every page.
+- **Analytics choice** is a single bottom bar (bottom-left on desktop, full-width on phones) with “Decline” and “Accept”; accessible names stay “Decline analytics” and “Accept analytics”.
+- **Phones.** The header shows a compact “Get started”; code blocks scroll instead of soft-wrapping; the footer legal row wraps; the wordmark is capped at 96px.
+- **Real proof.** `/examples/agent-checkout-run` shows a real local agent run on the Acme Shop test store, with each step’s screenshot and the exported Playwright test. Label every example as illustrative, scripted or real, and say where it ran.
+- **Copy.** Name the job before the product (“Guard: run your checks on pull requests and on a schedule”). Avoid “verification loop”, “probe-owned”, “fingerprint”, “Swarm” and other internal terms in customer copy. Every factual claim must match the code and production; when the product changes, change the page.

@@ -1,0 +1,197 @@
+/* First-visit review fixes (October 26, 2026). Loaded last, after refinement.css.
+   Each block names the problem it fixes so later passes can fold them into the base files. */
+
+/* Pricing is a plain link beside the four menus. */
+.nav-plain-link { display: flex; align-items: center; height: 36px; padding-inline: 11px; border-radius: 4px; color: #44523e; font-size: 14px; text-decoration: none; }
+.nav-plain-link:hover, .nav-plain-link[aria-current="page"] { background: #e8eddf; color: #1f341f; }
+.nav-plain-link:focus-visible { outline: 3px solid rgba(242, 99, 66, .42); outline-offset: 2px; }
+
+/* Coral is the next action everywhere: the nav "Get started" matches the hero and closing buttons. */
+.header-actions .button-primary { background: #f26342; color: #202b23; }
+.header-actions .button-primary:hover { background: #ff8868; }
+
+/* Closing band: dark ground so the coral signup button is the one coral thing; the decorative curve crossed the text. */
+.closing { background: #1c2521; color: #f5f7ef; }
+.closing:before { display: none; }
+.closing h2, .closing p { color: #f5f7ef; }
+.closing .button-primary { background: #f26342; color: #202b23; }
+.closing .button-primary:hover { background: #ff8868; }
+.closing .button-outline { border-color: #4f5c4b; color: #f5f7ef; }
+.closing .button-outline:hover { background: #2b382d; }
+.closing .closing-note { margin-top: 14px; color: #cad2c0; font-size: 15px; }
+
+/* Release, task and data diagrams: three cards in a hero column were ~158px wide and clipped their own status labels. */
+.feature-visual .fv-path,
+.feature-visual .fv-release-path,
+.feature-visual .fv-task-path,
+.feature-visual .fv-data-path { gap: clamp(16px, 2vw, 28px); }
+.feature-visual .fv-release-body p { grid-template-columns: 23px minmax(0, 1fr); row-gap: 2px; }
+.feature-visual .fv-release-body p b { grid-column: 2; }
+.feature-visual .fv-node code,
+.feature-visual .fv-task-node code,
+.feature-visual .fv-data-node code,
+.feature-visual .fv-release-node code { font-size: 12px; overflow-wrap: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.feature-visual .fv-scene-link { background: transparent; color: var(--fv-ink); border: 1px solid var(--fv-line); }
+.feature-visual .fv-scene-link:hover { background: var(--fv-paper); }
+
+/* Product pages: the headline stands alone and the lead sits beside it. */
+.product-story-hero .product-story-head h1 { max-width: 12ch; }
+
+/* Startup programs live on /company, small and quiet. */
+.startup-programs-quiet { padding-block: 56px; border-top: 1px solid var(--line, #cdd5c5); }
+.startup-programs-quiet .startup-programs-intro p { max-width: 60ch; margin-top: 8px; color: #56614f; font-size: 15px; }
+.startup-programs-quiet ul { opacity: .7; filter: grayscale(1); }
+.startup-programs-quiet img { max-height: 24px; width: auto; }
+
+/* Company details. */
+.company-facts { display: grid; gap: 22px; margin: 0; }
+.company-facts div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--line, #cdd5c5); }
+.company-facts dt { color: #56614f; font-size: 14px; font-weight: 600; }
+.company-facts dd { margin: 0; font-size: 17px; line-height: 1.55; }
+
+/* Pricing limits table. */
+.pricing-limits h2 { font-size: clamp(28px, 3vw, 40px); margin-bottom: 22px; }
+.pricing-limits .table-scroll { overflow-x: auto; }
+.pricing-limits table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 16px; }
+.pricing-limits th, .pricing-limits td { padding: 14px 16px 14px 0; border-bottom: 1px solid var(--line, #cdd5c5); text-align: left; vertical-align: top; }
+.pricing-limits thead th { color: #56614f; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.pricing-limits tbody th { font-weight: 600; }
+.pricing-limits td:nth-child(2) { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 15px; white-space: nowrap; }
+.pricing-limits-note { margin-top: 16px; color: #56614f; font-size: 15px; }
+.pricing-hero .actions { margin-top: 28px; }
+.pricing-choice ol { margin: 18px 0 24px; padding-left: 20px; display: grid; gap: 8px; }
+
+/* Footer: the legal row wraps on phones instead of cutting off "Pricing"; the wordmark stops taking half a screen. */
+.footer-bottom > div { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+@media (max-width: 700px) {
+  .footer-wordmark { font-size: 96px; line-height: 1; }
+  /* Phones get the signup button in the header, not only inside the menu. */
+  .header-actions { display: flex; margin-left: auto; order: 2; }
+  .mobile-toggle { order: 3; margin-left: 10px; }
+  .header-actions .sign-in { display: none; }
+  .header-actions .button-small { min-height: 0; padding: 7px 12px; font-size: 14px; }
+  .header-actions .button-small .icon { display: none; }
+  /* Code keeps its line breaks and scrolls sideways instead of soft-wrapping. */
+  .code-window { max-width: calc(100vw - 32px); }
+  .code-window pre, .code-window pre code { white-space: pre; overflow-x: auto; }
+}
+
+/* Text inside product demos never drops below 13px. */
+.feature-visual small, .feature-visual .fv-example, .application-scene small { font-size: max(13px, 1em); }
+
+/* The FAQ heading is plain. */
+.faq-layout h2 { font-size: clamp(30px, 3vw, 42px); }
+
+/* Solution and platform heroes: below 1360px the diagram gets the full width instead of half, so its cards stop clipping. */
+@media (max-width: 1360px) {
+  .detail-hero-grid { grid-template-columns: 1fr; gap: 44px; }
+  .detail-hero-grid > div:first-child { max-width: 760px; }
+}
+
+/* Trace compare: browser and trace side by side, the comparison as one row underneath. */
+.feature-visual .fv-live-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px; min-height: 0; }
+.feature-visual .fv-live-browser, .feature-visual .fv-live-trace { min-height: 0; }
+.feature-visual .fv-live-compare { grid-column: 1 / -1; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 18px; align-items: start; }
+.feature-visual .fv-live-compare header { grid-column: 1 / -1; }
+.feature-visual .fv-live-compare .fv-scene-link { grid-column: 1 / -1; width: auto; justify-self: start; margin-top: 12px; }
+.feature-visual .fv-live-screen nav { gap: 10px; font-size: 13px; }
+.feature-visual .fv-live-screen nav span:last-child { display: none; }
+
+/* Long identifiers inside diagrams end with an ellipsis instead of being cut mid-character. */
+.feature-visual .fv-page-heading span,
+.feature-visual .fv-role-body strong,
+.feature-visual .fv-task-body > strong { display: block; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.feature-visual .fv-task-body > strong { font-size: 15px; }
+
+.feature-visual .fv-node-content label { overflow-wrap: anywhere; }
+.feature-visual .fv-pr-title strong { font-size: 15px; overflow-wrap: anywhere; }
+@media (max-width: 700px) {
+  .feature-visual .fv-live-grid { grid-template-columns: 1fr; }
+  .feature-visual .fv-live-compare { grid-template-columns: 1fr; }
+}
+
+/* Security: where run data goes. */
+.feature-visual .fv-dataflow-stage { min-height: 0; padding: 8px 22px; }
+.feature-visual .fv-flow-list { list-style: none; margin: 0; padding: 0; }
+.feature-visual .fv-flow-list li { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--fv-line); }
+.feature-visual .fv-flow-list li:last-child { border-bottom: 0; }
+.feature-visual .fv-flow-what { color: var(--fv-muted); font-size: 14px; }
+.feature-visual .fv-flow-who strong { display: block; font-size: 16px; }
+.feature-visual .fv-flow-who small { color: var(--fv-muted); font: 500 13px/1.4 'Geist Mono', ui-monospace, monospace; }
+.feature-visual .fv-flow-data { font-size: 14px; line-height: 1.45; }
+@media (max-width: 700px) { .feature-visual .fv-flow-list li { grid-template-columns: 1fr; gap: 4px; } }
+
+/* Security: host rules shown as a short table. */
+.sd-hosts { display: grid; }
+.sd-hosts > div { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, .9fr); gap: 14px; align-items: center; padding: 13px 4px; border-bottom: 1px solid #d9dfd1; font-size: 14px; }
+.sd-hosts > div:last-child { border-bottom: 0; }
+.sd-hosts code { overflow-wrap: anywhere; font: 500 13px/1.4 'Geist Mono', ui-monospace, monospace; background: none; padding: 0; }
+.sd-hosts span { color: #56614f; }
+.sd-hosts strong { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.sd-hosts strong .icon { width: 16px; height: 16px; flex: none; }
+.sd-hosts .is-allowed strong { color: #22664c; }
+.sd-hosts .is-blocked strong { color: #a33827; }
+@media (max-width: 700px) { .sd-hosts > div { grid-template-columns: 1fr; gap: 3px; } }
+
+/* Developer tools: terminal example. */
+.feature-visual .fv-terminal-stage { min-height: 0; padding: 0; background: #1c2521; border-color: #2b382d; }
+.feature-visual .fv-terminal { padding: 22px 24px; color: #e8eddf; font: 500 13px/1.6 'Geist Mono', ui-monospace, monospace; }
+.feature-visual .fv-terminal-cmd { margin: 0 0 14px; color: #f5f7ef; overflow-wrap: anywhere; }
+.feature-visual .fv-terminal-cmd span { color: #f26342; margin-right: 6px; }
+.feature-visual .fv-terminal pre { margin: 0; overflow-x: auto; color: #cad2c0; font: inherit; white-space: pre; }
+
+/* One headline accent everywhere: the accessible dark coral (button coral is too light for text on paper). */
+.identity-hero h1 > span, .platform-identity h1 > span, .reading-hero h1 span, .contact-section h1 span, .contact-layout h1 > span { color: #b54126; }
+
+/* Home walkthrough progress bar is a position cue, not a next action. */
+.process-progress i { background: #8a9585; }
+
+/* Clone catalog: the whole row is the link; its label is ink, not "passed" green. */
+.catalog-entry-link { color: #202b23; font-weight: 600; }
+
+/* 404: a plain code instead of an icon replacing the zero. */
+.error-page .error-code { margin: 0 0 12px; color: #56614f; font: 600 15px/1 'Geist Mono', ui-monospace, monospace; letter-spacing: .08em; }
+
+/* Real agent run example. */
+.run-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 40px; margin: 0 0 40px; }
+.run-facts div { padding-bottom: 14px; border-bottom: 1px solid #cdd5c5; }
+.run-facts dt { color: #56614f; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.run-facts dd { margin: 6px 0 0; font-size: 17px; line-height: 1.5; }
+.run-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.run-steps figure { margin: 0; }
+.run-steps img { display: block; width: 100%; height: auto; border: 1px solid #cdd5c5; border-radius: 8px; }
+.run-steps figcaption { display: grid; gap: 3px; margin-top: 10px; font-size: 15px; }
+.run-steps figcaption span { color: #56614f; }
+.run-note { margin-top: 18px; color: #56614f; font-size: 15px; }
+.real-run-shot img { display: block; width: 100%; height: auto; border: 1px solid #cdd5c5; border-radius: 10px; }
+@media (max-width: 700px) { .run-facts, .run-steps { grid-template-columns: 1fr; } }
+.feature-visual .fv-terminal-cmd { overflow-wrap: normal; }
+.agent-run-example .code-window pre, .agent-run-example .code-window pre code { white-space: pre; overflow-x: auto; }
+.error-page .error-code { text-align: center; }
+
+/* Second review pass. */
+.feature-visual .fv-dataflow-stage::before, .feature-visual .fv-terminal-stage::before { display: none; }
+.feature-visual .fv-terminal-cmd { font-size: 13px; line-height: 1.6; white-space: nowrap; overflow-x: auto; }
+.real-run-teaser h2 { margin-bottom: 18px; }
+.pricing-choice ol + .button, .pricing-choice p + .button { margin-top: 22px; }
+.pricing-limits-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.footer-bottom .molar-preferences { margin-left: 0; padding: 0; vertical-align: baseline; }
+@media (max-width: 700px) {
+  .pricing-limits table { min-width: 0; }
+  .pricing-limits thead { display: none; }
+  .pricing-limits tr { display: grid; gap: 4px; padding: 14px 0; border-bottom: 1px solid #cdd5c5; }
+  .pricing-limits th, .pricing-limits td { padding: 0; border: 0; }
+  .pricing-limits td:nth-child(2) { white-space: normal; }
+  .closing h2 br, .agent-run-example h1 br, .reading-hero h1 br { display: none; }
+}
+
+/* Code never breaks mid-word: blocks keep their lines and scroll sideways. */
+.code-window pre, .code-window pre code { white-space: pre; overflow-wrap: normal; word-break: normal; overflow-x: auto; }
+.company-details .direction-grid, .company-direction .direction-grid { align-items: start; }
+.sd-mini-button { display: inline-block; margin-top: 8px; }
+.footer-bottom .molar-preferences { font: inherit; text-decoration: none; color: inherit; }
+.footer-bottom .molar-preferences:hover { color: #f5f7ef; }
+.feature-visual .fv-live-browser .fv-window { padding-left: 12px; }
+/* Long code lines scroll inside their block instead of widening the layout column. */
+.detail-visual-story > *, .split-section > *, .developer-grid > *, .docs-quickstart > *, .pgd-ci-grid > *, .pc-setup-grid > *, .pgd-monitor-setup > *, .cg-command-list > *, .pt-setup-grid > * { min-width: 0; }
+.code-window { max-width: 100%; }

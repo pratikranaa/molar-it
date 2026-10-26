@@ -1,0 +1,5 @@
+Contact: mailto:pratik@molar.it
+Expires: 2027-10-26T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://molar.it/.well-known/security.txt
+Policy: https://molar.it/security#report-a-vulnerability

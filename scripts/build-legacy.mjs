@@ -10,8 +10,8 @@ const save = (path, html) => { const target = resolve(root, path); mkdirSync(dir
 function nextStep(path) {
   if (path === '/qa-agent') return '<a href="/verify">Try a browser check '+icon('arrow')+'</a>';
   if (path === '/thesis') return '<a href="/qa-agent">Read how the QA agent works '+icon('arrow')+'</a>';
-  if (path === '/integrations/github-actions') return '<a href="/contact">Discuss your CI setup '+icon('arrow')+'</a>';
-  return '<a href="/contact">Discuss your integration setup '+icon('arrow')+'</a>';
+  if (path === '/integrations/github-actions') return '<a href="/contact">Ask about your CI setup '+icon('arrow')+'</a>';
+  return '<a href="/contact">Ask about your integration setup '+icon('arrow')+'</a>';
 }
 
 function articlePage({ title, description, path, eyebrow, intro, article, toc }) {
@@ -72,7 +72,7 @@ save('qa-agent.html', articlePage({
   article: wrapTables(sourceArticle('qa-agent.html')), toc: [['what', 'How it checks a browser flow'], ['capabilities', 'What it checks'], ['different', 'How it fits with a test runner'], ['start', 'Run a browser check']],
 }));
 save('thesis.html', articlePage({
-  title: 'The Molar thesis', description: 'Why software teams need a verification loop as AI accelerates how code is shipped.', path: '/thesis', eyebrow: 'Founding thesis', intro: 'AI can increase the pace of shipping. The durable advantage is knowing what the shipped software actually does after a change.',
+  title: 'The Molar thesis', description: 'Why software teams need to check every change in a real browser as AI speeds up how code is shipped.', path: '/thesis', eyebrow: 'Founding thesis', intro: 'AI can increase the pace of shipping. The durable advantage is knowing what the shipped software actually does after a change.',
   article: wrapTables(sourceArticle('thesis.html')), toc: [['new-shape', 'How code changes reach users'], ['bottleneck', 'Why verification waits'], ['guard', 'Repeatable release checks'], ['why-now', 'Why this matters now']],
 }));
 save('integrations/github-actions.html', articlePage({

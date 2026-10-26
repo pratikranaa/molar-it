@@ -30,7 +30,7 @@ function trace(index) {
 }
 
 function mender() {
-  return figure('Candidate patch review', `<div class="sd-review-banner"><span class="sd-preview">Preview</span><strong>Candidate application repair</strong><span>human review required</span></div><div class="sd-review-grid"><section><span class="sd-kicker">Failure evidence</span><strong>receipt state not updated</strong><code>trace_91c · checkout flow</code><p>Review the failed check alongside the relevant application code.</p></section><div class="sd-review-arrow">${arrow}</div><section><span class="sd-kicker">Proposed application change</span><strong>handle payment callback</strong><div class="sd-diff"><span>Order remains pending</span><span>Callback updates order status</span></div><a href="/contact" class="sd-review-button">Discuss Mender preview ${icon('arrow')}</a></section></div>`, 'sd-mender');
+  return figure('Candidate patch review', `<div class="sd-review-banner"><span class="sd-preview">Preview</span><strong>Candidate application repair</strong><span>human review required</span></div><div class="sd-review-grid"><section><span class="sd-kicker">Failure evidence</span><strong>receipt state not updated</strong><code>trace_91c · checkout flow</code><p>Review the failed check alongside the relevant application code.</p></section><div class="sd-review-arrow">${arrow}</div><section><span class="sd-kicker">Proposed application change</span><strong>handle payment callback</strong><div class="sd-diff"><span>Order remains pending</span><span>Callback updates order status</span></div><a href="/contact" class="sd-review-button">Ask about the Mender preview ${icon('arrow')}</a></section></div>`, 'sd-mender');
 }
 
 function auth(index) {
@@ -42,7 +42,7 @@ function checkout(index) {
 }
 
 function data() {
-  return figure('Structured field mapping', `<div class="sd-data-layout"><section class="sd-card sd-page-card"><span class="sd-kicker">Visible page</span><strong>Plans</strong><div class="sd-data-row"><span>Starter</span><b>$12</b></div><div class="sd-data-row sd-data-selected"><span>Pro</span><b>$24</b></div><div class="sd-data-row"><span>Team</span><b>$64</b></div></section><div class="sd-map-arrow">${arrow}</div><section class="sd-card sd-json-card"><span class="sd-kicker">Requested fields</span><code>name → Pro</code><code>price → 24</code><code>currency → USD</code><span class="sd-status">${tick} source row retained</span></section></div>`, 'sd-data');
+  return figure('Structured field mapping', `<div class="sd-data-layout"><section class="sd-card sd-page-card"><span class="sd-kicker">Visible page</span><strong>Plans</strong><div class="sd-data-row"><span>Starter</span><b>$9</b></div><div class="sd-data-row sd-data-selected"><span>Pro</span><b>$24</b></div><div class="sd-data-row"><span>Business</span><b>$79</b></div></section><div class="sd-map-arrow">${arrow}</div><section class="sd-card sd-json-card"><span class="sd-kicker">Requested fields</span><code>name → Pro</code><code>price → 24</code><code>currency → USD</code><span class="sd-status">${tick} source row retained</span></section></div>`, 'sd-data');
 }
 
 function workflow() {
@@ -55,7 +55,7 @@ function swarm() {
 }
 
 function developer() {
-  return figure('Developer verification loop', `<div class="sd-code-flow"><section class="sd-card"><span class="sd-kicker">Terminal</span><code>$ molar verify "login works"</code><code>  --url http://localhost:3000</code><code>  --json</code></section><div class="sd-map-arrow">${arrow}</div><section class="sd-card"><span class="sd-kicker">Run output</span><span class="sd-check-reason">Check status and recorded steps</span><code>task status · trace reference</code><code>screenshots · browser steps</code><span class="sd-status">${tick} inspect and rerun</span></section></div>`, 'sd-developer');
+  return figure('Run, read the result, fix, run again', `<div class="sd-code-flow"><section class="sd-card"><span class="sd-kicker">Terminal</span><code>$ molar verify "login works"</code><code>  --url http://localhost:3000</code><code>  --json</code></section><div class="sd-map-arrow">${arrow}</div><section class="sd-card"><span class="sd-kicker">Run output</span><span class="sd-check-reason">Check status and recorded steps</span><code>task status · trace reference</code><code>screenshots · browser steps</code><span class="sd-status">${tick} inspect and rerun</span></section></div>`, 'sd-developer');
 }
 
 function catalog() {
@@ -70,6 +70,24 @@ function repairFlow() {
 function paymentBranches() {
   return figure('The branches behind the Pay button', `<div class="sd-branch-table">${[['Card declined','No paid order; show a useful retry.'],['Authentication required','Keep the order pending until authentication finishes.'],['Callback delayed','Do not grant access before confirmation.'],['Callback delivered twice','One payment should create one order.']].map(([n,d])=>`<div>${icon('branch')}<strong>${n}</strong><p>${d}</p></div>`).join('')}</div>`, 'sd-payment-branches', 'Example checks to include');
 }
+// Security visuals describe the enforced rules: navigation and saved logins stay on project hosts.
+const hostRows = (rows) => `<div class="sd-hosts">${rows.map(([host, kind, result, ok]) => `<div class="${ok ? 'is-allowed' : 'is-blocked'}"><code>${esc(host)}</code><span>${esc(kind)}</span><strong>${icon(ok ? 'check' : 'x')}${esc(result)}</strong></div>`).join('')}</div>`;
+function egress() {
+  return figure('What a hosted run can reach', hostRows([
+    ['app.yourcompany.com', 'Project base URL', 'Can open pages', true],
+    ['staging.yourcompany.com', 'Allowed host you added', 'Can open pages', true],
+    ['cdn.example.net', 'Image or script on a page', 'Loads, can’t be opened', false],
+    ['10.0.0.12', 'Private network', 'Blocked', false],
+    ['169.254.169.254', 'Cloud metadata', 'Blocked', false]
+  ]), 'sd-hosts-scene', 'Example');
+}
+function savedLogins() {
+  return figure('Where a saved login is typed', hostRows([
+    ['app.yourcompany.com/login', 'Project base URL', 'Typed', true],
+    ['sso.yourcompany.com', 'Allowed host you added', 'Typed', true],
+    ['login.othersite.com', 'Not in the project', 'Never typed', false]
+  ]), 'sd-hosts-scene', 'Example');
+}
 function scope() {
   return figure('Define the access for a run', `<div class="sd-scope">${[['globe','Target','The app and environment to use.'],['lock','Identity','The account and permissions for this task.'],['cursor','Task','The actions and result you authorize.']].map(([i,n,d])=>`<div>${icon(i)}<strong>${n}</strong><p>${d}</p></div>`).join('')}</div>`, 'sd-scope-scene', 'Your setup');
 }
@@ -77,7 +95,7 @@ function dataSource() {
   return figure('Keep an extracted value tied to its source', `<div class="sd-source-record"><span>Requested field</span><strong>Plan price</strong><div class="sd-source-value"><b>24</b><span>USD / month</span></div><dl><div><dt>Source</dt><dd>Pro plan row on the pricing page</dd></div><div><dt>If it is missing</dt><dd>Report a missing value; do not invent a price.</dd></div></dl></div>`, 'sd-source-scene');
 }
 function invitation() {
-  return figure('An invitation across two browsers', `<div class="sd-invitation"><img src="/assets/invitation/admin-final.png" width="1440" height="900" loading="lazy" alt="Admin browser confirming an invitation was created"><ol><li>Admin created the invitation.</li><li>The Email Clone delivered its link.</li><li>A separate member browser accepted.</li></ol></div><a class="text-link" href="/examples/team-invitation">Watch both recordings ${icon('arrow')}</a>`, 'sd-invitation-scene', 'Actual controlled test');
+  return figure('An invitation across two browsers', `<div class="sd-invitation"><img src="/assets/invitation/admin-final.png" width="1440" height="900" loading="lazy" alt="Admin browser confirming an invitation was created"><ol><li>Admin created the invitation.</li><li>The Email Clone delivered its link.</li><li>A separate member browser accepted.</li></ol></div><a class="text-link" href="/examples/team-invitation">Watch both recordings ${icon('arrow')}</a>`, 'sd-invitation-scene', 'Scripted test recording, not an AI agent run');
 }
 
 /** Each supporting section explains a different part of its page's workflow. */
@@ -88,7 +106,7 @@ export function detailVisual(page, index = 0) {
   if (path.includes('mender')) return index ? repairFlow() : mender();
   if (path.includes('checkout')) return index ? paymentBranches() : checkout(0);
   if (path.includes('authentication')) return index ? auth(1) : cartographer(0);
-  if (path === '/security') return index ? auth(1) : scope();
+  if (path === '/security') return index ? savedLogins() : egress();
   if (path.includes('web-data-extraction')) return index ? dataSource() : data();
   if (path.includes('workflow-automation')) return index ? outcomes() : workflow();
   if (path.includes('browser-agents')) return index ? developer() : workflow();

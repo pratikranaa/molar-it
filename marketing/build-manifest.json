@@ -32,6 +32,7 @@
     "contact.html",
     "docs.html",
     "dpa.html",
+    "examples/agent-checkout-run.html",
     "examples/autonomous-browser-check.html",
     "examples/team-invitation.html",
     "index.html",
@@ -105,6 +106,7 @@
     "https://molar.it/contact",
     "https://molar.it/docs",
     "https://molar.it/dpa",
+    "https://molar.it/examples/agent-checkout-run",
     "https://molar.it/examples/autonomous-browser-check",
     "https://molar.it/examples/team-invitation",
     "https://molar.it/integrations/github-actions",
@@ -142,8 +144,7 @@
     "https://molar.it/vs/cypress",
     "https://molar.it/vs/playwright",
     "https://molar.it/vs/playwright-trace",
-    "https://molar.it/vs/wiremock",
-    "https://molar.it/waitlist"
+    "https://molar.it/vs/wiremock"
   ],
   "stage": ".site-dist"
 }

@@ -243,7 +243,7 @@
     if (state.gpc) return 'Your browser has Global Privacy Control on, so optional analytics stay off.';
     if (state.consent === 'granted') return 'Optional analytics are on. You can change this choice any time.';
     if (state.consent === 'denied') return 'Optional analytics are off. You can change this choice any time.';
-    return 'Optional analytics help us see which pages and product examples are useful. Choose whether to allow them.';
+    return 'Allow optional analytics so we can see which pages are useful?';
   }
 
   function updatePanel() {
@@ -294,7 +294,7 @@
     panel.dataset.molarConsent = 'true';
     panel.hidden = true;
     panel.setAttribute('aria-labelledby', 'molar-consent-title');
-    panel.innerHTML = `<div class="molar-consent-inner"><div><h2 id="molar-consent-title">Optional analytics</h2><p data-molar-consent-copy></p></div><div class="molar-consent-actions"><button type="button" class="molar-consent-action" data-molar-consent-action="declined">Decline analytics</button><button type="button" class="molar-consent-action" data-molar-consent-action="granted">Accept analytics</button></div></div>`;
+    panel.innerHTML = `<div class="molar-consent-inner"><div><h2 id="molar-consent-title">Optional analytics</h2><p data-molar-consent-copy></p></div><div class="molar-consent-actions"><button type="button" class="molar-consent-action" data-molar-consent-action="declined" aria-label="Decline analytics">Decline</button><button type="button" class="molar-consent-action" data-molar-consent-action="granted" aria-label="Accept analytics">Accept</button></div></div>`;
     panel.addEventListener('click', event => {
       const button = event.target.closest('[data-molar-consent-action]');
       if (button) setConsent(button.dataset.molarConsentAction);
