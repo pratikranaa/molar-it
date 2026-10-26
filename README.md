@@ -123,6 +123,8 @@ See [`seo-launch-kit/00-START-HERE.txt`](seo-launch-kit/00-START-HERE.txt) for S
 node scripts/build-site.mjs   # sitemap generated from the rendered canonical pages
 ```
 
+**IndexNow:** after each deploy, run `node scripts/indexnow.mjs` (all sitemap URLs) or `node scripts/indexnow.mjs URL...` (just the changed pages). The key is served from `/indexnow-key.txt`; don't change it, since engines tie the host to it.
+
 **Search and sharing:** rendered pages carry canonical URLs, linked entity/page/breadcrumb metadata and article publication facts. The build creates a route-specific 1200×630 sharing image in `assets/social/`, a full guide feed at `/feed.xml`, and source maps at `/llms.txt`, `/llms-full.txt` and `/agent-map.json`. These files improve discovery; search rankings and AI citations remain external outcomes. Cloudflare's managed training-crawler policy is separate from the source robots rules for search/retrieval bots.
 
 ## Blog reading experience

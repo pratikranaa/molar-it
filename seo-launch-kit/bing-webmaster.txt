@@ -7,3 +7,7 @@
 5. URL Submission → submit homepage + /qa-agent + comparison pages
 
 Powers Bing search + Microsoft Copilot citations.
+
+IndexNow (no login needed): after each deploy run `node scripts/indexnow.mjs`.
+It submits every sitemap URL to Bing, Yandex, Seznam and Naver; the key lives at https://molar.it/indexnow-key.txt.
+Bing Webmaster → IndexNow shows the submissions once the site is verified.
