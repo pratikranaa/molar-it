@@ -135,6 +135,7 @@ function dataflow() {
     ['Your browser run', 'Microsoft Azure', 'Central India', 'Run records, screenshots, video, saved logins (encrypted)'],
     ['AI model', 'Azure OpenAI Service', 'South India', 'Your goal, page content and screenshots, for each step'],
     ['Account email', 'Resend', 'United States', 'Your email address and the message'],
+    ['Test inboxes', 'Inkbox', 'United States', 'Messages your app sends to Molar test inboxes'],
     ['Product analytics', 'PostHog', 'United States', 'Usage events and dashboard recordings, with all text and media masked']
   ];
   return fig('dataflow', 'Where your run data goes', stage('dataflow', `<ol class="fv-flow-list">${rows.map(([what, who, where, data], i) => `<li data-motion-item style="--i:${i}"><span class="fv-flow-what">${esc(what)}</span><span class="fv-flow-who"><strong>${esc(who)}</strong><small>${esc(where)}</small></span><span class="fv-flow-data">${esc(data)}</span></li>`).join('')}</ol>`), false, 'As of October 26, 2026');
@@ -143,7 +144,7 @@ function dataflow() {
 // Developer tools: one command and the fields molar verify --json returns (values are illustrative).
 function terminal() {
   const out = ['{', '  "ok": true,', '  "pass": false,', '  "failure_taxonomy": "element_not_found",', '  "rationale": "The page shows a Sign in button but no password field.",', '  "hint": "Check that /login renders the form for signed-out visitors.",', '  "failure": { "code": "element_not_found", "retryable": false },', '  "execution_mode": "local",', '  "artifact_manifest_url": "https://api.molar.it/v1/runs/…/artifacts/manifest"', '}'];
-  return fig('terminal', 'A check from your terminal', stage('terminal', `<div class="fv-terminal"><p class="fv-terminal-cmd"><span>$</span> molar verify "the login form is visible" --url http://localhost:3000 --json</p><pre>${esc(out.join('\n'))}</pre></div>`));
+  return fig('terminal', 'A check from your terminal', stage('terminal', `<div class="fv-terminal"><p class="fv-terminal-cmd"><span>$</span> molar verify "the login form is visible" \\<br>&nbsp;&nbsp;--url http://localhost:3000 --json</p><pre>${esc(out.join('\n'))}</pre></div>`));
 }
 
 const render = { checkout, identity, collaboration, preview, automation, data, swarm, live, dataflow, terminal };

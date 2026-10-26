@@ -2,7 +2,7 @@ import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { document } from '../marketing/document.mjs';
-import { esc, icon } from '../marketing/components.mjs';
+import { esc, icon, cta } from '../marketing/components.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const save = (path, html) => { const target = resolve(root, path); mkdirSync(dirname(target), { recursive: true }); writeFileSync(target, html); };
@@ -16,7 +16,7 @@ function nextStep(path) {
 
 function articlePage({ title, description, path, eyebrow, intro, article, toc }) {
   const links = toc.map(([href, label]) => `<a href="#${href}">${label}</a>`).join('');
-  const body = `<main id="main"><section class="reading-hero article-hero"><div class="wrap"><div class="breadcrumbs"><a href="/">Molar</a>${icon('chevron')}<span>${esc(eyebrow)}</span></div><h1>${esc(title)}</h1><p class="article-description">${esc(intro)}</p></div></section><div class="wrap article-layout"><aside class="reading-sidebar"><strong>On this page</strong><nav aria-label="On this page">${links}</nav><a class="text-link" href="/resources">Browse resources ${icon('arrow')}</a></aside><article class="article-body">${article}<p>${nextStep(path)}</p></article></div></main>`;
+  const body = `<main id="main"><section class="reading-hero article-hero"><div class="wrap"><div class="breadcrumbs"><a href="/">Molar</a>${icon('chevron')}<span>${esc(eyebrow)}</span></div><h1>${esc(title)}</h1><p class="article-description">${esc(intro)}</p></div></section><div class="wrap article-layout"><aside class="reading-sidebar"><strong>On this page</strong><nav aria-label="On this page">${links}</nav><a class="text-link" href="/resources">Browse resources ${icon('arrow')}</a></aside><article class="article-body">${article}<p>${nextStep(path)}</p></article></div>${cta()}</main>`;
   return document({ title, description, path, body });
 }
 

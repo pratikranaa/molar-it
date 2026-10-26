@@ -46,7 +46,7 @@ function data() {
 }
 
 function workflow() {
-  return figure('Download an invoice', `<div class="sd-workflow-grid"><section class="sd-card"><span class="sd-kicker">Approved task</span><strong>Download latest invoice</strong><div class="sd-task-line">${tick}<span>Open billing portal · done</span></div><div class="sd-task-line">${tick}<span>Find invoice row · done</span></div><div class="sd-task-line"><span class="sd-dot"></span><span>Save PDF · next</span></div></section><div class="sd-map-arrow">${arrow}</div><section class="sd-card sd-file-card"><span class="sd-file-mark">PDF</span><strong>invoice-download</strong><span>Requested file</span><code>status · pending</code></section></div>`, 'sd-workflow');
+  return figure('Download an invoice', `<div class="sd-workflow-grid"><section class="sd-card"><span class="sd-kicker">Task</span><strong>Download latest invoice</strong><div class="sd-task-line">${tick}<span>Open billing portal · done</span></div><div class="sd-task-line">${tick}<span>Find invoice row · done</span></div><div class="sd-task-line"><span class="sd-dot"></span><span>Save PDF · next</span></div></section><div class="sd-map-arrow">${arrow}</div><section class="sd-card sd-file-card"><span class="sd-file-mark">PDF</span><strong>invoice-download</strong><span>Requested file</span><code>status · pending</code></section></div>`, 'sd-workflow');
 }
 
 function swarm() {

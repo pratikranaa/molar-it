@@ -171,7 +171,7 @@
 
 /* Second review pass. */
 .feature-visual .fv-dataflow-stage::before, .feature-visual .fv-terminal-stage::before { display: none; }
-.feature-visual .fv-terminal-cmd { font-size: 13px; line-height: 1.6; white-space: nowrap; overflow-x: auto; }
+.feature-visual .fv-terminal-cmd { font-size: 13px; line-height: 1.6; }
 .real-run-teaser h2 { margin-bottom: 18px; }
 .pricing-choice ol + .button, .pricing-choice p + .button { margin-top: 22px; }
 .pricing-limits-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
@@ -182,7 +182,7 @@
   .pricing-limits tr { display: grid; gap: 4px; padding: 14px 0; border-bottom: 1px solid #cdd5c5; }
   .pricing-limits th, .pricing-limits td { padding: 0; border: 0; }
   .pricing-limits td:nth-child(2) { white-space: normal; }
-  .closing h2 br, .agent-run-example h1 br, .reading-hero h1 br { display: none; }
+  .agent-run-example h1 br { display: none; }
 }
 
 /* Code never breaks mid-word: blocks keep their lines and scroll sideways. */
@@ -195,3 +195,7 @@
 /* Long code lines scroll inside their block instead of widening the layout column. */
 .detail-visual-story > *, .split-section > *, .developer-grid > *, .docs-quickstart > *, .pgd-ci-grid > *, .pc-setup-grid > *, .pgd-monitor-setup > *, .cg-command-list > *, .pt-setup-grid > * { min-width: 0; }
 .code-window { max-width: 100%; }
+
+/* Third review pass: legal sidebar groups and the footer privacy button align with their neighbours. */
+.reading-sidebar strong + nav + strong { display: block; margin-top: 22px; }
+.footer-bottom .molar-preferences { display: inline; line-height: inherit; }

@@ -5,7 +5,7 @@ export function guardStory() {
   <div class="wrap">
     <div class="section-heading pgd-section-heading">
       <div><h2>Run the checks your release depends on.</h2></div>
-      <p>Choose a release moment, inspect the configured tests, and open the assertion that decides the result. This interactive example uses sample data.</p>
+      <p>Pick when the check runs, see the tests it includes, and open the check that decides the result. This interactive example uses sample data.</p>
     </div>
     <div class="pgd-workbench" data-guard-example>
       <div class="pgd-example-bar"><span><i class="pgd-live-dot"></i>Release checks</span><span>checkout scenario</span></div>
@@ -35,7 +35,7 @@ export function guardStory() {
           </div>
           <div class="pgd-run-actions"><button class="button button-outline pgd-fixed-example" type="button" data-fixed-example>Compare fixed example</button><button class="button button-outline" type="button" data-rationale aria-expanded="false" aria-controls="pgd-rationale">Why this test?</button><a class="text-link" href="/products/trace">Open Trace example ${icon('arrow')}</a></div>
           <div class="pgd-rationale" id="pgd-rationale" data-rationale-panel hidden><strong>Example policy rationale</strong><p>Checkout is selected because this team marks purchase and access as a critical path. The repository policy names the scenarios used at each release moment.</p></div>
-          <p class="pgd-replay-note" data-replay-note aria-live="polite">Sample state: callback processed, entitlement write absent.</p>
+          <p class="pgd-replay-note" data-replay-note aria-live="polite">Sample state: the payment callback arrived, but the account never got Pro.</p>
         </article>
       </div>
     </div>
@@ -56,7 +56,7 @@ export function guardStory() {
 
 <section class="section pgd-setup-section" id="product-setup">
   <div class="wrap">
-    <div class="section-heading pgd-section-heading"><div><h2>Add a check to each<br>stage of your release.</h2></div><p>Guard becomes useful when its target, credentials, scenario, and merge policy are explicit. Configure them once, then inspect the result for each pull request and deployment.</p></div>
+    <div class="section-heading pgd-section-heading"><div><h2>Add a check to each<br>stage of your release.</h2></div><p>Set the URL, test account, scenario and merge rule once. Then read the result for each pull request and deployment.</p></div>
     <div class="pgd-release-stages">
       <article><span class="pgd-stage-number">01</span><h3>Prepare</h3><p>Install and authenticate the CLI. Connect the repository and preview environment. Give the scenario a dedicated test account and only the service endpoints it needs.</p></article>
       <article><span class="pgd-stage-number">02</span><h3>Gate</h3><p>Run the configured scenario in CI and mark the chosen GitHub job as required in repository settings. Guard reports the result; your branch protection policy decides whether a merge is allowed.</p></article>
@@ -72,10 +72,10 @@ export function guardStory() {
 
 <section class="section pgd-capabilities-section" id="product-capabilities">
   <div class="wrap">
-    <div class="pgd-section-heading"><h2>Follow the same check<br>after deployment.</h2><p>A checkout that passed at 09:00 can fail at 09:15. Inspect each scheduled run’s target, assertion and captured result before deciding what changed.</p></div>
+    <div class="pgd-section-heading"><h2>Follow the same check<br>after deployment.</h2><p>A checkout that passed at midnight can fail by morning. Open each scheduled run’s target, check and captured result to see what changed. Each scheduled run counts toward your 25 hosted runs a day.</p></div>
     <div class="pgd-monitor" data-guard-monitor>
-      <div class="pgd-example-bar"><span>Scheduled checks · sample history</span><span>Every 15 minutes · one configured target</span></div>
-      <div class="pgd-history-table-wrap"><table class="pgd-history-table"><caption class="sr-only">Select a scheduled run to inspect its result. All times are UTC.</caption><thead><tr><th scope="col">Scenario</th><th scope="col">09:00</th><th scope="col">09:15</th><th scope="col">09:30</th></tr></thead><tbody>${GUARD_SCENARIOS.map((name,row)=>`<tr><th scope="row">${name}</th>${GUARD_MONITOR_RUNS.slice(row*3,row*3+3).map((run,col)=>`<td><button type="button" class="pgd-history-status is-${run.status.toLowerCase().replace(' ','-')}" data-monitor-run="${row*3+col}" aria-pressed="${row===0&&col===1}" aria-label="${run.scenario}, ${run.time} UTC, ${run.status}" aria-controls="guard-monitor-panel">${run.status}</button></td>`).join('')}</tr>`).join('')}</tbody></table></div>
+      <div class="pgd-example-bar"><span>Scheduled checks · sample history</span><span>Every 6 hours · one target</span></div>
+      <div class="pgd-history-table-wrap"><table class="pgd-history-table"><caption class="sr-only">Select a scheduled run to inspect its result. All times are UTC.</caption><thead><tr><th scope="col">Scenario</th><th scope="col">00:00</th><th scope="col">06:00</th><th scope="col">12:00</th></tr></thead><tbody>${GUARD_SCENARIOS.map((name,row)=>`<tr><th scope="row">${name}</th>${GUARD_MONITOR_RUNS.slice(row*3,row*3+3).map((run,col)=>`<td><button type="button" class="pgd-history-status is-${run.status.toLowerCase().replace(' ','-')}" data-monitor-run="${row*3+col}" aria-pressed="${row===0&&col===1}" aria-label="${run.scenario}, ${run.time} UTC, ${run.status}" aria-controls="guard-monitor-panel">${run.status}</button></td>`).join('')}</tr>`).join('')}</tbody></table></div>
       <div class="pgd-monitor-panel" id="guard-monitor-panel" data-monitor-panel aria-live="polite" aria-atomic="true">${guardMonitorMarkup(GUARD_MONITOR_RUNS[1])}</div>
     </div>
     <div class="pgd-monitor-setup"><div><h3>Define what the schedule may touch.</h3><p>Choose the target URL, scenario, cadence, available region, dedicated credentials and alert destination. Validate the production safety setup before creating a schedule, then inspect its first completed run.</p><p>Clones isolate supported vendor calls only when your app uses their endpoints. Your production database, analytics and other integrations still need explicit test-data boundaries.</p><a class="text-link" href="/blog/synthetic-monitoring-production">Plan a production check ${icon('arrow')}</a></div><div><h3>Read results from your terminal.</h3>${codeBlock('molar guard status --pattern "checkout*" --json\nmolar guard failures --pattern "checkout*" --limit 10 --json','Molar CLI · current status and recent failures')}<p class="pgd-code-note">Use the configured Molar CLI after sign-in with workspace access. These commands read existing checks; they do not create a schedule or start a browser.</p></div></div>
@@ -103,7 +103,7 @@ export function guardStory() {
     {q:'Does Guard replace Playwright?',a:'No. Guard can complement an existing Playwright suite. Evaluate the configured scenario, environment setup, evidence, and maintenance work on a flow that matters to your team.'},
     {q:'Does a cached result mean the browser ran again?',a:'No. A cached result reuses an earlier pass because nothing the test depends on changed. It doesn’t run the browser again or prove that a remote environment stayed the same, so Guard labels it “cached.”'},
     {q:'Does a change with no mapped dependency run every scenario?',a:'Only a large one. Guard runs every scenario when more than 50 are affected, or when an unmapped change touches more than 10 files or 500 lines. A smaller unmapped change can select nothing, so review coverage and run the relevant tests yourself.'},
-    {q:'Can I monitor from multiple regions?',a:'Schedules accept configured regions. Talk to us to confirm which regions are available for your workspace, then check a completed run from each one. This page’s history illustrates a single target; it is not a live global monitoring report.'},
+    {q:'Can I monitor from multiple regions?',a:'Not yet. During the beta, scheduled runs come from Molar’s hosted browser in Azure Central India. This page’s history illustrates a single target; it is not a live monitoring report.'},
     {q:'Do Clones prevent all production side effects?',a:'Clones isolate supported vendor operations when your app is configured to call them. They do not automatically intercept every outgoing request or isolate your production database. Use dedicated test identities, scoped data, configured endpoints and a validated safety setup.'},
     {q:'Will Mender merge or deploy a fix?',a:'No. Mender is a preview workflow that prepares a proposed repair for review. A human reviews the diff and repository policy remains in control of approval, merge, and deployment.'}
   ];

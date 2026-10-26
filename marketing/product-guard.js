@@ -150,15 +150,15 @@ export function guardSelectionMarkup(example) {
 }
 
 export const GUARD_MONITOR_RUNS = [
-  {scenario:'checkout', time:'09:00', status:'Passed', expected:'Pro access after test payment', observed:'Pro plan visible; project creation enabled.', next:'Keep this result as a reference for later runs.'},
-  {scenario:'checkout', time:'09:15', status:'Failed', expected:'Pro access after test payment', observed:'Payment completed. Account still shows Free.', next:'Inspect the callback and account-access assertion in the failed run.'},
-  {scenario:'checkout', time:'09:30', status:'Queued', next:'Wait for the worker to start. This slot has no browser result yet.'},
-  {scenario:'signin-and-dashboard', time:'09:00', status:'Passed', expected:'Workspace visible after sign-in', observed:'The dedicated test account opened its workspace.', next:'Keep the result with the target URL and run time.'},
-  {scenario:'signin-and-dashboard', time:'09:15', status:'Passed', expected:'Workspace visible after sign-in', observed:'The dedicated test account opened its workspace.', next:'This result covers sign-in; the separate checkout failure remains open.'},
-  {scenario:'signin-and-dashboard', time:'09:30', status:'Queued', next:'No assertion has executed for this slot. Inspect the run when it starts.'},
-  {scenario:'invite-member', time:'09:00', status:'Passed', expected:'Invited member can open the workspace', observed:'Invitation accepted with the expected member role.', next:'Keep the invitation and membership assertions with this run.'},
-  {scenario:'invite-member', time:'09:15', status:'Not run', next:'Test credentials were unavailable. Restore the configured test identity before running again.'},
-  {scenario:'invite-member', time:'09:30', status:'Paused', next:'This example schedule is paused. Resume it after reviewing the test-account setup.'}
+  {scenario:'checkout', time:'00:00', status:'Passed', expected:'Pro access after test payment', observed:'Pro plan visible; project creation enabled.', next:'Keep this result as a reference for later runs.'},
+  {scenario:'checkout', time:'06:00', status:'Failed', expected:'Pro access after test payment', observed:'Payment completed. Account still shows Free.', next:'Inspect the callback and account-access assertion in the failed run.'},
+  {scenario:'checkout', time:'12:00', status:'Queued', next:'Wait for the worker to start. This slot has no browser result yet.'},
+  {scenario:'signin-and-dashboard', time:'00:00', status:'Passed', expected:'Workspace visible after sign-in', observed:'The dedicated test account opened its workspace.', next:'Keep the result with the target URL and run time.'},
+  {scenario:'signin-and-dashboard', time:'06:00', status:'Passed', expected:'Workspace visible after sign-in', observed:'The dedicated test account opened its workspace.', next:'This result covers sign-in; the separate checkout failure remains open.'},
+  {scenario:'signin-and-dashboard', time:'12:00', status:'Queued', next:'No assertion has executed for this slot. Inspect the run when it starts.'},
+  {scenario:'invite-member', time:'00:00', status:'Passed', expected:'Invited member can open the workspace', observed:'Invitation accepted with the expected member role.', next:'Keep the invitation and membership assertions with this run.'},
+  {scenario:'invite-member', time:'06:00', status:'Not run', next:'Test credentials were unavailable. Restore the configured test identity before running again.'},
+  {scenario:'invite-member', time:'12:00', status:'Paused', next:'This example schedule is paused. Resume it after reviewing the test-account setup.'}
 ];
 export function guardMonitorMarkup(run) {
   return `<div class="pgd-monitor-result-head"><div><span>${run.time} UTC · northstar.test</span><h3>${run.scenario}</h3></div><strong class="pgd-history-status is-${run.status.toLowerCase().replace(' ','-')}">${run.status}</strong></div>${run.expected?`<dl class="pgd-monitor-assertion"><div><dt>Expected</dt><dd>${run.expected}</dd></div><div><dt>Observed</dt><dd>${run.observed}</dd></div></dl>`:'<p class="pgd-no-result">No assertion result. No captured browser steps for this slot.</p>'}<p class="pgd-monitor-next">${run.next}</p>`;
