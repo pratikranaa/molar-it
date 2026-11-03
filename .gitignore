@@ -10,3 +10,6 @@ film/music/*.wav
 .impeccable/review/
 .content-drafts/
 .wrangler/
+studio/node_modules/
+studio/renders/
+studio/review/

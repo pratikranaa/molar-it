@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-10-26T15:09:22.373Z",
+  "generatedAt": "2026-11-03T19:23:07.134Z",
   "pageCount": 70,
   "pages": [
     {
@@ -588,7 +588,7 @@
       "headings": [
         "What’s new in Molar.",
         "Clearer pricing, security and setup pages.",
-        "A faster, more reliable agent for hosted runs.",
+        "A new browser agent for hosted runs.",
         "AI model requests moved to Azure OpenAI.",
         "Privacy policy, terms, DPA and subprocessors.",
         "Checks for each requested browser step.",
@@ -701,7 +701,8 @@
         "Molar in GitHub Actions",
         "Run a configured browser scenario in CI.",
         "Register the scenario, then add the Action.",
-        "Read the failure before deciding to merge."
+        "Read the failure before deciding to merge.",
+        "See what your next check finds."
       ]
     },
     {
@@ -819,7 +820,7 @@
         "Your rights",
         "Website analytics and your choices",
         "Product analytics in app.molar.it",
-        "Questions and early-access requests",
+        "Ask Molar and the old waitlist",
         "How we protect data",
         "International transfers",
         "Children’s privacy",
@@ -893,7 +894,7 @@
         "Review the proposed change",
         "Preview access",
         "Frequently asked questions",
-        "Discuss the repair preview."
+        "Try the repair preview."
       ]
     },
     {
@@ -924,7 +925,8 @@
         "Describe the task. Check what the browser does.",
         "Follow signup, payments, and account access.",
         "Keep the tests your team already trusts.",
-        "Start with a page you can inspect."
+        "Start with a page you can inspect.",
+        "See what your next check finds."
       ]
     },
     {
@@ -978,7 +980,8 @@
         "Does the invitation give the right access?",
         "Does the change work before it goes live?",
         "Let the browser handle the repeat work.",
-        "Get the information your software needs."
+        "Get the information your software needs.",
+        "See what your next check finds."
       ]
     },
     {
@@ -1190,7 +1193,8 @@
         "Customers depend on more than your code.",
         "Test the handoffs customers rely on.",
         "Build from one useful test to repeatable release checks.",
-        "Faster development needs checks people can understand."
+        "Faster development needs checks people can understand.",
+        "See what your next check finds."
       ]
     },
     {
@@ -1216,7 +1220,8 @@
         "Compare the environment behind the check.",
         "Try the failure you need to catch.",
         "Keep monitoring that already works.",
-        "When to choose which"
+        "When to choose which",
+        "See what your next check finds."
       ]
     },
     {
@@ -1230,7 +1235,8 @@
         "Compare how you would test an invitation.",
         "Check what happens after “Invitation sent.”",
         "Add one flow and compare the results.",
-        "When to choose which"
+        "When to choose which",
+        "See what your next check finds."
       ]
     },
     {
@@ -1244,7 +1250,8 @@
         "Compare the task you give each tool.",
         "Evaluate a missing test, such as account access after payment.",
         "Review generated code before relying on it.",
-        "When to choose which"
+        "When to choose which",
+        "See what your next check finds."
       ]
     },
     {
@@ -1258,7 +1265,8 @@
         "What you can inspect.",
         "Investigate one missing invitation.",
         "Review a run before changing your tools.",
-        "When to choose which"
+        "When to choose which",
+        "See what your next check finds."
       ]
     },
     {
@@ -1272,7 +1280,8 @@
         "Compare setup and supported behavior.",
         "Try a payment that completes late.",
         "Start with the API calls your app makes.",
-        "When to choose which"
+        "When to choose which",
+        "See what your next check finds."
       ]
     }
   ]

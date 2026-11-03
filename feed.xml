@@ -135,7 +135,7 @@ test(&#39;invoice downloads as a PDF&#39;, async ({ page }, testInfo) =&gt; {
       <section>
         <h2 id="the-verification-model-to-build">The verification model to build</h2>
         <p>A useful direction is to version plain-English scenarios alongside code, review generated changes, and rerun tests from clean state. Humans still decide what behavior matters and whether an unexpected change is acceptable.</p>
-        <p>To evaluate Molar, <a href="https://molar.it/examples/autonomous-browser-check">inspect a recorded browser task</a> and then choose one check for your app. Generated Playwright export and clean replay remain under validation in beta; a completed browser task is not proof that its generated test is ready for CI.</p>]]></content:encoded>
+        <p>To evaluate Molar, <a href="https://molar.it/examples/autonomous-browser-check">inspect a recorded browser task</a> and then choose one check for your app. Gxported Playwright tests are in beta; review each one before it runs in CI.</p>]]></content:encoded>
     </item>
     <item>
       <title>AI Playwright test generation: from a task to a reviewed test</title>
@@ -347,7 +347,7 @@ jobs:
           <code>getByRole('button', { name: 'Pay now' })</code> survives redesigns, refactors, and CSS
           rewrites; <code>#checkout-form > div:nth-child(3) > button</code> survives nothing.
         </p>
-        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code>test('signed-in customer can complete checkout', async ({ page }) => {
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. Adapt this example to your project.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code>test('signed-in customer can complete checkout', async ({ page }) => {
   const user = await makeUser();            // factory: unique, disposable
   await login(page, user);
   await page.getByRole('link', { name: 'Cart' }).click();
@@ -473,7 +473,7 @@ jobs:
           <li><strong>Links.</strong> Every actionable URL resolves: extract it from the message, request or navigate it, assert the destination state (“reset confirmed”, not a 404). This catches token-expiry misconfigurations and base-URL drift between environments.</li>
           <li><strong>Codes.</strong> For OTP flows, extract the code and drive the UI with it — proving the full loop works, not just that something was rendered.</li>
         </ul>
-        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code>test('password reset completes via emailed link', async ({ page }) => {
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. Adapt this example to your project.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code>test('password reset completes via emailed link', async ({ page }) => {
   await requestReset(page, 'ci-run-a7f3+user@mail.clone');
   const mail = await clone.waitForMessage({
     to: 'ci-run-a7f3+user@mail.clone',
@@ -1452,7 +1452,7 @@ Scenario: Duplicate submit
           an ephemeral full stack per PR — preview URL included — and point its third-party dependencies at
           stateful clones:
         </p>
-        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code># ephemerous-but-deterministic: env for a PR preview
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. Adapt this example to your project.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code># ephemerous-but-deterministic: env for a PR preview
 DATABASE_URL=postgres://ci:${TOKEN}@db-pr-4821.internal/app
 STRIPE_BASE_URL=http://stripe-clone.internal:12111   # stateful, signed webhooks
 EMAIL_BASE_URL=http://mailhole.internal:9025         # capture inbox, no delivery
@@ -1552,7 +1552,7 @@ S3_ENDPOINT=http://s3-clone.internal:9000            # real API, throwaway bucke
           A flow-level check walks one critical user path end to end, asserts on outcomes (not pixels), and cleans
           up after itself. Model each check on a named business flow rather than a URL list:
         </p>
-        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code># synthetic-checks/signup.yaml
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. Adapt this example to your project.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code># synthetic-checks/signup.yaml
 flow: signup-and-first-login
 schedule: "*/5 * * * *"        # every 5 minutes
 regions: [us-east, eu-west]
@@ -1683,7 +1683,7 @@ suppress_during_deploy_window: true          # known-change quieting</code></pre
           The cheapest isolation is collision-proof identifiers. Every user, org, project, and invoice a
           test creates gets a unique suffix generated at runtime:
         </p>
-        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code>import { nanoid } from 'nanoid';
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. Adapt this example to your project.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code>import { nanoid } from 'nanoid';
 
 export const newUser = (role: 'member' | 'admin' = 'member') => ({
   email: `qa-${runId()}-${nanoid(8)}@example.test`, // .test is reserved, never routable
@@ -1848,11 +1848,11 @@ await handleStripeEvent(event);</code></pre><p class="copy-status sr-only" role=
       <section>
         <h2 id="inspect-the-messages-captured-by-your-test-service">Inspect the messages captured by your test service</h2>
         <p>
-          A Twilio clone implements the provider’s API contract — message create, lookup, verification services,
-          the works — but keeps every message in a local, inspectable store. Your application doesn’t change: it
+          A Twilio clone implements the provider’s API contract — sending messages, looking them up and verification
+          codes — but keeps every message in a local, inspectable store. Your application doesn’t change: it
           still POSTs to a base URL, still reads back status callbacks. Only the base URL points at the clone.
         </p>
-        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. This is not a Molar SDK or configuration reference.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code># App code is unchanged except TWILIO_BASE_URL
+        <p>Example to adapt: helper functions, accounts, and endpoints depend on your test project. Adapt this example to your project.</p><div class="code-window article-code"><div class="article-code-bar"><span>Code example</span><button type="button" class="copy-button" data-copy><svg class="icon " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>Copy</span></button></div><pre><code># App code is unchanged except TWILIO_BASE_URL
 curl -X POST "$CLONE/2010-04-01/Accounts/ACxxx/Messages.json" \
   -d To=+15550100042 -d From=+15550001111 \
   -d Body="Your code is 491722"
