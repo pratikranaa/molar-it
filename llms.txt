@@ -9,7 +9,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 
 ## Company and other pages
 - [Ask Molar — Practical Answers About Browser Testing](https://molar.it/ask) — Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.
-- [Molar Changelog — Product & Platform Updates](https://molar.it/changelog) — Follow updates to Molar browser execution, verification, test environments, and the platform.
+- [Changelog | Molar](https://molar.it/changelog) — Every change to Molar you can see or use: browser agent runs, exported Playwright tests, Guard, Trace, the CLI and MCP server, and beta terms.
 - [About Molar — Verify the Whole Customer Journey](https://molar.it/company) — Why Molar tests the whole customer journey, across your app and the payment, email and sign-in services behind it. Who builds it and how to reach us.
 - [Talk to the Molar Team](https://molar.it/contact) — Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.
 - [Data Processing Addendum | Molar](https://molar.it/dpa) — Molar’s Data Processing Addendum template for customers who process personal data with Molar.
@@ -97,6 +97,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 - [Documentation](https://docs.molar.it) — full product documentation on its own canonical host.
 - [Create an account](https://app.molar.it/signup) — product sign-up.
 - [RSS feed](https://molar.it/feed.xml) — published guides.
+- [Changelog](https://molar.it/changelog.md) — every customer-visible change, newest first (RSS: https://molar.it/changelog.xml).
 - [Full page map](https://molar.it/llms-full.txt) — titles, descriptions, and headings for every canonical page.
 
 ## Interpretation
