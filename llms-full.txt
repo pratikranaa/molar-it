@@ -158,7 +158,7 @@ Headings: Review visual changes without losing functional checks · Pair visual 
 ## Molar Changelog — Product & Platform Updates
 URL: https://molar.it/changelog
 Description: Follow updates to Molar browser execution, verification, test environments, and the platform.
-Headings: What’s new in Molar. · Clearer pricing, security and setup pages. · A new browser agent for hosted runs. · AI model requests moved to Azure OpenAI. · Privacy policy, terms, DPA and subprocessors. · Checks for each requested browser step. · One dashboard for the Molar products. · Put the next update to work.
+Headings: What’s new in Molar. · Clearer pricing, security and setup pages. · A new browser agent for hosted runs. · Privacy policy, terms, DPA and subprocessors. · Checks for each requested browser step. · One dashboard for the Molar products. · Put the next update to work.
 
 ## About Molar — Verify the Whole Customer Journey
 URL: https://molar.it/company
@@ -273,7 +273,7 @@ Headings: Set up, test, and debug with Molar. · Run your first check · Connect
 ## Security | Molar
 URL: https://molar.it/security
 Description: The security controls Molar runs today: where runs can go, what the AI model sees, encryption, access controls, backups and retention. What we have not done yet.
-Headings: How Molar protects your data. · Encrypted in transit · Separated by organization · Saved logins encrypted · Hosted browsers run in locked-down workers · Runs stay on your hosts · What the AI model sees · The agent acts like a person · Access controls · Backups and retention · Product analytics · What we have not done yet · Report a vulnerability · Frequently asked questions · Ask a security question.
+Headings: How Molar protects your data. · Encrypted in transit · Separated by organization · Saved logins encrypted · Hosted browsers run in isolation · Runs stay on your hosts · What the AI model sees · The agent acts like a person · Access controls · Backups and retention · Product analytics · What we have not done yet · Report a vulnerability · Frequently asked questions · Ask a security question.
 
 ## Solutions for Web App Testing & Browser Automation | Molar
 URL: https://molar.it/solutions

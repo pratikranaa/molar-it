@@ -129,16 +129,16 @@ function live() {
   </div>`));
 }
 
-// Where run data goes. Used on /security; every row matches the subprocessors page.
+// What Molar keeps and for how long. Used on /security; matches Pricing and the docs' limits page.
 function dataflow() {
   const rows = [
-    ['Your browser run', 'Microsoft Azure', 'Central India', 'Run records, screenshots, video, saved logins (encrypted)'],
-    ['AI model', 'Azure OpenAI Service', 'South India', 'Your goal, page content and screenshots, for each step'],
-    ['Account email', 'Resend', 'United States', 'Your email address and the message'],
-    ['Test inboxes', 'Inkbox', 'United States', 'Messages your app sends to Molar test inboxes'],
-    ['Product analytics', 'PostHog', 'United States', 'Usage events and dashboard recordings, with all text and media masked']
+    ['Screenshots and video', 'Deleted after 5 days', 'Also HAR files and Playwright traces'],
+    ['Run records', 'Deleted after 90 days', 'Goal, status and step summary'],
+    ['Saved logins', 'Encrypted at rest', 'Typed only on your project’s hosts; never shown again'],
+    ['Backups', 'Every 6 hours, kept 365 days', 'Encrypted, stored apart from the application'],
+    ['Exported tests', 'Stay in your account', 'Plain Playwright you can run without Molar']
   ];
-  return fig('dataflow', 'Where your run data goes', stage('dataflow', `<ol class="fv-flow-list">${rows.map(([what, who, where, data], i) => `<li data-motion-item style="--i:${i}"><span class="fv-flow-what">${esc(what)}</span><span class="fv-flow-who"><strong>${esc(who)}</strong><small>${esc(where)}</small></span><span class="fv-flow-data">${esc(data)}</span></li>`).join('')}</ol>`), false, 'As of October 26, 2026');
+  return fig('dataflow', 'What we keep, and for how long', stage('dataflow', `<ol class="fv-flow-list">${rows.map(([what, who, data], i) => `<li data-motion-item style="--i:${i}"><span class="fv-flow-what">${esc(what)}</span><span class="fv-flow-who"><strong>${esc(who)}</strong></span><span class="fv-flow-data">${esc(data)}</span></li>`).join('')}</ol>`), false, 'During the beta');
 }
 
 // Developer tools: one command and the fields molar verify --json returns (values are illustrative).

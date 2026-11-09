@@ -62,9 +62,9 @@
             <a href="/security">security page</a>. In summary:</p>
             <ul>
               <li>TLS for all traffic to the service</li>
-              <li>Row-level security in the database that limits each request to the signed-in organization</li>
+              <li>Each organization’s data isolated at the database level, with every request checked against the signed-in organization</li>
               <li>Saved logins encrypted at rest</li>
-              <li>Hosted browsers in locked-down containers that cannot reach private or internal network addresses</li>
+              <li>Hosted browsers in isolated, locked-down environments that cannot reach private or internal network addresses</li>
               <li>Saved logins typed only on the customer project’s own hosts</li>
               <li>A recent multi-factor check before sensitive actions, such as saving a login</li>
               <li>Encrypted database backups every 6 hours, stored outside the application server</li>

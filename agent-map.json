@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-03T19:23:07.134Z",
+  "generatedAt": "2026-11-09T12:34:20.027Z",
   "pageCount": 70,
   "pages": [
     {
@@ -589,7 +589,6 @@
         "What’s new in Molar.",
         "Clearer pricing, security and setup pages.",
         "A new browser agent for hosted runs.",
-        "AI model requests moved to Azure OpenAI.",
         "Privacy policy, terms, DPA and subprocessors.",
         "Checks for each requested browser step.",
         "One dashboard for the Molar products.",
@@ -955,7 +954,7 @@
         "Encrypted in transit",
         "Separated by organization",
         "Saved logins encrypted",
-        "Hosted browsers run in locked-down workers",
+        "Hosted browsers run in isolation",
         "Runs stay on your hosts",
         "What the AI model sees",
         "The agent acts like a person",
