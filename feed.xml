@@ -135,7 +135,8 @@ test(&#39;invoice downloads as a PDF&#39;, async ({ page }, testInfo) =&gt; {
       <section>
         <h2 id="the-verification-model-to-build">The verification model to build</h2>
         <p>A useful direction is to version plain-English scenarios alongside code, review generated changes, and rerun tests from clean state. Humans still decide what behavior matters and whether an unexpected change is acceptable.</p>
-        <p>To evaluate Molar, <a href="https://molar.it/examples/autonomous-browser-check">inspect a recorded browser task</a> and then choose one check for your app. Gxported Playwright tests are in beta; review each one before it runs in CI.</p>]]></content:encoded>
+        <p>To evaluate Molar, <a href="https://molar.it/examples/autonomous-browser-check">inspect a recorded browser task</a> and then choose one check for your app. Exported Playwright tests are in beta; review each one before it runs in CI.</p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>AI Playwright test generation: from a task to a reviewed test</title>
@@ -311,7 +312,8 @@ jobs:
           None of these are tooling problems; all three are policy problems with tooling symptoms. Write
           the policy down — budgets, quarantine rules, stage owners — and revisit it whenever someone says
           “CI is slow again.”
-        </p>]]></content:encoded>
+        </p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>End-to-end testing: practical habits for reliable checks</title>
@@ -436,7 +438,8 @@ jobs:
           Deterministic replay goes one step further than capture: being able to re-run the exact scenario against
           recorded third-party responses converts “couldn’t reproduce” into a routine morning task.
         </p>
-        <p>Start with a critical task, use stable locators, isolate its data, and retain the details needed to investigate failure. Apply the same review to generated tests. Molar’s generated Playwright export and clean replay remain under validation in beta; inspect the code and prove repeatability before adding it to a release gate.</p>]]></content:encoded>
+        <p>Start with a critical task, use stable locators, isolate its data, and retain the details needed to investigate failure. Apply the same review to generated tests. Molar’s generated Playwright export and clean replay remain under validation in beta; inspect the code and prove repeatability before adding it to a release gate.</p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Test email verification, invitations, and notifications</title>
@@ -566,7 +569,8 @@ export async function latestCodeTo(clone, addr) {
           the whole thing on a schedule against staging as part of your
           <a href="https://molar.it/blog/regression-testing-strategies">regression strategy</a>.
         </p>
-        <p>The <a href="https://docs.molar.it/docs/clones/vendors/sendgrid">Molar email clone reference</a> describes supported message capture and inspection. For an invitation test, check the recipient and link, then assert that accepting it grants the intended access. The <a href="https://molar.it/examples/team-invitation">recorded invitation example</a> shows one configured flow.</p>]]></content:encoded>
+        <p>The <a href="https://docs.molar.it/docs/clones/vendors/sendgrid">Molar email clone reference</a> describes supported message capture and inspection. For an invitation test, check the recipient and link, then assert that accepting it grants the intended access. The <a href="https://molar.it/examples/team-invitation">recorded invitation example</a> shows one configured flow.</p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Flaky tests: causes and fixes</title>
@@ -701,7 +705,8 @@ await expect(page.getByText('Payment confirmed')).toBeVisible();</code></pre><p 
           A retry that passes is a bug report, not a pass. If your green build contains three retried tests,
           you shipped with three undiagnosed defects wearing a green badge.
         </div>
-        <p>Set a small retry limit and report when a run needs it. Give repeated flakes an owner and a repair deadline; keep them visible if they temporarily stop blocking merges. A retry should not erase the first failure. See the <a href="https://molar.it/integrations/github-actions">GitHub Actions guide</a> for running a configured Molar scenario in CI.</p>]]></content:encoded>
+        <p>Set a small retry limit and report when a run needs it. Give repeated flakes an owner and a repair deadline; keep them visible if they temporarily stop blocking merges. A retry should not erase the first failure. See the <a href="https://molar.it/integrations/github-actions">GitHub Actions guide</a> for running a configured Molar scenario in CI.</p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Run Playwright tests in GitHub Actions</title>
@@ -873,7 +878,8 @@ jobs:
           The end state to aim for: every pull request gets sub-10-minute E2E feedback it can trust, every
           failure arrives with enough evidence to diagnose without a local reproduction, and the merge gate
           stays green for exactly one reason — the app actually works.
-        </p><p>Reference: <a href="https://playwright.dev/docs/test-sharding">Playwright’s CI sharding and report-merging guide</a>.</p>]]></content:encoded>
+        </p><p>Reference: <a href="https://playwright.dev/docs/test-sharding">Playwright’s CI sharding and report-merging guide</a>.</p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Playwright vs Cypress: choosing for your app</title>
@@ -1028,7 +1034,8 @@ PricingTable.tsx changes
           Finally, make the gate itself non-negotiable: required status checks turn “please run the tests” into
           physics. The mechanics are in our guide to
           <a href="https://molar.it/blog/required-status-checks-merge-gate">required checks as a merge gate</a>.
-        </p>]]></content:encoded>
+        </p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Require passing checks before merging</title>
@@ -1124,7 +1131,7 @@ JSON</code></pre><p class="copy-status sr-only" role="status"></p></div>
           The robust pattern is an aggregator: a final job that runs after all shards and succeeds only if every
           shard succeeded. Require the aggregator’s single stable name, and future shard-count changes never
           touch branch protection again. External systems integrate the same way — Guard, for instance, posts
-          its pass/fail/flaky verdict as a native check run precisely so it can occupy a slot in the required
+          its pass/fail verdict as a native check run precisely so it can occupy a slot in the required
           list like any first-class job (see the <a href="https://molar.it/integrations/github-actions">GitHub Actions integration</a>).
         </p>
       </section>
@@ -1158,7 +1165,8 @@ JSON</code></pre><p class="copy-status sr-only" role="status"></p></div>
           behind it, and post the incident note. Some teams invert the pressure entirely: allow bypass only via
           a dedicated hotfix branch whose protection is slightly softer, keeping main’s gate absolute.
         </p>
-        <p>Review how often checks are bypassed and why. Repeated overrides may indicate slow tests, unreliable environments, or a policy that no longer fits the team. Retain the captured steps and failure details so an engineer can investigate the result. For rollout guidance, see <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a>.</p>]]></content:encoded>
+        <p>Review how often checks are bypassed and why. Repeated overrides may indicate slow tests, unreliable environments, or a policy that no longer fits the team. Retain the captured steps and failure details so an engineer can investigate the result. For rollout guidance, see <a href="https://molar.it/blog/regression-testing-strategies">regression testing strategies</a>.</p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Review automated test repairs without weakening assertions</title>
@@ -1279,7 +1287,8 @@ JSON</code></pre><p class="copy-status sr-only" role="status"></p></div>
           Our <a href="https://molar.it/blog/flaky-tests-causes-and-fixes">flaky-tests field guide</a> covers that diagnosis path,
           and the CI wiring that surfaces both failure classes is in the
           <a href="https://molar.it/blog/github-actions-playwright-ci">GitHub Actions guide</a>.
-        </p>]]></content:encoded>
+        </p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Plan tests before a change is ready to ship</title>
@@ -1378,7 +1387,8 @@ Scenario: Duplicate submit
           the wrong flows — shift-left is a direction, not a destination, and the metric that matters is
           the phase in which defects die.
         </p>
-        <p>Molar is building toward reusable browser checks across development and releases. Start with the <a href="https://molar.it/products/cartographer">Cartographer beta workflow</a>; generated Playwright export and clean replay are still being validated. Configure and verify each release integration before relying on it.</p>]]></content:encoded>
+        <p>Molar is building toward reusable browser checks across development and releases. Start with the <a href="https://molar.it/products/cartographer">Cartographer beta workflow</a>; generated Playwright export and clean replay are still being validated. Configure and verify each release integration before relying on it.</p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Make test environments easier to trust</title>
@@ -1495,7 +1505,8 @@ S3_ENDPOINT=http://s3-clone.internal:9000            # real API, throwaway bucke
         <p>
           Teams rarely delete staging after this. They just stop asking it to predict production — which is
           the only promise it was never able to keep.
-        </p>]]></content:encoded>
+        </p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Startup QA without a dedicated QA team</title>
@@ -1651,7 +1662,8 @@ suppress_during_deploy_window: true          # known-change quieting</code></pre
           <a href="https://molar.it/blog/regression-testing-strategies">regression strategy</a>: flows that keep breaking in
           production are telling you your pre-merge suite has a gap at exactly that spot. Treat every synthetic
           escape as a missing test case, write it, and add it to the PR gate.
-        </p>]]></content:encoded>
+        </p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Manage test data across local runs and CI</title>
@@ -1789,7 +1801,8 @@ export const newUser = (role: 'member' | 'admin' = 'member') => ({
         </ul>
         <p>
           Many apparent flakes are shared-state failures: two tests sharing a row can look like timing bad luck.
-        </p>]]></content:encoded>
+        </p>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Test Stripe checkout without charging a real card</title>
@@ -1937,7 +1950,8 @@ test('signup verifies by phone', async ({ page }) => {
         <div>
           Keep one smoke check against the live provider behind a manual trigger. Clones verify your logic;
           a weekly manual pass confirms the vendor hasn’t changed their contract underneath you.
-        </div>]]></content:encoded>
+        </div>
+      </section>]]></content:encoded>
     </item>
     <item>
       <title>Test the third-party services behind your app</title>
@@ -2062,7 +2076,8 @@ await expect(page).toHaveScreenshot('dashboard.png', {
         <p>
           Built this way, visual regression adds the layer it’s uniquely good at — catching what assertions
           miss — without taxing every merge with noise.
-        </p>]]></content:encoded>
+        </p>
+      </section>]]></content:encoded>
     </item>
   </channel>
 </rss>

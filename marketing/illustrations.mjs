@@ -143,8 +143,8 @@ function dataflow() {
 
 // Developer tools: one command and the fields molar verify --json returns (values are illustrative).
 function terminal() {
-  const out = ['{', '  "ok": true,', '  "pass": false,', '  "failure_taxonomy": "element_not_found",', '  "rationale": "The page shows a Sign in button but no password field.",', '  "hint": "Check that /login renders the form for signed-out visitors.",', '  "failure": { "code": "element_not_found", "retryable": false },', '  "execution_mode": "local",', '  "artifact_manifest_url": "https://api.molar.it/v1/runs/…/artifacts/manifest"', '}'];
-  return fig('terminal', 'A check from your terminal', stage('terminal', `<div class="fv-terminal"><p class="fv-terminal-cmd"><span>$</span> molar verify "the login form is visible" \\<br>&nbsp;&nbsp;--url http://localhost:3000 --json</p><pre>${esc(out.join('\n'))}</pre></div>`));
+  const out = ['{', '  "ok": false,', '  "pass": false,', '  "rationale": "The page shows a Sign in button but no password field.",', '  "failure_taxonomy": "assertion_failed",', '  "hint": "Inspect evidence/rationale; fix the app or refine the claim; re-run with --json.",', '  "execution_mode": "hosted",', '  "timed_out": false,', '  "task_id": "…",', '  "live_view_url": "…",', '  "artifact_manifest_url": "/v1/runs/…/artifacts/manifest",', '  "evidence": { … },', '  "task": { "status": "completed", … }', '}'];
+  return fig('terminal', 'A check from your terminal', stage('terminal', `<div class="fv-terminal"><p class="fv-terminal-cmd"><span>$</span> molar verify "the login form is visible" \\<br>&nbsp;&nbsp;--url https://staging.your-app.com --json</p><pre>${esc(out.join('\n'))}</pre></div>`), false, 'Shape of a failed hosted check');
 }
 
 const render = { checkout, identity, collaboration, preview, automation, data, swarm, live, dataflow, terminal };

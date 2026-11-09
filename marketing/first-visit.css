@@ -202,3 +202,9 @@
 
 /* Compact cards stack their nodes, so the wide-layout connector lines would cut through them. */
 .feature-visual.is-compact .fv-geometry { display: none; }
+
+/* Third review pass: no one-word last lines in headings. */
+h1, h2 { text-wrap: balance; }
+/* Phones: the product sub-nav scrolls sideways, so fade its right edge to show there is more. */
+@media (max-width: 540px) { .product-section-nav .wrap { -webkit-mask-image: linear-gradient(to right, #000 85%, transparent); mask-image: linear-gradient(to right, #000 85%, transparent); } }
+.sd-mini-button { margin-left: 8px; }

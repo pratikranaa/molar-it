@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-09T12:40:31.380Z",
+  "generatedAt": "2026-11-09T12:54:56.127Z",
   "pageCount": 70,
   "pages": [
     {
@@ -587,6 +587,7 @@
       "description": "Follow updates to Molar browser execution, verification, test environments, and the platform.",
       "headings": [
         "What’s new in Molar.",
+        "One agent for every hosted run.",
         "Clearer pricing, security and setup pages.",
         "A new browser agent for hosted runs.",
         "Privacy policy, terms, DPA and subprocessors.",
