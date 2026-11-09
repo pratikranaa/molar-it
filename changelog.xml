@@ -1,372 +1,243 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Molar changelog</title>
+    <title>What’s new in Molar</title>
     <link>https://molar.it/changelog</link>
-    <description>Every change to Molar you can see or use.</description>
+    <description>New things you can do with Molar.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 09 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 08 Nov 2026 12:00:00 GMT</lastBuildDate>
     <atom:link href="https://molar.it/changelog.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Compare Molar with QA Wolf and mabl.</title>
-      <link>https://molar.it/changelog#2026-11-09-comparisons-and-clearer-limits</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-11-09-comparisons-and-clearer-limits</guid>
-      <pubDate>Mon, 09 Nov 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>Website &amp; docs</category>
-      <category>Beta terms</category>
-      <description>Two new comparison pages, written from each vendor’s own pricing page, and docs that describe what each feature does for you.</description>
-      <content:encoded><![CDATA[<p>Two new comparison pages, written from each vendor’s own pricing page, and docs that describe what each feature does for you.</p><ul><li><strong>New:</strong> <a href="https://molar.it/vs/qa-wolf">Molar vs QA Wolf</a> and <a href="https://molar.it/vs/mabl">Molar vs mabl</a>, each ending with when to choose which.</li><li><strong>Changed:</strong> Guard runs, on pull requests or on a schedule, don’t count toward the 25 hosted runs a day.</li><li><strong>Improved:</strong> Developer tools lists the fields <code>molar verify --json</code> returns and the statuses a task moves through.</li><li><strong>Improved:</strong> The docs are rewritten around what you do and get. Old pages about Molar’s internals redirect to the nearest page.</li></ul>]]></content:encoded>
-    </item>
-    <item>
-      <title>The agent filters and sorts before it browses.</title>
-      <link>https://molar.it/changelog#2026-11-08-filters-before-browsing</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-11-08-filters-before-browsing</guid>
+      <title>Ask for the cheapest plan, and Molar uses the site’s own filters</title>
+      <link>https://molar.it/changelog#2026-11-08-agent-uses-site-filters</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-08-agent-uses-site-filters</guid>
       <pubDate>Sun, 08 Nov 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>Agent runs</category>
-      <description>When a site has filter or sort controls, the agent now applies them before reading results, so a goal like “the cheapest plan billed yearly” needs fewer steps.</description>
-      <content:encoded><![CDATA[<p>When a site has filter or sort controls, the agent now applies them before reading results, so a goal like “the cheapest plan billed yearly” needs fewer steps.</p><ul><li><strong>Improved:</strong> Searching a page for text scrolls to the match.</li><li><strong>New:</strong> A new step reads a whole list from the page at once.</li><li><strong>Improved:</strong> Before it finishes, the agent scrolls the evidence for its answer into view, so the final screenshot shows it.</li></ul>]]></content:encoded>
+      <category>Improvement</category>
+      <description>Finding “the cheapest plan billed yearly” used to mean reading every option on the page. Molar now sets the site’s filters and sorting first, then reads what is left, and its final screenshot shows the answer it found.</description>
     </item>
     <item>
-      <title>Repeat runs replay cleanly.</title>
-      <link>https://molar.it/changelog#2026-11-05-repeat-runs-replay-cleanly</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-11-05-repeat-runs-replay-cleanly</guid>
-      <pubDate>Thu, 05 Nov 2026 12:00:00 GMT</pubDate>
-      <category>Fixed</category>
-      <category>Agent runs</category>
-      <description>A replay of an earlier run was sometimes rejected and the steps redone from scratch. Replays now go through, and each replayed step names the element it acted on.</description>
-      <content:encoded><![CDATA[<p>A replay of an earlier run was sometimes rejected and the steps redone from scratch. Replays now go through, and each replayed step names the element it acted on.</p>]]></content:encoded>
-    </item>
-    <item>
-      <title>One agent for every hosted run, and repeat runs without the model.</title>
-      <link>https://molar.it/changelog#2026-11-04-one-agent-and-replays</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-11-04-one-agent-and-replays</guid>
+      <title>Checks you run again finish faster</title>
+      <link>https://molar.it/changelog#2026-11-04-repeat-checks-faster</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-04-repeat-checks-faster</guid>
       <pubDate>Wed, 04 Nov 2026 12:00:00 GMT</pubDate>
-      <category>Changed</category>
-      <category>Agent runs</category>
-      <description>Every hosted run now uses the agent introduced on October 25; the earlier agent is retired. When you repeat a goal that already passed, Molar replays the verified earlier run without calling the model, and the agent takes over only where the page has changed.</description>
-      <content:encoded><![CDATA[<p>Every hosted run now uses the agent introduced on October 25; the earlier agent is retired. When you repeat a goal that already passed, Molar replays the verified earlier run without calling the model, and the agent takes over only where the page has changed.</p><pre><code>curl -X POST https://api.molar.it/api/v1/agent/tasks \
-  -H &quot;Authorization: Bearer $MOLAR_TOKEN&quot; -H &quot;Content-Type: application/json&quot; \
-  -d &#39;{&quot;url&quot;: &quot;https://staging.your-app.com&quot;, &quot;goal&quot;: &quot;log in and open billing&quot;,
-       &quot;runtime&quot;: {&quot;cache&quot;: false}}&#39;</code></pre><ul><li><strong>Removed:</strong> Requests for any other <code>agent_version</code> now return HTTP 422.</li><li><strong>New:</strong> Put <code>{{email}}</code> in a task to get a throwaway inbox for that run, for sign-ups that email a code. It is deleted when the run ends. (Preview)</li><li><strong>Improved:</strong> A run restarted after a crash never repeats a change it already sent. It ends as failed with <code>uncertain_after_restart</code> instead.</li><li><strong>New:</strong> When a page’s own controls don’t work, the agent can read the site’s API instead. Writes through the API need <code>runtime.api_writes</code> (or MCP <code>api_writes</code>). (Preview)</li></ul>]]></content:encoded>
+      <category>Performance &amp; security</category>
+      <description>Running the same check every morning took as long as the first time. Now a check that already passed repeats much faster, and Molar only works through the parts of the page that changed. https://molar.it/platform/browser-agents</description>
     </item>
     <item>
-      <title>28 MCP tools that failed now work, and task webhooks arrive.</title>
-      <link>https://molar.it/changelog#2026-11-04-mcp-tools-and-webhooks</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-11-04-mcp-tools-and-webhooks</guid>
+      <title>Test sign-ups that email a verification code</title>
+      <link>https://molar.it/changelog#2026-11-04-test-email-sign-ups</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-04-test-email-sign-ups</guid>
       <pubDate>Wed, 04 Nov 2026 12:00:00 GMT</pubDate>
-      <category>Fixed</category>
-      <category>CLI &amp; MCP</category>
-      <description>Tools for screenshots, reading the screen, locating and filling elements, capturing network traffic, mapping a site, scenarios, skills, and running, repairing and exporting automations returned errors. They now work against hosted runs.</description>
-      <content:encoded><![CDATA[<p>Tools for screenshots, reading the screen, locating and filling elements, capturing network traffic, mapping a site, scenarios, skills, and running, repairing and exporting automations returned errors. They now work against hosted runs.</p><ul><li><strong>Fixed:</strong> A task’s <code>webhook_url</code> was never called. Molar now delivers it, signed, when the task ends.</li><li><strong>New:</strong> MCP tools for batches (one task per free browser), schedules and watches (at most every 5 minutes, 20 per organization). (Preview)</li><li><strong>New:</strong> MCP tools for a disposable email identity: create one, read its messages and one-time codes, and use it to sign up. One exists at a time and each lasts 24 hours. (Preview)</li></ul>]]></content:encoded>
+      <category>New</category>
+      <description>A sign-up that sends a code by email used to stop a test at the inbox. Put {{email}} in your task and Molar signs up with a fresh inbox for that run, reads the code and finishes the sign-up. https://molar.it/solutions/authentication-testing</description>
     </item>
     <item>
-      <title>The API schema is no longer public.</title>
-      <link>https://molar.it/changelog#2026-11-04-api-schema-private</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-11-04-api-schema-private</guid>
+      <title>Get a call to your server when a task finishes</title>
+      <link>https://molar.it/changelog#2026-11-04-task-webhooks</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-04-task-webhooks</guid>
       <pubDate>Wed, 04 Nov 2026 12:00:00 GMT</pubDate>
-      <category>Changed</category>
-      <category>Security &amp; privacy</category>
-      <description>api.molar.it no longer serves its schema or interactive API pages to anyone who asks. The HTTP API itself is unchanged; the docs describe the calls you can make.</description>
-      <content:encoded><![CDATA[<p>api.molar.it no longer serves its schema or interactive API pages to anyone who asks. The HTTP API itself is unchanged; the docs describe the calls you can make.</p>]]></content:encoded>
+      <category>New</category>
+      <description>Waiting on a long task meant checking back until it was done. Add a webhook URL to the task and Molar calls it, signed, the moment the task ends. https://molar.it/platform/developer-tools</description>
     </item>
     <item>
-      <title>Plan tests from one broad goal.</title>
-      <link>https://molar.it/changelog#2026-11-03-test-planning</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-11-03-test-planning</guid>
+      <title>Run a task on a schedule, or watch a page for changes</title>
+      <link>https://molar.it/changelog#2026-11-04-schedules-and-watches</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-04-schedules-and-watches</guid>
+      <pubDate>Wed, 04 Nov 2026 12:00:00 GMT</pubDate>
+      <category>New</category>
+      <description>Checking the same page by hand every few hours is easy to forget. Ask your coding agent to schedule a task, or to watch a page, and Molar runs it for you as often as every 5 minutes. https://molar.it/platform/developer-tools</description>
+    </item>
+    <item>
+      <title>Get a test plan for your whole app from one sentence</title>
+      <link>https://molar.it/changelog#2026-11-03-test-plan-from-one-sentence</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-03-test-plan-from-one-sentence</guid>
       <pubDate>Tue, 03 Nov 2026 12:00:00 GMT</pubDate>
       <category>New</category>
-      <category>Agent runs</category>
-      <category>Dashboard</category>
-      <category>Preview</category>
-      <description>Ask for “a test plan” or “the whole site” and Molar explores without submitting anything, plans scenarios from what it saw, then runs each one as its own test. On the planning run’s page you choose which scenarios to keep.</description>
-      <content:encoded><![CDATA[<p>Ask for “a test plan” or “the whole site” and Molar explores without submitting anything, plans scenarios from what it saw, then runs each one as its own test. On the planning run’s page you choose which scenarios to keep.</p><ul><li><strong>New:</strong> Onboarding, Start exploration and Cartographer coverage use the planner, as do the MCP tools <code>molar_explore_target</code> and <code>molar_generate_scenarios_from_url</code>.</li><li><strong>Changed:</strong> Not in the npm CLI yet. In CLI 0.3.12, <code>molar explore</code> uses a retired flow; explore from the dashboard or MCP until the next CLI release.</li></ul>]]></content:encoded>
+      <description>Deciding what to test in an app you didn’t write takes hours of clicking around. Ask Molar for “a test plan for this site” and it explores without submitting anything, proposes the scenarios worth checking, and runs the ones you keep as tests. https://molar.it/products/cartographer</description>
     </item>
     <item>
-      <title>Two hosted runs at a time.</title>
-      <link>https://molar.it/changelog#2026-11-03-two-hosted-runs</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-11-03-two-hosted-runs</guid>
+      <title>Two hosted runs at a time</title>
+      <link>https://molar.it/changelog#2026-11-03-two-runs-at-once</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-03-two-runs-at-once</guid>
       <pubDate>Tue, 03 Nov 2026 12:00:00 GMT</pubDate>
-      <category>Changed</category>
-      <category>Beta terms</category>
-      <description>Hosted browsers now run two at a time across Molar, up from one. Further runs wait in a queue and start on their own.</description>
-      <content:encoded><![CDATA[<p>Hosted browsers now run two at a time across Molar, up from one. Further runs wait in a queue and start on their own.</p>]]></content:encoded>
+      <category>Performance &amp; security</category>
+      <description>During the beta, hosted runs went one at a time, so a second run had to wait. Two now run side by side, and any others start on their own as soon as a browser is free. https://molar.it/pricing</description>
     </item>
     <item>
-      <title>Exported tests from signed-in runs sign in first.</title>
-      <link>https://molar.it/changelog#2026-11-03-exports-and-viewports</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-11-03-exports-and-viewports</guid>
+      <title>Test your app at phone size</title>
+      <link>https://molar.it/changelog#2026-11-03-phone-sized-runs</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-03-phone-sized-runs</guid>
       <pubDate>Tue, 03 Nov 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>Exports</category>
-      <category>Agent runs</category>
-      <description>A run that started from a saved profile now exports a test that signs in before it does anything else, so it passes on a fresh browser.</description>
-      <content:encoded><![CDATA[<p>A run that started from a saved profile now exports a test that signs in before it does anything else, so it passes on a fresh browser.</p><ul><li><strong>Improved:</strong> A run that typed two different passwords exports each as its own secret.</li><li><strong>Changed:</strong> Exported tests wait at most 30 seconds for each action and 60 seconds for each page load.</li><li><strong>Improved:</strong> Runs keep the viewport you ask for, such as a 390×844 phone, instead of switching to desktop.</li><li><strong>Fixed:</strong> A replay refused before it started no longer holds a hosted browser. It had kept other runs, including first runs, queued for up to 20 minutes.</li><li><strong>Fixed:</strong> The agent always reports what it found on its last step.</li></ul>]]></content:encoded>
+      <category>Improvement</category>
+      <description>Checking a mobile layout meant a run at desktop size and a guess. Ask for a phone viewport, such as 390 × 844, and the run and the test it exports both stay at that size.</description>
     </item>
     <item>
-      <title>Exported tests wait for what each action changed.</title>
-      <link>https://molar.it/changelog#2026-11-02-exports-wait-on-effects</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-11-02-exports-wait-on-effects</guid>
+      <title>Tests from signed-in runs sign in on their own</title>
+      <link>https://molar.it/changelog#2026-11-03-signed-in-exports</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-03-signed-in-exports</guid>
+      <pubDate>Tue, 03 Nov 2026 12:00:00 GMT</pubDate>
+      <category>Improvement</category>
+      <description>A test exported from a signed-in run used to fail on a fresh browser. It now signs in first, with your secrets kept out of the test file, so it passes in CI.</description>
+    </item>
+    <item>
+      <title>Exported tests wait for the page, not a timer</title>
+      <link>https://molar.it/changelog#2026-11-02-exports-wait-for-the-page</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-02-exports-wait-for-the-page</guid>
       <pubDate>Mon, 02 Nov 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>Exports</category>
-      <category>Dashboard</category>
-      <description>Instead of fixed pauses, each step in an exported test waits for the change the agent saw: a new URL, an element that appears, or a row that disappears.</description>
-      <content:encoded><![CDATA[<p>Instead of fixed pauses, each step in an exported test waits for the change the agent saw: a new URL, an element that appears, or a row that disappears.</p><ul><li><strong>Improved:</strong> A click that opens a new tab exports as a popup the test follows.</li><li><strong>Fixed:</strong> A browser error page now counts as a failed load instead of a page.</li><li><strong>Fixed:</strong> A new account’s first dashboard visit no longer shows errors.</li></ul>]]></content:encoded>
+      <category>Improvement</category>
+      <description>Tests that pause for a fixed number of seconds pass on a fast day and fail on a slow one. Each step in an exported test now waits for the change it expects, such as a new page or a row that appears.</description>
     </item>
     <item>
-      <title>Exported tests repair themselves when replay fails.</title>
-      <link>https://molar.it/changelog#2026-10-26-exports-repair-themselves</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-26-exports-repair-themselves</guid>
+      <title>Exported tests are checked and fixed before you get them</title>
+      <link>https://molar.it/changelog#2026-10-26-tests-fix-themselves</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-26-tests-fix-themselves</guid>
       <pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
       <category>New</category>
-      <category>Exports</category>
-      <category>Agent runs</category>
-      <description>Molar replays every exported test without the agent. If the replay fails, it repairs the test and replays it again. A repair never removes or weakens a check.</description>
-      <content:encoded><![CDATA[<p>Molar replays every exported test without the agent. If the replay fails, it repairs the test and replays it again. A repair never removes or weakens a check.</p><ul><li><strong>New:</strong> The agent can upload files, capture downloads and drag elements.</li><li><strong>Improved:</strong> Exported tests use the run’s viewport, dismiss popups that block the page, and wait correctly for slow page loads.</li></ul>]]></content:encoded>
+      <description>A generated test that fails the first time you run it is worse than none. Molar now runs every exported test on its own before handing it over, and if it fails, fixes it and runs it again. A fix never removes or weakens a check. https://molar.it/products/cartographer</description>
     </item>
     <item>
-      <title>Dashboard recordings never capture your run content.</title>
-      <link>https://molar.it/changelog#2026-10-26-replays-mask-content</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-26-replays-mask-content</guid>
+      <title>Upload files, download files and drag items</title>
+      <link>https://molar.it/changelog#2026-10-26-upload-download-drag</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-26-upload-download-drag</guid>
       <pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>Security &amp; privacy</category>
-      <description>Our product analytics record how the dashboard is used. Those recordings now mask all text and every input, block images and video, drop query strings from URLs, and record no console output.</description>
-      <content:encoded><![CDATA[<p>Our product analytics record how the dashboard is used. Those recordings now mask all text and every input, block images and video, drop query strings from URLs, and record no console output.</p>]]></content:encoded>
+      <category>New</category>
+      <description>Flows with a file picker, a download button or a drag-and-drop board couldn’t be tested end to end. Molar can now upload a file, capture a download and drag an item, and the exported test does the same.</description>
     </item>
     <item>
-      <title>@molar/reporter 0.3.7 uploads to the right address.</title>
-      <link>https://molar.it/changelog#2026-10-26-reporter-0-3-7</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-26-reporter-0-3-7</guid>
+      <title>Your run content stays out of our product analytics</title>
+      <link>https://molar.it/changelog#2026-10-26-private-dashboard-recordings</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-26-private-dashboard-recordings</guid>
       <pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
-      <category>Fixed</category>
-      <category>CLI &amp; MCP</category>
-      <category>Trace</category>
-      <description>In 0.3.6 the default upload address returned 404, so results from your own Playwright or Cypress suite never reached Trace. Upgrade to 0.3.7.</description>
-      <content:encoded><![CDATA[<p>In 0.3.6 the default upload address returned 404, so results from your own Playwright or Cypress suite never reached Trace. Upgrade to 0.3.7.</p><pre><code>npm install -D @molar/reporter@0.3.7</code></pre>]]></content:encoded>
+      <category>Performance &amp; security</category>
+      <description>We record how the dashboard is used so we can improve it. Those recordings now hide all text, inputs, images and video, so your goals, the sites you test and your results never appear in them. https://molar.it/security</description>
     </item>
     <item>
-      <title>Pricing, security and setup, in plain words.</title>
-      <link>https://molar.it/changelog#2026-10-26-pricing-and-security-pages</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-26-pricing-and-security-pages</guid>
-      <pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>Website &amp; docs</category>
-      <description>A Pricing page with the beta limits and how long data is kept, a Security page that says what we do and haven’t done yet, and developer pages with commands you can copy.</description>
-      <content:encoded><![CDATA[<p>A Pricing page with the beta limits and how long data is kept, a Security page that says what we do and haven’t done yet, and developer pages with commands you can copy.</p><ul><li><strong>New:</strong> Hosted runs come from one static IP address, published on the Security page so you can allowlist it.</li><li><strong>New:</strong> <code>/.well-known/security.txt</code> and a real example run with the test it exported.</li><li><strong>Fixed:</strong> The docs’ login, live view, run output, extract and CLI examples now match the product.</li></ul>]]></content:encoded>
-    </item>
-    <item>
-      <title>A new browser agent for hosted runs.</title>
-      <link>https://molar.it/changelog#2026-10-25-new-agent</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-25-new-agent</guid>
+      <title>Add checks in the middle of a task</title>
+      <link>https://molar.it/changelog#2026-10-25-checks-inside-a-task</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-25-checks-inside-a-task</guid>
       <pubDate>Sun, 25 Oct 2026 12:00:00 GMT</pubDate>
       <category>New</category>
-      <category>Agent runs</category>
-      <description>Hosted task runs use a new agent. It checks each step against your goal as it works and can export the run as a Playwright test.</description>
-      <content:encoded><![CDATA[<p>Hosted task runs use a new agent. It checks each step against your goal as it works and can export the run as a Playwright test.</p><ul><li><strong>New:</strong> Where your task says “verify”, the agent checks it during the run, and the exported test contains the same check at the same point.</li><li><strong>New:</strong> Saved logins (<code>{{username}}</code>, <code>{{password}}</code>, <code>{{totp}}</code>) and protected values are typed only when needed, and only on your project’s hosts.</li><li><strong>New:</strong> Sites behind your own bot protection: a project setting makes hosted runs and exported tests send a secret header only to your hosts.</li><li><strong>Improved:</strong> Runs and their recordings are named after their goal.</li></ul>]]></content:encoded>
+      <description>A run that only checks the last screen can miss a broken step along the way. Write “verify” anywhere in your task and Molar checks it at that point, and the exported test keeps the same check in the same place. https://molar.it/platform/browser-agents</description>
     </item>
     <item>
-      <title>The run debugger shows the real failure reason.</title>
-      <link>https://molar.it/changelog#2026-10-24-debugger-failure-reason</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-24-debugger-failure-reason</guid>
-      <pubDate>Sat, 24 Oct 2026 12:00:00 GMT</pubDate>
-      <category>Fixed</category>
-      <category>Dashboard</category>
-      <description>The debugger now shows the reason saved with the failed run instead of a generic message.</description>
-      <content:encoded><![CDATA[<p>The debugger now shows the reason saved with the failed run instead of a generic message.</p>]]></content:encoded>
+      <title>Sign in with a saved test login</title>
+      <link>https://molar.it/changelog#2026-10-25-saved-logins</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-25-saved-logins</guid>
+      <pubDate>Sun, 25 Oct 2026 12:00:00 GMT</pubDate>
+      <category>New</category>
+      <description>Pasting a test password into every task is tedious and easy to leak. Save a test login once, refer to it in a task, and Molar types it only on your own project’s sites. https://molar.it/security</description>
     </item>
     <item>
-      <title>A new dashboard.</title>
+      <title>Test sites behind your own bot protection</title>
+      <link>https://molar.it/changelog#2026-10-25-sites-behind-bot-protection</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-25-sites-behind-bot-protection</guid>
+      <pubDate>Sun, 25 Oct 2026 12:00:00 GMT</pubDate>
+      <category>New</category>
+      <description>Bot protection on your own site can block your tests too. Turn on the test-traffic setting in your project and add one rule to your firewall, and Molar’s runs and exported tests get through. https://docs.molar.it/docs/platform/bot-protection</description>
+    </item>
+    <item>
+      <title>A new dashboard that starts with one question</title>
       <link>https://molar.it/changelog#2026-10-21-new-dashboard</link>
       <guid isPermaLink="true">https://molar.it/changelog#2026-10-21-new-dashboard</guid>
       <pubDate>Wed, 21 Oct 2026 12:00:00 GMT</pubDate>
       <category>New</category>
-      <category>Dashboard</category>
-      <description>Home starts with one box, “What should Molar do?”, and the rest is organised around Tasks, Tests, Runs, Issues, mock services, Recordings and Releases.</description>
-      <content:encoded><![CDATA[<p>Home starts with one box, “What should Molar do?”, and the rest is organised around Tasks, Tests, Runs, Issues, mock services, Recordings and Releases.</p><ul><li><strong>Improved:</strong> Chat has no message cap, can create saved tests, and conversations can be deleted.</li><li><strong>Improved:</strong> Clearer feedback while the agent acts.</li></ul>]]></content:encoded>
+      <description>Finding where to start meant knowing which product did what. The dashboard now opens with one box, “What should Molar do?”, and keeps your tasks, tests, runs, issues and recordings one click away. https://app.molar.it</description>
     </item>
     <item>
-      <title>Exports use your app’s own test IDs.</title>
-      <link>https://molar.it/changelog#2026-10-16-test-ids-and-spend-limit</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-16-test-ids-and-spend-limit</guid>
+      <title>Exported tests use your app’s test IDs</title>
+      <link>https://molar.it/changelog#2026-10-16-exports-use-test-ids</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-16-exports-use-test-ids</guid>
       <pubDate>Fri, 16 Oct 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>Exports</category>
-      <category>Beta terms</category>
-      <description>If your app marks elements with a test-id attribute, such as data-test, exported tests use it.</description>
-      <content:encoded><![CDATA[<p>If your app marks elements with a test-id attribute, such as <code>data-test</code>, exported tests use it.</p><ul><li><strong>Changed:</strong> A run that reaches the daily AI spend limit ends with <code>spend_limit_reached</code>.</li></ul>]]></content:encoded>
+      <category>Improvement</category>
+      <description>If your team already marks elements with test IDs, such as data-test, exported tests now use them, so they match the tests you write by hand.</description>
     </item>
     <item>
-      <title>Molar is free during the beta.</title>
+      <title>Molar is free during the beta</title>
       <link>https://molar.it/changelog#2026-10-15-free-beta</link>
       <guid isPermaLink="true">https://molar.it/changelog#2026-10-15-free-beta</guid>
       <pubDate>Thu, 15 Oct 2026 12:00:00 GMT</pubDate>
-      <category>Changed</category>
-      <category>Beta terms</category>
-      <category>Website &amp; docs</category>
-      <description>No card and no plan to pick. Each organization gets up to 25 hosted runs and $10 of AI model use a day, reset at 00:00 UTC. The 26th run is refused with HTTP 429 daily_run_limit_reached.</description>
-      <content:encoded><![CDATA[<p>No card and no plan to pick. Each organization gets up to 25 hosted runs and $10 of AI model use a day, reset at 00:00 UTC. The 26th run is refused with HTTP 429 <code>daily_run_limit_reached</code>.</p><ul><li><strong>New:</strong> Privacy policy, terms of service, a data processing addendum, a subprocessors list and a security page.</li><li><strong>New:</strong> A public status page at <a href="https://status.molar.it">status.molar.it</a>, checked every 5 minutes.</li><li><strong>New:</strong> Docs pages for limits, ad blocking and cross-app flows.</li></ul>]]></content:encoded>
+      <category>Announcement</category>
+      <description>No card and no plan to choose. Every organization gets up to 25 hosted runs a day, and we’ll tell you before anything about pricing changes. https://molar.it/pricing</description>
     </item>
     <item>
-      <title>@molar/cli 0.3.12.</title>
-      <link>https://molar.it/changelog#2026-10-15-cli-0-3-12</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-15-cli-0-3-12</guid>
+      <title>Check every pull request with the Guard GitHub Action</title>
+      <link>https://molar.it/changelog#2026-10-15-github-action</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-15-github-action</guid>
       <pubDate>Thu, 15 Oct 2026 12:00:00 GMT</pubDate>
       <category>New</category>
-      <category>CLI &amp; MCP</category>
-      <description>The first CLI release since August. It brings hosted exports, saved browser profiles and the Guard commands to the terminal.</description>
-      <content:encoded><![CDATA[<p>The first CLI release since August. It brings hosted exports, saved browser profiles and the Guard commands to the terminal.</p><pre><code>npm install -g @molar/cli</code></pre><ul><li><strong>New:</strong> <code>molar run --execution hosted --export &lt;dir&gt;</code> downloads the replay-checked test package.</li><li><strong>New:</strong> <code>--block-ads</code>, <code>--profile</code> and <code>molar profiles</code>, <code>molar explain</code>.</li><li><strong>New:</strong> <code>molar guard failures</code>, <code>preflight</code> and <code>promote</code>; <code>molar mender status</code>; <code>molar requests</code>; <code>molar branches</code>; <code>molar scenarios publish</code>.</li></ul>]]></content:encoded>
+      <description>A broken checkout found after release costs more than one found in review. Add the Guard Action to your workflow and your key flows run on every pull request, first as advice, then as a required check. https://molar.it/integrations/github-actions</description>
     </item>
     <item>
-      <title>The Guard GitHub Action.</title>
-      <link>https://molar.it/changelog#2026-10-15-guard-action</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-15-guard-action</guid>
+      <title>Download tested Playwright files from your terminal</title>
+      <link>https://molar.it/changelog#2026-10-15-download-tests-from-cli</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-15-download-tests-from-cli</guid>
       <pubDate>Thu, 15 Oct 2026 12:00:00 GMT</pubDate>
       <category>New</category>
-      <category>Guard</category>
-      <description>Add pratikranaa/guard-action@v1 to a workflow to run a registered scenario on every pull request. Start in advisory mode, then make it a required check.</description>
-      <content:encoded><![CDATA[<p>Add <code>pratikranaa/guard-action@v1</code> to a workflow to run a registered scenario on every pull request. Start in advisory mode, then make it a required check.</p><pre><code>- uses: pratikranaa/guard-action@v1
-  with:
-    api-key: ${{ secrets.MOLAR_API_KEY }}
-    scenario-id: checkout
-    base-url: https://staging.your-app.com
-    mode: advisory</code></pre>]]></content:encoded>
+      <description>Copying a test out of the dashboard breaks your flow. Add --export to a hosted run in the Molar CLI and the checked Playwright test lands in your project folder. https://molar.it/platform/developer-tools</description>
     </item>
     <item>
-      <title>Block ads, and follow your app to other sites.</title>
-      <link>https://molar.it/changelog#2026-10-13-ads-and-cross-app</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-13-ads-and-cross-app</guid>
+      <title>Block ads while Molar runs</title>
+      <link>https://molar.it/changelog#2026-10-13-block-ads</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-13-block-ads</guid>
       <pubDate>Tue, 13 Oct 2026 12:00:00 GMT</pubDate>
       <category>New</category>
-      <category>Agent runs</category>
-      <description>Ad-heavy pages slow runs and break exported tests. --block-ads blocks well-known ad and consent hosts in the hosted browser and in the exported test.</description>
-      <content:encoded><![CDATA[<p>Ad-heavy pages slow runs and break exported tests. <code>--block-ads</code> blocks well-known ad and consent hosts in the hosted browser and in the exported test.</p><ul><li><strong>New:</strong> The agent can follow your app to other public sites, such as an OAuth sign-in or a hosted checkout. Private addresses stay blocked.</li></ul>]]></content:encoded>
+      <description>Ads and cookie pop-ups slow runs down and get in the way of tests. Turn on ad blocking for a run and the exported test blocks them too. https://docs.molar.it/docs/platform/block-ads</description>
     </item>
     <item>
-      <title>Run recordings are kept for 5 days.</title>
-      <link>https://molar.it/changelog#2026-10-09-retention</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-09-retention</guid>
-      <pubDate>Fri, 09 Oct 2026 12:00:00 GMT</pubDate>
-      <category>Changed</category>
-      <category>Beta terms</category>
-      <category>Exports</category>
-      <description>Screenshots, video, network captures and Playwright traces are deleted automatically after 5 days. Download anything you need to keep. Exported tests stay in your account.</description>
-      <content:encoded><![CDATA[<p>Screenshots, video, network captures and Playwright traces are deleted automatically after 5 days. Download anything you need to keep. Exported tests stay in your account.</p><ul><li><strong>Improved:</strong> Exported tests put one statement on each line.</li></ul>]]></content:encoded>
+      <title>Follow your app to sign-in and checkout on other sites</title>
+      <link>https://molar.it/changelog#2026-10-13-follow-to-other-sites</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-13-follow-to-other-sites</guid>
+      <pubDate>Tue, 13 Oct 2026 12:00:00 GMT</pubDate>
+      <category>Improvement</category>
+      <description>Sign in with Google or a hosted checkout page used to end the run at your app’s edge. Molar now follows your app to those public sites and back, so you can test the whole flow.</description>
     </item>
     <item>
-      <title>Exported tests read like hand-written Playwright.</title>
+      <title>Exported tests read like ones you wrote</title>
       <link>https://molar.it/changelog#2026-10-07-readable-exports</link>
       <guid isPermaLink="true">https://molar.it/changelog#2026-10-07-readable-exports</guid>
       <pubDate>Wed, 07 Oct 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>Exports</category>
-      <description>Exports find elements by their role and label where the page provides them, so tests are easier to review and keep.</description>
-      <content:encoded><![CDATA[<p>Exports find elements by their role and label where the page provides them, so tests are easier to review and keep.</p>]]></content:encoded>
+      <category>Improvement</category>
+      <description>Generated tests full of brittle selectors are hard to review. Exported tests now find buttons and fields by their names and labels, the way your team writes Playwright.</description>
     </item>
     <item>
-      <title>Dashboard fixes.</title>
-      <link>https://molar.it/changelog#2026-10-05-dashboard-fixes</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-05-dashboard-fixes</guid>
-      <pubDate>Mon, 05 Oct 2026 12:00:00 GMT</pubDate>
-      <category>Fixed</category>
-      <category>Dashboard</category>
-      <description>Clearer error messages with a way to recover, account navigation that works on phones, and Runs filters that stay in the URL so you can share them.</description>
-      <content:encoded><![CDATA[<p>Clearer error messages with a way to recover, account navigation that works on phones, and Runs filters that stay in the URL so you can share them.</p>]]></content:encoded>
-    </item>
-    <item>
-      <title>Scheduled-run failures go to Mender.</title>
-      <link>https://molar.it/changelog#2026-10-01-mender-schedules</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-10-01-mender-schedules</guid>
+      <title>Get a suggested fix when a scheduled check fails</title>
+      <link>https://molar.it/changelog#2026-10-01-mender-for-scheduled-runs</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-10-01-mender-for-scheduled-runs</guid>
       <pubDate>Thu, 01 Oct 2026 12:00:00 GMT</pubDate>
       <category>New</category>
-      <category>Guard</category>
-      <category>Preview</category>
-      <description>When a scheduled Guard run fails and Mender is on, the failure is passed to Mender for a fix suggestion.</description>
-      <content:encoded><![CDATA[<p>When a scheduled Guard run fails and Mender is on, the failure is passed to Mender for a fix suggestion.</p>]]></content:encoded>
+      <description>A check that fails at 3 a.m. waits for someone to dig in. With Mender on, a failed scheduled check comes with a suggested fix you can review. https://molar.it/products/mender</description>
     </item>
     <item>
-      <title>Pull request checks link to evidence you can open.</title>
-      <link>https://molar.it/changelog#2026-09-29-pr-evidence-links</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-09-29-pr-evidence-links</guid>
-      <pubDate>Tue, 29 Sep 2026 12:00:00 GMT</pubDate>
-      <category>Fixed</category>
-      <category>Guard</category>
-      <description>Check results on a pull request linked to screenshots nobody outside Molar could open. They now link to the run’s evidence in the dashboard.</description>
-      <content:encoded><![CDATA[<p>Check results on a pull request linked to screenshots nobody outside Molar could open. They now link to the run’s evidence in the dashboard.</p>]]></content:encoded>
-    </item>
-    <item>
-      <title>The public page check explains incomplete results.</title>
-      <link>https://molar.it/changelog#2026-09-27-public-check-results</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-09-27-public-check-results</guid>
-      <pubDate>Sun, 27 Sep 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>Website &amp; docs</category>
-      <description>When the public check can’t finish, it now says why instead of showing an empty result.</description>
-      <content:encoded><![CDATA[<p>When <a href="https://molar.it/verify">the public check</a> can’t finish, it now says why instead of showing an empty result.</p>]]></content:encoded>
-    </item>
-    <item>
-      <title>Signed-in visitors go straight to the dashboard.</title>
-      <link>https://molar.it/changelog#2026-09-07-signed-in-navigation</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-09-07-signed-in-navigation</guid>
-      <pubDate>Mon, 07 Sep 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>Dashboard</category>
-      <category>Website &amp; docs</category>
-      <description>If you are already signed in, the sign-in and sign-up pages take you to the dashboard, and molar.it’s navigation shows that you are signed in.</description>
-      <content:encoded><![CDATA[<p>If you are already signed in, the sign-in and sign-up pages take you to the dashboard, and molar.it’s navigation shows that you are signed in.</p>]]></content:encoded>
-    </item>
-    <item>
-      <title>A new molar.it.</title>
-      <link>https://molar.it/changelog#2026-09-05-new-website</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-09-05-new-website</guid>
+      <title>Check any public page for free, no account needed</title>
+      <link>https://molar.it/changelog#2026-09-05-check-any-public-page</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-09-05-check-any-public-page</guid>
       <pubDate>Sat, 05 Sep 2026 12:00:00 GMT</pubDate>
       <category>New</category>
-      <category>Website &amp; docs</category>
-      <description>Product pages, a searchable catalog of Clones, an MCP setup page, practical QA guides, and a free check of any public page.</description>
-      <content:encoded><![CDATA[<p>Product pages, a searchable catalog of Clones, an MCP setup page, practical QA guides, and a free check of any public page.</p>]]></content:encoded>
+      <description>Trying Molar used to mean signing up first. Enter a public URL and something that should be true on it, and see what Molar finds, with a screenshot. https://molar.it/verify</description>
     </item>
     <item>
-      <title>Hosted runs reopen as a private beta.</title>
-      <link>https://molar.it/changelog#2026-09-04-hosted-runs-reopen</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-09-04-hosted-runs-reopen</guid>
-      <pubDate>Fri, 04 Sep 2026 12:00:00 GMT</pubDate>
-      <category>Changed</category>
-      <category>Beta terms</category>
-      <category>Dashboard</category>
-      <description>Hosted runs were paused on August 13. They are back, with sign-in by email link, personal API tokens you can see and revoke, and a way to cancel a run.</description>
-      <content:encoded><![CDATA[<p>Hosted runs were paused on August 13. They are back, with sign-in by email link, personal API tokens you can see and revoke, and a way to cancel a run.</p>]]></content:encoded>
-    </item>
-    <item>
-      <title>One dashboard for every Molar product.</title>
+      <title>One dashboard for every part of Molar</title>
       <link>https://molar.it/changelog#2026-08-16-one-dashboard</link>
       <guid isPermaLink="true">https://molar.it/changelog#2026-08-16-one-dashboard</guid>
       <pubDate>Sun, 16 Aug 2026 12:00:00 GMT</pubDate>
-      <category>New</category>
-      <category>Dashboard</category>
-      <description>Cartographer, Clones, Guard and Trace share one dashboard at app.molar.it, with one navigation and one set of organization settings.</description>
-      <content:encoded><![CDATA[<p>Cartographer, Clones, Guard and Trace share one dashboard at app.molar.it, with one navigation and one set of organization settings.</p>]]></content:encoded>
+      <category>Announcement</category>
+      <description>Browser runs, test services, release checks and recordings now live in one place at app.molar.it, with one sign-in and one set of settings for your team.</description>
     </item>
     <item>
-      <title>Connect any MCP client.</title>
-      <link>https://molar.it/changelog#2026-08-04-mcp-setup</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-08-04-mcp-setup</guid>
+      <title>Use Molar from Claude Code, Cursor or any MCP client</title>
+      <link>https://molar.it/changelog#2026-08-04-connect-any-mcp-client</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-08-04-connect-any-mcp-client</guid>
       <pubDate>Tue, 04 Aug 2026 12:00:00 GMT</pubDate>
       <category>New</category>
-      <category>CLI &amp; MCP</category>
-      <description>mcp.molar.it has setup steps for 25 MCP clients, and the hosted server is at https://api.molar.it/mcp.</description>
-      <content:encoded><![CDATA[<p><a href="https://mcp.molar.it">mcp.molar.it</a> has setup steps for 25 MCP clients, and the hosted server is at <code>https://api.molar.it/mcp</code>.</p><pre><code>claude mcp add --transport http molar https://api.molar.it/mcp</code></pre>]]></content:encoded>
+      <description>Your coding agent can change code but can’t see the result in a browser. Connect it to Molar and it can run a check after every change and read what happened. https://mcp.molar.it</description>
     </item>
     <item>
-      <title>@molar/cli 0.3.6 and @molar/reporter 0.3.6.</title>
-      <link>https://molar.it/changelog#2026-08-02-cli-0-3-6</link>
-      <guid isPermaLink="true">https://molar.it/changelog#2026-08-02-cli-0-3-6</guid>
+      <title>See your existing Playwright and Cypress runs in Molar</title>
+      <link>https://molar.it/changelog#2026-08-02-send-results-from-your-suite</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-08-02-send-results-from-your-suite</guid>
       <pubDate>Sun, 02 Aug 2026 12:00:00 GMT</pubDate>
-      <category>Improved</category>
-      <category>CLI &amp; MCP</category>
-      <description>Clearer run output in the CLI, and the first reporter for sending results from an existing Playwright or Cypress suite.</description>
-      <content:encoded><![CDATA[<p>Clearer run output in the CLI, and the first reporter for sending results from an existing Playwright or Cypress suite.</p>]]></content:encoded>
+      <category>New</category>
+      <description>Keep the tests you have. Add the Molar reporter to your Playwright or Cypress suite and every run shows up in Trace, with the steps and recordings in one place. https://docs.molar.it/docs/trace/integrations</description>
     </item>
   </channel>
 </rss>

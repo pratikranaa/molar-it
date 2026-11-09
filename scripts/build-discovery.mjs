@@ -158,7 +158,7 @@ ${[...grouped].map(([group, entries]) => `## ${group}\n${entries.map(pageLink).j
 - [Documentation](https://docs.molar.it) — full product documentation on its own canonical host.
 - [Create an account](https://app.molar.it/signup) — product sign-up.
 - [RSS feed](${SITE_URL}/feed.xml) — published guides.
-- [Changelog](${SITE_URL}/changelog.md) — every customer-visible change, newest first (RSS: ${SITE_URL}/changelog.xml).
+- [What’s new](${SITE_URL}/changelog.md) — new things you can do with Molar, newest first (RSS: ${SITE_URL}/changelog.xml).
 - [Full page map](${SITE_URL}/llms-full.txt) — titles, descriptions, and headings for every canonical page.
 
 ## Interpretation

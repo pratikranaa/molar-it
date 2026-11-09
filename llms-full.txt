@@ -155,10 +155,10 @@ Description: Set useful screenshot scopes and baselines, control rendering varia
 - Published: 2026-06-16
 Headings: Review visual changes without losing functional checks · Pair visual checks with functional assertions · Scope: full-page vs component snapshots · Anti-flaking: fonts, animations, viewport locks · Thresholds that respect antialiasing · Review baseline changes alongside the code · A pragmatic workflow · Explore a release check · Ask about your test. · Your answer · Keep reading.
 
-## Changelog | Molar
+## What’s new | Molar
 URL: https://molar.it/changelog
-Description: Every change to Molar you can see or use: browser agent runs, exported Playwright tests, Guard, Trace, the CLI and MCP server, and beta terms.
-Headings: Changelog · Current versions · November 2026 · October 2026 · September 2026 · August 2026 · Put the next update to work.
+Description: New things you can do with Molar: browser runs, exported Playwright tests, release checks and integrations, newest first.
+Headings: What’s new in Molar · November 2026 · October 2026 · September 2026 · August 2026 · Put the next update to work.
 
 ## About Molar — Verify the Whole Customer Journey
 URL: https://molar.it/company

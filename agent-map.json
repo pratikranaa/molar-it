@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-09T13:34:18.784Z",
+  "generatedAt": "2026-11-09T13:40:54.283Z",
   "pageCount": 72,
   "pages": [
     {
@@ -583,11 +583,10 @@
     {
       "path": "/changelog",
       "url": "https://molar.it/changelog",
-      "title": "Changelog | Molar",
-      "description": "Every change to Molar you can see or use: browser agent runs, exported Playwright tests, Guard, Trace, the CLI and MCP server, and beta terms.",
+      "title": "What’s new | Molar",
+      "description": "New things you can do with Molar: browser runs, exported Playwright tests, release checks and integrations, newest first.",
       "headings": [
-        "Changelog",
-        "Current versions",
+        "What’s new in Molar",
         "November 2026",
         "October 2026",
         "September 2026",
