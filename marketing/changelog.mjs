@@ -124,32 +124,47 @@ const monthOf=d=>fmt(d,{month:'long',year:'numeric'});
 const slug=a=>a.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const anchor=r=>`${r.date}-${r.id}`;
 
-function card(r){
-  return `<article class="cl-entry" id="${anchor(r)}" data-label="${slug(r.label)}">
-  <p class="cl-meta"><a href="#${anchor(r)}"><time datetime="${r.date}">${longDate(r.date)}</time></a><span class="cl-label cl-label-${slug(r.label)}">${esc(r.label)}</span>${r.preview?'<span class="cl-preview">Preview</span>':''}</p>
-  <h3>${esc(r.title)}</h3>
-  <p class="cl-text">${esc(r.body)}</p>
-  ${r.link?`<a class="text-link" href="${r.link[0]}">${esc(r.link[1])} ${icon('arrow')}</a>`:''}
+const dayOf=d=>fmt(d,{day:'2-digit'});
+const monthYear=d=>fmt(d,{month:'short',year:'numeric'});
+
+// One update per screen: the big day number and month on the left, the update on the right.
+function slide(r,i){
+  return `<article class="cl-slide" id="${anchor(r)}" data-label="${slug(r.label)}" data-label-text="${esc(r.label)}" data-date="${longDate(r.date)}">
+  <div class="wrap cl-slide-inner">
+    <a class="cl-day" href="#${anchor(r)}" aria-label="Link to this update"><span>${dayOf(r.date)}</span><time datetime="${r.date}">${monthYear(r.date)}</time></a>
+    <div class="cl-slide-body">
+      <p class="cl-meta"><span class="cl-label cl-label-${slug(r.label)}">${esc(r.label)}</span>${r.preview?'<span class="cl-preview">Preview</span>':''}<time class="cl-meta-date" datetime="${r.date}">${longDate(r.date)}</time></p>
+      <h2>${esc(r.title)}</h2>
+      <p class="cl-text">${esc(r.body)}</p>
+      ${r.link?`<a class="text-link" href="${r.link[0]}">${esc(r.link[1])} ${icon('arrow')}</a>`:''}
+    </div>
+  </div>
 </article>`;
 }
 
 export function changelogBody(cta){
-  const months=[...new Set(releases.map(r=>monthOf(r.date)))];
+  const first=releases[0];
   return `<main id="main"><section class="reading-hero cl-hero"><div class="wrap">
   <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/resources">Resources</a>${icon('chevron')}<span>Changelog</span></nav>
   <h1>What’s new in Molar</h1>
-  <p class="cl-lead">New things you can do with Molar, newest first. Features marked Preview are still being shaped with beta users.</p>
-  <p class="cl-subscribe"><a href="/changelog.xml">${icon('arrow')} Follow by RSS</a></p>
+  <p class="cl-lead">New things you can do with Molar, one at a time, newest first. Features marked Preview are still being shaped with beta users.</p>
+  <div class="cl-filters" role="group" aria-label="Show updates by label"><button type="button" data-cl-filter="all" aria-pressed="true">All updates</button>${LABELS.map(l=>`<button type="button" data-cl-filter="${slug(l)}" aria-pressed="false">${esc(l)}</button>`).join('')}<a class="cl-rss" href="/changelog.xml">${icon('arrow')} RSS</a></div>
 </div></section>
-<section class="section cl-section"><div class="wrap cl-wrap">
-  <div class="cl-filters" role="group" aria-label="Show updates by label"><button type="button" data-cl-filter="all" aria-pressed="true">All updates</button>${LABELS.map(l=>`<button type="button" data-cl-filter="${slug(l)}" aria-pressed="false">${esc(l)}</button>`).join('')}</div>
-  ${months.map(m=>`<section class="cl-month" data-cl-month><h2>${m}</h2>${releases.filter(r=>monthOf(r.date)===m).map(card).join('')}</section>`).join('')}
-</div></section>
+<div class="cl-bar"><div class="wrap cl-bar-inner">
+  <p class="cl-now" aria-live="polite"><time data-cl-now-date>${longDate(first.date)}</time><span class="cl-label cl-label-${slug(first.label)}" data-cl-now-label>${esc(first.label)}</span></p>
+  <div class="cl-nav"><span data-cl-pos>1 of ${releases.length}</span><button type="button" data-cl-step="-1" aria-label="Previous update">${icon('arrow')}</button><button type="button" data-cl-step="1" aria-label="Next update">${icon('arrow')}</button></div>
+</div></div>
+<div class="cl-slides">${releases.map(slide).join('')}</div>
 <script>
-(()=>{const buttons=[...document.querySelectorAll('[data-cl-filter]')];
-const apply=f=>{document.querySelectorAll('.cl-entry').forEach(e=>{e.hidden=!(f==='all'||e.dataset.label===f)});
-document.querySelectorAll('[data-cl-month]').forEach(m=>{m.hidden=!m.querySelector('.cl-entry:not([hidden])')});
-buttons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.clFilter===f)))};
+(()=>{const slides=[...document.querySelectorAll('.cl-slide')],buttons=[...document.querySelectorAll('[data-cl-filter]')];
+const date=document.querySelector('[data-cl-now-date]'),label=document.querySelector('[data-cl-now-label]'),pos=document.querySelector('[data-cl-pos]');
+let current=slides[0];
+const visible=()=>slides.filter(s=>!s.hidden);
+const show=s=>{if(!s)return;current=s;const list=visible();date.textContent=s.dataset.date;label.textContent=s.dataset.labelText;label.className='cl-label cl-label-'+s.dataset.label;pos.textContent=(list.indexOf(s)+1)+' of '+list.length;};
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)show(e.target)})},{rootMargin:'-45% 0px -45% 0px'});
+slides.forEach(s=>io.observe(s));
+document.querySelectorAll('[data-cl-step]').forEach(b=>b.addEventListener('click',()=>{const list=visible(),next=list[list.indexOf(current)+Number(b.dataset.clStep)];if(next)next.scrollIntoView({block:'start'})}));
+const apply=f=>{slides.forEach(s=>{s.hidden=!(f==='all'||s.dataset.label===f)});buttons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.clFilter===f)));const first=visible()[0];show(first);if(first)first.scrollIntoView({block:'start'})};
 buttons.forEach(b=>b.addEventListener('click',()=>apply(b.dataset.clFilter)));})();
 </script>
 ${cta}</main>`;
