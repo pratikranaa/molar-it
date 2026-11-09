@@ -134,7 +134,7 @@ function dataflow() {
   const rows = [
     ['Screenshots and video', 'Deleted after 5 days', 'Also HAR files and Playwright traces'],
     ['Run records', 'Deleted after 90 days', 'Goal, status and step summary'],
-    ['Saved logins', 'Encrypted at rest', 'Typed only on your project’s hosts; never shown again'],
+    ['Saved logins', 'Encrypted at rest', 'Typed only on your project’s hosts; the API never returns them'],
     ['Backups', 'Every 6 hours, kept 365 days', 'Encrypted, stored apart from the application'],
     ['Exported tests', 'Stay in your account', 'Plain Playwright you can run without Molar']
   ];

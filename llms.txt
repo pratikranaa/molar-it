@@ -87,8 +87,10 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 ## Comparisons
 - [Molar Guard vs Checkly | Molar](https://molar.it/vs/checkly) — Compare Checkly monitoring and CI workflows with Molar Guard’s configured release checks and supported service-test setup.
 - [Molar vs Cypress | Molar](https://molar.it/vs/cypress) — Compare Molar browser tasks and service clones with the Cypress testing workflow, without replacing tests your team already relies on.
+- [Molar vs mabl | Molar](https://molar.it/vs/mabl) — Compare mabl’s AI test automation platform with Molar’s plain-Playwright browser checks, Guard release checks and stateful Clones.
 - [Molar vs Playwright | Molar](https://molar.it/vs/playwright) — How Molar browser agents fit alongside Playwright tests, and what to check before adding generated tests to your release process.
 - [Molar Trace vs Playwright Trace Viewer | Molar](https://molar.it/vs/playwright-trace) — Compare Playwright Trace Viewer with Molar Trace for inspecting browser actions, screenshots, requests, and failed checks.
+- [Molar vs QA Wolf | Molar](https://molar.it/vs/qa-wolf) — Compare QA Wolf’s managed and pay-per-run Playwright testing with Molar’s self-serve browser checks, Guard release checks and stateful Clones.
 - [Molar Clones vs WireMock | Molar](https://molar.it/vs/wiremock) — Compare configurable API mocks with Molar’s supported service clones: setup, state, failure cases, and the limits to check before choosing.
 
 ## External properties

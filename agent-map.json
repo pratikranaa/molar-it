@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-09T12:54:56.127Z",
-  "pageCount": 70,
+  "generatedAt": "2026-11-09T13:12:43.579Z",
+  "pageCount": 72,
   "pages": [
     {
       "path": "/",
@@ -1240,6 +1240,20 @@
       ]
     },
     {
+      "path": "/vs/mabl",
+      "url": "https://molar.it/vs/mabl",
+      "title": "Molar vs mabl | Molar",
+      "description": "Compare mabl’s AI test automation platform with Molar’s plain-Playwright browser checks, Guard release checks and stateful Clones.",
+      "headings": [
+        "Molar vs mabl",
+        "A testing platform or tests in your repo.",
+        "Compare where the tests live.",
+        "Try the failure you need to catch.",
+        "When to choose which",
+        "See what your next check finds."
+      ]
+    },
+    {
       "path": "/vs/playwright",
       "url": "https://molar.it/vs/playwright",
       "title": "Molar vs Playwright | Molar",
@@ -1265,6 +1279,20 @@
         "What you can inspect.",
         "Investigate one missing invitation.",
         "Review a run before changing your tools.",
+        "When to choose which",
+        "See what your next check finds."
+      ]
+    },
+    {
+      "path": "/vs/qa-wolf",
+      "url": "https://molar.it/vs/qa-wolf",
+      "title": "Molar vs QA Wolf | Molar",
+      "description": "Compare QA Wolf’s managed and pay-per-run Playwright testing with Molar’s self-serve browser checks, Guard release checks and stateful Clones.",
+      "headings": [
+        "Molar vs QA Wolf",
+        "Two ways to get end-to-end coverage.",
+        "Compare who does the work.",
+        "Try the failure you need to catch.",
         "When to choose which",
         "See what your next check finds."
       ]

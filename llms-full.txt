@@ -1,6 +1,6 @@
 # Molar — canonical page map
 
-Generated from rendered, indexable canonical HTML. 70 pages are included.
+Generated from rendered, indexable canonical HTML. 72 pages are included.
 
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
@@ -360,6 +360,11 @@ URL: https://molar.it/vs/cypress
 Description: Compare Molar browser tasks and service clones with the Cypress testing workflow, without replacing tests your team already relies on.
 Headings: Molar vs Cypress · Choose the workflow your team needs to improve. · Compare how you would test an invitation. · Check what happens after “Invitation sent.” · Add one flow and compare the results. · When to choose which · See what your next check finds.
 
+## Molar vs mabl | Molar
+URL: https://molar.it/vs/mabl
+Description: Compare mabl’s AI test automation platform with Molar’s plain-Playwright browser checks, Guard release checks and stateful Clones.
+Headings: Molar vs mabl · A testing platform or tests in your repo. · Compare where the tests live. · Try the failure you need to catch. · When to choose which · See what your next check finds.
+
 ## Molar vs Playwright | Molar
 URL: https://molar.it/vs/playwright
 Description: How Molar browser agents fit alongside Playwright tests, and what to check before adding generated tests to your release process.
@@ -369,6 +374,11 @@ Headings: Molar vs Playwright · Keep explicit tests. Add agents where they help
 URL: https://molar.it/vs/playwright-trace
 Description: Compare Playwright Trace Viewer with Molar Trace for inspecting browser actions, screenshots, requests, and failed checks.
 Headings: Molar Trace vs Playwright Trace Viewer · Start with the recording your test produces. · What you can inspect. · Investigate one missing invitation. · Review a run before changing your tools. · When to choose which · See what your next check finds.
+
+## Molar vs QA Wolf | Molar
+URL: https://molar.it/vs/qa-wolf
+Description: Compare QA Wolf’s managed and pay-per-run Playwright testing with Molar’s self-serve browser checks, Guard release checks and stateful Clones.
+Headings: Molar vs QA Wolf · Two ways to get end-to-end coverage. · Compare who does the work. · Try the failure you need to catch. · When to choose which · See what your next check finds.
 
 ## Molar Clones vs WireMock | Molar
 URL: https://molar.it/vs/wiremock
