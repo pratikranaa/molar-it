@@ -52,7 +52,7 @@ function identity() {
     <article class="fv-node fv-browser-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Browser</span><span class="fv-node-mark">01</span></header><div class="fv-node-content">${windowBar('northstar.test / sign up')}<strong>Create account</strong><label>name@example.com</label><label>••••••••</label><a class="fv-scene-link" href="/solutions/authentication-testing">Test sign-in ${icon('arrow')}</a></div></article>
     <article class="fv-node fv-service-node fv-email-node" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Test inbox</span><span class="fv-node-mark">02</span></header><div class="fv-node-content"><div class="fv-event-icon">${icon('mail')}</div><strong>Verification code</strong><span>Inbox message matched</span><div class="fv-otp" aria-label="Example verification code"><b>4</b><b>8</b><b>2</b><b>1</b><b>9</b><b>0</b></div></div></article>
     <article class="fv-node fv-result-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Application session</span><span class="fv-node-mark">03</span></header><div class="fv-node-content"><div class="fv-event-icon">${check}</div><strong>Workspace ready</strong><span>Member identity verified</span><code>session_7f24</code></div></article>
-  </div><div class="fv-identity-callout" data-motion-item style="--i:3"><span>${icon('lock')}</span><strong>Verified email</strong><span>Only a verified identity opens the workspace.</span></div></div>`));
+  </div><div class="fv-identity-callout" data-motion-item style="--i:3"><span>${icon('lock')}</span><strong>Verified email</strong><span>Only a verified identity opens the workspace.</span></div>`));
 }
 
 function collaboration() {
@@ -65,7 +65,7 @@ function collaboration() {
     <article class="fv-role-pane" data-motion-item style="--i:0"><header><span>Owner view</span><strong>Priya · owner</strong></header><div class="fv-role-body"><span class="fv-node-kicker">Invite a teammate</span><strong>sam@example.com</strong><a class="fv-scene-link" href="/solutions/team-workflows">Test invitations ${icon('arrow')}</a><p class="fv-role-state">${check} Can manage members</p></div></article>
     <div class="fv-invite-path" data-motion-item style="--i:1"><span>${icon('mail')}</span><strong>Invitation</strong><small>Member access</small></div>
     <article class="fv-role-pane" data-motion-item style="--i:2"><header><span>Member view</span><strong>Sam · member</strong></header><div class="fv-role-body"><span class="fv-node-kicker">After accepting</span><strong>Project dashboard</strong><p class="fv-role-state">${check} Projects <small>read / write</small></p><p class="fv-role-state is-muted">${icon('lock')} Billing <small>no access</small></p></div></article>
-  </div><div class="fv-observation" data-motion-item style="--i:3">${check}<strong>The right permissions</strong><span>Invitation and member access checked</span></div></div>`));
+  </div><div class="fv-observation" data-motion-item style="--i:3">${check}<strong>The right permissions</strong><span>Invitation and member access checked</span></div>`));
 }
 
 function preview() {

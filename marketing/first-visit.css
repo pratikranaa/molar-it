@@ -199,3 +199,6 @@
 /* Third review pass: legal sidebar groups and the footer privacy button align with their neighbours. */
 .reading-sidebar strong + nav + strong { display: block; margin-top: 22px; }
 .footer-bottom .molar-preferences { display: inline; line-height: inherit; }
+
+/* Compact cards stack their nodes, so the wide-layout connector lines would cut through them. */
+.feature-visual.is-compact .fv-geometry { display: none; }
