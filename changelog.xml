@@ -5,8 +5,48 @@
     <link>https://molar.it/changelog</link>
     <description>New things you can do with Molar.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 08 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2026 12:00:00 GMT</lastBuildDate>
     <atom:link href="https://molar.it/changelog.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Your coding agent gets proof, not just pass or fail</title>
+      <link>https://molar.it/changelog#2026-11-11-agent-gets-proof</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-11-agent-gets-proof</guid>
+      <pubDate>Wed, 11 Nov 2026 12:00:00 GMT</pubDate>
+      <category>New</category>
+      <description>A bare pass or fail leaves an agent guessing what to fix. One call to molar verify, molar test or molar run, or molar_verify and molar_run_task over MCP, now returns the status, the answer Molar found, the page text that proves it, the checks on the final page, a recording and a link to the run. When Molar can’t confirm something, it says so and shows what it saw. https://molar.it/platform/developer-tools</description>
+    </item>
+    <item>
+      <title>Keep a Playwright test from every passing run</title>
+      <link>https://molar.it/changelog#2026-11-11-keep-the-test</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-11-keep-the-test</guid>
+      <pubDate>Wed, 11 Nov 2026 12:00:00 GMT</pubDate>
+      <category>New</category>
+      <description>A passing run used to end at its result. It now leaves a Playwright test you own. Download it, open a pull request into your GitHub repository, or add it to your Molar tests so it runs on every pull request. https://molar.it/platform/browser-agents</description>
+    </item>
+    <item>
+      <title>Share a run with a link</title>
+      <link>https://molar.it/changelog#2026-11-11-share-a-run</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-11-share-a-run</guid>
+      <pubDate>Wed, 11 Nov 2026 12:00:00 GMT</pubDate>
+      <category>New</category>
+      <description>Showing someone a result meant adding them to your workspace. Open a run, choose Share and pick Anyone with the link. They see the task, the result, the answer, the proof and the checks, with no sign-up, and the video if you choose to include it. https://molar.it/platform/live-view</description>
+    </item>
+    <item>
+      <title>Know why a run failed</title>
+      <link>https://molar.it/changelog#2026-11-11-failed-run-verdict</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-11-failed-run-verdict</guid>
+      <pubDate>Wed, 11 Nov 2026 12:00:00 GMT</pubDate>
+      <category>New</category>
+      <description>A failed run didn’t say whether to fix the app or the test. It now gets a verdict: Bug, Flaky or Test drift. For test drift, Molar also gives you a repaired test. https://molar.it/products/guard</description>
+    </item>
+    <item>
+      <title>See the recording in your pull request</title>
+      <link>https://molar.it/changelog#2026-11-11-pull-request-comment</link>
+      <guid isPermaLink="true">https://molar.it/changelog#2026-11-11-pull-request-comment</guid>
+      <pubDate>Wed, 11 Nov 2026 12:00:00 GMT</pubDate>
+      <category>New</category>
+      <description>Reviewers had to open a dashboard to find out what a check did. The Guard comment on a pull request now opens with “Verified by Molar” or “Molar found a problem” and links the recording. https://molar.it/products/guard</description>
+    </item>
     <item>
       <title>Ask for the cheapest plan, and Molar uses the site’s own filters</title>
       <link>https://molar.it/changelog#2026-11-08-agent-uses-site-filters</link>

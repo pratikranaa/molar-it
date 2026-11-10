@@ -2,6 +2,46 @@
 
 New things you can do with Molar, newest first. Web page: https://molar.it/changelog. RSS: https://molar.it/changelog.xml.
 
+## Your coding agent gets proof, not just pass or fail
+
+2026-11-11 · New
+
+A bare pass or fail leaves an agent guessing what to fix. One call to molar verify, molar test or molar run, or molar_verify and molar_run_task over MCP, now returns the status, the answer Molar found, the page text that proves it, the checks on the final page, a recording and a link to the run. When Molar can’t confirm something, it says so and shows what it saw.
+
+https://molar.it/platform/developer-tools
+
+## Keep a Playwright test from every passing run
+
+2026-11-11 · New
+
+A passing run used to end at its result. It now leaves a Playwright test you own. Download it, open a pull request into your GitHub repository, or add it to your Molar tests so it runs on every pull request.
+
+https://molar.it/platform/browser-agents
+
+## Share a run with a link
+
+2026-11-11 · New
+
+Showing someone a result meant adding them to your workspace. Open a run, choose Share and pick Anyone with the link. They see the task, the result, the answer, the proof and the checks, with no sign-up, and the video if you choose to include it.
+
+https://molar.it/platform/live-view
+
+## Know why a run failed
+
+2026-11-11 · New
+
+A failed run didn’t say whether to fix the app or the test. It now gets a verdict: Bug, Flaky or Test drift. For test drift, Molar also gives you a repaired test.
+
+https://molar.it/products/guard
+
+## See the recording in your pull request
+
+2026-11-11 · New
+
+Reviewers had to open a dashboard to find out what a check did. The Guard comment on a pull request now opens with “Verified by Molar” or “Molar found a problem” and links the recording.
+
+https://molar.it/products/guard
+
 ## Ask for the cheapest plan, and Molar uses the site’s own filters
 
 2026-11-08 · Improvement
