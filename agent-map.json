@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-10T22:53:36.480Z",
-  "pageCount": 73,
+  "generatedAt": "2026-11-10T23:16:12.658Z",
+  "pageCount": 72,
   "pages": [
     {
       "path": "/",
@@ -620,21 +620,6 @@
       ]
     },
     {
-      "path": "/coding-agents",
-      "url": "https://molar.it/coding-agents",
-      "title": "Let your coding agent check its work in a browser | Molar",
-      "description": "Your coding agent changes the app, Molar uses it in a real browser and returns pass or fail with the answer, the checks, a recording and a Playwright test.",
-      "headings": [
-        "Your agent writes the change. Molar checks it in a browser.",
-        "What you get back from every run.",
-        "One call. A result your agent can act on.",
-        "Reviewers see the result in the pull request.",
-        "Connect your coding agent.",
-        "Frequently asked questions",
-        "Let your agent test its changes."
-      ]
-    },
-    {
       "path": "/company",
       "url": "https://molar.it/company",
       "title": "About Molar — Verify the Whole Customer Journey",
@@ -1023,23 +1008,6 @@
       ]
     },
     {
-      "path": "/solutions/ai-agents",
-      "url": "https://molar.it/solutions/ai-agents",
-      "title": "Browser checks for coding agents | Molar",
-      "description": "Give coding agents a browser check they can run, read, and rerun from CLI or MCP.",
-      "headings": [
-        "Let the agent verify the app it just changed.",
-        "One command after code",
-        "Connect through MCP",
-        "Use test accounts",
-        "Get output your agent can read",
-        "Check after every code change",
-        "Ask for a result you can see",
-        "Frequently asked questions",
-        "Let your agent test its changes."
-      ]
-    },
-    {
       "path": "/solutions/authentication-testing",
       "url": "https://molar.it/solutions/authentication-testing",
       "title": "Authentication testing | Molar",
@@ -1069,6 +1037,22 @@
         "Cover unhappy paths",
         "Frequently asked questions",
         "Test a checkout journey."
+      ]
+    },
+    {
+      "path": "/solutions/coding-agents",
+      "url": "https://molar.it/solutions/coding-agents",
+      "title": "Let your coding agent check its work in a browser | Molar",
+      "description": "Your coding agent changes the app, Molar uses it in a real browser and returns pass or fail with the answer, the checks, a recording and a Playwright test.",
+      "headings": [
+        "Your agent writes the change. Molar checks it in a browser.",
+        "What you get back from every run.",
+        "One call. A result your agent can act on.",
+        "Reviewers see the result in the pull request.",
+        "Connect your coding agent.",
+        "Use test accounts.",
+        "Frequently asked questions",
+        "Let your agent test its changes."
       ]
     },
     {

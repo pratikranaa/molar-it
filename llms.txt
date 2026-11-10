@@ -10,7 +10,6 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 ## Company and other pages
 - [Ask Molar — Practical Answers About Browser Testing](https://molar.it/ask) — Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.
 - [What’s new | Molar](https://molar.it/changelog) — New things you can do with Molar: browser runs, exported Playwright tests, release checks and integrations, newest first.
-- [Let your coding agent check its work in a browser | Molar](https://molar.it/coding-agents) — Your coding agent changes the app, Molar uses it in a real browser and returns pass or fail with the answer, the checks, a recording and a Playwright test.
 - [About Molar — Verify the Whole Customer Journey](https://molar.it/company) — Why Molar tests the whole customer journey, across your app and the payment, email and sign-in services behind it. Who builds it and how to reach us.
 - [Talk to the Molar Team](https://molar.it/contact) — Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.
 - [Data Processing Addendum | Molar](https://molar.it/dpa) — Molar’s Data Processing Addendum template for customers who process personal data with Molar.
@@ -74,9 +73,9 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 
 ## Solutions
 - [Solutions for Web App Testing & Browser Automation | Molar](https://molar.it/solutions) — Explore Molar for checkout testing, sign-in, team workflows, preview deployments, browser automation, and web data extraction.
-- [Browser checks for coding agents | Molar](https://molar.it/solutions/ai-agents) — Give coding agents a browser check they can run, read, and rerun from CLI or MCP.
 - [Authentication testing | Molar](https://molar.it/solutions/authentication-testing) — Check signup, OAuth, OTP, sessions, invites, and protected application routes.
 - [Checkout testing | Molar](https://molar.it/solutions/checkout-testing) — Check payment, callback, order, and receipt behavior in one browser journey.
+- [Let your coding agent check its work in a browser | Molar](https://molar.it/solutions/coding-agents) — Your coding agent changes the app, Molar uses it in a real browser and returns pass or fail with the answer, the checks, a recording and a Playwright test.
 - [Integration testing for real product journeys | Molar](https://molar.it/solutions/integration-testing) — Exercise payment, identity, messaging, and webhook behavior with resettable test services.
 - [Preview deployment testing | Molar](https://molar.it/solutions/preview-deployments) — Run critical browser journeys against a preview deployment before a change reaches production.
 - [QA for startups shipping quickly | Molar](https://molar.it/solutions/startups) — Keep signup, checkout, and account access checked while a small team ships.

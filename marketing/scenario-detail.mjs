@@ -111,7 +111,7 @@ export function detailVisual(page, index = 0) {
   if (path.includes('workflow-automation')) return index ? outcomes() : workflow();
   if (path.includes('browser-agents')) return index ? developer() : workflow();
   if (path.includes('swarm')) return index ? auth(0) : swarm();
-  if (path.includes('developer-tools') || path.includes('ai-agents')) return index ? outcomes() : developer();
+  if (path.includes('developer-tools')) return index ? outcomes() : developer();
   if (path.includes('guard')) return index ? outcomes() : guard(0);
   if (path.includes('preview-deployments')) return index ? paymentBranches() : guard(0);
   if (path.includes('startups')) return index ? scope() : checkout(0);

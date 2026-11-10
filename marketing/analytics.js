@@ -57,7 +57,7 @@
     ['/solutions/workflow-automation', 'workflow_automation'],
     ['/solutions/web-data-extraction', 'web_data_extraction'],
     ['/solutions/integration-testing', 'integration_testing'],
-    ['/solutions/ai-agents', 'coding_agents'],
+    ['/solutions/coding-agents', 'coding_agents'],
     ['/solutions/startups', 'startups'],
     ['/resources', 'resources'],
     ['/blog', 'blog'],

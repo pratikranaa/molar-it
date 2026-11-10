@@ -8,6 +8,10 @@
 /guard /products/guard 301
 /trace /products/trace 301
 
+# Coding agents has one canonical home under Solutions.
+/solutions/ai-agents /solutions/coding-agents 301
+/coding-agents /solutions/coding-agents 301
+
 # Signup is open; the old waitlist sends people to it.
 /waitlist https://app.molar.it/signup 302
 /waitlist.html https://app.molar.it/signup 302

@@ -29,7 +29,7 @@
 .developer-results .code-window code{font-size:12.5px}
 .developer-results .code-top{padding:11px 18px}
 .agent-setup-note{font-size:15px;line-height:1.6;margin-top:24px}
-.coding-agents-prs .developer-grid p{color:#56614f}.coding-agents-prs .developer-grid strong{color:#202b23;font-weight:600}.coding-agents-prs .developer-grid .text-link{color:#202b23;text-decoration-color:#b2bea7}
+.coding-agents-prs .developer-grid p,.coding-agents-accounts .developer-grid p{color:#56614f}.coding-agents-prs .developer-grid strong{color:#202b23;font-weight:600}.coding-agents-prs .developer-grid .text-link{color:#202b23;text-decoration-color:#b2bea7}
 .coding-agents-prs code{background:#e0e7d4;color:#202b23}
 
 .pr-comments{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:12px;align-items:start}

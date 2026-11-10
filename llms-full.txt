@@ -1,6 +1,6 @@
 # Molar — canonical page map
 
-Generated from rendered, indexable canonical HTML. 73 pages are included.
+Generated from rendered, indexable canonical HTML. 72 pages are included.
 
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
@@ -160,11 +160,6 @@ URL: https://molar.it/changelog
 Description: New things you can do with Molar: browser runs, exported Playwright tests, release checks and integrations, newest first.
 Headings: What’s new in Molar · Ask for the cheapest plan, and Molar uses the site’s own filters · Checks you run again finish faster · Test sign-ups that email a verification code · Get a call to your server when a task finishes · Run a task on a schedule, or watch a page for changes · Get a test plan for your whole app from one sentence · Two hosted runs at a time · Test your app at phone size · Tests from signed-in runs sign in on their own · Exported tests wait for the page, not a timer · Exported tests are checked and fixed before you get them · Upload files, download files and drag items · Your run content stays out of our product analytics · Add checks in the middle of a task · Sign in with a saved test login · Test sites behind your own bot protection · A new dashboard that starts with one question · Exported tests use your app’s test IDs · Molar is free during the beta · Check every pull request with the Guard GitHub Action · Download tested Playwright files from your terminal · Block ads while Molar runs · Follow your app to sign-in and checkout on other sites · Exported tests read like ones you wrote · Get a suggested fix when a scheduled check fails · Check any public page for free, no account needed · One dashboard for every part of Molar · Use Molar from Claude Code, Cursor or any MCP client · See your existing Playwright and Cypress runs in Molar · Put the next update to work.
 
-## Let your coding agent check its work in a browser | Molar
-URL: https://molar.it/coding-agents
-Description: Your coding agent changes the app, Molar uses it in a real browser and returns pass or fail with the answer, the checks, a recording and a Playwright test.
-Headings: Your agent writes the change. Molar checks it in a browser. · What you get back from every run. · One call. A result your agent can act on. · Reviewers see the result in the pull request. · Connect your coding agent. · Frequently asked questions · Let your agent test its changes.
-
 ## About Molar — Verify the Whole Customer Journey
 URL: https://molar.it/company
 Description: Why Molar tests the whole customer journey, across your app and the payment, email and sign-in services behind it. Who builds it and how to reach us.
@@ -285,11 +280,6 @@ URL: https://molar.it/solutions
 Description: Explore Molar for checkout testing, sign-in, team workflows, preview deployments, browser automation, and web data extraction.
 Headings: What do you need the browser to do? · Did the payment become a confirmed order? · Can a new customer actually get in? · Does the invitation give the right access? · Does the change work before it goes live? · Let the browser handle the repeat work. · Get the information your software needs. · See what your next check finds.
 
-## Browser checks for coding agents | Molar
-URL: https://molar.it/solutions/ai-agents
-Description: Give coding agents a browser check they can run, read, and rerun from CLI or MCP.
-Headings: Let the agent verify the app it just changed. · One command after code · Connect through MCP · Use test accounts · Get output your agent can read · Check after every code change · Ask for a result you can see · Frequently asked questions · Let your agent test its changes.
-
 ## Authentication testing | Molar
 URL: https://molar.it/solutions/authentication-testing
 Description: Check signup, OAuth, OTP, sessions, invites, and protected application routes.
@@ -299,6 +289,11 @@ Headings: Check sign-in from signup to workspace. · Follow real browser steps �
 URL: https://molar.it/solutions/checkout-testing
 Description: Check payment, callback, order, and receipt behavior in one browser journey.
 Headings: Check every step of checkout. · Choose a payment state · Check the callback · No live keys needed · From checkout to confirmation · Cover unhappy paths · Frequently asked questions · Test a checkout journey.
+
+## Let your coding agent check its work in a browser | Molar
+URL: https://molar.it/solutions/coding-agents
+Description: Your coding agent changes the app, Molar uses it in a real browser and returns pass or fail with the answer, the checks, a recording and a Playwright test.
+Headings: Your agent writes the change. Molar checks it in a browser. · What you get back from every run. · One call. A result your agent can act on. · Reviewers see the result in the pull request. · Connect your coding agent. · Use test accounts. · Frequently asked questions · Let your agent test its changes.
 
 ## Integration testing for real product journeys | Molar
 URL: https://molar.it/solutions/integration-testing

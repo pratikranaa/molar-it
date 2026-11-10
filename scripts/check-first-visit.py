@@ -42,7 +42,7 @@ with sync_playwright() as p:
     assert 42<report['video']['duration']<45 and not report['video']['error']
     video.evaluate('(v)=>v.pause()')
     report['checks'].append('Native recorded evidence plays')
-    for route in ('/products/mender','/platform/swarm','/platform/browser-agents','/platform/live-view','/platform/developer-tools','/solutions/integration-testing','/solutions/checkout-testing','/solutions/authentication-testing','/solutions/team-workflows','/solutions/preview-deployments','/solutions/workflow-automation','/solutions/web-data-extraction','/solutions/ai-agents','/solutions/startups','/solutions/web-app-testing','/resources','/security'):
+    for route in ('/products/mender','/platform/swarm','/platform/browser-agents','/platform/live-view','/platform/developer-tools','/solutions/integration-testing','/solutions/checkout-testing','/solutions/authentication-testing','/solutions/team-workflows','/solutions/preview-deployments','/solutions/workflow-automation','/solutions/web-data-extraction','/solutions/coding-agents','/solutions/startups','/solutions/web-app-testing','/resources','/security'):
         page.goto(args.base+route)
         figures=page.locator('.detail-section .scenario-detail')
         assert figures.count()==2,(route,figures.count())

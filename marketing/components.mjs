@@ -44,6 +44,7 @@ const menus = [
     ['/products/mender','Mender','Review a suggested fix for a failed check.','bolt']
   ]],
   ['Solutions',[
+    ['/solutions/coding-agents','Coding agents','Let your agent test its changes.','code'],
     ['/solutions/checkout-testing','Checkout & payments','From a payment to a confirmed order.','card'],
     ['/solutions/authentication-testing','Sign-in & onboarding','Accounts, email codes, and access.','lock'],
     ['/solutions/team-workflows','Team workflows','Invites, roles, and permissions.','users'],
@@ -51,7 +52,6 @@ const menus = [
     ['/solutions/workflow-automation','Browser automation','Forms, portals, files, and repeat work.','cursor'],
     ['/solutions/web-data-extraction','Web data extraction','Turn page content into usable data.','file'],
     ['/solutions/integration-testing','Integration-heavy apps','Payments, auth, messaging, webhooks.','layers'],
-    ['/coding-agents','Coding agents','Let your agent test its changes.','code'],
     ['/solutions/startups','Startups & small teams','Keep shipping with repeatable QA.','bolt']
   ]],
   ['Resources',[
@@ -70,7 +70,7 @@ function menuBody(label,items,active){
   if(label==='Products')return `<div class="dropdown-links product-menu-links" aria-label="Products">${items.filter(item=>item[1]!=='Clone catalog').map(item=>menuLink(item,active,true)).join('')}</div><div class="dropdown-bottom"><a href="/products/clones#clone-catalog">${icon('layers')} Explore the clone catalog <span class="menu-link-note">Payments, email, sign-in and more</span>${icon('arrow')}</a><a href="/#products">How the products work together ${icon('arrow')}</a></div>`;
   if(label==='Platform')return `<a class="menu-platform-feature" href="/platform">${productGraphic('platform',{compact:true})}<strong>Give a browser the task.</strong><span>Bring back the file, the data and a record of what happened.</span><span class="text-link">Explore the platform ${icon('arrow')}</span></a><div class="dropdown-links" aria-label="Platform">${items.map(item=>menuLink(item,active)).join('')}</div><div class="dropdown-bottom"><span>From one browser task to your coding workflow.</span><a href="https://mcp.molar.it">Connect through MCP ${icon('arrow')}</a></div>`;
   if(label==='Resources')return `<div class="menu-guides">${featuredGuides.slice(0,2).map(guide=>guidePreview(guide,{compact:true})).join('')}</div><div class="dropdown-links" aria-label="Resources">${items.map(item=>menuLink(item,active)).join('')}</div><div class="dropdown-bottom"><a href="/docs">Start with the quickstart ${icon('arrow')}</a><a href="/examples/agent-checkout-run">See a real agent run ${icon('arrow')}</a></div>`;
-  const groups=[['Test customer actions',items.filter((_,i)=>[0,1,2,6].includes(i))],['Build and release',items.filter((_,i)=>[3,7,8].includes(i))],['Automate browser work',items.filter((_,i)=>[4,5].includes(i))]];
+  const groups=[['Build and release',items.filter((_,i)=>[0,4,8].includes(i))],['Test customer actions',items.filter((_,i)=>[1,2,3,7].includes(i))],['Automate browser work',items.filter((_,i)=>[5,6].includes(i))]];
   return `<div class="solution-menu-groups">${groups.map(([title,links])=>`<div><p class="menu-group-title">${title}</p><div class="dropdown-links">${links.map(item=>menuLink(item,active)).join('')}</div></div>`).join('')}</div><div class="dropdown-bottom"><a href="/solutions">Find the setup for your task ${icon('arrow')}</a><a href="/contact">Talk to us ${icon('arrow')}</a></div>`;
 }
 export function header(active='') {
