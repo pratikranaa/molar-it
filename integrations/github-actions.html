@@ -13,8 +13,7 @@
     base-url: ${{ steps.deploy.outputs.url }}
     mode: advisory</code></pre>
 <p>The Action runs on <code>pull_request</code> and <code>workflow_dispatch</code> events. It starts one run of the scenario against <code>base-url</code>, waits for the result and reports it. It doesn’t write the scenario or change your branch protection. If you install the Molar GitHub App instead, Guard finds Vercel preview URLs for you.</p>
-<h2 id="checks">Read the failure before deciding to merge.</h2>
-<p>The pull request comment opens with “Verified by Molar” or “Molar found a problem” and links the recording. A failed run is labelled Bug, Flaky or Test drift.</p>
+<h2>Read the failure before deciding to merge.</h2>
 <p>Review the scenario status and any captured steps, screenshots, or trace links. Check whether the app failed an assertion, the test environment was unavailable, or the account could not sign in. These require different fixes.</p>
 <p>For example, a checkout scenario should verify the expected account access as well as the confirmation page. If the browser succeeds but the configured service check fails, investigate the payment callback or account update before treating the run as passed.</p>
 <p>Guard is in beta. <a href="/products/guard">Explore Guard</a> or <a href="/contact">talk to us</a>. Automatic repair through Mender remains a preview capability.</p></section>

@@ -146,24 +146,12 @@ for (const page of concisePages) {
   if (!grouped.has(group)) grouped.set(group, []);
   grouped.get(group).push(page);
 }
-// What a run returns today (2026-11-11). Live features only.
-const whatItDoes = `## What Molar does today
-- Ask Molar to test a flow or find something on a site: \`molar verify\`, \`molar test\`, \`molar run\`, the MCP tools \`molar_verify\` and \`molar_run_task\`, or Tasks in the dashboard. One call returns pass or fail, the answer it found, the page text that proves it, checks on the final page, a recording and a run link. Example: \`molar verify "login works" --url http://localhost:3000 --json\`.
-- Watch the browser live while it runs.
-- Every passing run leaves a Playwright test you own. Download it, open a pull request into your GitHub repository, or add it to your Molar tests so it runs on every pull request.
-- When Molar can’t confirm something, it says so and shows what it saw instead of guessing.
-- A failed run gets a verdict: Bug, Flaky or Test drift. For test drift, Molar also gives you a repaired test.
-- Guard runs your tests on every pull request. The comment opens with “Verified by Molar” or “Molar found a problem” and links the recording.
-- A share link shows the task, result, answer, proof and checks to anyone with the link, with no sign-up. The video is included if you choose.
-- Clones of Stripe, email, SMS, sign-in and S3 let you test against stateful service stand-ins.
-`;
 const llms = `# Molar
 
 > Molar is a beta browser automation and QA platform for web applications. Its QA workflows test customer journeys in a real browser; its platform also supports scoped browser tasks for people and AI agents.
 
 This map is generated from crawlable canonical HTML pages. Product availability and coverage depend on the configured environment; the linked pages are the source of truth.
 
-${whatItDoes}
 ${[...grouped].map(([group, entries]) => `## ${group}\n${entries.map(pageLink).join('\n')}`).join('\n\n')}
 
 ## External properties
@@ -180,7 +168,6 @@ const llmsFull = `# Molar — canonical page map
 
 Generated from rendered, indexable canonical HTML. ${pages.length} pages are included.
 
-${whatItDoes}
 ${pages.map(page => {
   const article = articleByPath.get(page.path);
   const facts = article ? `\n- Published: ${article.date}` : '';

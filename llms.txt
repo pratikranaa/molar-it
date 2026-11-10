@@ -4,18 +4,8 @@
 
 This map is generated from crawlable canonical HTML pages. Product availability and coverage depend on the configured environment; the linked pages are the source of truth.
 
-## What Molar does today
-- Ask Molar to test a flow or find something on a site: `molar verify`, `molar test`, `molar run`, the MCP tools `molar_verify` and `molar_run_task`, or Tasks in the dashboard. One call returns pass or fail, the answer it found, the page text that proves it, checks on the final page, a recording and a run link. Example: `molar verify "login works" --url http://localhost:3000 --json`.
-- Watch the browser live while it runs.
-- Every passing run leaves a Playwright test you own. Download it, open a pull request into your GitHub repository, or add it to your Molar tests so it runs on every pull request.
-- When Molar can’t confirm something, it says so and shows what it saw instead of guessing.
-- A failed run gets a verdict: Bug, Flaky or Test drift. For test drift, Molar also gives you a repaired test.
-- Guard runs your tests on every pull request. The comment opens with “Verified by Molar” or “Molar found a problem” and links the recording.
-- A share link shows the task, result, answer, proof and checks to anyone with the link, with no sign-up. The video is included if you choose.
-- Clones of Stripe, email, SMS, sign-in and S3 let you test against stateful service stand-ins.
-
 ## Start here
-- [Molar — AI QA for Web Apps & Third-Party Integrations](https://molar.it/) — Your coding agent writes the change. Molar tests it in a real browser and returns pass or fail with the answer, the checks and a recording. Also tests sign-up, payments, email and webhooks.
+- [Molar — AI QA for Web Apps & Third-Party Integrations](https://molar.it/) — AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.
 
 ## Company and other pages
 - [Ask Molar — Practical Answers About Browser Testing](https://molar.it/ask) — Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.
@@ -77,7 +67,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 ## Products
 - [Cartographer | Molar](https://molar.it/products/cartographer) — Give Cartographer an authorized app and a goal such as “sign up, enter the email code, and open the workspace.” It follows the route, returns the pages and browser actions it reached, and gives you a check to review or rerun.
 - [Clones | Molar](https://molar.it/products/clones) — Point your test environment at a documented clone, run the payment, message, sign-in, or upload task, and inspect the record your app creates. Control supported failures and timing, then restore the starting state for the next run.
-- [Guard | Molar](https://molar.it/products/guard) — Guard runs your sign-up, checkout and account checks on every pull request and on a schedule, and shows the step that failed. The pull request comment opens with “Verified by Molar” or “Molar found a problem” and links the recording. Each check is a Playwright test, so no AI agent decides pass or fail.
+- [Guard | Molar](https://molar.it/products/guard) — Guard runs your sign-up, checkout and account checks on every pull request and on a schedule, and shows the step that failed. Each check is a Playwright test, so no AI agent decides pass or fail.
 - [Mender | Molar](https://molar.it/products/mender) — Review a proposed repair beside the failed browser check that prompted it.
 - [Trace | Molar](https://molar.it/products/trace) — Open one run and follow its browser action, page, request, console message, and available service detail in sequence. See the failed request beside the browser step that triggered it, then share the run with the engineer fixing it.
 

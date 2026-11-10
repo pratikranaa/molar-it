@@ -2,20 +2,10 @@
 
 Generated from rendered, indexable canonical HTML. 72 pages are included.
 
-## What Molar does today
-- Ask Molar to test a flow or find something on a site: `molar verify`, `molar test`, `molar run`, the MCP tools `molar_verify` and `molar_run_task`, or Tasks in the dashboard. One call returns pass or fail, the answer it found, the page text that proves it, checks on the final page, a recording and a run link. Example: `molar verify "login works" --url http://localhost:3000 --json`.
-- Watch the browser live while it runs.
-- Every passing run leaves a Playwright test you own. Download it, open a pull request into your GitHub repository, or add it to your Molar tests so it runs on every pull request.
-- When Molar can’t confirm something, it says so and shows what it saw instead of guessing.
-- A failed run gets a verdict: Bug, Flaky or Test drift. For test drift, Molar also gives you a repaired test.
-- Guard runs your tests on every pull request. The comment opens with “Verified by Molar” or “Molar found a problem” and links the recording.
-- A share link shows the task, result, answer, proof and checks to anyone with the link, with no sign-up. The video is included if you choose.
-- Clones of Stripe, email, SMS, sign-in and S3 let you test against stateful service stand-ins.
-
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
-Description: Your coding agent writes the change. Molar tests it in a real browser and returns pass or fail with the answer, the checks and a recording. Also tests sign-up, payments, email and webhooks.
-Headings: Your agent writes it. Molar tests it. · What you get back from every run. · Make the hard cases easy to test. · Your app calls more than one service. · Explore it. Test it. Know where it broke. · See a real run, step by step. · Write the change. Check it in a browser. · Put the next test into practice. · Check a public page. Inspect the result. · Frequently asked questions · Start with the flow your customers rely on.
+Description: AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.
+Headings: Your users shouldn’t be your QA team. · Make the hard cases easy to test. · Your app calls more than one service. · Explore it. Test it. Know where it broke. · See a real run, step by step. · Write the change. Check it in a browser. · Put the next test into practice. · Check a public page. Inspect the result. · Frequently asked questions · Start with the flow your customers rely on.
 
 ## Ask Molar — Practical Answers About Browser Testing
 URL: https://molar.it/ask
@@ -168,7 +158,7 @@ Headings: Review visual changes without losing functional checks · Pair visual 
 ## What’s new | Molar
 URL: https://molar.it/changelog
 Description: New things you can do with Molar: browser runs, exported Playwright tests, release checks and integrations, newest first.
-Headings: What’s new in Molar · Your coding agent gets proof, not just pass or fail · Keep a Playwright test from every passing run · Share a run with a link · Know why a run failed · See the recording in your pull request · Ask for the cheapest plan, and Molar uses the site’s own filters · Checks you run again finish faster · Test sign-ups that email a verification code · Get a call to your server when a task finishes · Run a task on a schedule, or watch a page for changes · Get a test plan for your whole app from one sentence · Two hosted runs at a time · Test your app at phone size · Tests from signed-in runs sign in on their own · Exported tests wait for the page, not a timer · Exported tests are checked and fixed before you get them · Upload files, download files and drag items · Your run content stays out of our product analytics · Add checks in the middle of a task · Sign in with a saved test login · Test sites behind your own bot protection · A new dashboard that starts with one question · Exported tests use your app’s test IDs · Molar is free during the beta · Check every pull request with the Guard GitHub Action · Download tested Playwright files from your terminal · Block ads while Molar runs · Follow your app to sign-in and checkout on other sites · Exported tests read like ones you wrote · Get a suggested fix when a scheduled check fails · Check any public page for free, no account needed · One dashboard for every part of Molar · Use Molar from Claude Code, Cursor or any MCP client · See your existing Playwright and Cypress runs in Molar · Put the next update to work.
+Headings: What’s new in Molar · Ask for the cheapest plan, and Molar uses the site’s own filters · Checks you run again finish faster · Test sign-ups that email a verification code · Get a call to your server when a task finishes · Run a task on a schedule, or watch a page for changes · Get a test plan for your whole app from one sentence · Two hosted runs at a time · Test your app at phone size · Tests from signed-in runs sign in on their own · Exported tests wait for the page, not a timer · Exported tests are checked and fixed before you get them · Upload files, download files and drag items · Your run content stays out of our product analytics · Add checks in the middle of a task · Sign in with a saved test login · Test sites behind your own bot protection · A new dashboard that starts with one question · Exported tests use your app’s test IDs · Molar is free during the beta · Check every pull request with the Guard GitHub Action · Download tested Playwright files from your terminal · Block ads while Molar runs · Follow your app to sign-in and checkout on other sites · Exported tests read like ones you wrote · Get a suggested fix when a scheduled check fails · Check any public page for free, no account needed · One dashboard for every part of Molar · Use Molar from Claude Code, Cursor or any MCP client · See your existing Playwright and Cypress runs in Molar · Put the next update to work.
 
 ## About Molar — Verify the Whole Customer Journey
 URL: https://molar.it/company
@@ -228,7 +218,7 @@ Headings: Let your coding agent test its changes. · CLI · MCP · HTTP API · I
 ## Live view and recordings | Molar
 URL: https://molar.it/platform/live-view
 Description: Watch a hosted run live, read-only, then replay its video, screenshots, network log and Playwright trace.
-Headings: Watch a run while it works. · Live while it runs · Recorded every time · Share a run · Watch a hosted run · Replay it afterwards · What’s available today · Frequently asked questions · See a run from start to finish.
+Headings: Watch a run while it works. · Live while it runs · Recorded every time · Share with your team · Watch a hosted run · Replay it afterwards · What’s available today · Frequently asked questions · See a run from start to finish.
 
 ## Multi-user tests | Molar
 URL: https://molar.it/platform/swarm
@@ -257,7 +247,7 @@ Headings: Test the services behind your app. · See what happens after a payment
 
 ## Guard | Molar
 URL: https://molar.it/products/guard
-Description: Guard runs your sign-up, checkout and account checks on every pull request and on a schedule, and shows the step that failed. The pull request comment opens with “Verified by Molar” or “Molar found a problem” and links the recording. Each check is a Playwright test, so no AI agent decides pass or fail.
+Description: Guard runs your sign-up, checkout and account checks on every pull request and on a schedule, and shows the step that failed. Each check is a Playwright test, so no AI agent decides pass or fail.
 Headings: Know which check failed before you ship. · Run the checks your release depends on. · See why a change selects a test. · Add a check to each stage of your release. · Follow the same check after deployment. · A failed checkout. A fix you can review. · Frequently asked questions · Choose the check your next release needs.
 
 ## Mender | Molar
