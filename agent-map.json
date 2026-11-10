@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-09T15:54:50.188Z",
-  "pageCount": 72,
+  "generatedAt": "2026-11-10T22:53:36.480Z",
+  "pageCount": 73,
   "pages": [
     {
       "path": "/",
@@ -617,6 +617,21 @@
         "Use Molar from Claude Code, Cursor or any MCP client",
         "See your existing Playwright and Cypress runs in Molar",
         "Put the next update to work."
+      ]
+    },
+    {
+      "path": "/coding-agents",
+      "url": "https://molar.it/coding-agents",
+      "title": "Let your coding agent check its work in a browser | Molar",
+      "description": "Your coding agent changes the app, Molar uses it in a real browser and returns pass or fail with the answer, the checks, a recording and a Playwright test.",
+      "headings": [
+        "Your agent writes the change. Molar checks it in a browser.",
+        "What you get back from every run.",
+        "One call. A result your agent can act on.",
+        "Reviewers see the result in the pull request.",
+        "Connect your coding agent.",
+        "Frequently asked questions",
+        "Let your agent test its changes."
       ]
     },
     {

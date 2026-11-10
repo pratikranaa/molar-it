@@ -51,7 +51,7 @@ const menus = [
     ['/solutions/workflow-automation','Browser automation','Forms, portals, files, and repeat work.','cursor'],
     ['/solutions/web-data-extraction','Web data extraction','Turn page content into usable data.','file'],
     ['/solutions/integration-testing','Integration-heavy apps','Payments, auth, messaging, webhooks.','layers'],
-    ['/solutions/ai-agents','Coding agents','Let your agent test its changes.','code'],
+    ['/coding-agents','Coding agents','Let your agent test its changes.','code'],
     ['/solutions/startups','Startups & small teams','Keep shipping with repeatable QA.','bolt']
   ]],
   ['Resources',[

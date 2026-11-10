@@ -10,6 +10,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 ## Company and other pages
 - [Ask Molar — Practical Answers About Browser Testing](https://molar.it/ask) — Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.
 - [What’s new | Molar](https://molar.it/changelog) — New things you can do with Molar: browser runs, exported Playwright tests, release checks and integrations, newest first.
+- [Let your coding agent check its work in a browser | Molar](https://molar.it/coding-agents) — Your coding agent changes the app, Molar uses it in a real browser and returns pass or fail with the answer, the checks, a recording and a Playwright test.
 - [About Molar — Verify the Whole Customer Journey](https://molar.it/company) — Why Molar tests the whole customer journey, across your app and the payment, email and sign-in services behind it. Who builds it and how to reach us.
 - [Talk to the Molar Team](https://molar.it/contact) — Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.
 - [Data Processing Addendum | Molar](https://molar.it/dpa) — Molar’s Data Processing Addendum template for customers who process personal data with Molar.
