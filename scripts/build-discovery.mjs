@@ -146,9 +146,22 @@ for (const page of concisePages) {
   if (!grouped.has(group)) grouped.set(group, []);
   grouped.get(group).push(page);
 }
+// One definition, reused by llms.txt and llms-full.txt. "Molar" is also a tooth and a
+// chemistry unit, so the category words and the disambiguation sentence stay together.
+const DEFINITION = `Molar (also called Molar QA, at molar.it) is an AI QA and browser automation platform for web applications. Its browser agents test customer journeys in a real browser and return pass or fail with screenshots, a recording and an exported Playwright test. Stateful clones of services such as Stripe, Twilio, email and sign-in let those flows run without live vendor accounts, and a CLI and MCP server let coding agents such as Claude Code, Codex and Cursor check their own changes. Molar is in beta and free during the beta. It is unrelated to dental molars or the chemistry unit of the same name.`;
+const KEY_FACTS = `## Key facts
+- Category: AI QA testing, browser agent, browser automation, Playwright test generation, service clones for end-to-end tests.
+- Products: Cartographer (explore an app and record a check), Clones (stateful Stripe, Twilio, email, sign-in and storage stand-ins), Guard (checks on pull requests and on a schedule), Trace (step-by-step run debugging), Mender (proposed fixes, preview).
+- Pricing: free during the beta, up to 25 hosted runs a day per organization, no card. See ${SITE_URL}/pricing.
+- Install: \`npm install -g @molar/cli\`, then \`molar login\` and \`molar verify "login works" --url http://localhost:3000 --json\`.
+- MCP server for coding agents: https://api.molar.it/mcp (Claude Code: \`claude mcp add --transport http molar https://api.molar.it/mcp\`).
+- Documentation: https://docs.molar.it
+- Built by Pratik Rana in Bengaluru, India (operating as Molar Labs).`;
 const llms = `# Molar
 
-> Molar is a beta browser automation and QA platform for web applications. Its QA workflows test customer journeys in a real browser; its platform also supports scoped browser tasks for people and AI agents.
+> ${DEFINITION}
+
+${KEY_FACTS}
 
 This map is generated from crawlable canonical HTML pages. Product availability and coverage depend on the configured environment; the linked pages are the source of truth.
 
@@ -165,6 +178,10 @@ ${[...grouped].map(([group, entries]) => `## ${group}\n${entries.map(pageLink).j
 The interactive examples on the marketing site are labeled examples or controlled tests. They are not customer testimonials, reliability benchmarks, or guarantees of complete vendor parity. Read the relevant page and documentation before relying on a capability.
 `;
 const llmsFull = `# Molar — canonical page map
+
+> ${DEFINITION}
+
+${KEY_FACTS}
 
 Generated from rendered, indexable canonical HTML. ${pages.length} pages are included.
 

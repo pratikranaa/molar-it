@@ -14,10 +14,10 @@ function nextStep(path) {
   return '<a href="/contact">Ask about your integration setup '+icon('arrow')+'</a>';
 }
 
-function articlePage({ title, description, path, eyebrow, intro, article, toc }) {
+function articlePage({ title, seoTitle, seoDescription, description, path, eyebrow, intro, article, toc }) {
   const links = toc.map(([href, label]) => `<a href="#${href}">${label}</a>`).join('');
   const body = `<main id="main"><section class="reading-hero article-hero"><div class="wrap"><div class="breadcrumbs"><a href="/">Molar</a>${icon('chevron')}<span>${esc(eyebrow)}</span></div><h1>${esc(title)}</h1><p class="article-description">${esc(intro)}</p></div></section><div class="wrap article-layout"><aside class="reading-sidebar"><strong>On this page</strong><nav aria-label="On this page">${links}</nav><a class="text-link" href="/resources">Browse resources ${icon('arrow')}</a></aside><article class="article-body">${article}<p>${nextStep(path)}</p></article></div>${cta()}</main>`;
-  return document({ title, description, path, body });
+  return document({ title: seoTitle || title, description: seoDescription || description, path, body, breadcrumbs: [{ name: 'Molar', item: '/' }, { name: eyebrow, item: path }] });
 }
 
 const legacySources = JSON.parse(readFileSync(resolve(root, 'marketing/legacy-content.json'), 'utf8'));
@@ -68,7 +68,7 @@ function wrapTables(html) {
 }
 
 save('qa-agent.html', articlePage({
-  title: 'The Molar QA agent', description: 'How Molar browser agents test app tasks, check connected services, and show where a run stopped.', path: '/qa-agent', eyebrow: 'QA agent', intro: 'Point Molar at an authorized app, choose a flow such as signup or checkout, and inspect the browser result.',
+  title: 'The Molar QA agent', seoTitle: 'Molar QA Agent: AI Browser Agent for Testing Web Apps', seoDescription: 'How Molar’s QA agent tests app tasks in a real browser, checks connected services and shows where a run stopped. Point it at an authorized app and a flow.', description: 'How Molar browser agents test app tasks, check connected services, and show where a run stopped.', path: '/qa-agent', eyebrow: 'QA agent', intro: 'Point Molar at an authorized app, choose a flow such as signup or checkout, and inspect the browser result.',
   article: wrapTables(sourceArticle('qa-agent.html')), toc: [['what', 'How it checks a browser flow'], ['capabilities', 'What it checks'], ['different', 'How it fits with a test runner'], ['start', 'Run a browser check']],
 }));
 save('thesis.html', articlePage({
@@ -76,7 +76,7 @@ save('thesis.html', articlePage({
   article: wrapTables(sourceArticle('thesis.html')), toc: [['new-shape', 'How code changes reach users'], ['bottleneck', 'Why verification waits'], ['guard', 'Repeatable release checks'], ['why-now', 'Why this matters now']],
 }));
 save('integrations/github-actions.html', articlePage({
-  title: 'Molar in GitHub Actions', description: 'Run configured Molar scenarios in GitHub Actions and inspect their results before merging.', path: '/integrations/github-actions', eyebrow: 'Integration', intro: 'Run a configured signup, checkout, or invitation scenario in CI and attach its status and trace to the pull request.',
+  title: 'Molar in GitHub Actions', seoTitle: 'Run Molar Browser Tests in GitHub Actions | Molar', seoDescription: 'Run configured Molar scenarios such as signup, checkout or invitation in GitHub Actions and inspect their results before merging.', description: 'Run configured Molar scenarios in GitHub Actions and inspect their results before merging.', path: '/integrations/github-actions', eyebrow: 'Integration', intro: 'Run a configured signup, checkout, or invitation scenario in CI and attach its status and trace to the pull request.',
   article: wrapTables(sourceArticle('integrations/github-actions.html')), toc: [['overview', 'Run critical browser flows'], ['steps', 'Connect the workflow'], ['checks', 'Read the pull-request result']],
 }));
 

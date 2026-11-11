@@ -9,6 +9,7 @@
 export const SITE_URL = 'https://molar.it';
 export const ORGANIZATION_ID = `${SITE_URL}/#org`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
+export const SOFTWARE_ID = `${SITE_URL}/#software`;
 
 const cleanPath = (path = '/') => {
   const value = String(path || '/').trim();
@@ -94,14 +95,21 @@ const authorEntity = author => {
   return entity.name ? entity : null;
 };
 
+// "Molar" is also a tooth and a chemistry unit. The alternate names and description
+// give search and answer engines the entity facts they need
+// to tell this company apart. Only profiles that exist and are linked from the
+// site belong in sameAs; add new ones here once they are real.
 export const organizationSchema = () => ({
   '@type': 'Organization',
   '@id': ORGANIZATION_ID,
   name: 'Molar',
+  alternateName: ['Molar QA', 'Molar Labs'],
   legalName: 'Molar Labs',
   url: `${SITE_URL}/`,
   logo: `${SITE_URL}/assets/molar-mark-apple.png`,
+  description: 'Molar is an AI QA and browser automation platform for web applications. Browser agents test customer journeys in a real browser, with stateful clones of services such as Stripe, Twilio, email and sign-in.',
   email: 'pratik@molar.it',
+  foundingLocation: {'@type': 'Place', name: 'Bengaluru, India'},
   sameAs: [
     'https://docs.molar.it',
     'https://github.com/pratikranaa/molar-it',
@@ -113,9 +121,35 @@ export const websiteSchema = () => ({
   '@id': WEBSITE_ID,
   url: `${SITE_URL}/`,
   name: 'Molar',
-  alternateName: 'Molar Labs',
+  alternateName: ['Molar QA', 'Molar Labs', 'molar.it'],
   publisher: {'@id': ORGANIZATION_ID},
   inLanguage: 'en',
+});
+
+// The platform as software. Facts mirror what /pricing and
+// /platform/developer-tools publish; do not add ratings, counts or prices that
+// those pages do not state.
+export const softwareApplicationSchema = () => ({
+  '@type': 'SoftwareApplication',
+  '@id': SOFTWARE_ID,
+  name: 'Molar',
+  alternateName: 'Molar QA',
+  url: `${SITE_URL}/`,
+  description: 'Molar is an AI QA and browser automation platform for web applications. Its browser agents open your app in a real browser, complete tasks such as sign-up or checkout, and return pass or fail with screenshots, a recording and an exported Playwright test. Stateful clones of Stripe, Twilio, email and sign-in services let those flows run without live accounts, and a CLI and MCP server let coding agents check their own changes.',
+  applicationCategory: 'DeveloperApplication',
+  applicationSubCategory: 'Software testing and browser automation',
+  operatingSystem: 'Web',
+  softwareHelp: {'@type': 'WebSite', url: 'https://docs.molar.it'},
+  installUrl: 'https://www.npmjs.com/package/@molar/cli',
+  publisher: {'@id': ORGANIZATION_ID},
+  isAccessibleForFree: true,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    url: `${SITE_URL}/pricing`,
+    description: 'Free during the beta: up to 25 hosted runs a day per organization, no card.',
+  },
 });
 
 /**
@@ -176,6 +210,10 @@ export function structuredData({
   }
 
   if (cleanPath(path) === '/') graph.splice(1, 0, websiteSchema());
+  if (cleanPath(path) === '/' || cleanPath(path) === '/pricing') {
+    graph.push(softwareApplicationSchema());
+    page.about = {'@id': SOFTWARE_ID};
+  }
   const itemListElement = breadcrumbItems({path, title, breadcrumbs});
   if (itemListElement.length) graph.push({
     '@type': 'BreadcrumbList',

@@ -23,12 +23,15 @@ Search crawling and **training** crawling are separate decisions:
 
 | Bot | Purpose | Molar robots.txt |
 |-----|---------|------------------|
-| `OAI-SearchBot` | ChatGPT Search citations | Allow |
-| `GPTBot` | OpenAI training | Allow (optional tradeoff) |
-| `PerplexityBot` / `Perplexity-User` | Perplexity answers | Allow |
-| `ClaudeBot` / `Claude-SearchBot` | Claude retrieval | Allow |
-| `Google-Extended` | Gemini / AI Overviews grounding | Allow |
-| `Bingbot` | Bing + Copilot | Allow |
+| `OAI-SearchBot`, `ChatGPT-User` | ChatGPT Search citations | Allow (source robots.txt) |
+| `GPTBot` | OpenAI training | **Blocked** by Cloudflare's managed block (owner decision to change) |
+| `PerplexityBot` / `Perplexity-User` | Perplexity answers | Allow (source robots.txt) |
+| `Claude-SearchBot` / `Claude-User` | Claude search and user-requested fetches | Allow (source robots.txt) |
+| `ClaudeBot`, `anthropic-ai`, `Claude-Web` | Anthropic training crawlers | **Blocked** by Cloudflare's managed block |
+| `Google-Extended` | Gemini training and grounding opt-out only; AI Overviews follow `Googlebot` | **Blocked** by Cloudflare's managed block |
+| `Googlebot`, `Bingbot` | Google and Bing search, which AI answers retrieve from | Allow (`User-agent: *`) |
+
+Verified against the live https://molar.it/robots.txt on 2026-11-11: Cloudflare prepends a managed block (`Content-Signal: search=yes,ai-train=no`) that disallows the training crawlers above. The rules in this repo's `robots.txt` follow it and cover search and retrieval bots only.
 
 **Action:** Keep [`robots.txt`](../robots.txt) explicit allows. Blocking `OAI-SearchBot` or `PerplexityBot` removes you from that engine's answers entirely — a common accidental mistake when teams block "AI bots" wholesale.
 

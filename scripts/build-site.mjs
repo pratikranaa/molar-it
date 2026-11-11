@@ -23,11 +23,17 @@ for(const dir of ['','products','solutions','platform','blog','vs','integrations
     }
   }
 }
+const lastmods=new Map();
 const canonicals=new Set(htmlFiles.flatMap(path=>{
   const html=readFileSync(join(root,path),'utf8');
-  return html.includes('noindex, follow')?[]:[...html.matchAll(/rel="canonical" href="([^"]+)"/g)].map(m=>m[1]);
+  if(html.includes('noindex, follow'))return [];
+  const urls=[...html.matchAll(/rel="canonical" href="([^"]+)"/g)].map(m=>m[1]);
+  // lastmod only where the page states its own date (articles); other pages omit it rather than guess.
+  const modified=(html.match(/"dateModified":"(\d{4}-\d{2}-\d{2})/)||html.match(/"datePublished":"(\d{4}-\d{2}-\d{2})/)||[])[1];
+  if(modified)urls.forEach(url=>lastmods.set(url,modified));
+  return urls;
 }));
-writeFileSync(join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...canonicals].sort().map(url=>`  <url><loc>${url}</loc></url>`).join('\n')+'\n</urlset>\n');
+writeFileSync(join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...canonicals].sort().map(url=>`  <url><loc>${url}</loc>${lastmods.has(url)?`<lastmod>${lastmods.get(url)}</lastmod>`:''}</url>`).join('\n')+'\n</urlset>\n');
 // Publish only the rendered website and the runtime it uses. Source and review files stay local.
 const stage=join(root,'.site-dist');
 rmSync(stage,{recursive:true,force:true});mkdirSync(stage,{recursive:true});

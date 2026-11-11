@@ -11,5 +11,5 @@ save('/docs',document({title:'Molar Documentation — Setup, CLI, MCP & Testing'
 const changelogPage=changelogBody(cta('Put the next update<br>to work.'));
 writeFileSync(new URL('../changelog.xml',import.meta.url),changelogRss());
 writeFileSync(new URL('../changelog.md',import.meta.url),changelogMarkdown());
-save('/changelog',document({title:'What’s new | Molar',description:'New things you can do with Molar: browser runs, exported Playwright tests, release checks and integrations, newest first.',path:'/changelog',body:changelogPage,feeds:[['application/rss+xml','What’s new in Molar','/changelog.xml']]}));
+save('/changelog',document({title:'Molar Changelog: What’s New',description:'New things you can do with Molar: browser runs, exported Playwright tests, release checks and integrations, newest first.',path:'/changelog',body:changelogPage,feeds:[['application/rss+xml','What’s new in Molar','/changelog.xml']]}));
 console.log('Built documentation hub and changelog.');
