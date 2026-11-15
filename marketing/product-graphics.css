@@ -124,3 +124,47 @@
   .molar-product-graphic.is-in-view .pg-route-flow,
   .molar-product-graphic.is-in-view .pg-cursor { animation: none; }
 }
+
+/* Guide cover art (cover-art.mjs): full-bleed product slices on a tinted ground. */
+.cover-art { display: block; width: 100%; height: 100%; }
+.cover-sage { background: #e8eddf; } .cover-mist { background: #e4ebe6; } .cover-cream { background: #f0eddf; } .cover-sand { background: #efe9dd; }
+.article-cover { height: auto; aspect-ratio: 2 / 1; }
+.guide-art.cover-sage, .guide-art.cover-mist, .guide-art.cover-cream, .guide-art.cover-sand { padding: 0; overflow: hidden; border-radius: 8px; margin-bottom: 22px; }
+.guide-preview:nth-child(n) .guide-art.cover-sage { background: #e8eddf; } .guide-preview:nth-child(n) .guide-art.cover-mist { background: #e4ebe6; }
+.guide-preview:nth-child(n) .guide-art.cover-cream { background: #f0eddf; } .guide-preview:nth-child(n) .guide-art.cover-sand { background: #efe9dd; }
+.guide-art .cover-art { height: auto; aspect-ratio: 2 / 1; }
+.guide-preview-compact .guide-art .cover-art { aspect-ratio: 3 / 2; }
+.guide-preview-compact .guide-art.cover-sage, .guide-preview-compact .guide-art.cover-mist, .guide-preview-compact .guide-art.cover-cream, .guide-preview-compact .guide-art.cover-sand { margin: 0; border-radius: 6px; }
+.ca-panel { fill: #fff; stroke: #cdd5c5; stroke-width: 1; }
+.ca-panel-dark { fill: #1d2723; stroke: #3b4a40; }
+.ca-head { fill: #eef1e8; }
+.ca-head-dark { fill: #27342c; }
+.ca-rule { stroke: #e0e5d8; stroke-width: 1; }
+.ca-rule-dark { stroke: #3b4a40; }
+.cover-art text { dominant-baseline: alphabetic; }
+.ca-t { font: 600 14px Hanken, ui-sans-serif, sans-serif; fill: #202b23; }
+.ca-small { font-size: 12.5px; font-weight: 500; }
+.ca-m { font: 500 11.5px 'Geist Mono', ui-monospace, monospace; fill: #56614f; }
+.ca-m-dark { fill: #b9c4b0; }
+.ca-mono { font-family: 'Geist Mono', ui-monospace, monospace; font-weight: 500; font-size: 12.5px; }
+.ca-code { font: 600 17px 'Geist Mono', ui-monospace, monospace; letter-spacing: .08em; }
+.ca-dot { stroke-width: 1.2; }
+.ca-ok { fill: #d9eadb; stroke: #22664c; } .ca-bad { fill: #f7dcd6; stroke: #a33827; } .ca-pending { fill: #fde7df; stroke: #f26342; }
+.ca-tick { fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ca-tick-ok { stroke: #22664c; } .ca-tick-bad { stroke: #a33827; }
+.ca-pending-dot { fill: #f26342; }
+.ca-chip { stroke-width: 1; }
+.ca-chip-quiet { fill: #f4f6ef; stroke: #cdd5c5; } .ca-chip-ok { fill: #e3efdd; stroke: #22664c; } .ca-chip-bad { fill: #f9e3dd; stroke: #a33827; } .ca-chip-dark { fill: #2f3d34; stroke: #4a5a4f; }
+.ca-chip-text-quiet { fill: #56614f; } .ca-chip-text-ok { fill: #22664c; } .ca-chip-text-bad { fill: #a33827; } .ca-chip-text-dark { fill: #d7e0cd; }
+.ca-note { fill: #f4f6ef; stroke: #e0e5d8; }
+.ca-flow { fill: none; stroke: #f26342; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ca-route { fill: none; stroke: #98a88e; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.ca-bubble { fill: #e8f2eb; }
+.ca-btn-off { fill: #ecece6; stroke: #cdd5c5; } .ca-off-text { fill: #7d8677; }
+.ca-bad-text, .ca-coral-text { fill: #a33827; }
+.ca-diff-del { fill: #ff9b86; } .ca-diff-add { fill: #a8e0b5; } .ca-diff-ctx, .ca-term-dim { fill: #b9c4b0; } .ca-term { fill: #f5f7ef; }
+.ca-cell-ok { fill: #d9eadb; stroke: #b4cfa3; } .ca-cell-bad { fill: #f7c9bd; stroke: #a33827; }
+.ca-file { fill: #fff0ea; stroke: #f26342; } .ca-bar-bg { fill: #e0e5d8; } .ca-bar { fill: #22664c; }
+.ca-step { fill: #f4f6ef; stroke: #e0e5d8; }
+.ca-shot { fill: #f6f7fb; stroke: #cdd5c5; } .ca-shot-line { fill: #d7dccd; } .ca-shot-block { fill: #e5e9de; } .ca-shot-btn { fill: #f26342; opacity: .85; }
+.ca-diff { fill: rgba(242, 99, 66, .18); stroke: #f26342; stroke-dasharray: 3 3; }

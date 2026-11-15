@@ -190,3 +190,17 @@
   search?.addEventListener('input',filterBlog);
   filterButtons.forEach(button=>button.addEventListener('click',()=>{category=button.dataset.blogFilter;filterButtons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));filterBlog()}));
 })();
+
+// Code blocks that scroll sideways fade at the edge that still has content, so a long command never looks cut off.
+(()=>{
+  const blocks=[...document.querySelectorAll('.code-window pre')];
+  if(!blocks.length)return;
+  const mark=pre=>{
+    const more=pre.scrollWidth>pre.clientWidth+1&&pre.scrollLeft+pre.clientWidth<pre.scrollWidth-1;
+    const back=pre.scrollLeft>1;
+    pre.dataset.scroll=[more&&'more',back&&'back'].filter(Boolean).join(' ');
+  };
+  blocks.forEach(pre=>{mark(pre);pre.addEventListener('scroll',()=>mark(pre),{passive:true})});
+  addEventListener('resize',()=>blocks.forEach(mark));
+  if('ResizeObserver' in window)blocks.forEach(pre=>new ResizeObserver(()=>mark(pre)).observe(pre));
+})();

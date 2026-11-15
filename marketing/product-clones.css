@@ -107,3 +107,17 @@
   .pc-retry-figure,.pc-world-figure { padding: 20px; }
   .pc-endpoint-path { padding: 17px 12px; gap: 7px; font-size: 13px; }
 }
+
+/* Clock example: a labelled rail instead of a floating dial. */
+.pc-clock-rail { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative; width: 100%; max-width: 560px; align-self: stretch; }
+.pc-clock-rail::before { content: ''; position: absolute; left: 6px; right: 6px; top: 5px; height: 1.5px; background: #98a88e; }
+.pc-clock-rail li { position: relative; display: flex; flex-direction: column; gap: 2px; padding-top: 20px; font: 500 13px/1.3 'Geist Mono', ui-monospace, monospace; color: #56614f; }
+.pc-clock-rail li::before { content: ''; position: absolute; top: 0; left: 0; width: 11px; height: 11px; box-sizing: border-box; border: 1.5px solid #98a88e; border-radius: 50%; background: #e8eddf; }
+.pc-clock-rail li:last-child { align-items: flex-end; }
+.pc-clock-rail li:last-child::before { left: auto; right: 0; }
+.pc-clock-rail li.is-now::before { border-color: #f26342; background: #f26342; }
+.pc-clock-rail li.is-now b { color: #a33827; font-weight: 600; }
+.pc-clock-rail small { color: #56614f; font: 500 12px/1.3 Hanken, ui-sans-serif, sans-serif; }
+
+.pc-clock-example{display:flex;flex-direction:column;align-items:stretch;gap:22px}
+.pc-clock-example>div:last-child{flex:none}

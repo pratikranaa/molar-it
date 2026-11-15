@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-11T00:51:37.672Z",
-  "pageCount": 72,
+  "generatedAt": "2026-11-15T10:25:55.011Z",
+  "pageCount": 73,
   "pages": [
     {
       "path": "/",
@@ -16,9 +16,10 @@
         "Your app calls more than one service.",
         "Explore it. Test it. Know where it broke.",
         "See a real run, step by step.",
+        "Benchmark results.",
+        "Check a public page. Inspect the result.",
         "Write the change. Check it in a browser.",
         "Put the next test into practice.",
-        "Check a public page. Inspect the result.",
         "Frequently asked questions",
         "Start with the flow your customers rely on."
       ]
@@ -32,6 +33,22 @@
         "What do you want to test?",
         "Your answer",
         "Read the guides behind your answer."
+      ]
+    },
+    {
+      "path": "/benchmarks",
+      "url": "https://molar.it/benchmarks",
+      "title": "Benchmarks: How Molar’s Browser Agent Scores | Molar",
+      "description": "How Molar’s browser agent scores on Online-Mind2Web, WebVoyager, WebTestBench and Browser Use Bench, with the judge, task count, date and caveats for each result.",
+      "headings": [
+        "How Molar’s agent scores on public benchmarks.",
+        "All results.",
+        "Benchmark by benchmark.",
+        "Published by others.",
+        "How we run evals.",
+        "Reproduce it.",
+        "Frequently asked questions",
+        "See what Molar finds in your app."
       ]
     },
     {

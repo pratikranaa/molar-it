@@ -82,7 +82,7 @@ button,a { -webkit-tap-highlight-color:#d4e8c580; }
 .process-connection .icon { width:20px; height:20px; }
 .process-visual { border-radius:0; background:#edf1e6; }
 .process-canvas-services { background:#e4eadb; }
-.process-canvas-release { background:#eee9df; }
+.process-canvas-release { background:#e4eadb; }
 .process-canvas-debug { background:#e4ebe6; }
 .platform-foundation { background:var(--paper); border-block:1px solid var(--line); }
 .foundation-output { background:transparent; border:0; padding:0; border-radius:0; grid-template-columns:1.1fr 65px 1fr; }
@@ -189,3 +189,9 @@ button,a { -webkit-tap-highlight-color:#d4e8c580; }
   .nav-group>summary,.nav-group>summary .icon,.nav-scrim,.dropdown-links>a,.guide-preview-copy>span svg { transition:none; }
   .guide-preview:hover .guide-preview-copy>span svg { transform:none; }
 }
+
+/* The sticky product tabs cover the panel scrolling out beneath them instead of showing its text through. */
+.has-process-motion .process-nav { background:var(--paper); }
+
+/* Two links side by side in the developer section need room between them. */
+@media (min-width:641px){ .developer-section .text-link + .text-link { margin-left:28px; } }

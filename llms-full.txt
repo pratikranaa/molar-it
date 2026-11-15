@@ -11,17 +11,22 @@
 - Documentation: https://docs.molar.it
 - Built by Pratik Rana in Bengaluru, India (operating as Molar Labs).
 
-Generated from rendered, indexable canonical HTML. 72 pages are included.
+Generated from rendered, indexable canonical HTML. 73 pages are included.
 
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
 Description: AI agents that test your web app like a customer. Verify signup, payments, email and the services behind every click with Molar.
-Headings: Your users shouldn’t be your QA team. · Make the hard cases easy to test. · Your app calls more than one service. · Explore it. Test it. Know where it broke. · See a real run, step by step. · Write the change. Check it in a browser. · Put the next test into practice. · Check a public page. Inspect the result. · Frequently asked questions · Start with the flow your customers rely on.
+Headings: Your users shouldn’t be your QA team. · Make the hard cases easy to test. · Your app calls more than one service. · Explore it. Test it. Know where it broke. · See a real run, step by step. · Benchmark results. · Check a public page. Inspect the result. · Write the change. Check it in a browser. · Put the next test into practice. · Frequently asked questions · Start with the flow your customers rely on.
 
 ## Ask Molar — Practical Answers About Browser Testing
 URL: https://molar.it/ask
 Description: Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.
 Headings: What do you want to test? · Your answer · Read the guides behind your answer.
+
+## Benchmarks: How Molar’s Browser Agent Scores | Molar
+URL: https://molar.it/benchmarks
+Description: How Molar’s browser agent scores on Online-Mind2Web, WebVoyager, WebTestBench and Browser Use Bench, with the judge, task count, date and caveats for each result.
+Headings: How Molar’s agent scores on public benchmarks. · All results. · Benchmark by benchmark. · Published by others. · How we run evals. · Reproduce it. · Frequently asked questions · See what Molar finds in your app.
 
 ## Molar Guides — Browser QA, Integrations & Agents
 URL: https://molar.it/blog

@@ -3,10 +3,9 @@ const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, character =>
 }[character]));
 
 const slugOf = path => String(path ?? '').split('/').filter(Boolean).pop() ?? '';
-const routeSvg = (paths, className = '') => `<svg class="article-graphic__route ${className}" viewBox="0 0 760 250" preserveAspectRatio="none" aria-hidden="true"><g>${paths.map(({ d, flow = false }) => `<path class="${flow ? 'is-flow' : ''}" d="${d}"/>`).join('')}</g></svg>`;
 const card = ({ eyebrow, title, body = '', state = '', className = '' }) => `<div class="article-graphic__card ${className}"><div class="article-graphic__eyebrow">${escapeHtml(eyebrow)}</div><h3>${escapeHtml(title)}</h3>${body ? `<p>${body}</p>` : ''}${state ? `<span class="article-graphic__state">${state}</span>` : ''}</div>`;
 const tag = (value, className = '') => `<span class="article-graphic__tag ${className}">${escapeHtml(value)}</span>`;
-const route = (paths, nodes, className = '') => `<div class="article-graphic__canvas ${className}">${routeSvg(paths)}<div class="article-graphic__nodes">${nodes.join('')}</div></div>`;
+const route = (paths, nodes, className = '') => `<div class="article-graphic__canvas ${className}"><div class="article-graphic__nodes">${nodes.join('')}</div></div>`;
 
 const families = {
   payment: {
@@ -139,6 +138,51 @@ const families = {
   }
 };
 
+// Articles that share a family keep their own steps, so two guides never show the same diagram.
+// Each step: [kicker, title, body, tag, tagStyle, cardClass]
+const variants = {
+  'continuous-testing-ci-cd-pipeline': ['release', [
+    ['CHANGE · COMMIT', 'Fast checks on every commit', 'Run the few scenarios that protect signup and checkout before anyone reviews the change.', 'fast and focused', 'is-quiet'],
+    ['PREVIEW', 'The flows that matter, on the preview', 'Each scenario reports its own assertion and the route it captured.', 'one needs a look', 'is-coral', 'is-event'],
+    ['AFTER DEPLOY', 'One scheduled check on the live site', 'Keep a small authorized check running so a regression is found by you first.', 'monitoring', 'is-green', 'is-state']]],
+  'github-actions-playwright-ci': ['release', [
+    ['WORKFLOW', 'A GitHub Actions run', 'Install the browsers, then run the Playwright tests for the changed paths.', 'on pull_request', 'is-quiet'],
+    ['TEST JOB', 'Playwright test + trace', 'Failed runs upload the trace and screenshots as workflow artifacts.', 'artifact kept', 'is-coral', 'is-event'],
+    ['REQUIRED CHECK', 'Mark the job as required', 'Branch protection then blocks the merge until the job passes.', 'merge gate', 'is-green', 'is-state']]],
+  'regression-testing-strategies': ['release', [
+    ['FILES CHANGED', 'Map the change to customer paths', 'Choose scenarios by what the change touches, not by how long the suite is.', 'select by risk', 'is-quiet'],
+    ['RUN', 'Run the affected scenarios', 'Keep a short always-run set for signup, checkout and access.', 'say what was skipped', 'is-coral', 'is-event'],
+    ['REPORT', 'Show what ran and what did not', 'A reviewer can see the coverage a pass actually represents.', 'coverage visible', 'is-green', 'is-state']]],
+  'required-status-checks-merge-gate': ['release', [
+    ['PULL REQUEST', 'A change asks to merge', 'The repository lists the checks this branch requires.', 'required checks', 'is-quiet'],
+    ['CHECKS', 'Signup · checkout · access', 'Each check reports its own assertion; one is blocked.', 'one blocked', 'is-coral', 'is-event'],
+    ['DECISION', 'Ready or blocked', 'Branch protection holds the merge until the failing check is fixed or reviewed.', 'merge gate', 'is-green', 'is-state']]],
+  'shift-left-testing-explained': ['release', [
+    ['PLAN', 'Name the flow before the code', 'Write the acceptance criteria and the check that will prove them.', 'before code', 'is-quiet'],
+    ['BUILD', 'Keep the check beside the change', 'The scenario lives in the same pull request as the code it covers.', 'same pull request', 'is-coral', 'is-event'],
+    ['SHIP', 'Merge after the check ran', 'Release confidence comes from a check that already exists.', 'reviewable result', 'is-green', 'is-state']]],
+  'e2e-testing-best-practices': ['data', [
+    ['ARRANGE', 'Seed the account the test needs', 'Create unique records, clocks and test identities for this run.', 'created for this run', 'is-quiet'],
+    ['ACT', 'Drive the real flow', 'Use roles and visible text, the way a customer finds things.', 'user-facing locators', 'is-coral', 'is-event'],
+    ['ASSERT', 'Check what the customer sees', 'Confirm the screen and the record behind it, then discard or restore.', 'clean for the next run', 'is-green', 'is-state']]],
+  'staging-environment-alternatives': ['data', [
+    ['SEED', 'Known environment state', 'Use repeatable records, clocks and test identities with clear prefixes.', 'created for this run', 'is-quiet'],
+    ['PREVIEW', 'One environment per change', 'Each pull request gets its own copy, so changes do not race each other.', 'isolated preview', 'is-coral', 'is-event'],
+    ['RESET', 'Restore or discard', 'Start the next run from a known baseline instead of cleaning shared rows.', 'repeat from clean state', 'is-green', 'is-state']]],
+  'test-stripe-without-real-cards': ['payment', [
+    ['BROWSER', 'A test card is submitted', 'Use the provider’s test card against a clone or sandbox, never a real card.', 'test mode', 'is-quiet'],
+    ['PROVIDER EVENT', 'A signed test event arrives', 'Your app receives and verifies the same event shape it gets in production.', 'signature verified', 'is-coral', 'is-event'],
+    ['APPLICATION', 'Order and access agree', 'Assert the order record and the customer’s access, not only the confirmation page.', 'assert here', 'is-green', 'is-state']]],
+  'testing-third-party-apis-safely': ['service', [
+    ['APPLICATION', 'Point the app at a test service', 'Change only the base URL; keep the vendor request shape.', 'base URL changes', 'is-quiet'],
+    ['TEST SERVICE', 'Authorized test data', 'Use test accounts and supported clones so no live side effect can happen.', 'no live side effects', 'is-green', 'is-event'],
+    ['ASSERTION', 'Check the customer-visible result', 'Compare the browser state with the record or callback that caused it.', 'contract + screen state', 'is-coral', 'is-state']]],
+  'ai-agents-future-software-testing': ['agent', [
+    ['CODING AGENT', 'Writes the change', 'The agent edits the app and knows what it expects to be true.', 'intent first', 'is-quiet'],
+    ['BROWSER', 'Checks it as a user would', 'A real browser runs the flow and returns the result, steps and screenshots.', 'evidence returned', 'is-coral', 'is-event'],
+    ['NEXT CHANGE', 'Reads the result, then decides', 'A failed check names the step to fix; a human still reviews the diff.', 'human decision', 'is-green', 'is-state']]]
+};
+
 const familyFor = slug => {
   if (slug.includes('delayed-payment') || slug.includes('stripe')) return 'payment';
   if (slug.includes('download') || slug.includes('file-export') || slug.includes('export')) return 'download';
@@ -156,8 +200,12 @@ const familyFor = slug => {
 export function articleGraphic(article = {}) {
   const path = String(article.path ?? '');
   const slug = slugOf(path);
-  const family = familyFor(slug);
+  const variant = variants[slug];
+  const family = variant ? variant[0] : familyFor(slug);
   const scene = families[family];
   const title = scene.title;
-  return `<figure class="article-graphic article-graphic--${family}" data-article-graphic data-article-family="${family}" aria-label="${escapeHtml(title)}">${scene.render({ ...article, path })}<figcaption><strong>${escapeHtml(title)}</strong><span>${escapeHtml(scene.caption)}</span></figcaption></figure>`;
+  const body = variant
+    ? route([], variant[1].map(([eyebrow, stepTitle, copy, state, style, className = '']) => card({ eyebrow, title: stepTitle, body: escapeHtml(copy), state: tag(state, style), className })), `is-${family}`)
+    : scene.render({ ...article, path });
+  return `<figure class="article-graphic article-graphic--${family}" data-article-graphic data-article-family="${family}" aria-label="${escapeHtml(title)}">${body}<figcaption><strong>${escapeHtml(title)}</strong><span>${escapeHtml(scene.caption)}</span></figcaption></figure>`;
 }

@@ -1,5 +1,6 @@
 import {document} from './document.mjs';
 import {esc,icon} from './components.mjs';
+import {coverArt,coverTint} from './cover-art.mjs';
 import {productGraphic} from './product-graphics.mjs';
 import {articleGraphic} from './article-graphics.mjs';
 import {askWorkspace} from './ask-workspace.mjs';
@@ -8,7 +9,7 @@ export const guideKind=article=>/download|invoice|agent|playwright-test-generati
 export const readingTime=article=>Math.max(2,Math.ceil(article.body.replace(/<[^>]*>/g,' ').split(/\s+/).filter(Boolean).length/220))+' min read';
 const inline=value=>esc(value).replace(/`([^`]+)`/g,'<code>$1</code>');
 const dateLabel=date=>new Date(date+'T12:00:00Z').toLocaleDateString('en',{month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});
-export function guideCard(article,{heading='h2',cover=true}={}){return `<a class="blog-entry" data-blog-entry data-category="${esc(article.category)}" href="${article.path}">${cover?`<div class="article-cover cover-${article.category.toLowerCase()}">${productGraphic(guideKind(article),{compact:true})}</div>`:''}<div class="entry-meta"><span>${esc(article.category)}</span><span>${readingTime(article)}</span></div><${heading}>${esc(article.title)}</${heading}><p>${inline(article.description)}</p><span class="read-link">Read guide ${icon('arrow')}</span></a>`;}
+export function guideCard(article,{heading='h2',cover=true}={}){return `<a class="blog-entry" data-blog-entry data-category="${esc(article.category)}" href="${article.path}">${cover?`<div class="article-cover cover-${coverTint(article.path.split('/').pop())}">${coverArt(article.path.split('/').pop(),guideKind(article))}</div>`:''}<div class="entry-meta"><span>${esc(article.category)}</span><span>${readingTime(article)}</span></div><${heading}>${esc(article.title)}</${heading}><p>${inline(article.description)}</p><span class="read-link">Read guide ${icon('arrow')}</span></a>`;}
 const productNext=kind=>({clones:['Clones','Explore the service inspector','Test a payment, callback or message with service state you can inspect.','/products/clones#product-demo'],guard:['Guard','Explore a release check','See how a failed scenario connects to a release decision.','/products/guard#product-demo'],platform:['Browser agents','Give Molar a browser task','See the browser actions and result behind a task.','/platform'],trace:['Trace','Inspect a failed checkout','Follow the browser step, request and service record together.','/products/trace#product-demo']}[kind]);
 export function articleDocument(article,articles=[],{draft=false}={}){
  const used=new Map(),headings=[];

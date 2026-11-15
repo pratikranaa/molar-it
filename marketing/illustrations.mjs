@@ -24,44 +24,27 @@ const fail = `<span class="fv-state fv-state-bad">${icon('close')}</span>`;
 const cap = title => `<figcaption><strong>${esc(title)}</strong><span class="fv-example">Example</span></figcaption>`;
 const fig = (kind, title, body, compact, note) => `<figure class="feature-visual fv-${kind}${compact ? ' is-compact' : ''}" data-motion-scene aria-label="${esc(title)}">${note ? cap(title).replace('>Example<', `>${esc(note)}<`) : cap(title)}${body}</figure>`;
 const stage = (kind, body) => `<div class="fv-stage fv-${kind}-stage">${body}</div>`;
-const windowBar = label => `<div class="fv-window">${dots}<span>${esc(label)}</span></div>`;
-const pathSvg = (paths, className = '') => `<svg class="fv-geometry ${className}" viewBox="0 0 1000 280" preserveAspectRatio="none" aria-hidden="true"><g>${paths.map(path => `<path class="${path.flow ? 'fv-flow' : ''}" d="${path.d}"${path.pathLength ? ` pathLength="${path.pathLength}"` : ''}/>`).join('')}</g></svg>`;
+const wb = value => esc(value).replace(/([./_])/g, '$1<wbr>');
+const windowBar = label => `<div class="fv-window">${dots}<span>${wb(label)}</span></div>`;
 
 function checkout() {
-  return fig('checkout', 'Payment and order checks', stage('checkout', `${pathSvg([
-    { d: 'M250 143C302 54 345 54 398 143' },
-    { d: 'M602 143C655 232 700 232 750 143' },
-    { d: 'M250 143C302 54 345 54 398 143', flow: true, pathLength: 1 },
-    { d: 'M602 143C655 232 700 232 750 143', flow: true, pathLength: 1 }
-  ])}<div class="fv-path fv-checkout-path">
+  return fig('checkout', 'Payment and order checks', stage('checkout', `<div class="fv-path fv-checkout-path">
     <article class="fv-node fv-browser-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Browser</span><span class="fv-node-mark">01</span></header><div class="fv-node-content">${windowBar('checkout.northstar.test')}<strong>Northstar Pro plan</strong><span class="fv-price">$24 <small>/ month</small></span><a class="fv-scene-link" href="/solutions/checkout-testing">Explore checkout tests ${icon('arrow')}</a></div></article>
-    <article class="fv-node fv-service-node" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Payment provider</span><span class="fv-node-mark">02</span></header><div class="fv-node-content"><div class="fv-event-icon">${icon('trace')}</div><strong>Payment accepted</strong><code>payment_intent.succeeded</code><span class="fv-result">${check} state changed</span></div></article>
-    <article class="fv-node fv-result-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Your application</span><span class="fv-node-mark">03</span></header><div class="fv-node-content"><div class="fv-event-icon">${check}</div><strong>Order confirmed</strong><span>Receipt sent to test inbox</span><code>order_1042</code></div></article>
+    <article class="fv-node fv-service-node" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Payment provider</span><span class="fv-node-mark">02</span></header><div class="fv-node-content"><div class="fv-event-icon">${icon('trace')}</div><strong>Payment accepted</strong><code>${wb('payment_intent.succeeded')}</code><span class="fv-result">${check} state changed</span></div></article>
+    <article class="fv-node fv-result-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Your application</span><span class="fv-node-mark">03</span></header><div class="fv-node-content"><div class="fv-event-icon">${check}</div><strong>Order confirmed</strong><span>Receipt sent to test inbox</span><code>${wb('order_1042')}</code></div></article>
   </div><div class="fv-branch-note" data-motion-item style="--i:3"><span>${icon('mail')}</span><strong>Signed callback</strong><span>Webhook received and verified</span></div>`));
 }
 
 function identity() {
-  return fig('identity', 'Signup and email verification', stage('identity', `${pathSvg([
-    { d: 'M250 142H395' },
-    { d: 'M605 142H750' },
-    { d: 'M500 58V112' },
-    { d: 'M500 58V112', flow: true, pathLength: 1 },
-    { d: 'M250 142H395', flow: true, pathLength: 1 },
-    { d: 'M605 142H750', flow: true, pathLength: 1 }
-  ])}<div class="fv-path fv-identity-path">
+  return fig('identity', 'Signup and email verification', stage('identity', `<div class="fv-path fv-identity-path">
     <article class="fv-node fv-browser-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Browser</span><span class="fv-node-mark">01</span></header><div class="fv-node-content">${windowBar('northstar.test / sign up')}<strong>Create account</strong><label>name@example.com</label><label>••••••••</label><a class="fv-scene-link" href="/solutions/authentication-testing">Test sign-in ${icon('arrow')}</a></div></article>
     <article class="fv-node fv-service-node fv-email-node" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Test inbox</span><span class="fv-node-mark">02</span></header><div class="fv-node-content"><div class="fv-event-icon">${icon('mail')}</div><strong>Verification code</strong><span>Inbox message matched</span><div class="fv-otp" aria-label="Example verification code"><b>4</b><b>8</b><b>2</b><b>1</b><b>9</b><b>0</b></div></div></article>
-    <article class="fv-node fv-result-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Application session</span><span class="fv-node-mark">03</span></header><div class="fv-node-content"><div class="fv-event-icon">${check}</div><strong>Workspace ready</strong><span>Member identity verified</span><code>session_7f24</code></div></article>
+    <article class="fv-node fv-result-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Application session</span><span class="fv-node-mark">03</span></header><div class="fv-node-content"><div class="fv-event-icon">${check}</div><strong>Workspace ready</strong><span>Member identity verified</span><code>${wb('session_7f24')}</code></div></article>
   </div><div class="fv-identity-callout" data-motion-item style="--i:3"><span>${icon('lock')}</span><strong>Verified email</strong><span>Only a verified identity opens the workspace.</span></div>`));
 }
 
 function collaboration() {
-  return fig('collaboration', 'Workspace collaboration', stage('collaboration', `${pathSvg([
-    { d: 'M225 134C310 38 395 38 480 134' },
-    { d: 'M520 134C605 230 690 230 775 134' },
-    { d: 'M225 134C310 38 395 38 480 134', flow: true, pathLength: 1 },
-    { d: 'M520 134C605 230 690 230 775 134', flow: true, pathLength: 1 }
-  ])}<div class="fv-role-map">
+  return fig('collaboration', 'Workspace collaboration', stage('collaboration', `<div class="fv-role-map">
     <article class="fv-role-pane" data-motion-item style="--i:0"><header><span>Owner view</span><strong>Priya · owner</strong></header><div class="fv-role-body"><span class="fv-node-kicker">Invite a teammate</span><strong>sam@example.com</strong><a class="fv-scene-link" href="/solutions/team-workflows">Test invitations ${icon('arrow')}</a><p class="fv-role-state">${check} Can manage members</p></div></article>
     <div class="fv-invite-path" data-motion-item style="--i:1"><span>${icon('mail')}</span><strong>Invitation</strong><small>Member access</small></div>
     <article class="fv-role-pane" data-motion-item style="--i:2"><header><span>Member view</span><strong>Sam · member</strong></header><div class="fv-role-body"><span class="fv-node-kicker">After accepting</span><strong>Project dashboard</strong><p class="fv-role-state">${check} Projects <small>read / write</small></p><p class="fv-role-state is-muted">${icon('lock')} Billing <small>no access</small></p></div></article>
@@ -69,39 +52,24 @@ function collaboration() {
 }
 
 function preview() {
-  return fig('preview', 'Preview check', stage('preview', `${pathSvg([
-    { d: 'M260 140H380' },
-    { d: 'M620 140H740' },
-    { d: 'M260 140H380', flow: true, pathLength: 1 },
-    { d: 'M620 140H740', flow: true, pathLength: 1 }
-  ])}<div class="fv-release-path">
-    <article class="fv-release-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Pull request</span><span class="fv-node-mark">01</span></header><div class="fv-release-body"><div class="fv-pr-title">${icon('branch')}<strong>Update checkout confirmation</strong></div><code>pull/48 · 3 files changed</code><div class="fv-diff"><span>- status: pending</span><span>+ status: confirmed</span><span>+ receipt: attached</span></div></div></article>
+  return fig('preview', 'Preview check', stage('preview', `<div class="fv-release-path">
+    <article class="fv-release-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Pull request</span><span class="fv-node-mark">01</span></header><div class="fv-release-body"><div class="fv-pr-title">${icon('branch')}<strong>Update checkout confirmation</strong></div><code>pull/48 · 3 files changed</code><div class="fv-diff"><span class="is-del">- status: pending</span><span class="is-add">+ status: confirmed</span><span class="is-add">+ receipt: attached</span></div></div></article>
     <article class="fv-release-node fv-browser-release" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Preview browser</span><span class="fv-node-mark">02</span></header><div class="fv-release-body">${windowBar('preview.northstar.test')}<strong>Three browser tests</strong><p>${check}<span>Signup and verification</span><b>Passed</b></p><p>${check}<span>Invite a teammate</span><b>Passed</b></p><p class="is-fail">${fail}<span>Payment confirmation</span><b>Needs review</b></p></div></article>
-    <article class="fv-release-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Result</span><span class="fv-node-mark">03</span></header><div class="fv-result-body"><div class="fv-event-icon">${fail}</div><strong>Trace attached</strong><span>One check needs review before merge.</span><code>trace_48_checkout</code><a class="fv-scene-link" href="/products/trace">Explore Trace ${icon('arrow')}</a></div></article>
+    <article class="fv-release-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Result</span><span class="fv-node-mark">03</span></header><div class="fv-result-body"><div class="fv-event-icon">${fail}</div><strong>Trace attached</strong><span>One check needs review before merge.</span><code>${wb('trace_48_checkout')}</code><a class="fv-scene-link" href="/products/trace">Explore Trace ${icon('arrow')}</a></div></article>
   </div>`));
 }
 
 function automation() {
-  return fig('automation', 'Invoice workflow', stage('automation', `${pathSvg([
-    { d: 'M250 140C305 54 360 54 415 140' },
-    { d: 'M585 140C640 226 695 226 750 140' },
-    { d: 'M250 140C305 54 360 54 415 140', flow: true, pathLength: 1 },
-    { d: 'M585 140C640 226 695 226 750 140', flow: true, pathLength: 1 }
-  ])}<div class="fv-task-path">
+  return fig('automation', 'Invoice workflow', stage('automation', `<div class="fv-task-path">
     <article class="fv-task-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Browser task</span><span class="fv-node-mark">01</span></header><div class="fv-task-body">${windowBar('billing.northstar.test')}<strong>Find August invoice</strong><label>${icon('search')} Search invoices</label><p><span>August 2026</span><b>Paid</b></p></div></article>
-    <article class="fv-task-node fv-task-action" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Page action</span><span class="fv-node-mark">02</span></header><div class="fv-task-body"><div class="fv-event-icon">${icon('pointer')}</div><strong>Open matching record</strong><span>Invoice row selected</span><code>invoice_august_2026</code></div></article>
-    <article class="fv-task-node fv-task-result" data-motion-item style="--i:2"><header><span class="fv-node-kicker">File result</span><span class="fv-node-mark">03</span></header><div class="fv-task-body"><div class="fv-document-mark">PDF</div><strong>invoice_august_2026.pdf</strong><span>${icon('download')} Downloaded for the team</span></div></article>
+    <article class="fv-task-node fv-task-action" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Page action</span><span class="fv-node-mark">02</span></header><div class="fv-task-body"><div class="fv-event-icon">${icon('pointer')}</div><strong>Open matching record</strong><span>Invoice row selected</span><code>${wb('invoice_august_2026')}</code></div></article>
+    <article class="fv-task-node fv-task-result" data-motion-item style="--i:2"><header><span class="fv-node-kicker">File result</span><span class="fv-node-mark">03</span></header><div class="fv-task-body"><div class="fv-document-mark">PDF</div><strong>${wb('invoice_august_2026.pdf')}</strong><span>${icon('download')} Downloaded for the team</span></div></article>
   </div>`));
 }
 
 function data() {
-  return fig('data', 'Structured extraction', stage('data', `${pathSvg([
-    { d: 'M260 140H450' },
-    { d: 'M550 140H740' },
-    { d: 'M260 140H450', flow: true, pathLength: 1 },
-    { d: 'M550 140H740', flow: true, pathLength: 1 }
-  ])}<div class="fv-data-path">
-    <article class="fv-data-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Page content</span><span class="fv-node-mark">01</span></header><div class="fv-data-body"><div class="fv-page-heading"><strong>Plans</strong><span>demo.northstar.test/plans</span></div><p><span>Starter</span><b>$9</b><small>monthly</small></p><p class="is-selected"><span>Pro</span><b>$24</b><small>monthly</small></p><p><span>Business</span><b>$79</b><small>monthly</small></p></div></article>
+  return fig('data', 'Structured extraction', stage('data', `<div class="fv-data-path">
+    <article class="fv-data-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Page content</span><span class="fv-node-mark">01</span></header><div class="fv-data-body"><div class="fv-page-heading"><strong>Plans</strong><span>${wb('demo.northstar.test/plans')}</span></div><p><span>Starter</span><b>$9</b><small>monthly</small></p><p class="is-selected"><span>Pro</span><b>$24</b><small>monthly</small></p><p><span>Business</span><b>$79</b><small>monthly</small></p></div></article>
     <article class="fv-data-node fv-data-schema" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Extraction</span><span class="fv-node-mark">02</span></header><div class="fv-data-body"><div class="fv-event-icon">${icon('search')}</div><strong>Map visible fields</strong><span>Plan · amount · currency · interval</span><code>source_url retained</code></div></article>
     <article class="fv-data-node fv-data-result" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Structured result</span><span class="fv-node-mark">03</span></header><pre><b>"plan"</b>: <i>"Pro"</i>,
 <b>"amount"</b>: <i>24</i>,
@@ -111,10 +79,7 @@ function data() {
 }
 
 function swarm() {
-  return fig('swarm', 'Role based coverage', stage('swarm', `<div class="fv-swarm-intro" data-motion-item style="--i:0"><strong>One workspace. Three permission paths.</strong><span>Guest · member · admin</span></div>${pathSvg([
-    { d: 'M500 56V100M500 100H175V165M500 100V165M500 100H825V165' },
-    { d: 'M500 56V100M500 100H175V165M500 100V165M500 100H825V165', flow: true, pathLength: 1 }
-  ], 'fv-swarm-geometry')}<div class="fv-role-columns">
+  return fig('swarm', 'Role based coverage', stage('swarm', `<div class="fv-swarm-intro" data-motion-item style="--i:0"><strong>One workspace. Three permission paths.</strong><span>Guest · member · admin</span></div><div class="fv-role-columns">
     <article class="fv-role-browser" data-motion-item style="--i:1"><header><strong>Guest</strong><span>Public access</span></header>${windowBar('northstar.test')}<div class="fv-role-content"><strong>Browse plans</strong><p><span>Starter</span><b>$9 / month</b></p><p><span>Pro</span><b>$24 / month</b></p></div><footer>${check}<span>Private projects hidden</span></footer></article>
     <article class="fv-role-browser" data-motion-item style="--i:2"><header><strong>Member</strong><span>Project access</span></header>${windowBar('northstar.test / workspace')}<div class="fv-role-content"><strong>Project dashboard</strong><p><span>Website launch</span><b>Can edit</b></p><p><span>API gateway</span><b>Can edit</b></p></div><footer>${check}<span>Billing restricted</span></footer></article>
     <article class="fv-role-browser" data-motion-item style="--i:3"><header><strong>Admin</strong><span>Workspace access</span></header>${windowBar('northstar.test / people')}<div class="fv-role-content"><strong>People &amp; permissions</strong><p><span>Priya Rao</span><b>Owner</b></p><p><span>Sam Chen</span><b>Member</b></p></div><footer>${check}<span>Role changes observed</span></footer></article>
@@ -147,10 +112,24 @@ function terminal() {
   return fig('terminal', 'A check from your terminal', stage('terminal', `<div class="fv-terminal"><p class="fv-terminal-cmd"><span>$</span> molar verify "the login form is visible" \\<br>&nbsp;&nbsp;--url https://staging.your-app.com --json</p><pre>${esc(out.join('\n'))}</pre></div>`), false, 'Shape of a failed hosted check');
 }
 
-const render = { checkout, identity, collaboration, preview, automation, data, swarm, live, dataflow, terminal };
+// Mender (preview): a failing Guard check, the draft change prepared for it, and the person who decides.
+function repair() {
+  return fig('repair', 'From a failed check to a fix you review', stage('repair', `<div class="fv-path fv-repair-path">
+    <article class="fv-node" data-motion-item style="--i:0"><header><span class="fv-node-kicker">Failed check</span><span class="fv-node-mark">01</span></header><div class="fv-node-content"><strong>checkout</strong><span>Payment complete. Account still shows Free.</span><p class="fv-repair-check is-fail">${fail}<span>account access present</span><small>Release check on pull/184</small></p><code>${wb('trace_48_checkout')}</code></div></article>
+    <article class="fv-node" data-motion-item style="--i:1"><header><span class="fv-node-kicker">Proposed change</span><span class="fv-node-mark">02</span></header><div class="fv-node-content"><span class="fv-diff-file">${wb('src/billing/callback.ts')}</span><div class="fv-diff"><span class="is-ctx">  await markPaid(order.id)</span><span class="is-add">+ await grantPlan(order.accountId)</span></div><span>Regression test added: <code>${wb('checkout.spec.ts')}</code></span></div></article>
+    <article class="fv-node" data-motion-item style="--i:2"><header><span class="fv-node-kicker">Your review</span><span class="fv-node-mark">03</span></header><div class="fv-node-content"><strong>Draft, not merged</strong><span>Read the diff, the new test and a fresh run before you decide.</span><div class="fv-decision"><span>Approve</span><span>Edit</span><span>Reject</span></div></div></article>
+  </div>`));
+}
+
+const render = { repair, checkout, identity, collaboration, preview, automation, data, swarm, live, dataflow, terminal };
 
 export function featureVisual(kind, { compact = false } = {}) {
   const key = render[kind] ? kind : 'checkout';
   const output = render[key]();
-  return compact ? output.replace(`class="feature-visual fv-${key}"`, `class="feature-visual fv-${key} is-compact"`) : output;
+  if (!compact) return output;
+  // Compact figures sit inside a card-wide link on /solutions; nested links are invalid HTML and the parser
+  // splits the card, so their in-figure links become plain labels there.
+  return output
+    .replace(`class="feature-visual fv-${key}"`, `class="feature-visual fv-${key} is-compact"`)
+    .replace(/<a class="fv-scene-link" href="[^"]*">([\s\S]*?)<\/a>/g, '<span class="fv-scene-link">$1</span>');
 }

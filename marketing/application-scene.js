@@ -8,13 +8,30 @@ export function sceneFrame(mode, step, delayed=false) {
   {first:'September found',second:'Invoice downloaded',result:'The invoice and browser steps are ready.',description:'See the browser steps and the downloaded document together.',agent:'Task complete',action:'Run it again',outcome:'passed',evidence:['September invoice found','PDF downloaded','File verified']}
  ][phase];
  const paid=phase>0, callback=phase>1, complete=phase>2, failed=callback&&delayed;
+ const access=complete?(delayed?'fail':'ok'):callback?'active':'idle';
  return {
+  screen:['billing','checkout','return','billing'][phase],
+  url:['northstar.test/billing','pay.payments.test/c/northstar-pro','northstar.test/billing/success','northstar.test/billing'][phase],
+  tab:phase===1?'Checkout':'Northstar',
+  nodes:{customer:paid?'ok':'active',payment:paid?'ok':'idle',webhook:callback?(delayed?'fail':'ok'):paid?'active':'idle',access},
+  states:{
+   customer:paid?'Clicked Upgrade to Pro':'Opening checkout',
+   payment:paid?'Payment succeeded':'Ready to charge',
+   webhook:callback?(delayed?'Delivery delayed':'Delivered to the app'):paid?'Waiting for delivery':'Waiting for payment',
+   access:complete?(delayed?'Still on Free':'Upgraded to Pro'):callback?(delayed?'Waiting for the update':'Checking the plan'):'Not checked yet'
+  },
+  events:{
+   customer:'00.0s  click “Upgrade to Pro”',
+   payment:'02.1s  charge.succeeded  $24.00',
+   webhook:callback?(delayed?'02.4s  no delivery after 30s':'02.4s  POST /api/billing/webhook  200'):'02.4s  POST /api/billing/webhook',
+   access:'05.2s  GET /billing  plan='+(complete?(delayed?'free':'pro'):'?')
+  },
   first:paid?'Payment succeeded':'Ready to charge',
   second:callback?(delayed?'Delivery delayed':'Delivered to the app'):'Waiting for payment',
   result:failed?'Payment received. Upgrade missing.':complete?'The payment works. So does the upgrade.':callback?'The app received the payment update.':paid?'The payment passed. There’s more to check.':'Molar starts where your customer does.',
   description:failed?'Molar catches the gap between a successful charge and the access your customer gets.':complete?'Payment, webhook and account access checked together.':callback?'Now check that the customer can use the plan they paid for.':paid?'A successful charge does not prove the account was upgraded.':'Follow the customer from checkout to their new plan.',
   agent:failed?'Gap found':complete?'Check complete':callback?'Check access':paid?'Follow payment':'Open checkout',
-  action:complete?'Run it again':callback?'Check account access':paid?'Follow payment update':'Upgrade workspace',
+  action:complete?'Run it again':callback?'Open billing':paid?'Continue to Northstar':'Upgrade to Pro',
   outcome:failed?'failed':complete?'passed':'working',
   plan:callback&&!delayed?'Pro':'Free',
   access:callback&&!delayed?'Full access':'Basic access',
@@ -33,8 +50,20 @@ if(typeof document!=='undefined') document.querySelectorAll('[data-app-scene]').
   root.querySelectorAll('[data-scene-phase]').forEach((el,i)=>{if(i===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');el.classList.toggle('is-complete',i<step)});
   for(const [key,selector] of Object.entries({first:'[data-scene-first]',second:'[data-scene-second]',result:'[data-scene-result]',description:'[data-scene-description]',agent:'[data-scene-agent]',plan:'[data-scene-plan]',access:'[data-scene-access]'})) if($(selector))$(selector).textContent=frame[key];
   $('[data-scene-advance]').innerHTML=frame.action+' <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
-  ['first','second','outcome'].forEach((name,i)=>$('[data-evidence-'+name+']').textContent=frame.evidence[i]);
+  ['first','second','outcome'].forEach((name,i)=>{const el=$('[data-evidence-'+name+']');if(el)el.textContent=frame.evidence[i]});
   if(mode==='platform')$('[data-invoice-status]').textContent=step>1?'Downloaded':step?'Selected':'Available';
+  if(frame.screen){
+   root.dataset.screen=frame.screen;
+   root.querySelectorAll('[data-screen]').forEach(el=>el.setAttribute('aria-hidden',String(el.dataset.screen!==frame.screen)));
+   $('[data-scene-url]').textContent=frame.url;$('[data-scene-tab]').textContent=frame.tab;
+   for(const [key,state] of Object.entries(frame.nodes)){
+    root.querySelector(`[data-chain-node="${key}"]`).dataset.state=state;
+    $(`[data-chain-state="${key}"]`).textContent=frame.states[key];
+    $(`[data-chain-event="${key}"]`).textContent=frame.events[key];
+   }
+   // Restart the cursor's approach to this screen's button.
+   const cursor=$('.chain-cursor');cursor.classList.remove('is-moving');void cursor.offsetWidth;cursor.classList.add('is-moving');
+  }
   $('[data-result-icon]').innerHTML='<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(frame.outcome==='passed'?'<path d="m5 12 4 4L19 6"/>':frame.outcome==='failed'?'<path d="M12 5v9m0 4v1"/>':'<path d="m5 3 14 10-7 1-4 7Z"/>')+'</svg>';
   if(announce)$('[data-scene-announcement]').textContent=frame.result+' '+frame.description;
  };
@@ -45,15 +74,19 @@ if(typeof document!=='undefined') document.querySelectorAll('[data-app-scene]').
   $('[data-scene-play] svg').innerHTML=playing?'<path d="M8 5v14m8-14v14"/>':'<path d="m8 4 12 8-12 8Z"/>';
  };
  const stop=()=>{clearTimeout(timer);playing=false;player()};
- const schedule=()=>{clearTimeout(timer);if(!canPlay())return;playing=true;player();timer=setTimeout(()=>{step=(step+1)%4;render();schedule()},step===3?6200:3000)};
+ // Autoplay shows both outcomes: after a run ends, the QA example flips the webhook condition and plays again,
+ // so a visitor who never clicks still sees the gap being caught and the passing run.
+ const flip=()=>{delayed=!delayed;const c=$('[data-scene-condition]');if(!c)return;c.setAttribute('aria-pressed',String(delayed));if(c.classList.contains('chain-switch'))c.setAttribute('aria-label',delayed?'Webhook delayed. Switch to on time':'Webhook on time. Switch to delayed')};
+ const schedule=()=>{clearTimeout(timer);if(!canPlay())return;playing=true;player();timer=setTimeout(()=>{if(step===3&&mode==='qa')flip();step=(step+1)%4;render();schedule()},step===3?6200:3000)};
  $('[data-scene-play]').addEventListener('click',()=>{userPaused=playing;if(userPaused)stop();else schedule()});
  $('[data-scene-replay]').addEventListener('click',()=>{step=0;render(true);userPaused=motion.matches;if(userPaused)stop();else schedule()});
  $('[data-scene-condition]')?.addEventListener('click',event=>{
   delayed=!delayed;event.currentTarget.setAttribute('aria-pressed',String(delayed));
+  if(event.currentTarget.classList.contains('chain-switch'))event.currentTarget.setAttribute('aria-label',delayed?'Webhook delayed. Switch to on time':'Webhook on time. Switch to delayed');
   step=3;userPaused=true;stop();render(true);
  });
  $('[data-scene-advance]').addEventListener('click',()=>{step=(step+1)%4;userPaused=true;stop();render(true)});
- $('.scene-evidence').addEventListener('toggle',event=>{if(event.currentTarget.open){userPaused=true;stop()}});
+ $('.scene-evidence')?.addEventListener('toggle',event=>{if(event.currentTarget.open){userPaused=true;stop()}});
  // Observe visibility without scroll polling. Clean-room use of the platform API:
  // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(canPlay())schedule();else stop()},{threshold:.15}).observe(root);

@@ -20,19 +20,6 @@
 .closing .button-outline:hover { background: #2b382d; }
 .closing .closing-note { margin-top: 14px; color: #cad2c0; font-size: 15px; }
 
-/* Release, task and data diagrams: three cards in a hero column were ~158px wide and clipped their own status labels. */
-.feature-visual .fv-path,
-.feature-visual .fv-release-path,
-.feature-visual .fv-task-path,
-.feature-visual .fv-data-path { gap: clamp(16px, 2vw, 28px); }
-.feature-visual .fv-release-body p { grid-template-columns: 23px minmax(0, 1fr); row-gap: 2px; }
-.feature-visual .fv-release-body p b { grid-column: 2; }
-.feature-visual .fv-node code,
-.feature-visual .fv-task-node code,
-.feature-visual .fv-data-node code,
-.feature-visual .fv-release-node code { font-size: 12px; overflow-wrap: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.feature-visual .fv-scene-link { background: transparent; color: var(--fv-ink); border: 1px solid var(--fv-line); }
-.feature-visual .fv-scene-link:hover { background: var(--fv-paper); }
 
 /* Product pages: the headline stands alone and the lead sits beside it. */
 .product-story-hero .product-story-head h1 { max-width: 12ch; }
@@ -77,7 +64,7 @@
 }
 
 /* Text inside product demos never drops below 13px. */
-.feature-visual small, .feature-visual .fv-example, .application-scene small { font-size: max(13px, 1em); }
+.application-scene small { font-size: max(13px, 1em); }
 
 /* The FAQ heading is plain. */
 .faq-layout h2 { font-size: clamp(30px, 3vw, 42px); }
@@ -88,38 +75,9 @@
   .detail-hero-grid > div:first-child { max-width: 760px; }
 }
 
-/* Trace compare: browser and trace side by side, the comparison as one row underneath. */
-.feature-visual .fv-live-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px; min-height: 0; }
-.feature-visual .fv-live-browser, .feature-visual .fv-live-trace { min-height: 0; }
-.feature-visual .fv-live-compare { grid-column: 1 / -1; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 18px; align-items: start; }
-.feature-visual .fv-live-compare header { grid-column: 1 / -1; }
-.feature-visual .fv-live-compare .fv-scene-link { grid-column: 1 / -1; width: auto; justify-self: start; margin-top: 12px; }
-.feature-visual .fv-live-screen nav { gap: 10px; font-size: 13px; }
-.feature-visual .fv-live-screen nav span:last-child { display: none; }
 
-/* Long identifiers inside diagrams end with an ellipsis instead of being cut mid-character. */
-.feature-visual .fv-page-heading span,
-.feature-visual .fv-role-body strong,
-.feature-visual .fv-task-body > strong { display: block; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.feature-visual .fv-task-body > strong { font-size: 15px; }
 
-.feature-visual .fv-node-content label { overflow-wrap: anywhere; }
-.feature-visual .fv-pr-title strong { font-size: 15px; overflow-wrap: anywhere; }
-@media (max-width: 700px) {
-  .feature-visual .fv-live-grid { grid-template-columns: 1fr; }
-  .feature-visual .fv-live-compare { grid-template-columns: 1fr; }
-}
 
-/* Security: where run data goes. */
-.feature-visual .fv-dataflow-stage { min-height: 0; padding: 8px 22px; }
-.feature-visual .fv-flow-list { list-style: none; margin: 0; padding: 0; }
-.feature-visual .fv-flow-list li { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--fv-line); }
-.feature-visual .fv-flow-list li:last-child { border-bottom: 0; }
-.feature-visual .fv-flow-what { color: var(--fv-muted); font-size: 14px; }
-.feature-visual .fv-flow-who strong { display: block; font-size: 16px; }
-.feature-visual .fv-flow-who small { color: var(--fv-muted); font: 500 13px/1.4 'Geist Mono', ui-monospace, monospace; }
-.feature-visual .fv-flow-data { font-size: 14px; line-height: 1.45; }
-@media (max-width: 700px) { .feature-visual .fv-flow-list li { grid-template-columns: 1fr; gap: 4px; } }
 
 /* Security: host rules shown as a short table. */
 .sd-hosts { display: grid; }
@@ -133,12 +91,6 @@
 .sd-hosts .is-blocked strong { color: #a33827; }
 @media (max-width: 700px) { .sd-hosts > div { grid-template-columns: 1fr; gap: 3px; } }
 
-/* Developer tools: terminal example. */
-.feature-visual .fv-terminal-stage { min-height: 0; padding: 0; background: #1c2521; border-color: #2b382d; }
-.feature-visual .fv-terminal { padding: 22px 24px; color: #e8eddf; font: 500 13px/1.6 'Geist Mono', ui-monospace, monospace; }
-.feature-visual .fv-terminal-cmd { margin: 0 0 14px; color: #f5f7ef; overflow-wrap: anywhere; }
-.feature-visual .fv-terminal-cmd span { color: #f26342; margin-right: 6px; }
-.feature-visual .fv-terminal pre { margin: 0; overflow-x: auto; color: #cad2c0; font: inherit; white-space: pre; }
 
 /* One headline accent everywhere: the accessible dark coral (button coral is too light for text on paper). */
 .identity-hero h1 > span, .platform-identity h1 > span, .reading-hero h1 span, .contact-section h1 span, .contact-layout h1 > span { color: #b54126; }
@@ -165,13 +117,10 @@
 .run-note { margin-top: 18px; color: #56614f; font-size: 15px; }
 .real-run-shot img { display: block; width: 100%; height: auto; border: 1px solid #cdd5c5; border-radius: 10px; }
 @media (max-width: 700px) { .run-facts, .run-steps { grid-template-columns: 1fr; } }
-.feature-visual .fv-terminal-cmd { overflow-wrap: normal; }
 .agent-run-example .code-window pre, .agent-run-example .code-window pre code { white-space: pre; overflow-x: auto; }
 .error-page .error-code { text-align: center; }
 
 /* Second review pass. */
-.feature-visual .fv-dataflow-stage::before, .feature-visual .fv-terminal-stage::before { display: none; }
-.feature-visual .fv-terminal-cmd { font-size: 13px; line-height: 1.6; }
 .real-run-teaser h2 { margin-bottom: 18px; }
 .pricing-choice ol + .button, .pricing-choice p + .button { margin-top: 22px; }
 .pricing-limits-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
@@ -191,7 +140,6 @@
 .sd-mini-button { display: inline-block; margin-top: 8px; }
 .footer-bottom .molar-preferences { font: inherit; text-decoration: none; color: inherit; }
 .footer-bottom .molar-preferences:hover { color: #f5f7ef; }
-.feature-visual .fv-live-browser .fv-window { padding-left: 12px; }
 /* Long code lines scroll inside their block instead of widening the layout column. */
 .detail-visual-story > *, .split-section > *, .developer-grid > *, .docs-quickstart > *, .pgd-ci-grid > *, .pc-setup-grid > *, .pgd-monitor-setup > *, .cg-command-list > *, .pt-setup-grid > * { min-width: 0; }
 .code-window { max-width: 100%; }
@@ -200,8 +148,6 @@
 .reading-sidebar strong + nav + strong { display: block; margin-top: 22px; }
 .footer-bottom .molar-preferences { display: inline; line-height: inherit; }
 
-/* Compact cards stack their nodes, so the wide-layout connector lines would cut through them. */
-.feature-visual.is-compact .fv-geometry { display: none; }
 
 /* Third review pass: no one-word last lines in headings. */
 h1, h2 { text-wrap: balance; }
@@ -270,3 +216,43 @@ html:has(.cl-slides) { scroll-snap-type: y proximity; scroll-padding-top: calc(7
   .cl-slide .cl-text { font-size: 18px; }
 }
 @media (prefers-reduced-motion: reduce) { html:has(.cl-slides) { scroll-snap-type: none; } }
+
+/* Home: the real run as a result card with the run's own frames as a filmstrip (replaces one mostly blank full-page screenshot). */
+
+/* See a real run: the recorded screenshots play one after another in a browser frame (8 steps x 3 s), with the
+   step strip tracking them (motion.js sets is-on / is-done). Hovering holds the current step; reduced motion
+   shows the final one. */
+.real-run-teaser .split-section{grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:72px}
+.real-run-card{display:block;background:#fff;border:1px solid #cdd5c5;border-radius:14px;padding:22px 22px 18px;color:#202b23;min-width:0;box-shadow:0 1px 2px #2a3a2610,0 24px 48px -28px #263b2240;transition:border-color .2s,box-shadow .3s}
+.real-run-card:hover{border-color:#a2afa1;box-shadow:0 1px 2px #2a3a2614,0 30px 56px -26px #263b2250}
+.real-run-card:focus-visible{outline:2px solid #df593a;outline-offset:4px}
+.rrc-head{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:#56614f}
+.rrc-head b{display:flex;align-items:center;gap:5px;padding:4px 10px 4px 8px;border-radius:999px;background:#d4e8c5;color:#22664c;font-size:12.5px;font-weight:600}.rrc-head b .icon{width:13px;height:13px}
+.rrc-goal{margin:10px 0 16px;font-size:18px;font-weight:550;letter-spacing:-.01em;line-height:1.4;color:#202b23;max-width:52ch}
+.rrc-player{border:1px solid #d3dacb;border-radius:10px;overflow:hidden;background:#eef1e8}
+.rrc-bar{display:flex;align-items:center;gap:14px;padding:9px 13px;background:#e2e7da;border-bottom:1px solid #d3dacb;font-size:13px;color:#3d4a37}
+.rrc-dots{display:flex;gap:4px;flex:none}.rrc-dots i{width:6px;height:6px;border-radius:50%;background:#a3b096}
+.rrc-caps{position:relative;flex:1;min-width:0;height:18px}
+.rrc-caps>span{position:absolute;inset:0;display:flex;gap:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .35s}
+.rrc-caps b{font:500 12px/18px var(--mono,'Geist Mono',monospace);color:#6a7761;flex:none}
+.rrc-frames{position:relative;aspect-ratio:16/10;background:#f6f7fb}
+.rrc-frames img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left;opacity:0;transition:opacity .5s cubic-bezier(.22,1,.36,1)}
+.rrc-caps>span.is-on,.rrc-frames img.is-on{opacity:1}
+.rrc-steps{list-style:none;margin:0;padding:10px 12px;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;border-top:1px solid #d3dacb;background:#e9ede3}
+.rrc-steps li{position:relative;height:22px;border-radius:5px;background:#d5dccd;overflow:hidden;color:#4a5843}
+.rrc-steps li::before{content:'';position:absolute;inset:0;background:#7fa98c;transform-origin:left;transform:scaleX(0)}
+.rrc-steps li.is-done::before{transform:scaleX(1)}
+.rrc-steps li.is-on::before{background:#22664c;animation:rrc-fill var(--rrc-step,3s) linear both}
+.rrc-steps li.is-on,.rrc-steps li.is-done{color:#f2f8ec}
+.rrc-steps span{position:relative;display:flex;align-items:center;justify-content:center;height:100%;font:600 11.5px/1 var(--mono,'Geist Mono',monospace)}
+.real-run-card.is-held .rrc-steps li.is-on::before{animation-play-state:paused}
+@keyframes rrc-fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.rrc-result{display:flex;align-items:center;gap:14px;margin-top:14px;padding:12px 14px;border-radius:9px;background:#e8f2eb;font-size:14px}
+.rrc-result strong{display:flex;align-items:center;gap:7px;font-size:15px;color:#22664c}.rrc-result strong .icon{width:16px;height:16px}
+.rrc-result code{font:500 13px/1.3 var(--mono,'Geist Mono',monospace);color:#3f5a46}
+.rrc-result>span{margin-left:auto;color:#3f4d3a;font-variant-numeric:tabular-nums}.rrc-result b{color:#202b23}
+.rrc-foot{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:13px;color:#56614f}
+.rrc-open{display:flex;align-items:center;gap:6px;margin-left:auto;color:#202b23;font-weight:550;text-decoration:underline;text-underline-offset:4px}.rrc-open .icon{width:14px;height:14px}
+@media (prefers-reduced-motion:reduce){.rrc-steps li.is-on::before{animation:none;transform:scaleX(1)}.rrc-caps>span,.rrc-frames img{transition:none}}
+@media (max-width:900px){.real-run-teaser .split-section{grid-template-columns:1fr;gap:36px}}
+@media (max-width:520px){.real-run-card{padding:16px 14px 14px}.rrc-goal{font-size:16px}.rrc-steps{gap:4px;padding:8px}.rrc-steps li{height:18px}.rrc-result{flex-wrap:wrap;gap:6px 12px}.rrc-result>span{margin-left:0}.rrc-open{margin-left:0}}

@@ -2,6 +2,7 @@
   "html": [
     "404.html",
     "ask.html",
+    "benchmarks.html",
     "blog.html",
     "blog/ai-agents-future-software-testing.html",
     "blog/ai-playwright-test-generation.html",
@@ -79,6 +80,7 @@
   "routes": [
     "https://molar.it/",
     "https://molar.it/ask",
+    "https://molar.it/benchmarks",
     "https://molar.it/blog",
     "https://molar.it/blog/ai-agents-future-software-testing",
     "https://molar.it/blog/ai-playwright-test-generation",

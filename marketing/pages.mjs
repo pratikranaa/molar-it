@@ -322,7 +322,7 @@ export const pages = [
     description: "Review a proposed repair beside the failed browser check that prompted it.",
     headline: "Turn a failure into a proposed fix.",
     intro: "Give Mender a reproducible Guard failure and its Trace. It gathers the relevant run and repository context, prepares a proposed change for review, and waits for a person to approve the next step. Mender remains a preview capability.",
-    kind: "product", visual: "live",
+    kind: "product", visual: "repair",
     highlights: [
       { title: "Bring the failed check", body: "Start with the Guard run, Trace, and scenario that show the failure you can reproduce." },
       { title: "Inspect the proposed edit", body: "Review the suggested change beside the failed assertion and repository context before deciding what to do." },

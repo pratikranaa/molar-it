@@ -175,3 +175,5 @@
   .cg-findings h2 { max-width: 16ch; }
 }
 @media(prefers-reduced-motion:reduce) { .cgr-steps button { transition: none; } }
+
+.cg-video-frame video{aspect-ratio:16/6;max-height:none;object-fit:cover;object-position:50% 0}

@@ -107,3 +107,27 @@ const stop = () => { active.forEach(animation => animation.cancel()); active.cle
 reduced.addEventListener('change', () => { if (reduced.matches) stop(); });
 document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else scheduleProcess(); });
 addEventListener('pagehide', stop);
+
+// "See a real run": one clock for the screenshot, its caption and the step strip, so they never drift apart.
+// Holds on hover or keyboard focus, stops off-screen, and shows the final step when motion is reduced.
+document.querySelectorAll('.real-run-card').forEach(card => {
+  const parts = ['.rrc-caps > span', '.rrc-frames img', '.rrc-steps li'].map(selector => [...card.querySelectorAll(selector)]);
+  const count = parts[2].length, stepMs = 3000;
+  if (!count) return;
+  let step = 0, timer = 0, held = false, visible = false;
+  const show = () => parts.forEach(list => list.forEach((el, i) => {
+    el.classList.toggle('is-on', i === step);
+    el.classList.toggle('is-done', i < step);
+  }));
+  const run = () => { clearTimeout(timer); if (!visible || held || reduced.matches || document.hidden) return; timer = setTimeout(() => { step = (step + 1) % count; show(); run(); }, stepMs); };
+  const hold = on => { held = on; card.classList.toggle('is-held', on); run(); };
+  card.style.setProperty('--rrc-step', `${stepMs}ms`);
+  if (reduced.matches) step = count - 1;
+  show();
+  card.addEventListener('pointerenter', () => hold(true));
+  card.addEventListener('pointerleave', () => hold(false));
+  card.addEventListener('focusin', () => hold(true));
+  card.addEventListener('focusout', () => hold(false));
+  new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; run(); }, {threshold: .25}).observe(card);
+  document.addEventListener('visibilitychange', run);
+});
