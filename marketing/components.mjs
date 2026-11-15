@@ -34,7 +34,7 @@ const menus = [
     ['/platform/live-view','Live view & recordings','Watch a run and replay its steps.','trace'],
     ['/platform/swarm','Multi-user tests','Test one flow across several accounts.','users'],
     ['/platform/developer-tools','Developer tools','Run checks from the CLI or an MCP client.','code'],
-    ['/platform/launch-browser','Launch a browser','Drive a hosted browser from your own code.','globe'],
+    ['/platform/launch-browser','Launch a browser','A stealth browser for your agents and scripts.','globe'],
     ['/platform/saved-tests','Saved tests','Playwright tests in your repo, run on every push.','branch'],
     ['/platform/coverage','Coverage','See which pages your tests reach.','map'],
   ]],

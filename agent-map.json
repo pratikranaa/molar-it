@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-15T10:51:48.591Z",
+  "generatedAt": "2026-11-15T11:07:31.193Z",
   "pageCount": 77,
   "pages": [
     {
@@ -819,16 +819,17 @@
     {
       "path": "/platform/launch-browser",
       "url": "https://molar.it/platform/launch-browser",
-      "title": "Cloud Browser for Playwright & Puppeteer | Molar",
-      "description": "Start a cloud browser on demand, connect your Playwright or Puppeteer code to it, watch it live and keep a recording.",
+      "title": "Stealth Cloud Browser for AI Agents & Playwright | Molar",
+      "description": "A stealth cloud browser for your agents and scripts: connect Playwright or Puppeteer, watch it live, take over by hand and keep a recording.",
       "headings": [
-        "A browser on demand, for your own code.",
+        "A stealth browser for your agents.",
+        "Built not to look like a bot",
         "Connect your code",
-        "Watch it live",
-        "Keep a recording",
+        "Watch or take over",
         "Start one, connect to it",
-        "Watch, record, stop",
+        "Watch, take over, record",
         "From a coding agent",
+        "What stealth covers, and what it does not",
         "Limits during the beta",
         "Frequently asked questions",
         "Start your first browser."

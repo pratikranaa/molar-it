@@ -236,10 +236,10 @@ URL: https://molar.it/platform/developer-tools
 Description: Install the molar CLI, connect Claude Code, Cursor, Codex or any MCP client, or call the HTTP API. Every check returns JSON your coding agent can read.
 Headings: Let your coding agent test its changes. · CLI · MCP · HTTP API · Install and run your first check · Connect an MCP client · Read the result · Set up a repository · Keep your Playwright tests · Frequently asked questions · Connect your coding agent.
 
-## Cloud Browser for Playwright & Puppeteer | Molar
+## Stealth Cloud Browser for AI Agents & Playwright | Molar
 URL: https://molar.it/platform/launch-browser
-Description: Start a cloud browser on demand, connect your Playwright or Puppeteer code to it, watch it live and keep a recording.
-Headings: A browser on demand, for your own code. · Connect your code · Watch it live · Keep a recording · Start one, connect to it · Watch, record, stop · From a coding agent · Limits during the beta · Frequently asked questions · Start your first browser.
+Description: A stealth cloud browser for your agents and scripts: connect Playwright or Puppeteer, watch it live, take over by hand and keep a recording.
+Headings: A stealth browser for your agents. · Built not to look like a bot · Connect your code · Watch or take over · Start one, connect to it · Watch, take over, record · From a coding agent · What stealth covers, and what it does not · Limits during the beta · Frequently asked questions · Start your first browser.
 
 ## Live View & Recordings for Browser Agent Runs | Molar
 URL: https://molar.it/platform/live-view
