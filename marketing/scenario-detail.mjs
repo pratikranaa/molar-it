@@ -1,4 +1,5 @@
 import { esc, icon } from './components.mjs';
+import { brand } from './brands.mjs';
 
 const tick = `<span class="sd-tick" aria-hidden="true">${icon('check')}</span>`;
 const dot = '<span class="sd-dot" aria-hidden="true"></span>';
@@ -98,9 +99,41 @@ function invitation() {
   return figure('An invitation across two browsers', `<div class="sd-invitation"><img src="/assets/invitation/admin-final.png" width="1440" height="900" loading="lazy" alt="Admin browser confirming an invitation was created"><ol><li>Admin created the invitation.</li><li>The Email Clone delivered its link.</li><li>A separate member browser accepted.</li></ol></div><a class="text-link" href="/examples/team-invitation">Watch both recordings ${icon('arrow')}</a>`, 'sd-invitation-scene', 'Scripted test recording, not an AI agent run');
 }
 
+
+// The four capability pages (launch a browser, saved tests, coverage, scheduled checks).
+function launchBrowser(index) {
+  if (index === 'hero') return figure('Your code, driving a cloud browser', `<div class="sd-live-browser"><div class="sd-live-bar"><span class="sd-live-badge"><i></i>Live</span><code>pricing.example.com</code><span>1440×900</span></div><div class="sd-live-page"><strong>Pricing</strong><div class="sd-live-plans"><span>Starter</span><span class="is-picked">Pro</span><span>Team</span></div></div></div><div class="sd-tools"><span>Connect with</span><span>${brand('playwright')} Playwright</span><span>${brand('puppeteer')} Puppeteer</span><span class="sd-tools-gap">or from</span><span>${brand('claude')} Claude Code</span><span>${brand('cursor')} Cursor</span></div>`, 'sd-launch', 'Live view');
+  if (index) return figure('Watch it, keep the recording', `<div class="sd-columns"><section class="sd-card"><span class="sd-kicker">Browser</span><strong>Running · 1440×900</strong>${line('Live view', 'Open in dashboard', 'good')}${line('Recording', 'On')}${line('Stops', 'after 10 idle minutes')}</section><section class="sd-card"><span class="sd-kicker">After it stops</span><strong>Session video</strong>${line('Length', '4 min 12 s')}${line('Video', 'Download', 'good')}<small>Recording works for sessions up to 30 minutes.</small></section></div>`, 'sd-launch');
+  return figure('Start a browser, connect your code', `<div class="sd-code-flow"><section class="sd-card"><span class="sd-kicker">New browser</span><strong>Ready</strong>${line('Starts on', 'example.com')}${line('Time limit', '15 minutes')}${line('Address', 'wss://…/cdp', 'good')}</section><div class="sd-map-arrow">${arrow}</div><section class="sd-card"><span class="sd-kicker">Your code</span><code>const browser = await chromium</code><code>  .connectOverCDP(address);</code><code>await page.goto('/pricing');</code><span class="sd-status">${tick} connected</span></section></div>`, 'sd-launch');
+}
+function savedTests(index) {
+  if (index === 'hero') return figure('Tests in your repository', `<section class="sd-card"><span class="sd-kicker sd-repo">${brand('github')} your-team / shop-tests</span>${line('checkout', '2 files', 'good')}${line('signup and welcome email', '2 files', 'good')}${line('invite a teammate', '2 files', 'good')}${line('cancel the plan', '2 files', 'good')}<span class="sd-status">${tick} Last push: 9 of 9 passed</span></section>`, 'sd-saved');
+  if (index) return figure('Every push runs the saved tests', `<section class="sd-card"><span class="sd-kicker sd-repo">${brand('github')} Push to main · “Update pricing copy”</span><strong>9 of 9 tests passed</strong>${line('checkout', 'passed · 18 s', 'good')}${line('signup and welcome email', 'passed · 24 s', 'good')}${line('invite a teammate', 'passed · 31 s', 'good')}${line('cancel the plan', 'passed · 12 s', 'good')}</section>`, 'sd-saved');
+  return figure('One test, two files', `<div class="sd-columns"><section class="sd-card"><span class="sd-kicker">The instruction</span><strong>checkout</strong><p>Sign in, choose the Pro plan, pay with the test card, then check that Pro is active.</p></section><section class="sd-card"><span class="sd-kicker">The Playwright test</span><code>test('checkout', async ({ page }) => {</code><code>  await page.getByRole('button',</code><code>    { name: 'Choose Pro' }).click();</code><code>  …</code><span class="sd-status">${tick} replayed before saving</span></section></div>`, 'sd-saved');
+}
+function covGrid() {
+  // 26 weeks × 7 days, like the dashboard: mostly passed, a few mixed and failed days, quiet weekends.
+  const tone = i => i > 176 ? 'none' : i % 7 > 4 && i % 3 ? 'none' : [23, 61, 118, 150].includes(i) ? 'mixed' : [88, 140].includes(i) ? 'fail' : 'pass';
+  return `<div class="sd-cov-grid" aria-hidden="true">${Array.from({length: 182}, (_, i) => `<i class="sd-cov-${tone(i)}"></i>`).join('')}</div>`;
+}
+function coverage(index) {
+  if (index === 'hero') return figure('9 tests cover 7 pages on 3 sites', `<div class="sd-columns"><section class="sd-card"><span class="sd-kicker">shop.example</span><strong>4 of 5 pages</strong>${line('/settings/billing', 'No test', 'pending')}</section><section class="sd-card"><span class="sd-kicker">docs.example</span><strong>2 of 2 pages</strong>${line('Last run', 'Passed', 'good')}</section></div>${covGrid()}`, 'sd-coverage');
+  if (index) return figure('Runs by day', `${covGrid()}<div class="sd-cov-key"><span><i class="sd-cov-pass"></i> Passed</span><span><i class="sd-cov-mixed"></i> Some failed</span><span><i class="sd-cov-fail"></i> Mostly failed</span></div>`, 'sd-coverage');
+  return figure('Pages your tests reach', `<section class="sd-card"><span class="sd-kicker">shop.example</span>${line('/cart', '3 tests', 'good')}${line('/checkout', '2 tests', 'good')}${line('/account', '1 test', 'good')}${line('/settings/billing', 'No test · add one', 'pending')}</section>`, 'sd-coverage');
+}
+function scheduled(index) {
+  if (index === 'hero') return figure('Checks on the live site', `<section class="sd-card"><span class="sd-kicker">Scheduled checks · shop.example</span>${line('Checkout still works', 'Every 15 min · passed', 'good')}${line('Sign up and get the email', 'Every 30 min · passed', 'good')}${line('Invite a teammate', 'Every hour · failed 14:02', 'pending')}${line('Cancel the plan', 'Every hour · passed', 'good')}</section>`, 'sd-scheduled');
+  if (index) return figure('When a check fails', `<section class="sd-card"><span class="sd-kicker">Incident · 14:02</span><strong>Checkout failed at step 4</strong><p>The payment page did not finish loading.</p>${line('Step 4', 'Pay with the test card', 'pending')}${line('Screenshot', 'Attached')}${line('Network', 'POST /api/pay · 504', 'pending')}${line('Fix', 'Suggested', 'good')}</section>`, 'sd-scheduled');
+  return figure('A check on the live site', `<section class="sd-card"><span class="sd-kicker">Scheduled check</span><strong>Checkout still works</strong>${line('Site', 'shop.example')}${line('Runs', 'Every 15 minutes')}${line('Last run', 'Passed · 4 min ago', 'good')}${line('When it breaks', 'Suggest a fix')}</section>`, 'sd-scheduled');
+}
+
 /** Each supporting section explains a different part of its page's workflow. */
 export function detailVisual(page, index = 0) {
   const path = page?.path || '';
+  if (path.includes('launch-browser')) return launchBrowser(index);
+  if (path.includes('saved-tests')) return savedTests(index);
+  if (path.includes('/coverage')) return coverage(index);
+  if (path.includes('scheduled-checks')) return scheduled(index);
   if (path.includes('clones') || path.includes('integration-testing')) return index ? catalog() : clones(0);
   if (path.includes('cartographer')) return index ? developer() : cartographer(0);
   if (path.includes('mender')) return index ? repairFlow() : mender();

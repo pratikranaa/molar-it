@@ -38,8 +38,11 @@
   <url><loc>https://molar.it/integrations/github-actions</loc></url>
   <url><loc>https://molar.it/platform</loc></url>
   <url><loc>https://molar.it/platform/browser-agents</loc></url>
+  <url><loc>https://molar.it/platform/coverage</loc></url>
   <url><loc>https://molar.it/platform/developer-tools</loc></url>
+  <url><loc>https://molar.it/platform/launch-browser</loc></url>
   <url><loc>https://molar.it/platform/live-view</loc></url>
+  <url><loc>https://molar.it/platform/saved-tests</loc></url>
   <url><loc>https://molar.it/platform/swarm</loc></url>
   <url><loc>https://molar.it/pricing</loc></url>
   <url><loc>https://molar.it/privacy</loc></url>
@@ -57,6 +60,7 @@
   <url><loc>https://molar.it/solutions/coding-agents</loc></url>
   <url><loc>https://molar.it/solutions/integration-testing</loc></url>
   <url><loc>https://molar.it/solutions/preview-deployments</loc></url>
+  <url><loc>https://molar.it/solutions/scheduled-checks</loc></url>
   <url><loc>https://molar.it/solutions/startups</loc></url>
   <url><loc>https://molar.it/solutions/team-workflows</loc></url>
   <url><loc>https://molar.it/solutions/web-app-testing</loc></url>

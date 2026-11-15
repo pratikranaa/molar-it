@@ -18,7 +18,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 
 ## Company and other pages
 - [Ask Molar — Practical Answers About Browser Testing](https://molar.it/ask) — Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.
-- [Benchmarks: How Molar’s Browser Agent Scores | Molar](https://molar.it/benchmarks) — How Molar’s browser agent scores on Online-Mind2Web, WebVoyager, WebTestBench and Browser Use Bench, with the judge, task count, date and caveats for each result.
+- [Benchmarks: How Molar’s Browser Agent Scores | Molar](https://molar.it/benchmarks) — How Molar’s browser agent scores on Online-Mind2Web and WebTestBench, and where it ranks among published results.
 - [Molar Changelog: What’s New](https://molar.it/changelog) — New things you can do with Molar: browser runs, exported Playwright tests, release checks and integrations, newest first.
 - [About Molar — AI QA & Browser Automation Platform](https://molar.it/company) — Molar, also called Molar QA, is an AI QA and browser automation platform for web apps, built by Pratik Rana in Bengaluru. What it does and how to reach us.
 - [Talk to the Molar Team](https://molar.it/contact) — Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.
@@ -70,8 +70,11 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 ## Platform
 - [Molar Platform — Browser Execution for Humans & AI Agents](https://molar.it/platform) — Give your team and AI agents a browser that gets work done. Automate tasks, explore apps, extract data and inspect the result with Molar.
 - [Browser Agent: Run Web Tasks in a Real Browser | Molar](https://molar.it/platform/browser-agents) — Give Molar a website and a task. It works through the site in a real browser and returns the result, with a recording of every step.
+- [UI Test Coverage for Pages & User Flows | Molar](https://molar.it/platform/coverage) — See which pages and flows your saved tests cover, which they miss, and how your runs went day by day.
 - [CLI, MCP Server & API for Coding Agents | Molar](https://molar.it/platform/developer-tools) — Install the molar CLI, connect Claude Code, Cursor, Codex or any MCP client, or call the HTTP API. Every check returns JSON your coding agent can read.
+- [Cloud Browser for Playwright & Puppeteer | Molar](https://molar.it/platform/launch-browser) — Start a cloud browser on demand, connect your Playwright or Puppeteer code to it, watch it live and keep a recording.
 - [Live View & Recordings for Browser Agent Runs | Molar](https://molar.it/platform/live-view) — Watch a hosted run live, read-only, then replay its video, screenshots, network log and Playwright trace.
+- [Playwright Tests Saved to Your GitHub Repo | Molar](https://molar.it/platform/saved-tests) — Molar keeps each project’s tests in a GitHub repository as plain instructions with a replay-checked Playwright test, and runs them on every push.
 - [Multi-User Browser Tests Across Accounts (Preview) | Molar](https://molar.it/platform/swarm) — Preview: test one flow across several accounts, with a separate browser and identity for each role, such as an admin inviting a member.
 
 ## Products
@@ -88,6 +91,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 - [QA for Coding Agents: Check Changes in a Real Browser | Molar](https://molar.it/solutions/coding-agents) — Your coding agent changes the app, Molar uses it in a real browser and returns pass or fail with the answer, the checks, a recording and a Playwright test.
 - [Integration Testing for Payments, Email & Sign-In | Molar](https://molar.it/solutions/integration-testing) — Run the browser journey through your app and its supported test services, then check the payment, message, callback and account records it produces.
 - [Test Preview Deployments Before Merge | Molar](https://molar.it/solutions/preview-deployments) — Run critical browser journeys against a Vercel or other preview deployment on every pull request, so a change is checked before it reaches production.
+- [Synthetic Monitoring with Your End-to-End Tests | Molar](https://molar.it/solutions/scheduled-checks) — Run a saved test against your live site every 15 minutes, 30 minutes or hour, and get the failed run when something breaks.
 - [QA for Startups: Keep Signup & Checkout Working | Molar](https://molar.it/solutions/startups) — Check signup, checkout and account access in a real browser on every change, with a screenshot and pass or fail for each step, while a small team ships.
 - [Test Team Invitations & Role Permissions | Molar](https://molar.it/solutions/team-workflows) — Test an invitation across two browsers: the admin screen, the email, the membership state and the permissions the new member receives.
 - [AI Web App Testing in a Real Browser | Molar](https://molar.it/solutions/web-app-testing) — Give Molar an expected result for your web app. Its browser agent follows the steps in a real browser and checks the callback, redirect, code or receipt behind it.

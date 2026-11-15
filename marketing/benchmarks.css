@@ -6,7 +6,7 @@
 .bm-asof{margin:26px 0 0!important;font-size:14px!important;line-height:1.5;color:#56614f!important;max-width:none!important}
 
 /* Stat tiles */
-.bm-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 36px}
+.bm-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px}
 .bm-stat{display:grid;align-content:start;gap:2px;border-top:1px solid #b9c5ad;padding-top:20px;color:var(--ink);text-decoration:none;min-width:0}
 .bm-stat-name{font-size:15px;font-weight:600;color:#56614f}
 .bm-stat-value{font-size:clamp(46px,4.6vw,64px);line-height:1.05;font-weight:650;letter-spacing:-.035em;font-variant-numeric:tabular-nums;color:#202b23;margin-top:10px}
@@ -133,3 +133,14 @@
 @media(max-width:380px){
  .bm-stats{grid-template-columns:1fr}
 }
+
+/* Rank among published results: the published scores as dots on one line, ours larger in coral. */
+.bm-rank{display:block;margin-top:20px;max-width:440px}
+.bm-rank-label{display:block;font-size:14px;color:#3d4a37}.bm-rank-label b{font-size:20px;font-weight:600;letter-spacing:-.01em;color:#202b23;margin-right:2px}
+.bm-rank-line{position:relative;display:block;height:20px;margin:8px 0 6px}
+.bm-rank-line::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:#b9c5ad}
+.bm-rank-line i{position:absolute;top:50%;width:7px;height:7px;border-radius:50%;background:#94a588;transform:translate(-50%,-50%)}
+.bm-rank-line em{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#f26342;box-shadow:0 0 0 2px #f7f8f2;transform:translate(-50%,-50%);z-index:1}
+.bm-rank-board{display:block;font-size:12.5px;color:#5e6d52}
+.bm-stat:hover .bm-rank-line em{box-shadow:0 0 0 2px #f7f8f2,0 0 0 5px #f2634233}
+@media(max-width:640px){.bm-rank{max-width:none}}

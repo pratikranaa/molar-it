@@ -1,5 +1,5 @@
 import {icon} from './components.mjs';
-import {SERVICE_LAB_SCENARIOS, SERVICE_LAB_TABS, scenarioState, appScreen, cloneLines, checkItems, serviceIcon} from './service-lab.js';
+import {SERVICE_LAB_SCENARIOS, SERVICE_LAB_TABS, scenarioState, appScreen, cloneLines, checkItems, serviceIcon, cloneMark} from './service-lab.js';
 
 // Rendered with the same functions the browser uses, so the first paint is the payments example.
 export function serviceLab() {
@@ -25,7 +25,7 @@ export function serviceLab() {
       </div>
       <div class="sl-flow">
         <section class="sl-clone" aria-label="What the clone did">
-          <header><span class="sl-clone-icon" data-clone-icon>${serviceIcon(state.service)}</span><span><strong data-clone-name>${state.clone}</strong><small>Set by Molar</small></span></header>
+          <header><span class="sl-clone-icon" data-clone-icon>${cloneMark(state.service)}</span><span><strong data-clone-name>${state.clone}</strong><small>Set by Molar</small></span></header>
           <div class="sl-clone-lines" data-clone-lines>${cloneLines(state)}</div>
         </section>
         <span class="sl-wire" aria-hidden="true"><i></i></span>

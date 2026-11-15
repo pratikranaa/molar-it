@@ -34,6 +34,9 @@ const menus = [
     ['/platform/live-view','Live view & recordings','Watch a run and replay its steps.','trace'],
     ['/platform/swarm','Multi-user tests','Test one flow across several accounts.','users'],
     ['/platform/developer-tools','Developer tools','Run checks from the CLI or an MCP client.','code'],
+    ['/platform/launch-browser','Launch a browser','Drive a hosted browser from your own code.','globe'],
+    ['/platform/saved-tests','Saved tests','Playwright tests in your repo, run on every push.','branch'],
+    ['/platform/coverage','Coverage','See which pages your tests reach.','map'],
   ]],
   ['Products',[
     ['/products/cartographer','Cartographer','Explore your app and record each step.','map'],
@@ -49,6 +52,7 @@ const menus = [
     ['/solutions/authentication-testing','Sign-in & onboarding','Accounts, email codes, and access.','lock'],
     ['/solutions/team-workflows','Team workflows','Invites, roles, and permissions.','users'],
     ['/solutions/preview-deployments','Preview deployments','Check the change before you merge.','branch'],
+    ['/solutions/scheduled-checks','Scheduled checks','Run tests against the live site on a schedule.','replay'],
     ['/solutions/workflow-automation','Browser automation','Forms, portals, files, and repeat work.','cursor'],
     ['/solutions/web-data-extraction','Web data extraction','Turn page content into usable data.','file'],
     ['/solutions/integration-testing','Integration-heavy apps','Payments, auth, messaging, webhooks.','layers'],

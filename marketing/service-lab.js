@@ -20,21 +20,21 @@ const svg = (name) => {
 
 export const SERVICE_LAB_SCENARIOS = Object.freeze({
   payments: {
-    label: 'Payments', clone: 'Payment clone', icon: 'card', key: 1,
+    label: 'Payments', clone: 'Stripe clone', icon: 'card', logo: 'stripe.svg', key: 1,
     narrative: 'Check that a payment ends in the right order and access.',
     options: ['Charge succeeds', 'Card declined'],
     good: {lines: ['POST /v1/payment_intents', 'status  succeeded', 'event   payment_intent.succeeded'], checks: ['Receipt shown to the customer', 'Order NS-2041 created', 'Workspace upgraded to Pro'], resultTitle: 'Payment, order and access agree.'},
     edge: {lines: ['POST /v1/payment_intents', 'status  card_declined', 'event   payment_intent.payment_failed'], checks: ['Decline message shown', 'No order created', 'Plan stays on Free'], resultTitle: 'The decline is handled. Nothing is charged or unlocked.'}
   },
   email: {
-    label: 'Email', clone: 'Inbox clone', icon: 'mail', key: 2,
+    label: 'Email', clone: 'Email clone', icon: 'mail', logo: 'sendgrid.svg', key: 2,
     narrative: 'Check that a verification link opens the right account state.',
     options: ['Fresh link', 'Expired link'],
     good: {lines: ['to       maya@example.test', 'subject  Confirm your email', 'link     sent 2 min ago'], checks: ['Link opens the workspace', 'Account marked verified'], resultTitle: 'The link verifies the account.'},
     edge: {lines: ['to       maya@example.test', 'subject  Confirm your email', 'link     sent 26 h ago'], checks: ['Expiry message shown', 'New link offered', 'Account stays unverified'], resultTitle: 'An old link can’t sign anyone in.'}
   },
   sms: {
-    label: 'SMS', clone: 'SMS clone', icon: 'bolt', key: 2,
+    label: 'SMS', clone: 'Twilio clone', icon: 'bolt', logo: 'twilio.svg', key: 2,
     narrative: 'Check that sign-in accepts only the code that was sent.',
     options: ['Right code', 'Wrong code'],
     good: {lines: ['to       +1 555 0142', 'body     code 482 190', 'entered  482 190'], checks: ['Code accepted', 'Signed in to Northstar'], resultTitle: 'The right code signs the user in.'},
@@ -48,7 +48,7 @@ export const SERVICE_LAB_SCENARIOS = Object.freeze({
     edge: {lines: ['user  priya@northstar.test', 'role  admin'], checks: ['Projects open', 'Billing settings manageable'], resultTitle: 'Admins reach the workspace controls.'}
   },
   storage: {
-    label: 'Storage', clone: 'Storage clone', icon: 'file', key: 2,
+    label: 'Storage', clone: 'S3 clone', icon: 'file', logo: 's3.svg', key: 2,
     narrative: 'Check that an upload ends as a usable file.',
     options: ['Upload completes', 'Connection drops'],
     good: {lines: ['PUT       launch-notes.pdf', 'received  4.8 MB of 4.8 MB', 'status    complete'], checks: ['File listed and openable', 'Size matches 4.8 MB'], resultTitle: 'The file is ready to use.'},
@@ -79,6 +79,8 @@ export function appScreen({service, edge}) {
 export const cloneLines = (state) => state.lines.map((line, i) => `<code${i === state.key ? ' class="is-key"' : ''}>${line}</code>`).join('');
 export const checkItems = (state) => state.checks.map(check => `<li>${svg('check')}<span>${check}</span></li>`).join('');
 export const serviceIcon = (service) => svg(SERVICE_LAB_SCENARIOS[service].icon);
+// The clone's own service logo (assets/brands), or its line icon when it stands in for no one company.
+export const cloneMark = (service) => { const {logo} = SERVICE_LAB_SCENARIOS[service]; return logo ? `<img src="/assets/brands/${logo}" width="22" height="22" alt="">` : serviceIcon(service); };
 
 function update(root, service, edge, announce = false, animate = announce) {
   const state = scenarioState(service, edge);
@@ -93,7 +95,7 @@ function update(root, service, edge, announce = false, animate = announce) {
   set('[data-service-surface]', appScreen(state));
   root.querySelector('[data-service-surface]').setAttribute('aria-labelledby', `service-lab-tab-${state.service}`);
   set('[data-service-narrative]', state.narrative);
-  set('[data-clone-icon]', serviceIcon(state.service));
+  set('[data-clone-icon]', cloneMark(state.service));
   set('[data-clone-name]', state.clone);
   set('[data-clone-lines]', cloneLines(state));
   set('[data-service-checks]', checkItems(state));

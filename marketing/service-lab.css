@@ -106,3 +106,7 @@
 @keyframes sl-cycle{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @media(prefers-reduced-motion:reduce){.service-lab-tab::after{display:none}}
 
+
+/* A clone shows its service's real logo on a light tile. */
+.sl-clone-icon:has(img){background:#f4f6ee}
+.sl-clone-icon img{width:22px;height:22px;object-fit:contain}

@@ -8,3 +8,28 @@
 
 /* Fixture-page screenshots: keep the content, drop the empty lower half. */
 .sd-screenshot img[src*="browser-check"]{aspect-ratio:16/6;object-fit:cover;object-position:50% 0}
+
+/* Coverage: runs by day, one square each (like the dashboard's activity grid). */
+.sd-cov-grid{display:grid;grid-template-rows:repeat(7,auto);grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:3px}
+.sd-cov-grid i,.sd-cov-key i{display:block;aspect-ratio:1;border-radius:3px;background:#e1e6d9}
+.sd-cov-grid .sd-cov-pass,.sd-cov-key .sd-cov-pass{background:#5f9c72}.sd-cov-grid .sd-cov-mixed,.sd-cov-key .sd-cov-mixed{background:#d9a441}.sd-cov-grid .sd-cov-fail,.sd-cov-key .sd-cov-fail{background:#c0503a}
+.sd-cov-key{display:flex;gap:16px;margin-top:14px;font-size:12px;color:var(--sd-muted)}.sd-cov-key span{display:flex;align-items:center;gap:6px}.sd-cov-key i{width:11px}
+
+/* Real logos beside the tools and services a figure names. */
+.scenario-detail .brand-logo{width:16px;height:16px;object-fit:contain;flex:none}
+.sd-repo{display:flex!important;align-items:center;gap:7px}
+.sd-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:14px;font-size:13px;color:#3d4a37}
+.sd-tools>span{display:flex;align-items:center;gap:6px}.sd-tools>span:first-child,.sd-tools-gap{color:var(--sd-muted)}
+/* Launch a browser hero: the live view of a page your code is driving. */
+.sd-live-browser{border:1px solid var(--sd-line);border-radius:9px;overflow:hidden;background:#fff}
+.sd-live-bar{display:flex;align-items:center;gap:10px;padding:8px 11px;background:#eef1e8;border-bottom:1px solid var(--sd-line);font-size:12px;color:var(--sd-muted)}
+.sd-live-bar code{margin:0;flex:1;padding:4px 8px;border-radius:5px;background:#fff;color:#40503a}
+.sd-live-badge{display:flex;align-items:center;gap:5px;padding:3px 8px;border-radius:999px;background:#fbe7e1;color:#a33827;font-weight:600}
+.sd-live-badge i{width:6px;height:6px;border-radius:50%;background:#df593a;animation:sd-live-pulse 1.6s ease-in-out infinite}
+@keyframes sd-live-pulse{50%{opacity:.35}}
+.sd-live-page{padding:22px 20px 26px}.sd-live-page strong{font-size:20px;letter-spacing:-.02em}
+.sd-live-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.sd-live-plans span{padding:22px 12px;border:1px solid var(--sd-line);border-radius:8px;text-align:center;font-size:13px;font-weight:550}
+.sd-live-plans .is-picked{border-color:#df593a;box-shadow:0 0 0 2px #df593a33;position:relative}
+.sd-coverage .sd-columns+.sd-cov-grid{margin-top:14px;max-width:none}
+@media(prefers-reduced-motion:reduce){.sd-live-badge i{animation:none}}
