@@ -1,7 +1,7 @@
 import {APP,icon,cta,faq} from './components.mjs';
 
 // The /benchmarks page and the homepage strip (2026-11-15). Every number is copied from the Molar repo:
-// STATUS.md entries of 12-14 November 2026 and molar-cartographer/benchmarks/ (online-mind2web, webtestbench). Nothing here is rounded, estimated or invented.
+// STATUS.md entries of 12-16 November 2026 and molar-cartographer/benchmarks/ (online-mind2web, webtestbench). Nothing here is rounded, estimated or invented.
 // Layout patterns adopted from Browser Use (benchmarks/agents), Stagehand (stagehand.dev/evals),
 // Anthropic model pages (footnoted tables) and Aside (stated skepticism, harness vs model): see the
 // build report. No code or copy was taken from those pages.
@@ -11,11 +11,11 @@ const bar=(value,max=100)=>`<span class="bm-bar" aria-hidden="true"><span style=
 const ext=(href,label)=>`<a class="text-link" href="${href}" rel="noopener">${label} ${icon('arrow')}</a>`;
 
 // Where each score would sit among published results. Online-Mind2Web: the 25 entries of Steel's leaderboard
-// (github.com/steel-dev/leaderboard src/data/mind2web.json, updated 2026-10-11; judges differ per entry).
+// (github.com/steel-dev/leaderboard src/data/mind2web.json, commit 9d0d7416a6ca21eebbed435b6e84f4e6a7e6e421, 2026-10-12; judges differ per entry).
 // WebTestBench: the two best oracle-setting results in the benchmark's paper (arXiv 2603.25226).
 const OM2W_PUBLISHED=[97.0,93.0,90.53,90.0,89.4,88.2,83.6,78.7,71.0,69.0,66.7,65.0,61.3,61.0,57.3,56.3,55.0,55.0,51.0,45.7,30.7,30.0,30.0,29.0,28.0];
 export const stats=[
- {id:'online-mind2web',name:'Online-Mind2Web',value:'72.3%',sub:'217 of 300 tasks',ours:72.3,published:OM2W_PUBLISHED,domain:[20,100],board:'Steel leaderboard, 25 published agents'},
+ {id:'online-mind2web',name:'Online-Mind2Web',value:'73.7%',sub:'221 of 300 tasks',ours:73.7,published:OM2W_PUBLISHED,domain:[20,100],board:'Steel leaderboard, 25 published agents'},
  {id:'webtestbench',name:'WebTestBench',value:'53.7',sub:'Defect F1, 100 apps',ours:53.7,published:[49.2,46.8],domain:[40,60],board:'Best results in the benchmark’s paper'},
 ];
 const rankOf=s=>s.published.filter(v=>v>s.ours).length+1;
@@ -29,7 +29,7 @@ const statTiles=(tag='div')=>stats.map(s=>`<a class="bm-stat" href="/benchmarks#
 export const benchmarkStrip=()=>`<section class="bm-strip" aria-labelledby="bm-strip-title"><div class="wrap"><div class="bm-strip-head"><div><h2 id="bm-strip-title">Benchmark results.</h2><p>Molar’s browser agent on public browser-agent benchmarks.</p></div><a class="text-link" href="/benchmarks">See all benchmarks ${icon('arrow')}</a></div><div class="bm-stats bm-stats-strip">${statTiles()}</div></div></section>`;
 
 const rows=[
- {id:'online-mind2web',name:'Online-Mind2Web',score:'72.3%',tasks:'300',judge:'WebJudge (OSU prompts unchanged), GPT-6 Luna',date:'12 Nov 2026',agent:'414dbb79d',cmp:'Not submitted to the leaderboard. Auto-graded, no human review.'},
+ {id:'online-mind2web',name:'Online-Mind2Web',score:'73.7%',tasks:'300',judge:'WebJudge (OSU prompts unchanged), GPT-6 Luna',date:'16 Nov 2026',agent:'0038454cb',cmp:'Not submitted to the leaderboard. Auto-graded, no human review.'},
  {id:'webtestbench',name:'WebTestBench',score:'53.7 F1',tasks:'100 apps',judge:'The benchmark’s own scorer, unmodified',date:'14 Nov 2026',agent:'fa7a92cd8',cmp:'Not directly. Different harness; oracle-checklist setting.'},
 ];
 
@@ -45,11 +45,11 @@ const card=({id,eyebrow,name,measures,score,scoreNote,visual,factsList,caveat,me
 const cards=()=>[
  card({id:'online-mind2web',eyebrow:'Web tasks · graded by a model',name:'Online-Mind2Web',
   measures:'Whether an agent can finish tasks that people do on live websites. 300 tasks, split into easy, medium and hard.',
-  score:'72.3%',scoreNote:'217 of 300 tasks',
-  visual:miniBars([['Easy',70,80],['Medium',106,141],['Hard',41,79]]),
-  factsList:[['Judge','WebJudge from the benchmark’s repository, prompts unchanged, with GPT-6 Luna'],['Run','Graded 12 November 2026'],['Agent build','<code>414dbb79d</code>, Molar v2 on GPT-6 Luna'],['Tasks','300, three at a time']],
-  caveat:note('Read before comparing','<p>This is not a leaderboard result. We have not submitted it, and no human graded it. The leaderboard’s own grading is a different method from the one we ran.</p><p>27 of the 300 runs ended on a bug in the agent’s final check, since fixed; they count as failures. Molar’s own verdict was 210 of 300 and disagreed with WebJudge on 59 tasks. The agent has changed since this build.</p>'),
-  method:'<p>Each task starts on its own website, in a fresh 1440×900 browser (CloakBrowser) with a 900 second budget. The judge sees the actions and screenshots, not the agent’s final answer.</p>',
+  score:'73.7%',scoreNote:'221 of 300 tasks',
+  visual:miniBars([['Easy',68,80],['Medium',106,141],['Hard',47,79]]),
+  factsList:[['Judge','WebJudge from the benchmark’s repository, prompts unchanged, with GPT-6 Luna'],['Run','Graded 16 November 2026'],['Agent build','<code>0038454cb</code>, Molar v2 on GPT-6 Luna'],['Tasks','300']],
+  caveat:note('Read before comparing','<p>This is not a leaderboard result. We have not submitted it, and no human graded it. The leaderboard’s own grading is a different method from the one we ran.</p><p>Molar’s own verdict disagreed with WebJudge on 57 tasks. This is the normal screenshot-and-actions grade; a separate answer-aware grade was 218 of 300 (72.7%). The 85% agent-quality target remains unmet.</p>'),
+  method:'<p>Each task starts on its own website, in a fresh 1440×900 browser with a 900 second budget. It starts with CloakBrowser and may restart a blocked task in real Chrome; only the final attempt is graded. The judge sees the actions and screenshots, not the agent’s final answer.</p>',
   links:ext('https://arxiv.org/abs/2504.01382','Paper')+ext('https://github.com/OSU-NLP-Group/Online-Mind2Web','Benchmark repository')}),
  card({id:'webtestbench',eyebrow:'QA · bug finding',name:'WebTestBench',
   measures:'Whether an agent that tests a web app finds the bugs in it. 100 small generated apps with 1,750 checklist items, 448 of them real defects.',
@@ -93,7 +93,7 @@ const faqs=[
  {q:'How often does this page change?',a:'When we rerun a benchmark. Each row shows the date of its run and the agent build.'},
 ];
 
-export const benchmarksBody=({actions})=>`<main id="main" class="benchmarks-page"><section class="detail-hero identity-detail"><div class="wrap"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Molar</a>${icon('chevron')}<span>Benchmarks</span></nav><div class="bm-hero"><h1>How Molar’s agent scores on public benchmarks.</h1><p>Molar’s browser agent on public benchmarks, and where it ranks among published results.</p>${actions('Get started free',APP,'How we run evals','#how-we-run')}<p class="bm-asof">Molar v2 on GPT-6 Luna. Results from 12 to 14 November 2026.</p></div></div></section><section class="section bm-stats-section" aria-label="Headline results"><div class="wrap"><div class="bm-stats">${statTiles()}</div></div></section><section class="section run-results bm-results" id="results"><div class="wrap"><div class="section-heading"><h2>All results.</h2><p>One row per benchmark. Select a name for details.</p></div>${resultsTable()}</div></section><section class="section bm-cards" id="benchmark-details"><div class="wrap"><div class="section-heading"><h2>Benchmark by benchmark.</h2><p>What each one measures and how we ran it.</p></div>${cards()}</div></section><section class="section muted-section bm-others-section" id="published-by-others"><div class="wrap"><div class="section-heading"><h2>Published by others.</h2><p>For context only. Judges, task sets, time limits and harnesses differ, so don’t read these as head-to-head results.</p></div>${othersTable()}</div></section>${howWeRun()}${reproduce()}${faq(faqs)}${cta('See what Molar finds in your app.','Create a free workspace and describe the first flow to test. The agent runs in a real browser and shows you what it saw.')}</main>`;
+export const benchmarksBody=({actions})=>`<main id="main" class="benchmarks-page"><section class="detail-hero identity-detail"><div class="wrap"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Molar</a>${icon('chevron')}<span>Benchmarks</span></nav><div class="bm-hero"><h1>How Molar’s agent scores on public benchmarks.</h1><p>Molar’s browser agent on public benchmarks, and where it ranks among published results.</p>${actions('Get started free',APP,'How we run evals','#how-we-run')}<p class="bm-asof">Molar v2 on GPT-6 Luna. Results from 14 to 16 November 2026.</p></div></div></section><section class="section bm-stats-section" aria-label="Headline results"><div class="wrap"><div class="bm-stats">${statTiles()}</div></div></section><section class="section run-results bm-results" id="results"><div class="wrap"><div class="section-heading"><h2>All results.</h2><p>One row per benchmark. Select a name for details.</p></div>${resultsTable()}</div></section><section class="section bm-cards" id="benchmark-details"><div class="wrap"><div class="section-heading"><h2>Benchmark by benchmark.</h2><p>What each one measures and how we ran it.</p></div>${cards()}</div></section><section class="section muted-section bm-others-section" id="published-by-others"><div class="wrap"><div class="section-heading"><h2>Published by others.</h2><p>For context only. Judges, task sets, time limits and harnesses differ, so don’t read these as head-to-head results.</p></div>${othersTable()}</div></section>${howWeRun()}${reproduce()}${faq(faqs)}${cta('See what Molar finds in your app.','Create a free workspace and describe the first flow to test. The agent runs in a real browser and shows you what it saw.')}</main>`;
 
 export const faqList=faqs;
 export const description='How Molar’s browser agent scores on Online-Mind2Web and WebTestBench, and where it ranks among published results.';
