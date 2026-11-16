@@ -97,7 +97,7 @@ function live() {
 // What Molar keeps and for how long. Used on /security; matches Pricing and the docs' limits page.
 function dataflow() {
   const rows = [
-    ['Screenshots and video', 'Deleted after 5 days', 'Also HAR files and Playwright traces'],
+    ['Screenshots and video', 'May remain over 5 days', 'Also HAR files and Playwright traces'],
     ['Run records', 'May remain over 90 days', 'Contact support@molar.it to request deletion'],
     ['Saved logins', 'Encrypted at rest', 'Typed only on your project’s hosts; the API never returns them'],
     ['Backups', 'Every 6 hours, kept 365 days', 'Encrypted, stored apart from the application'],
