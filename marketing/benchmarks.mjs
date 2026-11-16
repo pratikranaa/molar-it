@@ -76,7 +76,7 @@ const principles=[
  ['code','No per-site rules','The agent gets the task and the page. When a site beats it, we change how the agent works, not add a rule for that site.'],
  ['shield','The judge is separate','A grader that is not the agent decides pass or fail, with each benchmark’s own method where it has one. The agent’s own verdict is recorded but does not count.'],
  ['x','False passes are the worst outcome','A false pass is a run where the agent says it succeeded and an independent check says it did not. A QA tool that does this can’t be trusted, so the release gate allows none.'],
- ['bolt','Every deploy is gated','Before an agent build goes live it runs the 39-task hosted eval. It needs at least 90% and zero false passes.'],
+ ['bolt','Every agent build is gated','Before an agent build goes live it runs the 39-task hosted eval. It needs at least 90% and zero false passes.'],
 ];
 const howWeRun=()=>`<section class="section run-results bm-method-section" id="how-we-run"><div class="wrap"><div class="section-heading"><h2>How we run evals.</h2><p>The same rules apply to every number on this page.</p></div><div class="run-results-grid">${principles.map(([i,t,b])=>`<article>${icon(i)}<h3>${t}</h3><p>${b}</p></article>`).join('')}</div><p class="run-results-trust">${icon('lock')}<span>A task with no result counts as a failure. When we rerun tasks that failed on infrastructure, we show the score from before the rerun.</span></p></div></section>`;
 
