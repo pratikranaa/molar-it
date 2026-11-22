@@ -73,12 +73,15 @@ code.k { font: 500 0.88em "Geist Mono", monospace; background: #fff; border: 1px
 .steps-list p { margin: 6px 0 0; color: var(--ink-soft); font-size: 16px; }
 .where svg { width: 100%; height: auto; }
 
-.film { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 40px; text-align: left; }
-@media (max-width: 760px) { .film { grid-template-columns: repeat(2, 1fr); } }
-.shot { background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 0; }
-.shot img { display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: top left; border-bottom: 1px solid var(--line); }
-.shot div { display: flex; align-items: center; gap: 8px; padding: 9px 12px; font-size: 13.5px; font-weight: 600; }
-.shot div i { width: 16px; height: 16px; border-radius: 50%; background: var(--green); color: #fff; font-style: normal; font-size: 10px; display: grid; place-items: center; flex: none; }
+.film { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; text-align: left; }
+@media (max-width: 900px) { .film { grid-template-columns: repeat(2, 1fr); } }
+.shot { margin: 0; background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: 0 18px 40px -28px rgba(32,43,35,.45); }
+.shot .chrome { display: flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; background: #f2f4ee; border-bottom: 1px solid var(--line); }
+.shot .chrome i { width: 7px; height: 7px; border-radius: 50%; background: #c9cfc2; }
+.shot .chrome span { margin-left: 8px; font: 500 11px "Geist Mono", monospace; color: var(--ink-soft); }
+.shot img { display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: top left; }
+.shot figcaption { display: flex; align-items: center; gap: 8px; padding: 10px 12px; font-size: 14px; font-weight: 600; border-top: 1px solid var(--line); }
+.shot figcaption b { width: 18px; height: 18px; border-radius: 50%; background: var(--green); color: #fff; font-size: 11px; display: grid; place-items: center; flex: none; }
 .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 40px; margin-top: 32px; color: var(--ink-soft); font-size: 15.5px; }
 .stats b { color: var(--ink); font-size: 26px; letter-spacing: -0.02em; margin-right: 8px; }
 
@@ -182,7 +185,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   <section class="center">
     <div class="wrap">
       <h2>Every step, on the record.</h2>
-      <p class="sub">A real run: sign in, add two items, pay with a test card, check the order.</p>
+      <p class="sub">A real run, as the agent saw it: every box is something it could click.</p>
       <div class="film" id="film"></div>
       <div class="stats"><span><b>73.7%</b>of 300 real-site tasks (Online-Mind2Web)</span><span><b>0</b>false passes on our 39-task suite</span></div>
     </div>
@@ -201,12 +204,13 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
 <footer><div class="wrap"><span>© 2026 Molar</span><span><a href="/docs">Docs</a> · <a href="/pricing">Pricing</a> · <a href="/security">Security</a> · <a href="/company">Company</a></span></div></footer>
 
 <script>
-/* A small isometric kit: slabs, upright screens with real screenshots, icon tiles, dashed wires and label
-   pills on one projection, so every scene reads as one drawing style. */
+/* Isometric kit: slabs with soft shadows, a laptop with a drawn interface, icon tiles, wires and label pills,
+   all on one projection so every scene reads as one drawing style. */
 const NS = "http://www.w3.org/2000/svg";
 const C = Math.cos(Math.PI / 6), S = 0.5;
-const SHOTS = [1, 2, 3, 4, 5, 6, 7, 8].map((i) => `/assets/agent-checkout/step-${i}.jpg`);
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ink = "#202b23", soft = "#56614f", green = "#22664c", red = "#c2412b", accent = "#f26342";
+let uid = 0;
 
 function el(tag, attrs = {}, parent) {
   const n = document.createElementNS(NS, tag);
@@ -214,69 +218,84 @@ function el(tag, attrs = {}, parent) {
   if (parent) parent.appendChild(n);
   return n;
 }
+function txt(parent, x, y, s, style) { const t = el("text", { x, y, style }, parent); t.textContent = s; return t; }
+
 function scene(svg, ox, oy) {
+  const id = "s" + (++uid);
   const P = (x, y, z = 0) => [ox + (x - y) * C, oy + (x + y) * S - z];
-  const pts = (a) => a.map((p) => p.join(",")).join(" ");
+  const pts = (a) => a.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ");
   const defs = el("defs", {}, svg);
-  const g = el("linearGradient", { id: "molarGrad", x1: 0, y1: 0, x2: 1, y2: 1 }, defs);
-  el("stop", { offset: 0, "stop-color": "#ff8a68" }, g);
-  el("stop", { offset: 1, "stop-color": "#f04f2c" }, g);
-  const gridLayer = el("g", {}, svg);
-  const content = el("g", {}, svg);
-  const labels = el("g", {}, null);
+  const grad = (name, a, b, x2 = 1, y2 = 1) => {
+    const g = el("linearGradient", { id: id + name, x1: 0, y1: 0, x2, y2 }, defs);
+    el("stop", { offset: 0, "stop-color": a }, g); el("stop", { offset: 1, "stop-color": b }, g);
+    return `url(#${id + name})`;
+  };
+  const F = {
+    top: grad("top", "#ffffff", "#f7f9f3"), left: grad("left", "#f2f4ee", "#e6eae0", 0, 1), right: grad("right", "#e3e8dc", "#d7ddd0", 0, 1),
+    hotTop: grad("hotTop", "#ff8f6e", "#f0512d"), hotLeft: grad("hotL", "#ec5a35", "#d94a28", 0, 1), hotRight: grad("hotR", "#c9442a", "#b23a22", 0, 1),
+  };
+  const blur = el("filter", { id: id + "blur", x: "-30%", y: "-30%", width: "160%", height: "160%" }, defs);
+  el("feGaussianBlur", { stdDeviation: 9 }, blur);
+  const gridLayer = el("g", {}, svg), shadows = el("g", { filter: `url(#${id}blur)` }, svg), content = el("g", {}, svg), labels = el("g", {});
   const api = {
-    P,
-    layer: content,
+    P, pts, layer: content,
     grid(n = 13, step = 60) {
       const gr = el("g", { class: "iso-grid" }, gridLayer);
       for (let i = -n; i <= n; i++) {
-        const [a, b] = [P(i * step, -n * step), P(i * step, n * step)];
-        el("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1] }, gr);
-        const [c, d] = [P(-n * step, i * step), P(n * step, i * step)];
-        el("line", { x1: c[0], y1: c[1], x2: d[0], y2: d[1] }, gr);
+        const [a, b] = [P(i * step, -n * step), P(i * step, n * step)]; el("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1] }, gr);
+        const [c, d] = [P(-n * step, i * step), P(n * step, i * step)]; el("line", { x1: c[0], y1: c[1], x2: d[0], y2: d[1] }, gr);
       }
     },
-    slab(x, y, w, d, h = 16, cls = "", parent = content) {
-      const gr = el("g", { class: cls }, parent);
-      el("polygon", { class: "slab-l", points: pts([P(x, y + d, h), P(x + w, y + d, h), P(x + w, y + d, 0), P(x, y + d, 0)]) }, gr);
-      el("polygon", { class: "slab-r", points: pts([P(x + w, y, h), P(x + w, y + d, h), P(x + w, y + d, 0), P(x + w, y, 0)]) }, gr);
-      el("polygon", { class: "slab-top", points: pts([P(x, y, h), P(x + w, y, h), P(x + w, y + d, h), P(x, y + d, h)]) }, gr);
-      const k = Math.min(w, d) * 0.09;
-      el("polygon", { class: "slab-lip", points: pts([P(x + k, y + k, h), P(x + w - k, y + k, h), P(x + w - k, y + d - k, h), P(x + k, y + d - k, h)]) }, gr);
+    shadow(x, y, w, d, strength = 0.16) {
+      el("polygon", { points: pts([P(x + 10, y + 14), P(x + w + 14, y + 14), P(x + w + 14, y + d + 18), P(x + 10, y + d + 18)]), fill: `rgba(32,43,35,${strength})` }, shadows);
+    },
+    slab(x, y, w, d, h = 16, kind = "", parent = content) {
+      api.shadow(x, y, w, d);
+      const gr = el("g", { class: kind }, parent);
+      const hot = kind === "hot", bad = kind === "bad";
+      const edge = hot ? "#c9442a" : bad ? red : "#cdd4c6";
+      el("polygon", { points: pts([P(x, y + d, h), P(x + w, y + d, h), P(x + w, y + d, 0), P(x, y + d, 0)]), fill: hot ? F.hotLeft : F.left, stroke: edge, "stroke-width": 1.1, "stroke-linejoin": "round" }, gr);
+      el("polygon", { points: pts([P(x + w, y, h), P(x + w, y + d, h), P(x + w, y + d, 0), P(x + w, y, 0)]), fill: hot ? F.hotRight : F.right, stroke: edge, "stroke-width": 1.1, "stroke-linejoin": "round" }, gr);
+      el("polygon", { points: pts([P(x, y, h), P(x + w, y, h), P(x + w, y + d, h), P(x, y + d, h)]), fill: hot ? F.hotTop : F.top, stroke: edge, "stroke-width": bad ? 1.8 : 1.1, "stroke-linejoin": "round" }, gr);
+      /* the bright front edges that make the slab read as solid */
+      el("polyline", { points: pts([P(x, y + d, h), P(x + w, y + d, h), P(x + w, y, h)]), fill: "none", stroke: hot ? "#ffb39d" : "#ffffff", "stroke-width": 1.4, opacity: 0.9 }, gr);
+      const k = Math.min(w, d) * 0.08;
+      el("polygon", { points: pts([P(x + k, y + k, h), P(x + w - k, y + k, h), P(x + w - k, y + d - k, h), P(x + k, y + d - k, h)]), fill: "none", stroke: hot ? "#ff9e82" : "#e6eae0", "stroke-width": 1 }, gr);
       for (const [sx, sy] of [[x + k / 2, y + k / 2], [x + w - k / 2, y + k / 2], [x + w - k / 2, y + d - k / 2], [x + k / 2, y + d - k / 2]]) {
-        const [cx, cy] = P(sx, sy, h);
-        el("ellipse", { class: "screw", cx, cy, rx: 2.2, ry: 1.3 }, gr);
+        const [cx, cy] = P(sx, sy, h); el("ellipse", { cx, cy, rx: 2.1, ry: 1.2, fill: hot ? "#ffb39d" : "#d3d9cc" }, gr);
       }
       return gr;
     },
-    top(x, y, z, parent = content) {
-      const [e, f] = P(x, y, z);
-      return el("g", { transform: `matrix(${C},${S},${-C},${S},${e},${f})` }, parent);
+    top(x, y, z, parent = content) { const [e, f] = P(x, y, z); return el("g", { transform: `matrix(${C},${S},${-C},${S},${e},${f})` }, parent); },
+    upright(x, y, z, parent = content) { const [e, f] = P(x, y, z); return el("g", { transform: `matrix(${C},${S},0,1,${e},${f})` }, parent); },
+    wire(a, b, cls = "wire flow", parent = content) {
+      const [p, q] = [P(...a), P(...b)];
+      return el("polyline", { class: cls, points: `${p.join(",")} ${q.join(",")}` }, parent);
     },
-    upright(x, y, z, parent = content) {
-      const [e, f] = P(x, y, z);
-      return el("g", { transform: `matrix(${C},${S},0,1,${e},${f})` }, parent);
-    },
-    wire(points, cls = "wire flow", parent = content) {
-      return el("polyline", { class: cls, points: pts(points.map((p) => P(...p))) }, parent);
-    },
+    /* a label pill sized to its measured text, with a short stem to the point it names */
     label([x, y, z], text, mono, opts = {}) {
       const [px, py] = P(x, y, z);
       const gr = el("g", { class: "lbl pop", style: `animation-delay:${opts.delay ?? 0}s` }, labels);
-      const w = 22 + text.length * 7.0 + (mono ? 8 + mono.length * 6.9 : 0) + (opts.icon ? 22 : 0);
-      el("line", { x1: px, y1: py - 4, x2: px, y2: py + 8, stroke: "#c9d0c2" }, gr);
-      el("rect", { x: px - w / 2, y: py - 34, width: w, height: 30, rx: 9 }, gr);
-      let tx = px - w / 2 + 11;
+      el("line", { x1: px, y1: py - 2, x2: px, y2: py + 10, stroke: "#c3cabc" }, gr);
+      const rect = el("rect", { y: py - 36, height: 32, rx: 10 }, gr);
+      const t1 = txt(gr, 0, py - 15.5, text, "");
+      const t2 = mono ? txt(gr, 0, py - 15.5, mono, "") : null;
+      if (t2) t2.setAttribute("class", "m");
+      content.appendChild(labels);
+      const w1 = t1.getComputedTextLength(), w2 = t2 ? t2.getComputedTextLength() : 0;
+      const icon = opts.icon ? 22 : 0;
+      const w = 24 + icon + w1 + (t2 ? 9 + w2 : 0);
+      const left = px - w / 2;
+      rect.setAttribute("x", left); rect.setAttribute("width", w);
       if (opts.icon) {
-        el("circle", { cx: tx + 7, cy: py - 19, r: 8, fill: opts.icon === "bad" ? "#c2412b" : "#22664c" }, gr);
-        el("path", { d: opts.icon === "bad" ? `M${tx + 4} ${py - 22} l6 6 M${tx + 10} ${py - 22} l-6 6` : `M${tx + 3.5} ${py - 19} l2.5 2.6 l5 -5.4`, stroke: "#fff", "stroke-width": 1.9, fill: "none", "stroke-linecap": "round" }, gr);
-        tx += 22;
+        const cx = left + 12 + 8, cy = py - 20;
+        el("circle", { cx, cy, r: 8, fill: opts.icon === "bad" ? red : green }, gr);
+        el("path", { d: opts.icon === "bad" ? `M${cx - 3} ${cy - 3} l6 6 M${cx + 3} ${cy - 3} l-6 6` : `M${cx - 3.6} ${cy} l2.4 2.5 l4.8 -5.2`, stroke: "#fff", "stroke-width": 1.9, fill: "none", "stroke-linecap": "round" }, gr);
       }
-      el("text", { x: tx, y: py - 14.5 }, gr).textContent = text;
-      if (mono) el("text", { class: "m", x: tx + text.length * 7.0 + 8, y: py - 14.5 }, gr).textContent = mono;
+      t1.setAttribute("x", left + 12 + icon);
+      if (t2) t2.setAttribute("x", left + 12 + icon + w1 + 9);
     },
-    /* fit the frame to the drawing (the grid runs past it and is clipped) */
-    finish(pad = 36) {
+    finish(pad = 30) {
       content.appendChild(labels);
       const b = content.getBBox();
       svg.setAttribute("viewBox", `${b.x - pad} ${b.y - pad} ${b.width + 2 * pad} ${b.height + 2 * pad}`);
@@ -285,99 +304,178 @@ function scene(svg, ox, oy) {
   return api;
 }
 
-/* A browser window standing on a slab, its screen playing the real run's screenshots. */
-function browser(s, x, y, w, play) {
-  s.slab(x - 24, y - 70, w + 48, 130, 14);
-  const h = w * 0.625;
-  const scr = s.upright(x, y, 14 + h + 26);
-  el("rect", { x: -7, y: -7, width: w + 14, height: h + 34, rx: 10, fill: "#1c2521" }, scr);
-  el("rect", { x: 0, y: 0, width: w, height: 18, rx: 4, fill: "#2b382d" }, scr);
-  for (const i of [0, 1, 2]) el("circle", { cx: 10 + i * 11, cy: 9, r: 3, fill: "#56614f" }, scr);
-  el("rect", { x: 46, y: 4, width: w * 0.5, height: 10, rx: 5, fill: "#3a4a3d" }, scr);
-  const img = el("image", { href: play[0], x: 0, y: 20, width: w, height: h, preserveAspectRatio: "xMidYMin slice" }, scr);
-  if (play.length > 1 && !reduce) {
-    let i = 0;
-    setInterval(() => { i = (i + 1) % play.length; img.setAttribute("href", play[i]); }, 1400);
+/* Interfaces drawn on the laptop screen (w x h, origin top left). */
+const UI = {
+  signin(g, w, h) {
+    txt(g, w * .32, h * .22, "Sign in", `font:700 ${h * .075}px Hanken;fill:${ink}`);
+    for (const [i, l] of ["Email", "Password"].entries()) {
+      txt(g, w * .32, h * (.32 + i * .17), l, `font:500 ${h * .04}px Hanken;fill:${soft}`);
+      el("rect", { x: w * .32, y: h * (.345 + i * .17), width: w * .36, height: h * .08, rx: 4, fill: "#fff", stroke: "#cdd4c6" }, g);
+    }
+    txt(g, w * .335, h * .405, "jordan@acme.test", `font:500 ${h * .04}px Hanken;fill:${ink}`);
+    txt(g, w * .335, h * .575, "••••••••", `font:700 ${h * .045}px Hanken;fill:${ink}`);
+    el("rect", { x: w * .32, y: h * .68, width: w * .36, height: h * .09, rx: 5, fill: "#2f5bd9" }, g);
+    txt(g, w * .465, h * .74, "Sign in", `font:600 ${h * .042}px Hanken;fill:#fff`);
+  },
+  cart(g, w, h) {
+    txt(g, w * .08, h * .2, "Your cart", `font:700 ${h * .07}px Hanken;fill:${ink}`);
+    for (const [i, [n, p, c]] of [["Merino Wool Socks", "$18.00", "#d9e4f7"], ["Packable Rain Jacket", "$129.00", "#e8f0dc"]].entries()) {
+      const y = h * (.3 + i * .17);
+      el("rect", { x: w * .08, y, width: h * .12, height: h * .12, rx: 4, fill: c }, g);
+      txt(g, w * .08 + h * .16, y + h * .075, n, `font:600 ${h * .045}px Hanken;fill:${ink}`);
+      txt(g, w * .78, y + h * .075, p, `font:600 ${h * .045}px Hanken;fill:${ink}`);
+    }
+    el("line", { x1: w * .08, x2: w * .92, y1: h * .66, y2: h * .66, stroke: "#dfe4d8" }, g);
+    txt(g, w * .08, h * .74, "Total", `font:600 ${h * .05}px Hanken;fill:${soft}`);
+    txt(g, w * .74, h * .74, "$147.00", `font:700 ${h * .055}px Hanken;fill:${ink}`);
+    el("rect", { x: w * .62, y: h * .8, width: w * .3, height: h * .09, rx: 5, fill: "#2f5bd9" }, g);
+    txt(g, w * .69, h * .86, "Checkout", `font:600 ${h * .042}px Hanken;fill:#fff`);
+  },
+  pay(g, w, h) {
+    txt(g, w * .08, h * .2, "Payment", `font:700 ${h * .07}px Hanken;fill:${ink}`);
+    txt(g, w * .62, h * .2, "$147.00", `font:700 ${h * .07}px Hanken;fill:${ink}`);
+    txt(g, w * .08, h * .32, "Card number", `font:500 ${h * .04}px Hanken;fill:${soft}`);
+    el("rect", { x: w * .08, y: h * .345, width: w * .84, height: h * .085, rx: 4, fill: "#fff", stroke: "#cdd4c6" }, g);
+    txt(g, w * .1, h * .405, "4000 0000 0000 0002", `font:500 ${h * .045}px "Geist Mono";fill:${ink}`);
+    el("rect", { x: w * .08, y: h * .48, width: w * .4, height: h * .085, rx: 4, fill: "#fff", stroke: "#cdd4c6" }, g);
+    txt(g, w * .1, h * .54, "12 / 30", `font:500 ${h * .045}px "Geist Mono";fill:${ink}`);
+    el("rect", { x: w * .52, y: h * .48, width: w * .4, height: h * .085, rx: 4, fill: "#fff", stroke: "#cdd4c6" }, g);
+    txt(g, w * .54, h * .54, "123", `font:500 ${h * .045}px "Geist Mono";fill:${ink}`);
+    el("rect", { x: w * .08, y: h * .62, width: w * .84, height: h * .085, rx: 5, fill: green }, g);
+    txt(g, w * .4, h * .677, "Pay $147.00", `font:600 ${h * .042}px Hanken;fill:#fff`);
+    /* where the decline message should have been: Molar flags the empty spot */
+    el("rect", { x: w * .08, y: h * .8, width: w * .84, height: h * .1, rx: 5, fill: "#fdf1ee", stroke: red, "stroke-width": 1.6, "stroke-dasharray": "6 5" }, g);
+    txt(g, w * .12, h * .865, "No error shown to the customer", `font:600 ${h * .04}px Hanken;fill:${red}`);
+  },
+};
+
+/* A laptop on a slab: keyboard base and an upright screen with bezel, showing drawn screens in turn. */
+function laptop(s, x, y, w, states) {
+  const h = w * 0.62, depth = w * 0.62;
+  s.slab(x - 30, y - 30, w + 60, depth + 60, 14);
+  const bz = 14;
+  /* base */
+  s.shadow(x, y, w, depth, 0.1);
+  const baseTop = 14 + 9;
+  const g = s.layer;
+  el("polygon", { points: s.pts([s.P(x, y + depth, baseTop), s.P(x + w, y + depth, baseTop), s.P(x + w, y + depth, 14), s.P(x, y + depth, 14)]), fill: "#d9ded2", stroke: "#bfc7b8" }, g);
+  el("polygon", { points: s.pts([s.P(x + w, y, baseTop), s.P(x + w, y + depth, baseTop), s.P(x + w, y + depth, 14), s.P(x + w, y, 14)]), fill: "#cdd3c6", stroke: "#bfc7b8" }, g);
+  el("polygon", { points: s.pts([s.P(x, y, baseTop), s.P(x + w, y, baseTop), s.P(x + w, y + depth, baseTop), s.P(x, y + depth, baseTop)]), fill: "#eef1ea", stroke: "#bfc7b8" }, g);
+  const kb = s.top(x, y, baseTop);
+  const kx = w * .1, ky = depth * .14, kw = w * .8, kh = depth * .5, cols = 13, rows = 5;
+  el("rect", { x: kx - 6, y: ky - 6, width: kw + 12, height: kh + 12, rx: 6, fill: "#e2e6dc" }, kb);
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    el("rect", { x: kx + c * (kw / cols) + 1.5, y: ky + r * (kh / rows) + 1.5, width: kw / cols - 3, height: kh / rows - 3, rx: 2.5, fill: "#2b342e" }, kb);
   }
+  el("rect", { x: w * .36, y: depth * .72, width: w * .28, height: depth * .2, rx: 6, fill: "#e2e6dc", stroke: "#cfd5c8" }, kb);
+  /* screen: back panel for thickness, then bezel and display */
+  const sy = y - 2, top = baseTop + h + bz * 2;
+  const back = s.upright(x - 3, sy - 6, top + 3);
+  el("rect", { x: 0, y: 0, width: w + 6, height: h + bz * 2 + 3, rx: 14, fill: "#c7cec0" }, back);
+  const scr = s.upright(x, sy, top);
+  el("rect", { x: 0, y: 0, width: w, height: h + bz * 2, rx: 12, fill: "#1c2521" }, scr);
+  el("rect", { x: bz, y: bz, width: w - 2 * bz, height: h, rx: 3, fill: "#ffffff" }, scr);
+  const dw = w - 2 * bz;
+  const chrome = el("g", { transform: `translate(${bz},${bz})` }, scr);
+  el("rect", { x: 0, y: 0, width: dw, height: h * .085, fill: "#f2f4ee" }, chrome);
+  for (const i of [0, 1, 2]) el("circle", { cx: h * .04 + i * h * .045, cy: h * .043, r: h * .015, fill: "#c9cfc2" }, chrome);
+  el("rect", { x: dw * .22, y: h * .018, width: dw * .56, height: h * .05, rx: h * .025, fill: "#fff", stroke: "#dfe4d8" }, chrome);
+  txt(chrome, dw * .26, h * .056, "shop.acme.test/checkout", `font:500 ${h * .032}px "Geist Mono";fill:${soft}`);
+  const view = el("g", { transform: `translate(0,${h * .085})` }, chrome);
+  const vh = h * .915;
+  const layers = states.map((name, i) => { const lg = el("g", { opacity: i === 0 ? 1 : 0, class: "fade" }, view); UI[name](lg, dw, vh); return lg; });
+  let k = 0;
+  const show = (n) => layers.forEach((lg, i) => lg.setAttribute("opacity", i === n ? 1 : 0));
+  if (reduce) show(layers.length - 1);
+  else if (layers.length > 1) setInterval(() => { k = (k + 1) % layers.length; show(k); s.onStep && s.onStep(k); }, 2200);
+  return { anchorLeft: [x - 30, y + depth / 2, 14], anchorRight: [x + w + 30, y + depth / 2, 14], anchorFront: [x + w / 2, y + depth + 30, 14] };
 }
-function tile(s, x, y, size, glyph, cls = "", parent) {
-  s.slab(x, y, size, size, 12, cls, parent);
+
+function tile(s, x, y, n, glyph, kind = "", parent) {
+  s.slab(x, y, n, n, 12, kind, parent);
   if (glyph === "mark") {
-    /* the real Molar mark is itself an isometric 3D "M": stand it on the tile, base at the tile's centre */
-    const [cx, cy] = s.P(x + size / 2, y + size / 2, 12);
-    const w = size * 1.15;
+    const [cx, cy] = s.P(x + n / 2, y + n / 2, 12);
+    const w = n * 1.15;
     el("image", { href: "/assets/molar-mark.png", x: cx - w / 2, y: cy - w * 0.78, width: w, height: w }, parent || s.layer);
-    return;
-  }
-  glyph(s.top(x, y, 12, parent), size);
+  } else glyph(s.top(x, y, 12, parent), n);
+  return { c: [x + n / 2, y + n / 2, 12], l: [x, y + n / 2, 12], r: [x + n, y + n / 2, 12], f: [x + n / 2, y + n, 12], b: [x + n / 2, y, 12] };
 }
-const ink = "#202b23";
 const glyphs = {
-  molar: (t, n) => { el("text", { x: n / 2, y: n / 2 + n * 0.13, "text-anchor": "middle", style: `font:700 ${n * 0.36}px Hanken,sans-serif;fill:#fff` }, t).textContent = "M."; },
-  stripe: (t, n) => { el("rect", { x: n * .24, y: n * .24, width: n * .52, height: n * .52, rx: 9, fill: "#635bff" }, t); el("text", { x: n / 2, y: n / 2 + n * .11, "text-anchor": "middle", style: `font:700 ${n * .3}px Hanken,sans-serif;fill:#fff` }, t).textContent = "S"; },
-  mail: (t, n) => { el("rect", { x: n * .24, y: n * .3, width: n * .52, height: n * .4, rx: 4, fill: "#fff", stroke: ink, "stroke-width": 3 }, t); el("path", { d: `M${n * .24} ${n * .3} L${n * .5} ${n * .52} L${n * .76} ${n * .3}`, fill: "none", stroke: ink, "stroke-width": 3 }, t); },
-  sms: (t, n) => { el("rect", { x: n * .24, y: n * .26, width: n * .52, height: n * .36, rx: 10, fill: "#f22f46" }, t); el("path", { d: `M${n * .34} ${n * .6} l0 ${n * .12} l${n * .12} -${n * .12}`, fill: "#f22f46" }, t); for (const i of [0, 1, 2]) el("circle", { cx: n * (.38 + i * .12), cy: n * .44, r: n * .035, fill: "#fff" }, t); },
-  key: (t, n) => { el("circle", { cx: n * .38, cy: n * .5, r: n * .12, fill: "none", stroke: ink, "stroke-width": 3 }, t); el("path", { d: `M${n * .5} ${n * .5} H${n * .76} M${n * .7} ${n * .5} v${n * .1} M${n * .62} ${n * .5} v${n * .08}`, stroke: ink, "stroke-width": 3, fill: "none" }, t); },
+  stripe: (t, n) => { el("rect", { x: n * .24, y: n * .24, width: n * .52, height: n * .52, rx: 10, fill: "#635bff" }, t); txt(t, n / 2, n / 2 + n * .11, "S", `font:700 ${n * .3}px Hanken;fill:#fff;text-anchor:middle`); },
+  mail: (t, n) => { el("rect", { x: n * .24, y: n * .3, width: n * .52, height: n * .4, rx: 5, fill: "#fff", stroke: ink, "stroke-width": 3 }, t); el("path", { d: `M${n * .24} ${n * .3} L${n * .5} ${n * .52} L${n * .76} ${n * .3}`, fill: "none", stroke: ink, "stroke-width": 3, "stroke-linejoin": "round" }, t); },
+  sms: (t, n) => { el("rect", { x: n * .24, y: n * .26, width: n * .52, height: n * .36, rx: 11, fill: "#f22f46" }, t); el("path", { d: `M${n * .34} ${n * .6} l0 ${n * .12} l${n * .12} -${n * .12}`, fill: "#f22f46" }, t); for (const i of [0, 1, 2]) el("circle", { cx: n * (.38 + i * .12), cy: n * .44, r: n * .035, fill: "#fff" }, t); },
+  key: (t, n) => { el("circle", { cx: n * .38, cy: n * .5, r: n * .12, fill: "none", stroke: ink, "stroke-width": 3 }, t); el("path", { d: `M${n * .5} ${n * .5} H${n * .76} M${n * .7} ${n * .5} v${n * .1} M${n * .62} ${n * .5} v${n * .08}`, stroke: ink, "stroke-width": 3, fill: "none", "stroke-linecap": "round" }, t); },
   bucket: (t, n) => { el("path", { d: `M${n * .3} ${n * .32} H${n * .7} L${n * .64} ${n * .72} H${n * .36} Z`, fill: "#e7157b" }, t); el("ellipse", { cx: n * .5, cy: n * .32, rx: n * .2, ry: n * .06, fill: "#ff5fa8" }, t); },
   page: (state) => (t, n) => {
-    el("rect", { x: n * .18, y: n * .2, width: n * .64, height: n * .6, rx: 6, fill: "#f5f7ef", stroke: "#cfd6c8" }, t);
-    for (const i of [0, 1, 2]) el("rect", { x: n * .26, y: n * (.34 + i * .12), width: n * (i === 1 ? .28 : .44), height: n * .05, rx: 2, fill: "#d6dccf" }, t);
-    el("circle", { cx: n * .74, cy: n * .27, r: n * .11, fill: state === "bad" ? "#c2412b" : "#22664c" }, t);
+    el("rect", { x: n * .16, y: n * .18, width: n * .68, height: n * .64, rx: 7, fill: "#f6f8f2", stroke: "#d5dbce" }, t);
+    el("rect", { x: n * .16, y: n * .18, width: n * .68, height: n * .1, rx: 7, fill: "#e9ede3" }, t);
+    for (const i of [0, 1, 2]) el("rect", { x: n * .25, y: n * (.38 + i * .12), width: n * (i === 1 ? .28 : .44), height: n * .05, rx: 2, fill: "#d6dccf" }, t);
+    el("circle", { cx: n * .72, cy: n * .7, r: n * .1, fill: state === "bad" ? red : green }, t);
   },
-  term: (t, n) => { el("rect", { x: n * .14, y: n * .18, width: n * .72, height: n * .6, rx: 8, fill: "#1c2521" }, t); el("path", { d: `M${n * .26} ${n * .36} l${n * .1} ${n * .08} l-${n * .1} ${n * .08}`, stroke: "#f5f7ef", "stroke-width": 3, fill: "none" }, t); el("rect", { x: n * .42, y: n * .5, width: n * .16, height: n * .05, fill: "#f5f7ef" }, t); },
+  term: (t, n) => { el("rect", { x: n * .14, y: n * .18, width: n * .72, height: n * .6, rx: 9, fill: "#1c2521" }, t); el("path", { d: `M${n * .26} ${n * .36} l${n * .1} ${n * .08} l-${n * .1} ${n * .08}`, stroke: "#f5f7ef", "stroke-width": 3, fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round" }, t); el("rect", { x: n * .42, y: n * .5, width: n * .16, height: n * .05, rx: 1, fill: "#f5f7ef" }, t); },
   pr: (t, n) => { for (const [cx, cy] of [[.36, .3], [.36, .7], [.64, .7]]) el("circle", { cx: n * cx, cy: n * cy, r: n * .07, fill: "#fff", stroke: ink, "stroke-width": 3 }, t); el("path", { d: `M${n * .36} ${n * .37} V${n * .63} M${n * .64} ${n * .63} V${n * .46} q0 -${n * .12} -${n * .14} -${n * .12} H${n * .48}`, stroke: ink, "stroke-width": 3, fill: "none" }, t); },
-  hash: (t, n) => { for (const [a, b, c, d, col] of [[.42, .24, .36, .76, "#36c5f0"], [.62, .24, .56, .76, "#2eb67d"], [.26, .42, .76, .42, "#ecb22e"], [.24, .6, .74, .6, "#e01e5a"]]) el("path", { d: `M${n * a} ${n * b} L${n * c} ${n * d}`, stroke: col, "stroke-width": n * .07, "stroke-linecap": "round" }, t); },
+  hash: (t, n) => { for (const [a, b, c, d, col] of [[.42, .24, .36, .76, "#36c5f0"], [.62, .24, .56, .76, "#2eb67d"], [.26, .42, .76, .42, "#ecb22e"], [.24, .6, .74, .6, "#e01e5a"]]) el("path", { d: `M${n * a} ${n * b} L${n * c} ${n * d}`, stroke: col, "stroke-width": n * .075, "stroke-linecap": "round" }, t); },
   globe: (t, n) => { el("circle", { cx: n / 2, cy: n / 2, r: n * .25, fill: "#fff", stroke: ink, "stroke-width": 3 }, t); el("ellipse", { cx: n / 2, cy: n / 2, rx: n * .1, ry: n * .25, fill: "none", stroke: ink, "stroke-width": 2.5 }, t); el("path", { d: `M${n * .25} ${n / 2} H${n * .75}`, stroke: ink, "stroke-width": 2.5 }, t); },
-  spark: (t, n) => { for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; el("path", { d: `M${n / 2} ${n / 2} L${n / 2 + Math.cos(a) * n * .25} ${n / 2 + Math.sin(a) * n * .25}`, stroke: "#d97757", "stroke-width": n * .07, "stroke-linecap": "round" }, t); } },
+  spark: (t, n) => { for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; el("path", { d: `M${n / 2} ${n / 2} L${n / 2 + Math.cos(a) * n * .25} ${n / 2 + Math.sin(a) * n * .25}`, stroke: "#d97757", "stroke-width": n * .075, "stroke-linecap": "round" }, t); } },
 };
-function agentAlong(s, path, svg, dur = 6) {
-  if (reduce) return;
-  const d = "M" + path.map((p) => s.P(...p).join(" ")).join(" L");
-  const id = "ap" + svg.id;
-  el("path", { id, d, fill: "none", stroke: "none" }, s.layer);
-  for (const [cls, r] of [["agent-halo", 15], ["agent", 7]]) {
-    const c = el("circle", { class: cls, r }, s.layer);
-    el("mpath", { href: "#" + id }, el("animateMotion", { dur: dur + "s", repeatCount: "indefinite" }, c));
-  }
+
+/* A floating checklist card (screen space) that follows the laptop's screens. */
+function checklist(svg, x, y, rows) {
+  const g = el("g", { class: "pop", style: "animation-delay:.3s" }, svg);
+  el("rect", { x: x + 4, y: y + 8, width: 250, height: 52 + rows.length * 38, rx: 14, fill: "rgba(32,43,35,.08)", filter: "" }, g);
+  el("rect", { x, y, width: 250, height: 52 + rows.length * 38, rx: 14, fill: "#fff", stroke: "#d6dccf" }, g);
+  txt(g, x + 18, y + 31, "Checkout flow", `font:700 15px Hanken;fill:${ink}`);
+  txt(g, x + 168, y + 31, "Molar", `font:500 12px "Geist Mono";fill:${soft}`);
+  el("line", { x1: x, x2: x + 250, y1: y + 46, y2: y + 46, stroke: "#e6eae0" }, g);
+  const marks = rows.map(([name, detail, state], i) => {
+    const ry = y + 52 + i * 38 + 19;
+    const m = el("g", { opacity: 0.25 }, g);
+    el("circle", { cx: x + 28, cy: ry, r: 9, fill: state === "bad" ? red : green }, m);
+    el("path", { d: state === "bad" ? `M${x + 24.5} ${ry - 3.5} l7 7 M${x + 31.5} ${ry - 3.5} l-7 7` : `M${x + 23.8} ${ry} l2.8 2.9 l5.4 -5.8`, stroke: "#fff", "stroke-width": 2, fill: "none", "stroke-linecap": "round" }, m);
+    txt(m, x + 46, ry + 5, name, `font:600 14px Hanken;fill:${ink}`);
+    if (detail) txt(m, x + 236, ry + 5, detail, `font:500 12px "Geist Mono";fill:${state === "bad" ? red : soft};text-anchor:end`);
+    return m;
+  });
+  return (k) => marks.forEach((m, i) => m.setAttribute("opacity", i <= k ? 1 : 0.25));
 }
 
-/* 1. Hero: Molar -> a browser playing the real run -> safe copies of Stripe and email */
+/* 1. Hero */
 (() => {
-  const svg = document.getElementById("hero"); const s = scene(svg, 560, 110);
-  s.grid(15, 60);
-  s.wire([[-230, 130, 12], [-40, 130, 12]]);
-  s.wire([[250, 250, 12], [250, 390, 12]], "wire soft");
-  s.wire([[350, 170, 12], [470, 170, 12]], "wire soft");
-  tile(s, -360, 70, 140, "mark", "hot");
-  tile(s, 195, 390, 120, glyphs.stripe);
-  tile(s, 470, 115, 120, glyphs.mail);
-  browser(s, 0, 140, 350, SHOTS);
-  agentAlong(s, [[-295, 135, 12], [-40, 130, 12]], svg, 3);
-  s.label([-290, 140, 190], "Molar agent", null, { delay: 0.2 });
-  s.label([70, 140, 310], "Signed in", null, { icon: "ok", delay: 1.0 });
-  s.label([220, 140, 310], "Cart", "$147.00", { icon: "ok", delay: 1.8 });
-  s.label([350, 140, 225], "Card declined", "no error shown", { icon: "bad", delay: 2.6 });
-  s.label([255, 450, 80], "Stripe copy", "card_declined", { delay: 3.2 });
-  s.label([530, 175, 80], "Email copy", "test inbox", { delay: 3.6 });
-  s.finish(18);
+  const svg = document.getElementById("hero"); const s = scene(svg, 560, 120);
+  s.grid(16, 60);
+  const m = tile(s, -420, 40, 150, "mark", "hot");
+  const st = tile(s, 230, 470, 120, glyphs.stripe);
+  const em = tile(s, 520, 150, 120, glyphs.mail);
+  const lap = laptop(s, -20, 120, 380, ["signin", "cart", "pay"]);
+  s.wire(m.r, lap.anchorLeft);
+  s.wire(lap.anchorFront, st.b, "wire soft");
+  s.wire(lap.anchorRight, em.l, "wire soft");
+  s.label([m.c[0], m.c[1], 210], "Molar agent", null, { delay: 0.2 });
+  s.label([st.c[0], st.c[1], 40], "Stripe copy", "card_declined", { delay: 0.8 });
+  s.label([em.c[0], em.c[1], 40], "Email copy", "test inbox", { delay: 1.0 });
+  s.finish(20);
+  const vb = svg.viewBox.baseVal;
+  const set = checklist(s.layer, vb.x + vb.width - 290, vb.y + 40, [["Sign in", "", "ok"], ["Cart", "$147.00", "ok"], ["Payment", "card declined", "bad"]]);
+  set(reduce ? 2 : 0);
+  s.onStep = set;
 })();
 
-/* 2. Map: Molar in the middle, your app's pages around it, one fails */
+/* 2. Map */
 (() => {
   const svg = document.getElementById("map"); const s = scene(svg, 550, 40);
   s.grid(12, 60);
-  const pages = [[-150, 50, "ok", "Home"], [60, -60, "ok", "Sign up"], [270, 20, "ok", "Pricing"], [360, 230, "bad", "Checkout"], [270, 430, "ok", "Account"], [40, 470, "ok", "Orders"], [-160, 330, "ok", "Cart"], [-220, 180, "ok", "Search"]];
-  pages.forEach(([x, y]) => s.wire([[155, 235, 12], [x + 45, y + 45, 10]], "wire soft"));
+  const pages = [[-150, 50, "ok"], [60, -60, "ok"], [270, 20, "ok"], [360, 230, "bad"], [270, 430, "ok"], [40, 470, "ok"], [-160, 330, "ok"], [-220, 180, "ok"]];
+  pages.forEach(([x, y]) => s.wire([155, 235, 12], [x + 45, y + 45, 10], "wire soft"));
   tile(s, 90, 170, 130, "mark", "hot");
   pages.forEach(([x, y, st], i) => {
-    const g = el("g", { class: "pop", style: `animation-delay:${0.4 + i * 0.25}s` }, s.layer);
-    s.slab(x, y, 90, 90, 10, st === "bad" ? "hi" : "", g);
+    const g = el("g", { class: "pop", style: `animation-delay:${0.4 + i * 0.22}s` }, s.layer);
+    s.slab(x, y, 90, 90, 10, st === "bad" ? "bad" : "", g);
     glyphs.page(st)(s.top(x, y, 10, g), 90);
   });
-  s.label([405, 275, 70], "Checkout", "card declined", { icon: "bad", delay: 2.6 });
-  s.label([-105, 95, 70], "Home", null, { icon: "ok", delay: 0.6 });
-  s.label([105, -15, 70], "Sign up", null, { icon: "ok", delay: 0.85 });
-  s.label([315, 475, 70], "Account", null, { icon: "ok", delay: 1.9 });
+  s.label([405, 275, 40], "Checkout", "card declined", { icon: "bad", delay: 2.4 });
+  s.label([-105, 95, 40], "Home", null, { icon: "ok", delay: 0.6 });
+  s.label([105, -15, 40], "Sign up", null, { icon: "ok", delay: 0.8 });
+  s.label([315, 475, 40], "Account", null, { icon: "ok", delay: 1.7 });
   s.finish();
   const typed = document.getElementById("typed");
   const cmd = 'molar verify "checkout works" --url localhost:3000';
@@ -385,45 +483,41 @@ function agentAlong(s, path, svg, dur = 6) {
   else { let i = 0; const t = setInterval(() => { typed.textContent = cmd.slice(0, ++i); if (i >= cmd.length) clearInterval(t); }, 45); }
 })();
 
-/* 3. Clones: your app in the middle, safe copies of each service around it */
+/* 3. Clones */
 (() => {
   const svg = document.getElementById("clones"); const s = scene(svg, 560, 60);
   s.grid(12, 60);
-  const ring = [[-270, 110, glyphs.stripe, "Stripe", "card declined", "bad"], [60, -150, glyphs.mail, "Email", "code expired"], [380, 20, glyphs.sms, "SMS", "delivered late"], [420, 330, glyphs.key, "Sign-in", "session expired"], [-200, 420, glyphs.bucket, "Storage", "upload fails"]];
-  ring.forEach(([x, y]) => s.wire([[150, 220, 12], [x + 50, y + 50, 12]]));
-  browser(s, 40, 230, 250, [SHOTS[4], SHOTS[5], SHOTS[6], SHOTS[7]]);
+  const ring = [[-300, 110, glyphs.stripe, "Stripe", "card declined", "bad"], [60, -200, glyphs.mail, "Email", "code expired"], [420, 0, glyphs.sms, "SMS", "delivered late"], [460, 360, glyphs.key, "Sign-in", "session expired"], [-230, 460, glyphs.bucket, "Storage", "upload fails"]];
+  ring.forEach(([x, y]) => s.wire([130, 220, 14], [x + 50, y + 50, 12]));
+  laptop(s, 20, 130, 240, ["pay"]);
   ring.forEach(([x, y, glyph, name, cs, bad], i) => {
     tile(s, x, y, 100, glyph);
-    s.label([x + 50, y + 50, 72], name, cs, { icon: bad ? "bad" : "ok", delay: 0.4 + i * 0.35 });
+    s.label([x + 50, y + 50, 36], name, cs, { icon: bad ? "bad" : "ok", delay: 0.4 + i * 0.3 });
   });
   s.finish();
 })();
 
-/* 4. Where it runs: coding agents -> terminal -> Molar -> PR and live site -> Slack */
+/* 4. Where it runs */
 (() => {
   const svg = document.getElementById("where"); const s = scene(svg, 330, 60);
   s.grid(10, 50);
-  s.wire([[-40, -20, 12], [-10, 70, 12]]); s.wire([[80, -60, 12], [70, 70, 12]]);
-  s.wire([[100, 140, 12], [200, 140, 12]]);
-  s.wire([[260, 210, 12], [260, 310, 12]]); s.wire([[320, 140, 12], [420, 140, 12]]);
-  s.wire([[470, 190, 12], [480, 290, 12]], "wire soft");
-  tile(s, -80, -60, 80, glyphs.spark); tile(s, 40, -110, 80, glyphs.term);
-  tile(s, -60, 60, 160, glyphs.term);
-  tile(s, 200, 80, 130, "mark", "hot");
-  tile(s, 210, 310, 100, glyphs.pr); tile(s, 420, 90, 100, glyphs.globe); tile(s, 435, 290, 90, glyphs.hash);
-  s.label([-40, -20, 60], "Claude Code", null, { delay: 0.3 });
-  s.label([80, -70, 60], "Codex", null, { delay: 0.5 });
-  s.label([260, 360, 60], "PR #52", "posted", { icon: "ok", delay: 1.0 });
-  s.label([470, 140, 60], "Every hour", null, { delay: 1.4 });
-  s.label([480, 335, 60], "Slack", "checkout broke", { icon: "bad", delay: 1.8 });
+  const cl = tile(s, -100, -80, 80, glyphs.spark), cx = tile(s, 30, -140, 80, glyphs.term);
+  const tm = tile(s, -70, 50, 160, glyphs.term), mo = tile(s, 200, 80, 130, "mark", "hot");
+  const pr = tile(s, 215, 320, 100, glyphs.pr), gl = tile(s, 430, 95, 100, glyphs.globe), sl = tile(s, 445, 300, 90, glyphs.hash);
+  for (const [a, b, c] of [[cl.f, tm.b], [cx.f, tm.b], [tm.r, mo.l], [mo.f, pr.b], [mo.r, gl.l], [gl.f, sl.b, "wire soft"]]) s.wire(a, b, c);
+  s.label([cl.c[0], cl.c[1], 30], "Claude Code", null, { delay: 0.3 });
+  s.label([cx.c[0], cx.c[1], 30], "Codex", null, { delay: 0.5 });
+  s.label([pr.c[0], pr.c[1], 30], "PR #52", "posted", { icon: "ok", delay: 1.0 });
+  s.label([gl.c[0], gl.c[1], 30], "Every hour", null, { delay: 1.4 });
+  s.label([sl.c[0], sl.c[1], 30], "Slack", "checkout broke", { icon: "bad", delay: 1.8 });
   s.finish();
 })();
 
-/* 5. Proof: the real run's screenshots */
+/* 5. Proof: four steps of the real run, as the agent saw them */
 (() => {
-  const names = ["Sign in", "Signed in", "Store", "Cart, $147", "Payment", "Card filled", "Paying", "Order confirmed"];
+  const steps = [[3, "Store"], [4, "Cart, $147"], [6, "Card filled"], [8, "Order confirmed"]];
   const film = document.getElementById("film");
-  names.forEach((n, i) => film.insertAdjacentHTML("beforeend", `<figure class="shot"><img src="${SHOTS[i]}" alt="Step ${i + 1}: ${n}" loading="lazy"><div><i>✓</i>${i + 1}. ${n}</div></figure>`));
+  steps.forEach(([i, n]) => film.insertAdjacentHTML("beforeend", `<figure class="shot"><div class="chrome"><i></i><i></i><i></i><span>shop.acme.test</span></div><img src="/assets/agent-checkout/step-${i}.jpg" alt="Step ${i}: ${n}"><figcaption><b>✓</b>Step ${i}. ${n}</figcaption></figure>`));
 })();
 </script>
 </body>
