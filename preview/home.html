@@ -42,6 +42,7 @@ section:last-of-type { border-bottom: 0; }
 
 h1 { font-size: clamp(42px, 6vw, 72px); font-weight: 560; line-height: 1.04; letter-spacing: -0.045em; margin: 0; }
 h1 em { font-style: normal; color: var(--accent); }
+.nw { white-space: nowrap; }
 h2 { font-size: clamp(32px, 4vw, 50px); font-weight: 550; line-height: 1.08; letter-spacing: -0.035em; margin: 0; }
 .sub { font-size: clamp(17px, 1.5vw, 19px); color: var(--ink-soft); margin: 16px auto 0; max-width: 32em; }
 .center { text-align: center; }
@@ -56,6 +57,21 @@ code.k { font: 500 0.88em "Geist Mono", monospace; background: #fff; border: 1px
 .frame svg { display: block; width: 100%; height: auto; }
 .frame-hero { width: min(1280px, calc(100vw - 32px)); position: relative; left: 50%; transform: translateX(-50%); }
 .frame-hero svg { min-height: 300px; }
+#hero-steps { display: none; }
+@media (max-width: 640px) {
+  .frame-hero svg { min-height: 0; }
+  #hero-steps { display: block; order: 2; margin: 0 14px 14px; border: 1px solid var(--line); border-radius: 12px; text-align: left; }
+  .frame-hero { display: flex; flex-direction: column; }
+  .hs-head { display: flex; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .hs-head span { font: 500 12px "Geist Mono", monospace; color: var(--ink-soft); }
+  .hs-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 15px; transition: opacity .3s; }
+  .hs-row i { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 11px; color: #fff; background: var(--green); flex: none; }
+  .hs-row.bad i { background: var(--danger); }
+  .hs-row span { margin-left: auto; font: 500 12.5px "Geist Mono", monospace; color: var(--ink-soft); }
+  .hs-row.bad span { color: var(--danger); }
+  .frame-head { gap: 6px; padding: 10px; font-size: 13px; }
+  .pill { height: 28px; padding: 0 10px; font-size: 13px; }
+}
 .term-bar { margin: 18px auto 0; max-width: 520px; width: calc(100% - 32px); background: var(--dark); color: var(--light); border-radius: 10px; padding: 12px 18px; font: 400 14.5px "Geist Mono", monospace; display: flex; gap: 10px; align-items: center; overflow: hidden; white-space: nowrap; text-align: left; }
 .term-bar .p { color: #9aa797; }
 .caret { display: inline-block; width: 8px; height: 17px; background: var(--light); animation: blink 1s steps(1) infinite; flex: none; }
@@ -113,7 +129,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
 @keyframes pop { from { opacity: 0; } to { opacity: 1; } }
 .agent { fill: var(--accent); }
 .agent-halo { fill: var(--accent); opacity: .2; }
-@media (max-width: 640px) { .term-bar { white-space: normal; font-size: 13px; } }
+@media (max-width: 640px) { .term-bar { white-space: pre; font-size: 13px; align-items: flex-start; } }
 @media (prefers-reduced-motion: reduce) { .pop { animation: none; opacity: 1; } .wire.flow, .caret { animation: none; } }
 </style>
 </head>
@@ -128,11 +144,12 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
 <main class="rails">
   <section class="center">
     <div class="wrap">
-      <h1>Your users shouldn’t be<br><em>your QA team.</em></h1>
+      <h1>Your users <span class="nw">shouldn’t be</span><br><em>your QA team.</em></h1>
       <p class="sub">AI agents test every flow of your web app and show you the step that broke.</p>
       <div class="ctas"><a class="btn btn-primary" href="https://app.molar.it/signup">Get started free</a><a class="btn btn-ghost" href="/verify">Check a page, no signup</a></div>
       <div class="frame frame-hero">
         <div class="frame-head"><span class="pill"><i>✓</i>Every flow</span> tested with <span class="pill">Payments</span><span class="pill">Email</span><span class="pill">SMS</span><span class="pill">Sign-in</span></div>
+        <div id="hero-steps"></div>
         <svg id="hero" viewBox="0 0 1100 600" role="img" aria-label="Molar's agent runs a real checkout in a browser: signed in, cart, then the payment step fails because a declined card shows no error. Stripe and email stand-ins sit beside the app."></svg>
       </div>
     </div>
@@ -209,6 +226,9 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
 const NS = "http://www.w3.org/2000/svg";
 const C = Math.cos(Math.PI / 6), S = 0.5;
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* On phones the scenes keep fewer objects and larger labels, so they read at 390 px instead of shrinking. */
+const PHONE = matchMedia("(max-width: 640px)").matches;
+const LK = PHONE ? 1.75 : 1;
 const ink = "#202b23", soft = "#56614f", green = "#22664c", red = "#c2412b", accent = "#f26342";
 let uid = 0;
 
@@ -276,6 +296,7 @@ function scene(svg, ox, oy) {
     label([x, y, z], text, mono, opts = {}) {
       const [px, py] = P(x, y, z);
       const gr = el("g", { class: "lbl pop", style: `animation-delay:${opts.delay ?? 0}s` }, labels);
+      if (LK !== 1) gr.setAttribute("transform", `translate(${px} ${py}) scale(${LK}) translate(${-px} ${-py})`);
       el("line", { x1: px, y1: py - 2, x2: px, y2: py + 10, stroke: "#c3cabc" }, gr);
       const rect = el("rect", { y: py - 36, height: 32, rx: 10 }, gr);
       const t1 = txt(gr, 0, py - 15.5, text, "");
@@ -443,19 +464,30 @@ function checklist(svg, x, y, rows) {
 (() => {
   const svg = document.getElementById("hero"); const s = scene(svg, 560, 120);
   s.grid(16, 60);
-  const m = tile(s, -420, 40, 150, "mark", "hot");
-  const st = tile(s, 230, 470, 120, glyphs.stripe);
-  const em = tile(s, 520, 150, 120, glyphs.mail);
+  const m = tile(s, PHONE ? -250 : -420, PHONE ? 60 : 40, 150, "mark", "hot");
   const lap = laptop(s, -20, 120, 380, ["signin", "cart", "pay"]);
   s.wire(m.r, lap.anchorLeft);
-  s.wire(lap.anchorFront, st.b, "wire soft");
-  s.wire(lap.anchorRight, em.l, "wire soft");
+  if (!PHONE) {
+    const st = tile(s, 230, 470, 120, glyphs.stripe);
+    const em = tile(s, 520, 150, 120, glyphs.mail);
+    s.wire(lap.anchorFront, st.b, "wire soft");
+    s.wire(lap.anchorRight, em.l, "wire soft");
+    s.label([st.c[0], st.c[1], 40], "Stripe copy", "card_declined", { delay: 0.8 });
+    s.label([em.c[0], em.c[1], 40], "Email copy", "test inbox", { delay: 1.0 });
+  }
   s.label([m.c[0], m.c[1], 210], "Molar agent", null, { delay: 0.2 });
-  s.label([st.c[0], st.c[1], 40], "Stripe copy", "card_declined", { delay: 0.8 });
-  s.label([em.c[0], em.c[1], 40], "Email copy", "test inbox", { delay: 1.0 });
-  s.finish(20);
-  const vb = svg.viewBox.baseVal;
-  const set = checklist(s.layer, vb.x + vb.width - 290, vb.y + 40, [["Sign in", "", "ok"], ["Cart", "$147.00", "ok"], ["Payment", "card declined", "bad"]]);
+  s.finish(PHONE ? 10 : 20);
+  const rows = [["Sign in", "", "ok"], ["Cart", "$147.00", "ok"], ["Payment", "card declined", "bad"]];
+  let set;
+  if (PHONE) {
+    const box = document.getElementById("hero-steps");
+    box.innerHTML = `<div class="hs-head"><b>Checkout flow</b><span>Molar</span></div>` + rows.map(([n, d, st]) => `<div class="hs-row ${st}"><i>${st === "bad" ? "✕" : "✓"}</i><b>${n}</b><span>${d}</span></div>`).join("");
+    const items = [...box.querySelectorAll(".hs-row")];
+    set = (k) => items.forEach((r, i) => r.style.opacity = i <= k ? 1 : 0.3);
+  } else {
+    const vb = svg.viewBox.baseVal;
+    set = checklist(s.layer, vb.x + vb.width - 290, vb.y + 40, rows);
+  }
   set(reduce ? 2 : 0);
   s.onStep = set;
 })();
@@ -464,7 +496,7 @@ function checklist(svg, x, y, rows) {
 (() => {
   const svg = document.getElementById("map"); const s = scene(svg, 550, 40);
   s.grid(12, 60);
-  const pages = [[-150, 50, "ok"], [60, -60, "ok"], [270, 20, "ok"], [360, 230, "bad"], [270, 430, "ok"], [40, 470, "ok"], [-160, 330, "ok"], [-220, 180, "ok"]];
+  const pages = PHONE ? [[-110, 60, "ok"], [90, -40, "ok"], [330, 210, "bad"], [240, 400, "ok"], [-130, 320, "ok"]] : [[-150, 50, "ok"], [60, -60, "ok"], [270, 20, "ok"], [360, 230, "bad"], [270, 430, "ok"], [40, 470, "ok"], [-160, 330, "ok"], [-220, 180, "ok"]];
   pages.forEach(([x, y]) => s.wire([155, 235, 12], [x + 45, y + 45, 10], "wire soft"));
   tile(s, 90, 170, 130, "mark", "hot");
   pages.forEach(([x, y, st], i) => {
@@ -472,13 +504,18 @@ function checklist(svg, x, y, rows) {
     s.slab(x, y, 90, 90, 10, st === "bad" ? "bad" : "", g);
     glyphs.page(st)(s.top(x, y, 10, g), 90);
   });
-  s.label([405, 275, 40], "Checkout", "card declined", { icon: "bad", delay: 2.4 });
-  s.label([-105, 95, 40], "Home", null, { icon: "ok", delay: 0.6 });
-  s.label([105, -15, 40], "Sign up", null, { icon: "ok", delay: 0.8 });
-  s.label([315, 475, 40], "Account", null, { icon: "ok", delay: 1.7 });
+  if (PHONE) {
+    s.label([375, 255, 40], "Checkout", null, { icon: "bad", delay: 2.0 });
+    s.label([135, 5, 40], "Sign up", null, { icon: "ok", delay: 0.8 });
+  } else {
+    s.label([405, 275, 40], "Checkout", "card declined", { icon: "bad", delay: 2.4 });
+    s.label([-105, 95, 40], "Home", null, { icon: "ok", delay: 0.6 });
+    s.label([105, -15, 40], "Sign up", null, { icon: "ok", delay: 0.8 });
+    s.label([315, 475, 40], "Account", null, { icon: "ok", delay: 1.7 });
+  }
   s.finish();
   const typed = document.getElementById("typed");
-  const cmd = 'molar verify "checkout works" --url localhost:3000';
+  const cmd = PHONE ? 'molar verify "checkout works"\n  --url localhost:3000' : 'molar verify "checkout works" --url localhost:3000';
   if (reduce) typed.textContent = cmd;
   else { let i = 0; const t = setInterval(() => { typed.textContent = cmd.slice(0, ++i); if (i >= cmd.length) clearInterval(t); }, 45); }
 })();
@@ -487,7 +524,7 @@ function checklist(svg, x, y, rows) {
 (() => {
   const svg = document.getElementById("clones"); const s = scene(svg, 560, 60);
   s.grid(12, 60);
-  const ring = [[-300, 110, glyphs.stripe, "Stripe", "card declined", "bad"], [60, -200, glyphs.mail, "Email", "code expired"], [420, 0, glyphs.sms, "SMS", "delivered late"], [460, 360, glyphs.key, "Sign-in", "session expired"], [-230, 460, glyphs.bucket, "Storage", "upload fails"]];
+  const ring = PHONE ? [[-240, 130, glyphs.stripe, "Stripe", null, "bad"], [80, -170, glyphs.mail, "Email", null], [380, 130, glyphs.sms, "SMS", null]] : [[-300, 110, glyphs.stripe, "Stripe", "card declined", "bad"], [60, -200, glyphs.mail, "Email", "code expired"], [420, 0, glyphs.sms, "SMS", "delivered late"], [460, 360, glyphs.key, "Sign-in", "session expired"], [-230, 460, glyphs.bucket, "Storage", "upload fails"]];
   ring.forEach(([x, y]) => s.wire([130, 220, 14], [x + 50, y + 50, 12]));
   laptop(s, 20, 130, 240, ["pay"]);
   ring.forEach(([x, y, glyph, name, cs, bad], i) => {
@@ -507,9 +544,9 @@ function checklist(svg, x, y, rows) {
   for (const [a, b, c] of [[cl.f, tm.b], [cx.f, tm.b], [tm.r, mo.l], [mo.f, pr.b], [mo.r, gl.l], [gl.f, sl.b, "wire soft"]]) s.wire(a, b, c);
   s.label([cl.c[0], cl.c[1], 30], "Claude Code", null, { delay: 0.3 });
   s.label([cx.c[0], cx.c[1], 30], "Codex", null, { delay: 0.5 });
-  s.label([pr.c[0], pr.c[1], 30], "PR #52", "posted", { icon: "ok", delay: 1.0 });
+  s.label([pr.c[0], pr.c[1], 30], "PR #52", PHONE ? null : "posted", { icon: "ok", delay: 1.0 });
   s.label([gl.c[0], gl.c[1], 30], "Every hour", null, { delay: 1.4 });
-  s.label([sl.c[0], sl.c[1], 30], "Slack", "checkout broke", { icon: "bad", delay: 1.8 });
+  s.label([sl.c[0], sl.c[1], 30], "Slack", PHONE ? null : "checkout broke", { icon: "bad", delay: 1.8 });
   s.finish();
 })();
 
