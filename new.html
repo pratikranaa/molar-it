@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="noindex, follow">
+<meta name="description" content="AI agents test every flow of your web app, payments and emails included, and show you the step that broke.">
+<link rel="stylesheet" href="/marketing/analytics.css">
 <meta name="theme-color" content="#f7f8f2">
-<title>Molar — preview homepage</title>
+<title>Molar — AI QA for web apps</title>
 <link rel="icon" href="/assets/molar-mark-favicon.png" type="image/png">
 <style>
 @font-face { font-family: Hanken; src: url(/fonts/hanken-grotesk-latin.woff2) format("woff2"); font-weight: 100 900; font-display: swap; }
@@ -134,7 +136,6 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
 </style>
 </head>
 <body>
-<div class="preview-note">Preview only, not the live homepage.</div>
 <header class="nav"><div class="wrap">
   <a class="logo" href="/"><img src="/assets/molar-mark.png" alt="" width="30" height="30"><b>Molar<span>.</span></b></a>
   <nav class="nav-links" aria-label="Main"><a href="/docs">Docs</a><a href="/pricing">Pricing</a><a href="/benchmarks">Benchmarks</a><a href="https://app.molar.it/login">Sign in</a></nav>
@@ -557,5 +558,6 @@ function checklist(svg, x, y, rows) {
   steps.forEach(([i, n]) => film.insertAdjacentHTML("beforeend", `<figure class="shot"><div class="chrome"><i></i><i></i><i></i><span>shop.acme.test</span></div><img src="/assets/agent-checkout/step-${i}.jpg" alt="Step ${i}: ${n}"><figcaption><b>✓</b>Step ${i}. ${n}</figcaption></figure>`));
 })();
 </script>
+<script type="module" src="/marketing/analytics.js"></script>
 </body>
 </html>
