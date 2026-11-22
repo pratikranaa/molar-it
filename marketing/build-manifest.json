@@ -38,6 +38,7 @@
     "examples/team-invitation.html",
     "index.html",
     "integrations/github-actions.html",
+    "new.html",
     "platform.html",
     "platform/browser-agents.html",
     "platform/coverage.html",
