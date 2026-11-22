@@ -167,10 +167,10 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   <section class="center">
     <div class="wrap">
       <h2>Say what should work.</h2>
-      <p class="sub">One line. Molar does it in a real browser and maps every page it reached.</p>
+      <p class="sub">Write one sentence. Molar does it in a real browser and shows you each step.</p>
       <div class="frame">
         <div class="term-bar"><span class="p">$</span><span id="typed"></span><span class="caret"></span></div>
-        <svg id="map" viewBox="0 0 1100 560" role="img" aria-label="A map of your app's pages around Molar: most pages pass, the checkout page fails."></svg>
+        <svg id="map" viewBox="0 0 1100 560" role="img" aria-label="The pages Molar visited in your app: most pass, the checkout page fails."></svg>
       </div>
     </div>
   </section>
@@ -193,9 +193,9 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
         <ul class="steps-list">
           <li><h3>While you code</h3><p>Your coding agent runs <code class="k">molar verify</code> before it opens a pull request.</p></li>
           <li><h3>On every pull request</h3><p>The result, with the broken step, is posted on the PR.</p></li>
-          <li><h3>On your live site</h3><p>Every hour. If a flow breaks, you hear about it in Slack.</p></li>
+          <li><h3>On your live site</h3><p>Your key flows run on a schedule against your live site. If one breaks, you hear about it in Slack.</p></li>
         </ul>
-        <svg id="where" viewBox="0 0 680 560" role="img" aria-label="Claude Code and Codex call Molar from the terminal, Molar posts on the pull request and checks the live site every hour, alerting Slack."></svg>
+        <svg id="where" viewBox="0 0 680 560" role="img" aria-label="Claude Code and Codex call Molar from the terminal, Molar posts on the pull request and checks the live site on a schedule, alerting Slack."></svg>
       </div>
     </div>
   </section>
@@ -205,7 +205,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
       <h2>Every step, on the record.</h2>
       <p class="sub">A real run, as the agent saw it: every box is something it could click.</p>
       <div class="film" id="film"></div>
-      <div class="stats"><span><b>73.7%</b>of 300 real-site tasks (Online-Mind2Web)</span><span><b>0</b>false passes on our 39-task suite</span></div>
+      <div class="stats"><span><b>73.7%</b>of 300 real-site tasks (Online-Mind2Web)</span><span><b>0</b>false passes in our latest 39-task test run</span></div>
     </div>
   </section>
 
@@ -473,8 +473,8 @@ function checklist(svg, x, y, rows) {
     const em = tile(s, 520, 150, 120, glyphs.mail);
     s.wire(lap.anchorFront, st.b, "wire soft");
     s.wire(lap.anchorRight, em.l, "wire soft");
-    s.label([st.c[0], st.c[1], 40], "Stripe copy", "card_declined", { delay: 0.8 });
-    s.label([em.c[0], em.c[1], 40], "Email copy", "test inbox", { delay: 1.0 });
+    s.label([st.c[0], st.c[1], 40], "Test Stripe", "card_declined", { delay: 0.8 });
+    s.label([em.c[0], em.c[1], 40], "Test inbox", null, { delay: 1.0 });
   }
   s.label([m.c[0], m.c[1], 210], "Molar agent", null, { delay: 0.2 });
   s.finish(PHONE ? 10 : 20);
@@ -546,7 +546,7 @@ function checklist(svg, x, y, rows) {
   s.label([cl.c[0], cl.c[1], 30], "Claude Code", null, { delay: 0.3 });
   s.label([cx.c[0], cx.c[1], 30], "Codex", null, { delay: 0.5 });
   s.label([pr.c[0], pr.c[1], 30], "PR #52", PHONE ? null : "posted", { icon: "ok", delay: 1.0 });
-  s.label([gl.c[0], gl.c[1], 30], "Every hour", null, { delay: 1.4 });
+  s.label([gl.c[0], gl.c[1], 30], "On a schedule", null, { delay: 1.4 });
   s.label([sl.c[0], sl.c[1], 30], "Slack", PHONE ? null : "checkout broke", { icon: "bad", delay: 1.8 });
   s.finish();
 })();
