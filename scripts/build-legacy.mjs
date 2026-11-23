@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { document } from '../marketing/document.mjs';
 import { esc, icon, cta } from '../marketing/components.mjs';
+import { githubActionsGuide } from '../marketing/github-actions-guide.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const save = (path, html) => { const target = resolve(root, path); mkdirSync(dirname(target), { recursive: true }); writeFileSync(target, html); };
@@ -77,7 +78,7 @@ save('thesis.html', articlePage({
 }));
 save('integrations/github-actions.html', articlePage({
   title: 'Molar in GitHub Actions', seoTitle: 'Run Molar Browser Tests in GitHub Actions | Molar', seoDescription: 'Run configured Molar scenarios such as signup, checkout or invitation in GitHub Actions and inspect their results before merging.', description: 'Run configured Molar scenarios in GitHub Actions and inspect their results before merging.', path: '/integrations/github-actions', eyebrow: 'Integration', intro: 'Run a configured signup, checkout, or invitation scenario in CI and attach its status and trace to the pull request.',
-  article: wrapTables(sourceArticle('integrations/github-actions.html')), toc: [['overview', 'Run critical browser flows'], ['steps', 'Connect the workflow'], ['checks', 'Read the pull-request result']],
+  article: wrapTables(githubActionsGuide), toc: [['overview', 'Run critical browser flows'], ['steps', 'Connect the workflow'], ['checks', 'Read the pull-request result']],
 }));
 
 console.log('Built legacy routes: /qa-agent, /thesis and /integrations/github-actions. Clone docs redirect to docs.molar.it.');
