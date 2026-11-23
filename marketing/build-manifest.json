@@ -79,6 +79,7 @@
     "vs/playwright-trace.html",
     "vs/playwright.html",
     "vs/qa-wolf.html",
+    "vs/simulithic.html",
     "vs/wiremock.html",
     "waitlist.html"
   ],
@@ -159,6 +160,7 @@
     "https://molar.it/vs/playwright",
     "https://molar.it/vs/playwright-trace",
     "https://molar.it/vs/qa-wolf",
+    "https://molar.it/vs/simulithic",
     "https://molar.it/vs/wiremock"
   ],
   "stage": ".site-dist"

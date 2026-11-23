@@ -11,7 +11,7 @@
 - Documentation: https://docs.molar.it
 - Built by Pratik Rana in Bengaluru, India (operating as Molar Labs).
 
-Generated from rendered, indexable canonical HTML. 77 pages are included.
+Generated from rendered, indexable canonical HTML. 78 pages are included.
 
 ## Molar — AI QA for Web Apps & Third-Party Integrations
 URL: https://molar.it/
@@ -415,6 +415,11 @@ Headings: Molar Trace vs Playwright Trace Viewer · Start with the recording you
 URL: https://molar.it/vs/qa-wolf
 Description: Compare QA Wolf’s managed and pay-per-run Playwright testing with Molar’s self-serve browser checks, Guard release checks and stateful Clones.
 Headings: Molar vs QA Wolf · Two ways to get end-to-end coverage. · Compare who does the work. · Try the failure you need to catch. · When to choose which · See what your next check finds.
+
+## Molar vs Simulithic | Molar
+URL: https://molar.it/vs/simulithic
+Description: Compare browser flow discovery and release checks, then see how Molar tests checkout and email failures with services you can control.
+Headings: Molar vs Simulithic · Both tools help teams find and run browser checks. · Reproduce the failures that depend on another service. · See where the check failed. · Try a flow your team has had to debug. · See what your next check finds.
 
 ## Molar Clones vs WireMock: Stateful Clones vs API Mocks | Molar
 URL: https://molar.it/vs/wiremock

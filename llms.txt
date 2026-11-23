@@ -105,6 +105,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 - [Molar vs Playwright: AI Agent Alongside Playwright Tests | Molar](https://molar.it/vs/playwright) — How Molar browser agents fit alongside Playwright tests, and what to check before adding generated tests to your release process.
 - [Molar Trace vs Playwright Trace Viewer Compared | Molar](https://molar.it/vs/playwright-trace) — Compare Playwright Trace Viewer with Molar Trace for inspecting browser actions, screenshots, requests, and failed checks.
 - [Molar vs QA Wolf: Self-Serve AI QA vs Managed QA | Molar](https://molar.it/vs/qa-wolf) — Compare QA Wolf’s managed and pay-per-run Playwright testing with Molar’s self-serve browser checks, Guard release checks and stateful Clones.
+- [Molar vs Simulithic | Molar](https://molar.it/vs/simulithic) — Compare browser flow discovery and release checks, then see how Molar tests checkout and email failures with services you can control.
 - [Molar Clones vs WireMock: Stateful Clones vs API Mocks | Molar](https://molar.it/vs/wiremock) — Compare configurable API mocks with Molar’s supported service clones: setup, state, failure cases, and the limits to check before choosing.
 
 ## External properties

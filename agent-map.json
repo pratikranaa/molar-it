@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-23T22:29:15.322Z",
-  "pageCount": 77,
+  "generatedAt": "2026-11-23T22:39:18.960Z",
+  "pageCount": 78,
   "pages": [
     {
       "path": "/",
@@ -1402,6 +1402,20 @@
         "Compare who does the work.",
         "Try the failure you need to catch.",
         "When to choose which",
+        "See what your next check finds."
+      ]
+    },
+    {
+      "path": "/vs/simulithic",
+      "url": "https://molar.it/vs/simulithic",
+      "title": "Molar vs Simulithic | Molar",
+      "description": "Compare browser flow discovery and release checks, then see how Molar tests checkout and email failures with services you can control.",
+      "headings": [
+        "Molar vs Simulithic",
+        "Both tools help teams find and run browser checks.",
+        "Reproduce the failures that depend on another service.",
+        "See where the check failed.",
+        "Try a flow your team has had to debug.",
         "See what your next check finds."
       ]
     },
