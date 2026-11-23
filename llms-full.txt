@@ -25,7 +25,7 @@ Headings: What do you want to test? · Your answer · Read the guides behind you
 
 ## Benchmarks: How Molar’s Browser Agent Scores | Molar
 URL: https://molar.it/benchmarks
-Description: How Molar’s browser agent scores on Online-Mind2Web and WebTestBench, and where it ranks among published results.
+Description: Molar’s results on Online-Mind2Web and WebTestBench, including how each benchmark was run and graded.
 Headings: How Molar’s agent scores on public benchmarks. · All results. · Benchmark by benchmark. · Published by others. · How we run evals. · Reproduce it. · Frequently asked questions · See what Molar finds in your app.
 
 ## Molar Guides — Browser QA, Integrations & Agents

@@ -18,7 +18,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 
 ## Company and other pages
 - [Ask Molar — Practical Answers About Browser Testing](https://molar.it/ask) — Ask a question about browser QA, payments, sign-in, or Molar. Get a source-grounded answer and relevant guides.
-- [Benchmarks: How Molar’s Browser Agent Scores | Molar](https://molar.it/benchmarks) — How Molar’s browser agent scores on Online-Mind2Web and WebTestBench, and where it ranks among published results.
+- [Benchmarks: How Molar’s Browser Agent Scores | Molar](https://molar.it/benchmarks) — Molar’s results on Online-Mind2Web and WebTestBench, including how each benchmark was run and graded.
 - [Molar Changelog: What’s New](https://molar.it/changelog) — New things you can do with Molar: browser runs, exported Playwright tests, release checks and integrations, newest first.
 - [About Molar — AI QA & Browser Automation Platform](https://molar.it/company) — Molar, also called Molar QA, is an AI QA and browser automation platform for web apps, built by Pratik Rana in Bengaluru. What it does and how to reach us.
 - [Talk to the Molar Team](https://molar.it/contact) — Talk to Molar about web app testing, third-party integrations, and browser execution for your team or AI agents.

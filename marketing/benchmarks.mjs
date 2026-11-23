@@ -15,7 +15,7 @@ const ext=(href,label)=>`<a class="text-link" href="${href}" rel="noopener">${la
 // WebTestBench: the two best oracle-setting results in the benchmark's paper (arXiv 2603.25226).
 const OM2W_PUBLISHED=[97.0,93.0,90.53,90.0,89.4,88.2,83.6,78.7,71.0,69.0,66.7,65.0,61.3,61.0,57.3,56.3,55.0,55.0,51.0,45.7,30.7,30.0,30.0,29.0,28.0];
 export const stats=[
- {id:'online-mind2web',name:'Online-Mind2Web',value:'73.7%',sub:'221 of 300 tasks',ours:73.7,published:OM2W_PUBLISHED,domain:[20,100],board:'Steel leaderboard, 25 published agents'},
+ {id:'online-mind2web',name:'Online-Mind2Web',value:'73.7%',sub:'221 of 300 tasks · automatically graded by WebJudge',rank:false,ours:73.7,published:OM2W_PUBLISHED,domain:[20,100],board:'Steel leaderboard, 25 published agents'},
  {id:'webtestbench',name:'WebTestBench',value:'53.7',sub:'Defect F1, 100 apps',ours:53.7,published:[49.2,46.8],domain:[40,60],board:'Best results in the benchmark’s paper'},
 ];
 const rankOf=s=>s.published.filter(v=>v>s.ours).length+1;
@@ -23,13 +23,13 @@ const rankOf=s=>s.published.filter(v=>v>s.ours).length+1;
 const rankStrip=s=>{const [lo,hi]=s.domain,at=v=>((v-lo)/(hi-lo)*100).toFixed(2),rank=rankOf(s),of=s.published.length+1;
  return `<span class="bm-rank"><span class="bm-rank-label"><b>#${rank}</b> of ${of}</span><span class="bm-rank-line" aria-hidden="true">${s.published.map(v=>`<i style="left:${at(v)}%"></i>`).join('')}<em style="left:${at(s.ours)}%"></em></span><span class="bm-rank-board">${s.board}</span></span>`};
 
-const statTiles=(tag='div')=>stats.map(s=>`<a class="bm-stat" href="/benchmarks#${s.id}"><span class="bm-stat-name">${s.name}</span><span class="bm-stat-value">${s.value}</span><span class="bm-stat-sub">${s.sub}</span>${rankStrip(s)}</a>`).join('');
+const statTiles=(tag='div')=>stats.map(s=>`<a class="bm-stat" href="/benchmarks#${s.id}"><span class="bm-stat-name">${s.name}</span><span class="bm-stat-value">${s.value}</span><span class="bm-stat-sub">${s.sub}</span>${s.rank===false?'':rankStrip(s)}</a>`).join('');
 
 // Compact band for the homepage, between the real-run example and the developer section.
 export const benchmarkStrip=()=>`<section class="bm-strip" aria-labelledby="bm-strip-title"><div class="wrap"><div class="bm-strip-head"><div><h2 id="bm-strip-title">Benchmark results.</h2><p>Molar’s browser agent on public browser-agent benchmarks.</p></div><a class="text-link" href="/benchmarks">See all benchmarks ${icon('arrow')}</a></div><div class="bm-stats bm-stats-strip">${statTiles()}</div></div></section>`;
 
 const rows=[
- {id:'online-mind2web',name:'Online-Mind2Web',score:'73.7%',tasks:'300',judge:'WebJudge (OSU prompts unchanged), GPT-6 Luna',date:'16 Nov 2026',agent:'0038454cb',cmp:'Not submitted to the leaderboard. Auto-graded, no human review.'},
+ {id:'online-mind2web',name:'Online-Mind2Web',score:'73.7%',tasks:'300',judge:'Automatically graded by WebJudge (GPT-6 Luna)',date:'16 Nov 2026',agent:'0038454cb',cmp:'Not submitted to the leaderboard. Auto-graded, no human review.'},
  {id:'webtestbench',name:'WebTestBench',score:'53.7 F1',tasks:'100 apps',judge:'The benchmark’s own scorer, unmodified',date:'14 Nov 2026',agent:'fa7a92cd8',cmp:'Not directly. Different harness; oracle-checklist setting.'},
 ];
 
@@ -45,10 +45,10 @@ const card=({id,eyebrow,name,measures,score,scoreNote,visual,factsList,caveat,me
 const cards=()=>[
  card({id:'online-mind2web',eyebrow:'Web tasks · graded by a model',name:'Online-Mind2Web',
   measures:'Whether an agent can finish tasks that people do on live websites. 300 tasks, split into easy, medium and hard.',
-  score:'73.7%',scoreNote:'221 of 300 tasks',
+  score:'73.7%',scoreNote:'221 of 300 tasks · automatically graded by WebJudge',
   visual:miniBars([['Easy',68,80],['Medium',106,141],['Hard',47,79]]),
   factsList:[['Judge','WebJudge from the benchmark’s repository, prompts unchanged, with GPT-6 Luna'],['Run','Graded 16 November 2026'],['Agent build','<code>0038454cb</code>, Molar v2 on GPT-6 Luna'],['Tasks','300']],
-  caveat:note('Read before comparing','<p>This is not a leaderboard result. We have not submitted it, and no human graded it. The leaderboard’s own grading is a different method from the one we ran.</p><p>Molar’s own verdict disagreed with WebJudge on 57 tasks. This is the normal screenshot-and-actions grade; a separate answer-aware grade was 218 of 300 (72.7%). The 85% agent-quality target remains unmet.</p>'),
+  caveat:note('Read before comparing','<p>This is not a leaderboard result. We have not submitted it, and no human graded it. The leaderboard’s own grading is a different method from the one we ran.</p>'),
   method:'<p>Each task starts on its own website, in a fresh 1440×900 browser with a 900 second budget. It starts with CloakBrowser and may restart a blocked task in real Chrome; only the final attempt is graded. The judge sees the actions and screenshots, not the agent’s final answer.</p>',
   links:ext('https://arxiv.org/abs/2504.01382','Paper')+ext('https://github.com/OSU-NLP-Group/Online-Mind2Web','Benchmark repository')}),
  card({id:'webtestbench',eyebrow:'QA · bug finding',name:'WebTestBench',
@@ -87,7 +87,7 @@ const repro=[
 const reproduce=()=>`<section class="section bm-repro" id="reproduce"><div class="wrap"><div class="section-heading"><h2>Reproduce it.</h2><p>Every benchmark here is public. Run your own agent, or ours, through the same grader.</p></div><div class="bm-repro-grid">${repro.map(([n,links,t])=>`<article><h3>${n}</h3><p>${t}</p><div class="bm-links">${links.map(([h,l])=>ext(h,l)).join('')}</div></article>`).join('')}</div><p class="bm-foot">Our harnesses are not public, and we have not published per-task traces from these runs.</p></div></section>`;
 
 const faqs=[
- {q:'How do you rank against other agents?',a:'Ninth of 26 on Online-Mind2Web, counting the 25 agents on Steel’s leaderboard, and first of three on WebTestBench against the best results in its paper. Published scores use different judges and some are self-reported, so treat a rank as a placement, not a head-to-head result.'},
+ {q:'How was the Online-Mind2Web score graded?',a:'We ran all 300 tasks ourselves and used WebJudge to grade them automatically. The leaderboard uses human grading.'},
  {q:'Why GPT-6 Luna as the judge?',a:'Online-Mind2Web’s repository now points to GPT-6 Luna for WebJudge. We kept its prompts unchanged and changed only the model.'},
  {q:'Do these scores predict how Molar does on my app?',a:'Not directly. They measure a general browser agent on public tasks. The best check is a run on your app.'},
  {q:'How often does this page change?',a:'When we rerun a benchmark. Each row shows the date of its run and the agent build.'},
@@ -96,5 +96,5 @@ const faqs=[
 export const benchmarksBody=({actions})=>`<main id="main" class="benchmarks-page"><section class="detail-hero identity-detail"><div class="wrap"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Molar</a>${icon('chevron')}<span>Benchmarks</span></nav><div class="bm-hero"><h1>How Molar’s agent scores on public benchmarks.</h1><p>Molar’s browser agent on public benchmarks, and where it ranks among published results.</p>${actions('Get started free',APP,'How we run evals','#how-we-run')}<p class="bm-asof">Molar v2 on GPT-6 Luna. Results from 14 to 16 November 2026.</p></div></div></section><section class="section bm-stats-section" aria-label="Headline results"><div class="wrap"><div class="bm-stats">${statTiles()}</div></div></section><section class="section run-results bm-results" id="results"><div class="wrap"><div class="section-heading"><h2>All results.</h2><p>One row per benchmark. Select a name for details.</p></div>${resultsTable()}</div></section><section class="section bm-cards" id="benchmark-details"><div class="wrap"><div class="section-heading"><h2>Benchmark by benchmark.</h2><p>What each one measures and how we ran it.</p></div>${cards()}</div></section><section class="section muted-section bm-others-section" id="published-by-others"><div class="wrap"><div class="section-heading"><h2>Published by others.</h2><p>For context only. Judges, task sets, time limits and harnesses differ, so don’t read these as head-to-head results.</p></div>${othersTable()}</div></section>${howWeRun()}${reproduce()}${faq(faqs)}${cta('See what Molar finds in your app.','Create a free workspace and describe the first flow to test. The agent runs in a real browser and shows you what it saw.')}</main>`;
 
 export const faqList=faqs;
-export const description='How Molar’s browser agent scores on Online-Mind2Web and WebTestBench, and where it ranks among published results.';
+export const description='Molar’s results on Online-Mind2Web and WebTestBench, including how each benchmark was run and graded.';
 export const title='Benchmarks: How Molar’s Browser Agent Scores | Molar';

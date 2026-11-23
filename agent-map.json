@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-22T14:15:34.198Z",
+  "generatedAt": "2026-11-23T17:23:43.682Z",
   "pageCount": 77,
   "pages": [
     {
@@ -39,7 +39,7 @@
       "path": "/benchmarks",
       "url": "https://molar.it/benchmarks",
       "title": "Benchmarks: How Molar’s Browser Agent Scores | Molar",
-      "description": "How Molar’s browser agent scores on Online-Mind2Web and WebTestBench, and where it ranks among published results.",
+      "description": "Molar’s results on Online-Mind2Web and WebTestBench, including how each benchmark was run and graded.",
       "headings": [
         "How Molar’s agent scores on public benchmarks.",
         "All results.",
