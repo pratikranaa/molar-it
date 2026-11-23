@@ -51,8 +51,12 @@ function workflow() {
 }
 
 function swarm() {
-  const roles=[['Guest',['Create an account','Buy a plan']],['Member',['Accept an invitation','Open a project']],['Owner',['Invite a member','Review billing']]];
-  return figure('Plan a check for each role', `<div class="sd-swarm-grid">${roles.map(([role,tasks])=>`<section class="sd-card"><div class="sd-persona"><span>${icon('users')}</span><strong>${role}</strong></div>${tasks.map(task=>`<span>${dot} ${task}</span>`).join('')}<p>Separate browser and identity</p></section>`).join('')}</div><div class="sd-preview-note"><span class="sd-preview">Preview</span> Planned checks only. No run results are shown here.</div>`, 'sd-swarm');
+  const personas = [
+    ['Guest', 'Fresh account', 'Mobile portrait'],
+    ['Member', 'Existing account', 'Desktop'],
+    ['Owner', 'Existing account', 'Mobile portrait'],
+  ];
+  return figure('Example exploration plan', `<div class="sd-swarm-grid">${personas.map(([role, state, screen]) => `<section class="sd-card"><div class="sd-persona"><span>${icon('users')}</span><strong>${role}</strong></div><span>${dot} ${state}</span><span>${dot} ${screen}</span></section>`).join('')}</div>`, 'sd-swarm');
 }
 
 function developer() {
@@ -143,7 +147,7 @@ export function detailVisual(page, index = 0) {
   if (path.includes('web-data-extraction')) return index ? dataSource() : data();
   if (path.includes('workflow-automation')) return index ? outcomes() : workflow();
   if (path.includes('browser-agents')) return index ? developer() : workflow();
-  if (path.includes('swarm')) return index ? auth(0) : swarm();
+  if (path.includes('swarm')) return index === 1 ? auth(0) : swarm();
   if (path.includes('developer-tools')) return index ? outcomes() : developer();
   if (path.includes('guard')) return index ? outcomes() : guard(0);
   if (path.includes('preview-deployments')) return index ? paymentBranches() : guard(0);

@@ -251,10 +251,10 @@ URL: https://molar.it/platform/saved-tests
 Description: Molar keeps each project’s tests in a GitHub repository as plain instructions with a replay-checked Playwright test, and runs them on every push.
 Headings: Your tests, in a repo you can read. · Written in plain English · Turned into real Playwright · Runs on every push · One folder per test · Every push is checked · Rename it to fit · Frequently asked questions · Save your first test.
 
-## Multi-User Browser Tests Across Accounts (Preview) | Molar
+## Multi-user Browser Testing by Role and Viewport | Molar
 URL: https://molar.it/platform/swarm
-Description: Preview: test one flow across several accounts, with a separate browser and identity for each role, such as an admin inviting a member.
-Headings: Test one flow across several accounts. · One browser per role · Plan the roles first · Preview · Plan a multi-user test · See it in a recorded example · Frequently asked questions · Try a multi-user test.
+Description: Explore a site across combinations of roles, account states, and screen sizes. Review the plan, then inspect the pages and flows the browsers found.
+Headings: Explore your app as different users. · Choose the personas · Review coverage before running · Inspect what the browsers find · Start with a URL and test settings · Watch a scripted team invitation · Frequently asked questions · Plan a multi-user exploration.
 
 ## Molar Pricing: Free During the Beta, No Card
 URL: https://molar.it/pricing

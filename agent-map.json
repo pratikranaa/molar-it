@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "generatedFrom": "rendered canonical HTML",
   "site": "https://molar.it",
-  "generatedAt": "2026-11-23T17:23:43.682Z",
+  "generatedAt": "2026-11-23T22:10:44.283Z",
   "pageCount": 77,
   "pages": [
     {
@@ -872,17 +872,17 @@
     {
       "path": "/platform/swarm",
       "url": "https://molar.it/platform/swarm",
-      "title": "Multi-User Browser Tests Across Accounts (Preview) | Molar",
-      "description": "Preview: test one flow across several accounts, with a separate browser and identity for each role, such as an admin inviting a member.",
+      "title": "Multi-user Browser Testing by Role and Viewport | Molar",
+      "description": "Explore a site across combinations of roles, account states, and screen sizes. Review the plan, then inspect the pages and flows the browsers found.",
       "headings": [
-        "Test one flow across several accounts.",
-        "One browser per role",
-        "Plan the roles first",
-        "Preview",
-        "Plan a multi-user test",
-        "See it in a recorded example",
+        "Explore your app as different users.",
+        "Choose the personas",
+        "Review coverage before running",
+        "Inspect what the browsers find",
+        "Start with a URL and test settings",
+        "Watch a scripted team invitation",
         "Frequently asked questions",
-        "Try a multi-user test."
+        "Plan a multi-user exploration."
       ]
     },
     {

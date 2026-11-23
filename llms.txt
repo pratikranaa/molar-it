@@ -75,7 +75,7 @@ This map is generated from crawlable canonical HTML pages. Product availability 
 - [Stealth Cloud Browser for AI Agents & Playwright | Molar](https://molar.it/platform/launch-browser) — A stealth cloud browser for your agents and scripts: connect Playwright or Puppeteer, watch it live, take over by hand and keep a recording.
 - [Live View & Recordings for Browser Agent Runs | Molar](https://molar.it/platform/live-view) — Watch a hosted run live, read-only, then replay its video, screenshots, network log and Playwright trace.
 - [Playwright Tests Saved to Your GitHub Repo | Molar](https://molar.it/platform/saved-tests) — Molar keeps each project’s tests in a GitHub repository as plain instructions with a replay-checked Playwright test, and runs them on every push.
-- [Multi-User Browser Tests Across Accounts (Preview) | Molar](https://molar.it/platform/swarm) — Preview: test one flow across several accounts, with a separate browser and identity for each role, such as an admin inviting a member.
+- [Multi-user Browser Testing by Role and Viewport | Molar](https://molar.it/platform/swarm) — Explore a site across combinations of roles, account states, and screen sizes. Review the plan, then inspect the pages and flows the browsers found.
 
 ## Products
 - [Cartographer: AI Agent to Map & Test Web Apps | Molar](https://molar.it/products/cartographer) — Cartographer is Molar’s browser agent. It explores an authorized web app, follows tasks like sign-up in a real browser, and returns a check you can rerun.
