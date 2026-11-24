@@ -146,6 +146,21 @@
       "source": "/trace",
       "destination": "https://trace.molar.it",
       "permanent": true
+    },
+    {
+      "source": "/docs/clones",
+      "destination": "https://docs.molar.it/docs/clones",
+      "permanent": true
+    },
+    {
+      "source": "/docs/clones/:slug",
+      "destination": "https://molar.it/docs/clones/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/docs/clone.html",
+      "destination": "https://docs.molar.it/docs/clones",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -164,10 +179,6 @@
     {
       "source": "/docs",
       "destination": "/docs.html"
-    },
-    {
-      "source": "/docs/clones/:slug",
-      "destination": "/docs/clone.html?slug=:slug"
     },
     {
       "source": "/changelog",

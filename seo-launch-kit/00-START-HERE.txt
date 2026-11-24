@@ -1,6 +1,6 @@
 # Molar SEO launch kit — start here
 
-Run these after deploying to production (git push → Vercel).
+Run these after deploying the apex site to Cloudflare Pages.
 
 1. google-search-console.txt — verify domain, submit sitemap, request indexing (incl. surface subdomains)
 2. keyword-map.txt — per-surface competitors, target queries, GSC monitoring list
@@ -10,10 +10,10 @@ Run these after deploying to production (git push → Vercel).
 5. launch-posts.txt — HN, Dev.to, Reddit templates
 
 Deploy checklist:
-- [ ] node scripts/gen-sitemap.mjs && node scripts/gen-clone-routes.mjs
+- [ ] node scripts/build-site.mjs
 - [ ] git add + commit all SEO files
-- [ ] push to main / trigger Vercel deploy
-- [ ] verify https://molar.it/sitemap.xml includes surface + clone doc URLs
+- [ ] publish the apex package using the README deployment command
+- [ ] verify https://molar.it/sitemap.xml lists the apex pages and clone bookmarks redirect to docs.molar.it
 - [ ] upload og-clones.png, og-cartographer.png, og-guard.png, og-trace.png (1200×630)
 - [ ] verify https://molar.it/docs https://molar.it/qa-agent work
 - [ ] run GSC steps above (domain property covers subdomains)

@@ -45,7 +45,7 @@ Run `python3 scripts/check-marketing.py` after building. It checks the published
 
 Run `python3 scripts/check-navigation.py --base http://localhost:8080` for hover latency, continuous menu switching, keyboard/touch dismissal, reduced motion, mobile styling, and product-tab regressions. It measures both primary routes at normal and 4× CPU slowdown. Use `--out` to retain the report/screenshots and `--baseline` to record a comparison without enforcing the responsiveness budget. Browser measurements are not field INP or a physical-device FPS guarantee.
 
-Deploy to the **existing** Cloudflare Pages project:
+Deploy the apex site to the existing Cloudflare Pages project. The four historical product subdomains still serve separately from Vercel.
 
 ```bash
 node scripts/build-site.mjs
@@ -90,7 +90,7 @@ Run `node --test scripts/product-stories.test.mjs` for causal state checks and `
 
 ### Waitlist — receive signups for $0
 
-The deployed `/waitlist` form posts to `/api/waitlist` and stores a deduplicated record in `WEBSITE_DB`. The database is the production destination; the integrations below are optional fallbacks for environments without D1.
+On the apex, `/waitlist` and `/waitlist.html` redirect to dashboard signup. Vercel’s historical product surfaces still serve the waitlist form. The apex API remains available and writes deduplicated records to `WEBSITE_DB`. The integrations below cover environments without D1.
 
 **Optional fallback: Google Sheets + email alert**
 

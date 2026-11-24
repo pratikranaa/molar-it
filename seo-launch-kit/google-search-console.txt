@@ -8,8 +8,8 @@
 
 ## 2. Submit sitemap
 - URL: `https://molar.it/sitemap.xml`
-- Includes: main site, 4 surface subdomains, 28 `/docs/clones/:slug` pages
-- Regenerate after clone catalog changes: `node scripts/gen-sitemap.mjs`
+- Includes the main site's canonical pages. Clone guides are indexed on docs.molar.it.
+- Regenerate after route changes: `node scripts/build-site.mjs`
 - Search Console → Sitemaps → paste URL → Submit
 
 ## 3. Request indexing (after deploy)

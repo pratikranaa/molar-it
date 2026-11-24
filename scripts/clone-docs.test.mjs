@@ -17,6 +17,21 @@ test('every old clone guide has a permanent redirect to its canonical vendor gui
   }
 });
 
+test('legacy Vercel bookmarks route through the same canonical clone guide redirects',()=>{
+  const vercel=JSON.parse(readFileSync(new URL('../vercel.json',import.meta.url),'utf8'));
+  assert.deepEqual(
+    vercel.redirects.find(rule=>rule.source==='/docs/clones/:slug'),
+    {source:'/docs/clones/:slug',destination:'https://molar.it/docs/clones/:slug',permanent:true}
+  );
+  for(const source of ['/docs/clones','/docs/clone.html']){
+    assert.deepEqual(
+      vercel.redirects.find(rule=>rule.source===source),
+      {source,destination:'https://docs.molar.it/docs/clones',permanent:true}
+    );
+  }
+  assert.equal(vercel.rewrites.some(rule=>rule.source.startsWith('/docs/clone')),false);
+});
+
 test('existing article links go directly to canonical docs while product links stay local',()=>{
   const html=document({title:'Guide',description:'A guide',body:'<main><h1>Guide</h1><a href="/docs/clones/stripe">Stripe</a><a href="https://molar.it/docs/clones/twilio">Twilio</a><a href="/docs/clones">Clones docs</a><a href="/products/clones">Product</a></main>'});
   assert.ok(html.includes('href="https://docs.molar.it/docs/clones/vendors/stripe"'));

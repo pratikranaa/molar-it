@@ -14,14 +14,12 @@ We rebuilt molar.it's organic and AI discoverability around **four product surfa
 
 ### 1.1 Automated sitemap generation
 
-**File:** [`scripts/gen-sitemap.mjs`](../scripts/gen-sitemap.mjs)
+**Current build:** [`scripts/build-site.mjs`](../scripts/build-site.mjs)
 
-- Reads `CLONE_DOC_HOSTS` from [`clone-docs-data.js`](../clone-docs-data.js) to emit one URL per clone (`/docs/clones/:slug`).
-- Static list covers hub, docs, blog, comparisons, integrations, legal, changelog, thesis, waitlist, llms files, and four surface subdomain roots.
-- Regenerate after catalog or route changes:
+The build writes the apex sitemap from the rendered canonical pages. Clone guides are indexed on `docs.molar.it`.
 
 ```bash
-node scripts/gen-sitemap.mjs
+node scripts/build-site.mjs
 ```
 
 **Output:** [`sitemap.xml`](../sitemap.xml) — referenced in [`robots.txt`](../robots.txt).
@@ -43,13 +41,7 @@ Clone slugs mirror the Molar Clones catalog: Stripe, Twilio, GitHub, Slack, Cler
 
 ### 1.3 Clone documentation pages
 
-**Routes:** `/docs/clones/:slug` → [`docs/clone.html`](../docs/clone.html) + [`docs-clone.jsx`](../docs-clone.jsx)
-
-- Generated tool tables from `molar-clones` fixtures via [`scripts/gen-clone-routes.mjs`](../scripts/gen-clone-routes.mjs).
-- Per-clone pages: connect instructions, seeds, coverage, MCP tools.
-- Canonical URLs in sitemap; internal links from hub catalog, docs quickstart, and Clones landing.
-
-**Why:** Long-tail SEO ("stripe mock api", "twilio webhook testing") and agent context without a separate docs subdomain.
+**Current routes:** Apex bookmarks at `/docs/clones/:slug` redirect to their canonical vendor guides on `docs.molar.it`. See [the Cloudflare redirect rules](../_redirects).
 
 ### 1.4 Surface landing SEO (subdomains)
 
